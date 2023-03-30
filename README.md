@@ -1,2 +1,2 @@
-# pstat100
- course website for pstat100
+# pstat100.github.io
+ 

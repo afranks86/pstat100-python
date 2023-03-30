@@ -1,0 +1,19 @@
+---
+title: "Content"
+format: html
+---
+
+## Useful links
+
+- Attendance form (fill out once per class)
+- Gradescope (for assignment submissions)
+- Discussion board
+- LSIT server [pstat100.lsit.ucsb.edu](https://pstat100.lsit.ucsb.edu)
+
+## Week 1
+
+**Monday**: Course introduction and the data science lifecycle
+
+**Wednesday**:
+
+**Section**: Orientation to Jupyter notebooks [[activity](labs/lab0-gettingstarted/lab0-gettingstarted.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fpstat100.github.io&urlpath=lab%2Ftree%2Fpstat100.github.io%2Flabs%2Flab0-gettingstarted%2Flab0-gettingstarted.ipynb&branch=main)]
