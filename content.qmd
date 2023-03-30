@@ -1,17 +1,19 @@
 ---
-title: "Content"
+title: "Materials"
 format: html
 ---
 
 ## Useful links
 
-- Attendance form (fill out once per class)
-- Gradescope (for assignment submissions)
+- [Attendance form](https://forms.gle/y4CW7QPM4KSKexrq9) (fill out once per class meeting, including sections)
+- [Gradescope](https://www.gradescope.com/courses/527056) (for assignment submissions)
 - Discussion board
-- LSIT server [pstat100.lsit.ucsb.edu](https://pstat100.lsit.ucsb.edu)
+- [LSIT server](https://pstat100.lsit.ucsb.edu) 
 
 ## Week 1
 
-**Monday**: Course introduction and the data science lifecycle [slides]
+**Monday**: Course introduction [slides]
 
-**Section**: Orientation to Jupyter notebooks [[activity](labs/lab0-gettingstarted/lab0-gettingstarted.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100&urlpath=lab%2Ftree%2Fpstat100%2Flabs%2Flab0-gettingstarted%2Flab0-gettingstarted.ipynb&branch=main)]
+**Section**: Orientation to Jupyter notebooks [[activity](labs/lab0-gettingstarted/lab0-gettingstarted.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100&urlpath=lab%2Ftree%2Fpstat100%2Flabs%2Flab0-gettingstarted%2Flab0-gettingstarted.ipynb&branch=main)] 
+
+**Wednesday**: The data science lifecycle [slides]

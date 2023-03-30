@@ -45,10 +45,10 @@ Overview of data science key concepts and the use of tools for data retrieval, a
 
 Successful students will establish foundational data science skills: 
 
-    - critical assessment of data quality and sampling design; 
-    - retrieval, inspection, and cleaning of raw data; 
-    - exploratory, descriptive, visual, and inferential techniques; 
-    - interpretation and communication of results in context.
+- critical assessment of data quality and sampling design
+- retrieval, inspection, and cleaning of raw data
+- exploratory, descriptive, visual, and inferential techniques
+- interpretation and communication of results in context
 
 These skills will be discussed in depth during course lectures; students will practice them through lab activities, homework assignments, and project work.
 
@@ -149,7 +149,7 @@ Students are expected to uphold the [student code of conduct](http://studentcond
 
 ### Deadlines and late work
 
-There is a one-hour grace period on all submission deadlines. After that, late work may be submitted within 48 hours of the deadline. Every student can submit two late assignments without penalty. Subsequent late submissions will be evaluated for 75% credit.
+There is a one-hour grace period on all submission deadlines. After that, work may be submitted within 48 hours of the original deadline (not the deadline plus grace period) and will be considered late. Every student can submit two late assignments without penalty. Subsequent late submissions will be evaluated for 75% credit.
 
 ### Accommodations
 
