@@ -4,7 +4,7 @@
     "href": "about.html",
     "title": "Course syllabus",
     "section": "",
-    "text": "Instructor: Trevor Ruiz\nTeaching assistants: Mengye Liu, Harry Yu, Gabrielle Salo\nClass meetings: M-W 12:30pm – 1:45pm Buchanan 1920\nSection meetings:\n\nM 2:00pm – 2:50pm Phelps 1525 (Harry)\nM 3:00pm – 3:50pm Phelps 1525 (Harry)\nM 4:00pm – 4:50pm Phelps 1513 (Mengye)\nM 5:00pm – 5:50pm Phelps 1525 (Mengye)\nM 6:00pm – 6:50pm Phelps 1525 (Gabrielle)\n\nOffice hours: TBD"
+    "text": "Instructor: Trevor Ruiz\nTeaching assistants: Mengye Liu, Harry Yu, Gabrielle Salo\nClass meetings: M-W 12:30pm – 1:45pm Buchanan 1920\nSection meetings:\n\nM 2:00pm – 2:50pm Phelps 1525 (Mengye)\nM 3:00pm – 3:50pm Phelps 1525 (Mengye)\nM 4:00pm – 4:50pm Phelps 1513 (Harry)\nM 5:00pm – 5:50pm Phelps 1525 (Harry)\nM 6:00pm – 6:50pm Phelps 1525 (Gabrielle)\n\nOffice hours: TBD"
   },
   {
     "objectID": "about.html#content-and-materials",
@@ -32,7 +32,7 @@
     "href": "content.html#week-1",
     "title": "Content",
     "section": "Week 1",
-    "text": "Week 1\nMonday: Course introduction and the data science lifecycle\nWednesday:\nSection: Orientation to Jupyter notebooks [activity] [notebook]"
+    "text": "Week 1\nMonday: Course introduction and the data science lifecycle [slides]\nSection: Orientation to Jupyter notebooks [activity] [notebook]"
   },
   {
     "objectID": "index.html",
