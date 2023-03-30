@@ -14,6 +14,6 @@ format: html
 
 **Monday**: Course introduction [slides]
 
-**Section**: Orientation to Jupyter notebooks [[activity](labs/lab0-gettingstarted/lab0-gettingstarted.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100&urlpath=lab%2Ftree%2Fpstat100%2Flabs%2Flab0-gettingstarted%2Flab0-gettingstarted.ipynb&branch=main)] 
+**Section**: Orientation to Jupyter notebooks [[activity](labs/lab0-gettingstarted/lab0-gettingstarted.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Flab0-gettingstarted%2Flab0-gettingstarted.ipynb&branch=main)] [[solutions]](labs/lab0-gettingstarted/lab0-gettingstarted-soln.ipynb) 
 
 **Wednesday**: The data science lifecycle [slides]

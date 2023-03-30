@@ -3,10 +3,12 @@ title: "Miscellany"
 format: html
 ---
 
-## Useful reminders
+## Reminders and suggestions
 
 - Automated tests in assignment notebooks are a guide, not a confirmation or refutation of your answer. Don't rely too heavily on them, but do read the output message if they fail and think about what the message is telling you. On some occasions they will fail despite a correct answer; on others they will pass despite an incorrect answer. Furthermore, they will guide you to one particular strategy for obtaining the solution; most problems admit a few possible strategies.
 
 - All assignments are due on Mondays. You get two free late assignments. Late submissions are due Wednesdays.
 
 - Start your homeworks and mini-projects early.
+
+- Take your own notes during class; don't simply rely on lecture slides.
