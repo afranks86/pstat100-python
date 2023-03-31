@@ -7,13 +7,15 @@ format: html
 
 - [Attendance form](https://forms.gle/y4CW7QPM4KSKexrq9) (fill out once per class meeting, including sections)
 - [Gradescope](https://www.gradescope.com/courses/527056) (for assignment submissions)
-- Discussion board
-- [LSIT server](https://pstat100.lsit.ucsb.edu) 
+- [LSIT server](https://pstat100.lsit.ucsb.edu) (for course computing)
+- Discussion board (check back soon)
 
 ## Week 1
 
-**Monday**: Course introduction [slides]
+*Reading*: [The Data Science Lifecycle](https://learningds.org/ch/01/lifecycle_intro.html); [Case Study: Why is my Bus Always Late?](https://learningds.org/ch/05/bus_intro.html)
 
-**Section**: Orientation to Jupyter notebooks [[activity](labs/lab0-gettingstarted/lab0-gettingstarted.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Flab0-gettingstarted%2Flab0-gettingstarted.ipynb&branch=main)] [[solutions]](labs/lab0-gettingstarted/lab0-gettingstarted-soln.ipynb) 
+**Monday**: Course introduction [slides](slides/week1-intro.qmd)
+
+**Section**: Orientation to Jupyter notebooks [[activity](labs/lab0-gettingstarted/lab0-gettingstarted.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Flab0-gettingstarted%2Flab0-gettingstarted.ipynb&branch=main)] [solutions]
 
 **Wednesday**: The data science lifecycle [slides]

@@ -25,14 +25,14 @@
     "href": "content.html",
     "title": "Materials",
     "section": "",
-    "text": "Attendance form (fill out once per class meeting, including sections)\nGradescope (for assignment submissions)\nDiscussion board\nLSIT server"
+    "text": "Attendance form (fill out once per class meeting, including sections)\nGradescope (for assignment submissions)\nLSIT server (for course computing)\nDiscussion board (check back soon)"
   },
   {
     "objectID": "content.html#week-1",
     "href": "content.html#week-1",
     "title": "Materials",
     "section": "Week 1",
-    "text": "Week 1\nMonday: Course introduction [slides]\nSection: Orientation to Jupyter notebooks [activity] [notebook] [solutions]\nWednesday: The data science lifecycle [slides]"
+    "text": "Week 1\nReading: The Data Science Lifecycle; Case Study: Why is my Bus Always Late?\nMonday: Course introduction slides\nSection: Orientation to Jupyter notebooks [activity] [notebook] [solutions]\nWednesday: The data science lifecycle [slides]"
   },
   {
     "objectID": "index.html",
@@ -89,5 +89,334 @@
     "title": "Miscellany",
     "section": "",
     "text": "Automated tests in assignment notebooks are a guide, not a confirmation or refutation of your answer. Don’t rely too heavily on them, but do read the output message if they fail and think about what the message is telling you. On some occasions they will fail despite a correct answer; on others they will pass despite an incorrect answer. Furthermore, they will guide you to one particular strategy for obtaining the solution; most problems admit a few possible strategies.\nAll assignments are due on Mondays. You get two free late assignments. Late submissions are due Wednesdays.\nStart your homeworks and mini-projects early.\nTake your own notes during class; don’t simply rely on lecture slides."
+  },
+  {
+    "objectID": "miscellany.html#troubleshooting",
+    "href": "miscellany.html#troubleshooting",
+    "title": "Miscellany",
+    "section": "Troubleshooting",
+    "text": "Troubleshooting\n\nIf you try to open a notebook and the server fails at the ‘synchronizing git repository’ stage, open the LSIT server separately, rename the pstat100-content directory, and then try opening the notebook from the website link again. If successfull, you will need to migrate all of your previous work into the new pstat100-content directory."
+  },
+  {
+    "objectID": "slides/week1-intro.html#attendance-form",
+    "href": "slides/week1-intro.html#attendance-form",
+    "title": "Course introduction",
+    "section": "Attendance form",
+    "text": "Attendance form"
+  },
+  {
+    "objectID": "slides/week1-intro.html#case-study-1-ace-and-health",
+    "href": "slides/week1-intro.html#case-study-1-ace-and-health",
+    "title": "Course introduction",
+    "section": "Case study 1: ACE and health",
+    "text": "Case study 1: ACE and health\n\nAssociation between adverse childhood experiences and general health, by sex."
+  },
+  {
+    "objectID": "slides/week1-intro.html#case-study-1-ace-and-health-1",
+    "href": "slides/week1-intro.html#case-study-1-ace-and-health-1",
+    "title": "Course introduction",
+    "section": "Case study 1: ACE and health",
+    "text": "Case study 1: ACE and health\nYou will:\n\nprocess and recode 10K survey responses from CDC’s 2019 behavior risk factor surveillance survey (BRFSS)\ncross-tabulate health-related measurements with frequency of adverse childhood experiences"
+  },
+  {
+    "objectID": "slides/week1-intro.html#case-study-2-seda",
+    "href": "slides/week1-intro.html#case-study-2-seda",
+    "title": "Course introduction",
+    "section": "Case study 2: SEDA",
+    "text": "Case study 2: SEDA\n\nEducation achievement gaps as functions of socioeconomic indicators, by gender."
+  },
+  {
+    "objectID": "slides/week1-intro.html#case-study-2-seda-1",
+    "href": "slides/week1-intro.html#case-study-2-seda-1",
+    "title": "Course introduction",
+    "section": "Case study 2: SEDA",
+    "text": "Case study 2: SEDA\nYou will:\n\nmerge test scores and socioeconomic indicators from the 2018 Standford Education Data Archive by school district\nvisually assess correlations between gender achievement gaps among grade schoolers and socioeconomic indicators across school districts in CA"
+  },
+  {
+    "objectID": "slides/week1-intro.html#case-study-3-paleoclimatology",
+    "href": "slides/week1-intro.html#case-study-3-paleoclimatology",
+    "title": "Course introduction",
+    "section": "Case study 3: Paleoclimatology",
+    "text": "Case study 3: Paleoclimatology\n\nSea surface temperature reconstruction over the past 16,000 years."
+  },
+  {
+    "objectID": "slides/week1-intro.html#case-study-3-paleoclimatology-1",
+    "href": "slides/week1-intro.html#case-study-3-paleoclimatology-1",
+    "title": "Course introduction",
+    "section": "Case study 3: Paleoclimatology",
+    "text": "Case study 3: Paleoclimatology\n\nClustering of diatom relative abundances in pleistocene (pre-11KyBP) vs. holocene (post-11KyBP) epochs."
+  },
+  {
+    "objectID": "slides/week1-intro.html#case-study-3-paleoclimatology-2",
+    "href": "slides/week1-intro.html#case-study-3-paleoclimatology-2",
+    "title": "Course introduction",
+    "section": "Case study 3: Paleoclimatology",
+    "text": "Case study 3: Paleoclimatology\nYou will:\n\nexplore ecological community structure from relative abundances of diatoms measured in ocean sediment core samples spanning ~15,000 years\nuse dimension reduction techniques to obtain measures of community structure\nidentify shifts associated with the transition from pleistocene to holocene epochs"
+  },
+  {
+    "objectID": "slides/week1-intro.html#case-study-4-discrimination-at-dds",
+    "href": "slides/week1-intro.html#case-study-4-discrimination-at-dds",
+    "title": "Course introduction",
+    "section": "Case study 4: Discrimination at DDS?",
+    "text": "Case study 4: Discrimination at DDS?\n\nApparent disparity in allocation of DDS benefits across racial groups."
+  },
+  {
+    "objectID": "slides/week1-intro.html#case-study-4-discrimination-at-dds-1",
+    "href": "slides/week1-intro.html#case-study-4-discrimination-at-dds-1",
+    "title": "Course introduction",
+    "section": "Case study 4: Discrimination at DDS?",
+    "text": "Case study 4: Discrimination at DDS?\n\nExpenditure is strongly associated with age."
+  },
+  {
+    "objectID": "slides/week1-intro.html#case-study-4-discrimination-at-dds-2",
+    "href": "slides/week1-intro.html#case-study-4-discrimination-at-dds-2",
+    "title": "Course introduction",
+    "section": "Case study 4: Discrimination at DDS?",
+    "text": "Case study 4: Discrimination at DDS?\n\nCorrecting for age shows comparable expenditure across racial groups."
+  },
+  {
+    "objectID": "slides/week1-intro.html#case-study-4-discrimination-at-dds-3",
+    "href": "slides/week1-intro.html#case-study-4-discrimination-at-dds-3",
+    "title": "Course introduction",
+    "section": "Case study 4: Discrimination at DDS?",
+    "text": "Case study 4: Discrimination at DDS?\nYou will:\n\nassess the case for discrimination in allocation of DDS benefits\nidentify confounding factors present in the sample\nmodel median expenditure by racial group after correcting for age"
+  },
+  {
+    "objectID": "slides/week1-intro.html#scope",
+    "href": "slides/week1-intro.html#scope",
+    "title": "Course introduction",
+    "section": "Scope",
+    "text": "Scope\nThis course is about developing your data science toolkit with foundational skills:\n\nCore competency with Python data science libraries\nCritical thinking about data\nVisualization and exploratory analysis\nApplication of basic statistical concepts and methods in practice\nCommunication and interpretation of results"
+  },
+  {
+    "objectID": "slides/week1-intro.html#whats-unique-about-pstat100",
+    "href": "slides/week1-intro.html#whats-unique-about-pstat100",
+    "title": "Course introduction",
+    "section": "What’s unique about PSTAT100?",
+    "text": "What’s unique about PSTAT100?\nThere are a few distinctive aspects:\n\nmultiple end-to-end case studies\nquestion-driven rather than method-driven\nemphasis on project workflow\ndata storytelling and communication"
+  },
+  {
+    "objectID": "slides/week1-intro.html#limitations",
+    "href": "slides/week1-intro.html#limitations",
+    "title": "Course introduction",
+    "section": "Limitations",
+    "text": "Limitations\nThere are also some things we won’t cover:\n\nPredictive modeling or machine learning\nAlgorithm design and implementation\nTechniques and methods for big data\nTheoretical basis for methods"
+  },
+  {
+    "objectID": "slides/week1-intro.html#weekly-pattern",
+    "href": "slides/week1-intro.html#weekly-pattern",
+    "title": "Course introduction",
+    "section": "Weekly Pattern",
+    "text": "Weekly Pattern\nWe’ll follow a simple weekly pattern:\n\nMondays\n\nLecture\nSections\nAssignments due 11:59pm PST\n\nWednesdays\n\nLecture\nLate work due 11:59pm PST"
+  },
+  {
+    "objectID": "slides/week1-intro.html#course-pages-materials",
+    "href": "slides/week1-intro.html#course-pages-materials",
+    "title": "Course introduction",
+    "section": "Course pages & materials",
+    "text": "Course pages & materials\n\nMaterials via course website ruizt.github.io/pstat100\nComputing at pstat100.lsit.ucsb.edu\nAssignments/gradebook at Gradescope\nDiscussion board"
+  },
+  {
+    "objectID": "slides/week1-intro.html#tentative-schedule",
+    "href": "slides/week1-intro.html#tentative-schedule",
+    "title": "Course introduction",
+    "section": "Tentative schedule",
+    "text": "Tentative schedule\n\n\n\nWeek\nTopic\nLab\nHomework\nProject\n\n\n\n\n1\nData science life cycle\n\n\n\n\n\n2\nTidy data\nL0\n\n\n\n\n3\nSampling and bias\nL1\n\n\n\n\n4\nStatistical graphics\nL2\nH1\n\n\n\n5\nKernel density estimation\nL3\n\nMP1\n\n\n6\nPrincipal components\nL4\nH2\n\n\n\n7\nSimple regression\n\n\nMP2\n\n\n8\nMultiple regression\nL5\nH3\n\n\n\n9\nClassification and clustering\n\n\nCP1\n\n\n10\nCase study\n\nH4\n\n\n\n11\nFinals week\n\n\nCP2"
+  },
+  {
+    "objectID": "slides/week1-intro.html#assessments",
+    "href": "slides/week1-intro.html#assessments",
+    "title": "Course introduction",
+    "section": "Assessments",
+    "text": "Assessments\n\nLabs introduce and develop core skills\nHomeworks apply core skills to case studies\nProjects practice creative problem-solving"
+  },
+  {
+    "objectID": "slides/week1-intro.html#policies",
+    "href": "slides/week1-intro.html#policies",
+    "title": "Course introduction",
+    "section": "Policies",
+    "text": "Policies\n\nCommunication\n\nIf you have questions, please come to office hours\nAvoid email except for personal matters\n\nDeadlines and late work\n\nOne-hour grace period on all deadlines\n48-hour late submissions\nTwo free lates on any assignment (except last assignment)\n75% partial credit thereafter for late work"
+  },
+  {
+    "objectID": "slides/week1-intro.html#policies-1",
+    "href": "slides/week1-intro.html#policies-1",
+    "title": "Course introduction",
+    "section": "Policies",
+    "text": "Policies\n\nGrades\n\nRoughly 10-20-30-40 attendance-labs-homeworks-projects\nFinal weighting and grade assignment at instructor’s discretion\nDo not expect 92+% = A, 90-92% = A-, 87-89.9 = B+, etc.\nA’s are awarded sparingly and indicate exceptional work"
+  },
+  {
+    "objectID": "slides/week1-intro.html#other-info",
+    "href": "slides/week1-intro.html#other-info",
+    "title": "Course introduction",
+    "section": "Other info",
+    "text": "Other info\n\nInformal section swaps are allowed with TA permission\nAttendance required at all class meetings, but a few absences without notice are okay"
+  },
+  {
+    "objectID": "slides/week1-intro.html#getting-started",
+    "href": "slides/week1-intro.html#getting-started",
+    "title": "Course introduction",
+    "section": "Getting started",
+    "text": "Getting started\n\nLab this week will introduce you to computing and course infrastructure\nPlease fill out intake survey ASAP\nCheck access to Gradescope, LSIT, course page\nReview syllabus"
+  },
+  {
+    "objectID": "slides/week1-lifecycle.html#whats-data-science",
+    "href": "slides/week1-lifecycle.html#whats-data-science",
+    "title": "Data science lifecycle",
+    "section": "What’s data science?",
+    "text": "What’s data science?\nData science is a term of art encompassing a wide range of activities that involve uncovering insights from quantitative information.\n\nPeople that refer to themselves as data scientists typically combine specific interests (“domain knowledge”, e.g., biology) with computation, mathematics, and statistics and probability to contribute to knowledge in their communities.\n\nIntersectional in nature\nNo singular disciplinary background among practitioners"
+  },
+  {
+    "objectID": "slides/week1-lifecycle.html#data-science-lifecycle",
+    "href": "slides/week1-lifecycle.html#data-science-lifecycle",
+    "title": "Data science lifecycle",
+    "section": "Data science lifecycle",
+    "text": "Data science lifecycle\n\nData science lifecycle: an end-to-end process resulting in a data analysis product\n\n\nQuestion formulation\nData collection and cleaning\nExploration\nAnalysis\n\n\nThese form a cycle in the sense that the steps are iterated for question refinement and futher discovery."
+  },
+  {
+    "objectID": "slides/week1-lifecycle.html#data-science-lifecylce",
+    "href": "slides/week1-lifecycle.html#data-science-lifecylce",
+    "title": "Data science lifecycle",
+    "section": "Data science lifecylce",
+    "text": "Data science lifecylce\n\n\nThe point isn’t really the exact steps, but rather the notion of an iterative process."
+  },
+  {
+    "objectID": "slides/week1-lifecycle.html#starting-with-a-question",
+    "href": "slides/week1-lifecycle.html#starting-with-a-question",
+    "title": "Data science lifecycle",
+    "section": "Starting with a question",
+    "text": "Starting with a question\nThe scaling of brains with bodies is thought to contain clues about evolutionary patterns pertaining to intelligence.\n\nThere are lots of datasets out there with brain and body weight measurements, so let’s consider the question:\n\nWhat is the relationship between an animal’s brain and body weight?"
+  },
+  {
+    "objectID": "slides/week1-lifecycle.html#data-acquisition",
+    "href": "slides/week1-lifecycle.html#data-acquisition",
+    "title": "Data science lifecycle",
+    "section": "Data acquisition",
+    "text": "Data acquisition\nFrom Allison et al. 1976, average body and brain weights for 62 mammals.\n\n\n\n\n\n\n  \n    \n      \n      species\n      body_wt\n      brain_wt\n    \n  \n  \n    \n      0\n      Africanelephant\n      6654.000\n      5712.0\n    \n    \n      1\n      Africangiantpouchedrat\n      1.000\n      6.6\n    \n    \n      2\n      ArcticFox\n      3.385\n      44.5\n    \n  \n\n\n\n\nUnits of measurement\n\nbody weight in kilograms\nbrain weight in grams"
+  },
+  {
+    "objectID": "slides/week1-lifecycle.html#data-assessment",
+    "href": "slides/week1-lifecycle.html#data-assessment",
+    "title": "Data science lifecycle",
+    "section": "Data assessment",
+    "text": "Data assessment\nHow well-matched is the data to our question?\n\nMammals only (no birds, fish, reptiles, etc.)\nSpecies are those for which convenient specimens were available\nAverages across specimens are reported (‘aggregated’ data)\n\n\nWhat do you think? Take a moment to discuss with your neighbor."
+  },
+  {
+    "objectID": "slides/week1-lifecycle.html#data-assessment-1",
+    "href": "slides/week1-lifecycle.html#data-assessment-1",
+    "title": "Data science lifecycle",
+    "section": "Data assessment",
+    "text": "Data assessment\nBased on the great points you just made, we really only stand to learn something about this particular sample of animals.\n\nIn other words, no inference is possible.\n\n\n\nDo you think the data are still useful?"
+  },
+  {
+    "objectID": "slides/week1-lifecycle.html#inpection",
+    "href": "slides/week1-lifecycle.html#inpection",
+    "title": "Data science lifecycle",
+    "section": "Inpection",
+    "text": "Inpection\nThis dataset is already impeccably neat: each row is an observation for some species of mammal, and the columns are the two variables (average weight).\nSo no tidying needed – we’ll just check the dimensions and see if any values are missing.\n\n# dimensions?\nbb_weights.shape\n\n(62, 3)\n\n\n\n# missing values?\nbb_weights.isna().sum(axis = 0)\n\nspecies     0\nbody_wt     0\nbrain_wt    0\ndtype: int64"
+  },
+  {
+    "objectID": "slides/week1-lifecycle.html#exploration",
+    "href": "slides/week1-lifecycle.html#exploration",
+    "title": "Data science lifecycle",
+    "section": "Exploration",
+    "text": "Exploration\nVisualization is usually a good starting point for exploring data.\n\n\n\n\n\n\n\nNotice the apparent density of points near \\((0, 0)\\) – that suggests we shouldn’t look for a relationship on the scale of kg/g."
+  },
+  {
+    "objectID": "slides/week1-lifecycle.html#exploration-1",
+    "href": "slides/week1-lifecycle.html#exploration-1",
+    "title": "Data science lifecycle",
+    "section": "Exploration",
+    "text": "Exploration\nA simple transformation of the axes reveals a clearer pattern."
+  },
+  {
+    "objectID": "slides/week1-lifecycle.html#analysis",
+    "href": "slides/week1-lifecycle.html#analysis",
+    "title": "Data science lifecycle",
+    "section": "Analysis",
+    "text": "Analysis\nThe plot shows us that there’s a roughly linear relationship on the log scale:\n\\[\\log(\\text{brain}) = \\alpha \\log(\\text{body}) + c\\]\n\nSo what does that mean in terms of brain and body weights? A little algebra and we have a “power law”:\n\\[(\\text{brain}) \\propto (\\text{body})^\\alpha\\]"
+  },
+  {
+    "objectID": "slides/week1-lifecycle.html#interpretation",
+    "href": "slides/week1-lifecycle.html#interpretation",
+    "title": "Data science lifecycle",
+    "section": "Interpretation",
+    "text": "Interpretation\nSo it appears that the brain-body scaling is well-described by a power law:\n\namong selected specimens of these 62 species of mammal, average brain weight is approximately proportional to a power of average body weight\n\n\nNotice that I did not say:\n\nanimals’ brains are proportional to a power of their bodies\namong these 62 mammals, average brain weight is approximately proportional to a power of average body weight"
+  },
+  {
+    "objectID": "slides/week1-lifecycle.html#question-refinement",
+    "href": "slides/week1-lifecycle.html#question-refinement",
+    "title": "Data science lifecycle",
+    "section": "Question refinement",
+    "text": "Question refinement\nWe can now ask further, more specific questions:\n\nDo other types of animals exhibit the same power law relationship?\n\n\nTo investigate, we need richer data."
+  },
+  {
+    "objectID": "slides/week1-lifecycle.html#more-data-acquisition",
+    "href": "slides/week1-lifecycle.html#more-data-acquisition",
+    "title": "Data science lifecycle",
+    "section": "(More) data acquisition",
+    "text": "(More) data acquisition\nA number of authors have compiled and published ‘meta-analysis’ datasets by combining the results of multiple studies.\nBelow we’ll import a few of these for three different animal classes.\n\n# import metaanalysis datasets\nreptiles = pd.read_csv('data/reptile_meta.csv')\nbirds = pd.read_csv('data/bird_meta.csv', encoding = 'latin1')\nmammals = pd.read_csv('data/mammal_meta.csv', encoding = 'latin1')"
+  },
+  {
+    "objectID": "slides/week1-lifecycle.html#data-assessment-2",
+    "href": "slides/week1-lifecycle.html#data-assessment-2",
+    "title": "Data science lifecycle",
+    "section": "Data assessment",
+    "text": "Data assessment\nWhere does this data come from? It’s kind of a convenience sample of scientific data:\n\nMultiple studies \\(\\rightarrow\\) possibly different sampling and measurement protocols\nCriteria for inclusion unknown \\(\\rightarrow\\) probably neither comprehensive nor representative of all such measurements taken\n\n\nSo these data, while richer, are still relatively narrow in terms of generalizability."
+  },
+  {
+    "objectID": "slides/week1-lifecycle.html#a-comment-on-scope-of-inference",
+    "href": "slides/week1-lifecycle.html#a-comment-on-scope-of-inference",
+    "title": "Data science lifecycle",
+    "section": "A comment on scope of inference",
+    "text": "A comment on scope of inference\nThese data don’t support general inferences (e.g., to all animals, all mammals, etc.) because they weren’t collected for the purpose to which we’re putting them.\n\nUsually, if data are not collected for the explicit purpose of the question you’re trying to answer, they won’t constitute a representative sample."
+  },
+  {
+    "objectID": "slides/week1-lifecycle.html#tidying",
+    "href": "slides/week1-lifecycle.html#tidying",
+    "title": "Data science lifecycle",
+    "section": "Tidying",
+    "text": "Tidying\nIn order to comine the datasets one must:\n\nSelect columns of interest;\nPut in consistent order;\nGive consistent names;\nConcatenate row-wise.\n\n\nWe’ll skip the details."
+  },
+  {
+    "objectID": "slides/week1-lifecycle.html#inspection",
+    "href": "slides/week1-lifecycle.html#inspection",
+    "title": "Data science lifecycle",
+    "section": "Inspection",
+    "text": "Inspection\nThis dataset has quite a lot of missing brain weight measurements: many of the studies combined to form these datasets did not include that particular measurement.\n\n# missing values?\ndata.isna().mean(axis = 0)\n\nOrder      0.00000\nFamily     0.00000\nGenus      0.00000\nSpecies    0.00000\nSex        0.00000\nbody       0.00000\nbrain      0.57404\nclass      0.00000\ndtype: float64"
+  },
+  {
+    "objectID": "slides/week1-lifecycle.html#exploration-2",
+    "href": "slides/week1-lifecycle.html#exploration-2",
+    "title": "Data science lifecycle",
+    "section": "Exploration",
+    "text": "Exploration\nFocusing on the nonmissing values, we see the same power law relationship but with different proportionality constants for the three classes of animals."
+  },
+  {
+    "objectID": "slides/week1-lifecycle.html#analysis-1",
+    "href": "slides/week1-lifecycle.html#analysis-1",
+    "title": "Data science lifecycle",
+    "section": "Analysis",
+    "text": "Analysis\nSo we might hypothesize that:\n\\[\n(\\text{brain}) = \\beta_1(\\text{body})^{\\alpha_1} \\qquad \\text{(mammal)} \\\\\n(\\text{brain}) = \\beta_2(\\text{body})^{\\alpha_2} \\qquad \\text{(reptile)} \\\\\n(\\text{brain}) = \\beta_3(\\text{body})^{\\alpha_3} \\qquad \\text{(bird)} \\\\\n\\beta_i \\neq \\beta_j, \\alpha_i \\neq \\alpha_j \\quad \\text{for } i \\neq j\n\\]"
+  },
+  {
+    "objectID": "slides/week1-lifecycle.html#interpretation-1",
+    "href": "slides/week1-lifecycle.html#interpretation-1",
+    "title": "Data science lifecycle",
+    "section": "Interpretation",
+    "text": "Interpretation\nIt seems that the average brain and body weights of the birds, mammals, and reptiles measured in these studies exhibit distinct power law relationships.\n\nWhat would you investigate next?\n\nCorrelates of body weight?\nAdjust for lifespan, habitat, predation, etc.?\nEstimate the \\(\\alpha_i\\)’s and \\(\\beta_i\\)’s?\nPredict brain weights for unobserved species?\nSomething else?"
+  },
+  {
+    "objectID": "slides/week1-lifecycle.html#a-comment",
+    "href": "slides/week1-lifecycle.html#a-comment",
+    "title": "Data science lifecycle",
+    "section": "A comment",
+    "text": "A comment\nNotice that I did not mention the word ‘model’ anywhere!\n\nThis was intentional – it is a common misconception that analyzing data always involves fitting models.\n\nModels are not not always necessary or appropriate\nYou can learn a lot from exploratory techniques\nModels approximate specific kinds of relationships in data\nExploratory analysis can reveal unexpected structure"
+  },
+  {
+    "objectID": "slides/week1-lifecycle.html#next-week",
+    "href": "slides/week1-lifecycle.html#next-week",
+    "title": "Data science lifecycle",
+    "section": "Next week",
+    "text": "Next week\nTabular data operations with pandas; the ‘tidy data’ standard.\n\nLab 0 due Monday 11:59pm PST"
   }
 ]
