@@ -92,8 +92,8 @@ Week | Topic | Lab | Homework | Project
 
 The course website [pstat100.github.io](https://pstat100.github.io) will link to all course content and resources. Readings for the course will draw on multiple sources, including:
 
-- [Python Data Science Handbook](https://jakevdp.github.io/PythonDataScienceHandbook/);
-- [Berkeley's Data 100 course notes](http://www.textbook.ds100.org/intro.html);
+- [Python Data Science Handbook](https://jakevdp.github.io/PythonDataScienceHandbook/) (PDSH);
+- [Learning Data Science](https://learningds.org/intro.html) (LDS);
 - collected articles distributed as assigned.
 
 ### Software
