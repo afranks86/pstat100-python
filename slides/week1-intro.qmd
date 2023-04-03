@@ -123,7 +123,7 @@ We'll follow a simple weekly pattern:
 - Materials via course website [ruizt.github.io/pstat100](https://ruizt.github.io/pstat100)
 - Computing at [pstat100.lsit.ucsb.edu](https://pstat100.lsit.ucsb.edu)
 - Assignments/gradebook at [Gradescope](https://www.gradescope.com/courses/527056)
-- Discussion board
+- Discussion board (TBA)
 
 ## Tentative schedule {.smaller}
 
@@ -172,6 +172,8 @@ Week | Topic | Lab | Homework | Project
 
 * Informal section swaps are allowed with TA permission
 * Attendance required at all class meetings, but a few absences without notice are okay
+* Honors contracts not available this quarter
+* Office hours start week 2, check website for schedule
 
 ## Getting started
 
