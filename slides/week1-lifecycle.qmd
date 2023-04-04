@@ -331,6 +331,8 @@ This was intentional -- it is a common misconception that analyzing data always 
 
 ## Next week
 
-Tabular data operations with pandas; the 'tidy data' standard.
-
-- Lab 0 due Monday 11:59pm PST
+* Tabular data structure
+* Data semantics
+* Tidy data
+* Transformations of tabular data
+* Aggregation and grouping

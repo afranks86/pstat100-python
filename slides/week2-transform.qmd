@@ -1,0 +1,222 @@
+---
+title: "Data transformations"
+author: "PSTAT100 Spring 2023"
+date: "Week 2, Lecture 2"
+format: 
+    revealjs:
+        smaller: false
+        incremental: true
+        slide-number: true
+jupyter: python3
+execute:
+    echo: false
+---
+
+
+```{python}
+#| slideshow: {slide_type: skip}
+#| tags: []
+import pandas as pd
+import numpy as np
+import altair as alt
+```
+
+# Transform
+
+Tidying facilitates transformation.
+
+> "Transformation includes narrowing in on observations of interest (like all people in one city, or all data from the last year), creating new variables that are functions of existing variables (like computing speed from distance and time), and calculating a set of summary statistics (like counts or means)." *Wickham and Grolemund, R for Data Science, 2017.*
+
+For our purposes, a **transformation** is _**any operation that modifies the shape or values of a data frame**_. This includes: 
+* Subsetting (slicing and filtering)
+* Defining new variables
+* Aggregation and summary statistics
+
+You are learning transformation tools in lab 1. They're a lot easier to use if data are tidy.
+
+## Tidying facilitates transformation
+
+*Why use the tidy standard? Wouldn't any system of organization do just as well?*
+
+The tidy standard has three main advantages:
+
+1. Having a consistent system of organization makes it easier to focus on analysis and exploration. 
+2. **Transformation of tidy data is especially natural in most computing environments due to vectorized operations.**
+3. Many tools for exploration, visualization, and modeling are designed to work with tidy data inputs.
+
+There's another point that may not be meaningful to everyone in this class, but statistical models are often expressed in terms of the data quantities:
+$$ \mathbf{y} \in \mathbb{R}^{n \times 1} \qquad \mathbf{X}\in\mathbb{R}^{n\times p}$$
+So the idea of tidy data is implicit in the mathematics used to express statistical models.
+
+## Subsetting
+
+Tidy data is easier to subset (slice and filter).
+
+If, for instance, we want to inspect population and women in parliament for Mexico and Colombia, we can retrieve those values by simply calling the corresponding observations and variables:
+
+```{python}
+#| slideshow: {slide_type: fragment}
+#| tags: []
+undev_combined1.loc[['Mexico', 'Colombia', 'United States'], ['total_pop', 'parliament_pct_women']]
+```
+
+## Subsetting
+
+The same goal can be achieved using a non-tidy format, but the code is more verbose and the output is less interpretable.
+
+```{python}
+#| slideshow: {slide_type: fragment}
+#| tags: []
+undev_combined2[
+    (undev_combined2.population_variable == 'total_pop') & 
+    (undev_combined2.gender_variable == 'parliament_pct_women')
+].loc[['Mexico', 'Colombia', 'United States'], ['population_value', 'gender_value']]
+```
+
+## Defining new variables
+
+Vectorization of operations in pandas and numpy make tidy data especially nice to manipulate mathematically.
+
+For example, to calculate the temperature range in a day from the Santa Barbara weather data, having the min and max temps in columns arranged by day makes this easy:
+
+```{python}
+#| slideshow: {slide_type: fragment}
+#| tags: []
+weather2['TRANGE'] = weather2.TMAX - weather2.TMIN
+weather2.head()
+```
+
+## Defining new variables
+
+Again, the same result could be achieved using non-tidy data, but the operation is a bit more complicated to execute and less interpretable.
+
+```{python}
+#| slideshow: {slide_type: fragment}
+#| tags: []
+weather3a = weather3.reset_index('type')
+maxtemps = weather3a[weather3a.type == 'TMAX'].drop(columns = 'type') 
+mintemps = weather3a[weather3a.type == 'TMIN'].drop(columns = 'type') 
+temprange = maxtemps - mintemps
+temprange
+```
+
+## Aggregation and summary statistics
+
+Vectorization similarly makes aggregations straightforward when data are tidy.
+
+For instance, the monthly average temperatures are easy to compute from tidy weather data:
+
+```{python}
+#| slideshow: {slide_type: fragment}
+#| tags: []
+weather2.groupby('MONTH').mean().drop(columns = ['DAY', 'YEAR'])
+```
+
+## Aggregation and summary statistics
+
+It's not necessarily harder to envision how to perform these operations in the non-tidy layouts; it's just trickier to execute and the output is a little less organized.
+
+```{python}
+weather3.mean(axis = 1)
+```
+
+```{python}
+temprange.mean(axis = 1)
+```
+
+## Visualization
+
+Plotting libraries often operate in such a way that tidy data is easier to plot.
+
+```{python}
+#| slideshow: {slide_type: fragment}
+#| tags: []
+alt.Chart(weather1).mark_line().encode(
+    x = 'DATE',
+    y = 'TMAX'
+).properties(
+    width = 800, 
+    height = 100
+)
+```
+
+## Exceptions
+
+There will be situations where you'll need to deviate from this format for various purposes. 
+
+Often, plotting and table construction require reshaping data into non-tidy formats, for example:
+
+```{python}
+#| slideshow: {slide_type: skip}
+#| tags: []
+weather4 = weather1.melt(
+    id_vars = 'DATE',
+    value_vars = ['TMIN', 'TMAX'],
+    value_name = 'Temperature',
+    var_name = 'min/max'
+)
+
+plot = alt.Chart(weather4).mark_line().encode(
+    x = 'DATE',
+    y = 'Temperature',
+    color = 'min/max'
+).properties(width = 800, height = 200)
+```
+
+```{python}
+#| slideshow: {slide_type: fragment}
+#| tags: []
+plot
+```
+
+## Exceptions
+
+There will be situations where you'll need to deviate from this format for various purposes. 
+
+That plot relied on formatting the data as follows:
+
+```{python}
+#| slideshow: {slide_type: fragment}
+#| tags: []
+weather4.head(4)
+```
+
+## Exceptions
+
+However, even in these situations, tidy data provides a useful starting point; it is often straightforward to manipulate into non-tidy formats using the same pivot, melt, and merge operations.
+
+For example, the plot above was created after a simple melt operation on the tidy data.
+
+```{python}
+#| slideshow: {slide_type: fragment}
+#| tags: []
+weather1.melt(
+    id_vars = 'DATE',
+    value_vars = ['TMIN', 'TMAX'],
+    value_name = 'Temperature',
+    var_name = 'min/max'
+).head()
+```
+
+# Review
+
+* In tidy data, rows and columns correspond to observations and variables.
+    + This provides a standard dataset structure that facilitates exploration and analysis.
+    + Many datasets are not stored in this format.
+    + Most of the time in PSTAT 100, we'll give you tidy (or mostly tidy) datasets.    
+
+* Transformation operations are a lot easier with tidy data.
+    + Due in part to the way tools in pandas are designed.
+    + The goal of lab 1 is to learn these operations.
+
+* There are situations where non-tidy data is useful.
+    + In PSTAT100, these will usually arise in plotting and tabulation tasks.
+
+## Up next
+
+We started *en media res* at this stage of the lifecyle (tidy) so that you could start developing skills that would enable you to jump right into playing with datasets.
+
+Next week, we'll backtrack to the collect and acquaint stages and discuss:
+* sampling;
+* missing data.
+
