@@ -419,8 +419,8 @@
 </section>
 <section id="data-science-lifecylce" class="slide level2">
 <h2>Data science lifecylce</h2>
-<p><img src="figures/cycle-diagram.png" style="height:450px"></p>
-<div class="fragment">
+
+<img data-src="figures/cycle-diagram.png" class="r-stretch"><div class="fragment">
 <p>The point isn’t really the exact steps, but rather the notion of an iterative process.</p>
 </div>
 </section>
@@ -545,13 +545,13 @@ dtype: int64</code></pre>
 <div class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display" data-execution_count="5">
 
-<div id="altair-viz-d030f7b3a15e4136aa80cb8e5467e844"></div>
+<div id="altair-viz-4298d995fa8a41aa93672fa333500d47"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-d030f7b3a15e4136aa80cb8e5467e844") {
-      outputDiv = document.getElementById("altair-viz-d030f7b3a15e4136aa80cb8e5467e844");
+    if (outputDiv.id !== "altair-viz-4298d995fa8a41aa93672fa333500d47") {
+      outputDiv = document.getElementById("altair-viz-4298d995fa8a41aa93672fa333500d47");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
@@ -609,13 +609,13 @@ dtype: int64</code></pre>
 <div class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display" data-execution_count="6">
 
-<div id="altair-viz-d7d4c1e23a134581867b461a95ba9ec7"></div>
+<div id="altair-viz-6a2ead79a8bf4cf4bddf5f683c14714a"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-d7d4c1e23a134581867b461a95ba9ec7") {
-      outputDiv = document.getElementById("altair-viz-d7d4c1e23a134581867b461a95ba9ec7");
+    if (outputDiv.id !== "altair-viz-6a2ead79a8bf4cf4bddf5f683c14714a") {
+      outputDiv = document.getElementById("altair-viz-6a2ead79a8bf4cf4bddf5f683c14714a");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
@@ -674,6 +674,9 @@ dtype: int64</code></pre>
 <p>So what does that mean in terms of brain and body weights? A little algebra and we have a “power law”:</p>
 <p><span class="math display">\[(\text{brain}) \propto (\text{body})^\alpha\]</span></p>
 </div>
+<div class="fragment">
+<p>Check your understanding: what’s the proportionality constant?</p>
+</div>
 </section>
 <section id="interpretation" class="slide level2">
 <h2>Interpretation</h2>
@@ -728,9 +731,29 @@ dtype: int64</code></pre>
 <p>Usually, if data are not collected for the explicit purpose of the question you’re trying to answer, they won’t constitute a representative sample.</p>
 </div>
 </section>
+<section id="theory-and-practice" class="slide level2">
+<h2>Theory and practice</h2>
+<p>In intro stat, you learn about methods of inference for the following set-up:</p>
+<ul>
+<li class="fragment">start with a question</li>
+<li class="fragment">identify a study population</li>
+<li class="fragment">draw a random (or probability) sample</li>
+<li class="fragment">collect data</li>
+</ul>
+<div class="fragment">
+<p>In practice, one commonly works with found data or convenient data, effectively inverting this picture:</p>
+<ul>
+<li class="fragment">start with a topic</li>
+<li class="fragment">obtain conveniently available data</li>
+<li class="fragment">assess relevant population, if any</li>
+<li class="fragment">determine potential for inference, prediction, etc.</li>
+<li class="fragment">articulate answerable questions</li>
+</ul>
+</div>
+</section>
 <section id="tidying" class="slide level2">
 <h2>Tidying</h2>
-<p>In order to comine the datasets one must:</p>
+<p>Back to the task at hand, in order to comine the datasets one must:</p>
 <ul>
 <li class="fragment">Select columns of interest;</li>
 <li class="fragment">Put in consistent order;</li>
@@ -738,7 +761,7 @@ dtype: int64</code></pre>
 <li class="fragment">Concatenate row-wise.</li>
 </ul>
 <div class="fragment">
-<p>We’ll skip the details.</p>
+<p>We’ll skip the details for now.</p>
 </div>
 </section>
 <section id="inspection" class="slide level2">
@@ -762,17 +785,17 @@ dtype: float64</code></pre>
 </section>
 <section id="exploration-2" class="slide level2">
 <h2>Exploration</h2>
-<p>Focusing on the nonmissing values, we see the same power law relationship but with <em>different</em> proportionality constants for the three classes of animals.</p>
+<p>Focusing on the nonmissing values, we see the same power law relationship but with <em>different</em> proportionality constants for (at least two of) the three classes of animals.</p>
 <div class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display" data-execution_count="12">
 
-<div id="altair-viz-7ba4d4aae8364c73a9b1b574362bd920"></div>
+<div id="altair-viz-91b83915039f41fe9928c80fb87a0dfa"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-7ba4d4aae8364c73a9b1b574362bd920") {
-      outputDiv = document.getElementById("altair-viz-7ba4d4aae8364c73a9b1b574362bd920");
+    if (outputDiv.id !== "altair-viz-91b83915039f41fe9928c80fb87a0dfa") {
+      outputDiv = document.getElementById("altair-viz-91b83915039f41fe9928c80fb87a0dfa");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
@@ -858,6 +881,84 @@ dtype: float64</code></pre>
 <li class="fragment">Models approximate specific kinds of relationships in data</li>
 <li class="fragment">Exploratory analysis can reveal unexpected structure</li>
 </ul>
+</div>
+</section>
+<section id="but-if-we-did-want-to-fit-a-model" class="slide level2 scrollable">
+<h2>But if we <em>did</em> want to fit a model…</h2>
+<p><span class="math inline">\((\text{brain}) = \beta_j(\text{body})^{\alpha_j} \quad \text{animal class } j = 1, 2, 3\)</span></p>
+<div class="panel-tabset">
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Estimates</a></li><li><a href="#tabset-1-2">Figure</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1">
+<div class="cell" data-execution_count="13">
+<div class="cell-output cell-output-display" data-execution_count="13">
+
+<table class="simpletable">
+<tbody><tr>
+          <td></td>            <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P&gt;|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Bird</th>             <td>   -1.9574</td> <td>    0.040</td> <td>  -49.118</td> <td> 0.000</td> <td>   -2.036</td> <td>   -1.879</td>
+</tr>
+<tr>
+  <th>Mammal</th>           <td>   -2.9391</td> <td>    0.029</td> <td> -100.061</td> <td> 0.000</td> <td>   -2.997</td> <td>   -2.882</td>
+</tr>
+<tr>
+  <th>Reptile</th>          <td>   -4.0335</td> <td>    0.083</td> <td>  -48.577</td> <td> 0.000</td> <td>   -4.196</td> <td>   -3.871</td>
+</tr>
+<tr>
+  <th>log.body.bird</th>    <td>    0.5653</td> <td>    0.008</td> <td>   66.566</td> <td> 0.000</td> <td>    0.549</td> <td>    0.582</td>
+</tr>
+<tr>
+  <th>log.body.mammal</th>  <td>    0.7651</td> <td>    0.004</td> <td>  191.544</td> <td> 0.000</td> <td>    0.757</td> <td>    0.773</td>
+</tr>
+<tr>
+  <th>log.body.reptile</th> <td>    0.5293</td> <td>    0.017</td> <td>   31.375</td> <td> 0.000</td> <td>    0.496</td> <td>    0.562</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+</div>
+<div id="tabset-1-2">
+<div class="cell" data-execution_count="14">
+<div class="cell-output cell-output-display" data-execution_count="14">
+<pre><code>&lt;matplotlib.legend.Legend at 0x1c841ef6f10&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img data-src="week1-lifecycle_files/figure-revealjs/cell-11-output-2.png" width="491" height="270"></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="model-limitations" class="slide level2">
+<h2>Model limitations</h2>
+<p>Back to the issue of representativeness:</p>
+<ul>
+<li class="fragment">shouldn’t use this model for inferences</li>
+<li class="fragment">might not be reliable for prediction either</li>
+<li class="fragment">but does capture/convey some suggestive comparisons</li>
+</ul>
+<div class="fragment">
+<p>So, just be careful with interpretation of results:</p>
+<blockquote>
+<p>“For this particular collection of specimens, we estimated…”</p>
+</blockquote>
+</div>
+</section>
+<section id="zooming-out" class="slide level2">
+<h2>Zooming out</h2>
+<p>This example illustrates the aspects of the lifecylce we’ll cover in this class:</p>
+<ul>
+<li class="fragment">data retrieval and import</li>
+<li class="fragment">tidying and transformation</li>
+<li class="fragment">visualization</li>
+<li class="fragment">exploratory analysis</li>
+<li class="fragment">modeling</li>
+</ul>
+<div class="fragment">
+<p>We’ll address these topics in sequence.</p>
 </div>
 </section>
 <section id="next-week" class="slide level2">

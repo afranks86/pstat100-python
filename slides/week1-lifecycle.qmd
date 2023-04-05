@@ -45,7 +45,7 @@ These form a *cycle* in the sense that the steps are iterated for question refin
 
 ## Data science lifecylce
 
-<img src="figures/cycle-diagram.png" style="height:450px">
+![](figures/cycle-diagram.png)
 
 . . .
 
@@ -155,6 +155,9 @@ So what does that mean in terms of brain and body weights? A little algebra and 
 
 $$(\text{brain}) \propto (\text{body})^\alpha$$ 
 
+. . .
+
+Check your understanding: what's the proportionality constant?
 
 ## Interpretation
 
@@ -239,9 +242,28 @@ These data don't support general inferences (*e.g.*, to all animals, all mammals
 
 Usually, if data are not collected for the explicit purpose of the question you're trying to answer, they won't constitute a representative sample.
 
+## Theory and practice
+
+In intro stat, you learn about methods of inference for the following set-up:
+
+* start with a question
+* identify a study population
+* draw a random (or probability) sample
+* collect data
+
+. . .
+
+In practice, one commonly works with found data or convenient data, effectively inverting this picture:
+
+* start with a topic
+* obtain conveniently available data
+* assess relevant population, if any
+* determine potential for inference, prediction, etc.
+* articulate answerable questions
+
 ## Tidying
 
-In order to comine the datasets one must:
+Back to the task at hand, in order to comine the datasets one must:
 
 * Select columns of interest;
 * Put in consistent order;
@@ -250,7 +272,7 @@ In order to comine the datasets one must:
 
 . . .
 
-We'll skip the details.
+We'll skip the details for now.
 
 ## Inspection
 
@@ -273,7 +295,7 @@ avg_weights['log(brain)'] = np.log(avg_weights['brain'])
 
 ## Exploration
 
-Focusing on the nonmissing values, we see the same power law relationship but with *different* proportionality constants for the three classes of animals.
+Focusing on the nonmissing values, we see the same power law relationship but with *different* proportionality constants for (at least two of) the three classes of animals.
 
 ```{python}
 #| slideshow: {slide_type: skip}
@@ -328,6 +350,84 @@ This was intentional -- it is a common misconception that analyzing data always 
 * You can learn a lot from exploratory techniques
 * Models approximate specific kinds of relationships in data
 * Exploratory analysis can reveal unexpected structure
+
+## But if we *did* want to fit a model... {.scrollable}
+
+$(\text{brain}) = \beta_j(\text{body})^{\alpha_j} \quad \text{animal class } j = 1, 2, 3$
+
+::: panel-tabset 
+
+## Estimates
+
+```{python}
+import statsmodels.api as sm
+import statsmodels.formula.api as smf
+
+data = avg_weights.loc[:, ['class', 'brain', 'body']].rename(columns={'class':'animal_type'})
+
+body_rep = pd.concat([avg_weights.body, avg_weights.body, avg_weights.body], axis = 1)
+
+x1 = pd.get_dummies(avg_weights.iloc[:, 0])
+x2 = x1 * np.log(body_rep).values
+x2 = x2.rename(columns={'Bird': 'log.body.bird', 'Mammal': 'log.body.mammal', 'Reptile': 'log.body.reptile'})
+
+x = pd.concat([x1, x2], axis = 1)
+y = np.log(avg_weights.brain)
+
+fit = sm.OLS(y, x).fit()
+
+fit.summary().tables[1]
+```
+
+## Figure
+
+```{python}
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+
+x = np.linspace(0, 100000, 100)  
+y1 = np.exp(fit.params[0])*(x**fit.params[3])
+y2 = np.exp(fit.params[1])*(x**fit.params[4])
+y3 = np.exp(fit.params[2])*(x**fit.params[5])
+
+fig, ax = plt.subplots(figsize=(5, 2.7), layout='constrained')
+ax.plot(x/1000, y1, label='birds')  # Plot some data on the axes.
+ax.plot(x/1000, y2, label='mammals')  # Plot more data on the axes...
+ax.plot(x/1000, y3, label='reptiles')  # ... and some more.
+ax.set_xlabel('body weight (kg)')  # Add an x-label to the axes.
+ax.set_ylabel('median brain weight (g)')  # Add a y-label to the axes.
+ax.legend()  # Add a legend.
+```
+
+:::
+
+## Model limitations
+
+Back to the issue of representativeness:
+
+* shouldn't use this model for inferences
+* might not be reliable for prediction either
+* but does capture/convey some suggestive comparisons
+
+. . .
+
+So, just be careful with interpretation of results:
+
+> "For this particular collection of specimens, we estimated..."
+
+## Zooming out
+
+This example illustrates the aspects of the lifecylce we'll cover in this class:
+
+* data retrieval and import
+* tidying and transformation
+* visualization
+* exploratory analysis
+* modeling
+
+. . .
+
+We'll address these topics in sequence.
 
 ## Next week
 
