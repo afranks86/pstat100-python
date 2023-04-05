@@ -438,7 +438,7 @@
 <h2>Data acquisition</h2>
 <p>From Allison <em>et al.</em> 1976, average body and brain weights for 62 mammals.</p>
 <div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;-&quot;}" data-execution_count="2">
-<div class="cell-output cell-output-display" data-execution_count="51">
+<div class="cell-output cell-output-display" data-execution_count="17">
 
 <div>
 <style scoped="">
@@ -524,14 +524,14 @@
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># dimensions?</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a>bb_weights.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="52">
+<div class="cell-output cell-output-display" data-execution_count="18">
 <pre><code>(62, 3)</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># missing values?</span></span>
 <span id="cb3-2"><a href="#cb3-2"></a>bb_weights.isna().<span class="bu">sum</span>(axis <span class="op">=</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="53">
+<div class="cell-output cell-output-display" data-execution_count="19">
 <pre><code>species     0
 body_wt     0
 brain_wt    0
@@ -543,15 +543,15 @@ dtype: int64</code></pre>
 <h2>Exploration</h2>
 <p>Visualization is usually a good starting point for exploring data.</p>
 <div class="cell" data-execution_count="5">
-<div class="cell-output cell-output-display" data-execution_count="54">
+<div class="cell-output cell-output-display" data-execution_count="20">
 
-<div id="altair-viz-4bddc96bff304540ba14b6ce1ade3475"></div>
+<div id="altair-viz-7c11efced23f4255ac2a660ea9f0c18a"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-4bddc96bff304540ba14b6ce1ade3475") {
-      outputDiv = document.getElementById("altair-viz-4bddc96bff304540ba14b6ce1ade3475");
+    if (outputDiv.id !== "altair-viz-7c11efced23f4255ac2a660ea9f0c18a") {
+      outputDiv = document.getElementById("altair-viz-7c11efced23f4255ac2a660ea9f0c18a");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
@@ -607,15 +607,15 @@ dtype: int64</code></pre>
 <h2>Exploration</h2>
 <p>A simple transformation of the axes reveals a clearer pattern.</p>
 <div class="cell" data-execution_count="6">
-<div class="cell-output cell-output-display" data-execution_count="55">
+<div class="cell-output cell-output-display" data-execution_count="21">
 
-<div id="altair-viz-ad42277ba9074584bb805085f854f36a"></div>
+<div id="altair-viz-7e3315352d884680a561f67e37bd088d"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-ad42277ba9074584bb805085f854f36a") {
-      outputDiv = document.getElementById("altair-viz-ad42277ba9074584bb805085f854f36a");
+    if (outputDiv.id !== "altair-viz-7e3315352d884680a561f67e37bd088d") {
+      outputDiv = document.getElementById("altair-viz-7e3315352d884680a561f67e37bd088d");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
@@ -682,7 +682,7 @@ dtype: int64</code></pre>
 <h2>Interpretation</h2>
 <p>So it appears that the brain-body scaling is well-described by a power law:</p>
 <blockquote>
-<p>among selected specimens of these 62 species of mammal, average brain weight is approximately proportional to a power of average body weight</p>
+<p>among selected specimens of these 62 species of mammal, species average brain weight is approximately proportional to a power of species average body weight</p>
 </blockquote>
 <div class="fragment">
 <p>Notice that I did not say:</p>
@@ -731,26 +731,6 @@ dtype: int64</code></pre>
 <p>Usually, if data are not collected for the explicit purpose of the question you’re trying to answer, they won’t constitute a representative sample.</p>
 </div>
 </section>
-<section id="theory-and-practice" class="slide level2">
-<h2>Theory and practice</h2>
-<p>In intro stat, you learn about methods of inference for the following set-up:</p>
-<ul>
-<li class="fragment">start with a question</li>
-<li class="fragment">identify a study population</li>
-<li class="fragment">draw a random (or probability) sample</li>
-<li class="fragment">collect data</li>
-</ul>
-<div class="fragment">
-<p>In practice, one commonly works with found data or convenient data, effectively inverting this picture:</p>
-<ul>
-<li class="fragment">start with a topic</li>
-<li class="fragment">obtain conveniently available data</li>
-<li class="fragment">assess relevant population, if any</li>
-<li class="fragment">determine potential for inference, prediction, etc.</li>
-<li class="fragment">articulate answerable questions</li>
-</ul>
-</div>
-</section>
 <section id="tidying" class="slide level2">
 <h2>Tidying</h2>
 <p>Back to the task at hand, in order to comine the datasets one must:</p>
@@ -770,7 +750,7 @@ dtype: int64</code></pre>
 <div class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># missing values?</span></span>
 <span id="cb6-2"><a href="#cb6-2"></a>data.isna().mean(axis <span class="op">=</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="58">
+<div class="cell-output cell-output-display" data-execution_count="24">
 <pre><code>Order      0.00000
 Family     0.00000
 Genus      0.00000
@@ -785,17 +765,17 @@ dtype: float64</code></pre>
 </section>
 <section id="exploration-2" class="slide level2">
 <h2>Exploration</h2>
-<p>Focusing on the nonmissing values, we see the same power law relationship but with <em>different</em> proportionality constants for (at least two of) the three classes of animals.</p>
+<p>Focusing on the nonmissing values, we see the same power law relationship but with <em>different</em> proportionality constants and exponents for the three classes of animals.</p>
 <div class="cell" data-execution_count="12">
-<div class="cell-output cell-output-display" data-execution_count="61">
+<div class="cell-output cell-output-display" data-execution_count="27">
 
-<div id="altair-viz-4d2b0e3d3e514bf899bb42ec32831099"></div>
+<div id="altair-viz-d7dcd2ad26a24626b26a00ad0c7277f2"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-4d2b0e3d3e514bf899bb42ec32831099") {
-      outputDiv = document.getElementById("altair-viz-4d2b0e3d3e514bf899bb42ec32831099");
+    if (outputDiv.id !== "altair-viz-d7dcd2ad26a24626b26a00ad0c7277f2") {
+      outputDiv = document.getElementById("altair-viz-d7dcd2ad26a24626b26a00ad0c7277f2");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
@@ -887,11 +867,18 @@ dtype: float64</code></pre>
 <h2>But if we <em>did</em> want to fit a model…</h2>
 <p><span class="math inline">\((\text{brain}) = \beta_j(\text{body})^{\alpha_j} \quad \text{animal class } j = 1, 2, 3\)</span></p>
 <div class="panel-tabset">
-<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Estimates</a></li><li><a href="#tabset-1-2">Figure</a></li></ul>
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Figure</a></li><li><a href="#tabset-1-2">Estimates</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1">
-<div class="cell" data-execution_count="13">
-<div class="cell-output cell-output-display" data-execution_count="62">
+<div class="cell" data-execution_count="14">
+<div class="cell-output cell-output-display">
+<p><img data-src="week1-lifecycle_files/figure-revealjs/cell-11-output-1.png" width="587" height="347"></p>
+</div>
+</div>
+</div>
+<div id="tabset-1-2">
+<div class="cell" data-execution_count="15">
+<div class="cell-output cell-output-display" data-execution_count="30">
 
 <table class="simpletable">
 <tbody><tr>
@@ -916,16 +903,6 @@ dtype: float64</code></pre>
   <th>log.body.reptile</th> <td>    0.5293</td> <td>    0.017</td> <td>   31.375</td> <td> 0.000</td> <td>    0.496</td> <td>    0.562</td>
 </tr>
 </tbody></table>
-</div>
-</div>
-</div>
-<div id="tabset-1-2">
-<div class="cell" data-execution_count="14">
-<div class="cell-output cell-output-display" data-execution_count="63">
-<pre><code>&lt;matplotlib.legend.Legend at 0x1c838179bb0&gt;</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<p><img data-src="week1-lifecycle_files/figure-revealjs/cell-11-output-2.png" width="491" height="270"></p>
 </div>
 </div>
 </div>

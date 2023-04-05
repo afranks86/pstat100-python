@@ -8,6 +8,7 @@ format:
         incremental: true
         slide-number: true
 jupyter: python3
+df-print: paged
 ---
 
 ## What's data science?
@@ -163,7 +164,7 @@ Check your understanding: what's the proportionality constant?
 
 So it appears that the brain-body scaling is well-described by a power law:
 
-> among selected specimens of these 62 species of mammal, average brain weight is approximately proportional to a power of average body weight
+> among selected specimens of these 62 species of mammal, species average brain weight is approximately proportional to a power of species average body weight
 
 . . .
 
@@ -242,25 +243,6 @@ These data don't support general inferences (*e.g.*, to all animals, all mammals
 
 Usually, if data are not collected for the explicit purpose of the question you're trying to answer, they won't constitute a representative sample.
 
-## Theory and practice
-
-In intro stat, you learn about methods of inference for the following set-up:
-
-* start with a question
-* identify a study population
-* draw a random (or probability) sample
-* collect data
-
-. . .
-
-In practice, one commonly works with found data or convenient data, effectively inverting this picture:
-
-* start with a topic
-* obtain conveniently available data
-* assess relevant population, if any
-* determine potential for inference, prediction, etc.
-* articulate answerable questions
-
 ## Tidying
 
 Back to the task at hand, in order to comine the datasets one must:
@@ -295,7 +277,7 @@ avg_weights['log(brain)'] = np.log(avg_weights['brain'])
 
 ## Exploration
 
-Focusing on the nonmissing values, we see the same power law relationship but with *different* proportionality constants for (at least two of) the three classes of animals.
+Focusing on the nonmissing values, we see the same power law relationship but with *different* proportionality constants and exponents for the three classes of animals.
 
 ```{python}
 #| slideshow: {slide_type: skip}
@@ -355,11 +337,9 @@ This was intentional -- it is a common misconception that analyzing data always 
 
 $(\text{brain}) = \beta_j(\text{body})^{\alpha_j} \quad \text{animal class } j = 1, 2, 3$
 
-::: panel-tabset 
-
-## Estimates
-
 ```{python}
+import matplotlib as mpl
+import matplotlib.pyplot as plt
 import statsmodels.api as sm
 import statsmodels.formula.api as smf
 
@@ -375,28 +355,35 @@ x = pd.concat([x1, x2], axis = 1)
 y = np.log(avg_weights.brain)
 
 fit = sm.OLS(y, x).fit()
-
-fit.summary().tables[1]
 ```
+
+
+::: panel-tabset 
 
 ## Figure
 
 ```{python}
-import matplotlib as mpl
-import matplotlib.pyplot as plt
 
 x = np.linspace(0, 100000, 100)  
 y1 = np.exp(fit.params[0])*(x**fit.params[3])
 y2 = np.exp(fit.params[1])*(x**fit.params[4])
 y3 = np.exp(fit.params[2])*(x**fit.params[5])
 
-fig, ax = plt.subplots(figsize=(5, 2.7), layout='constrained')
+fig, ax = plt.subplots(figsize=(6, 3.5), layout='constrained')
 ax.plot(x/1000, y1, label='birds')  # Plot some data on the axes.
 ax.plot(x/1000, y2, label='mammals')  # Plot more data on the axes...
 ax.plot(x/1000, y3, label='reptiles')  # ... and some more.
 ax.set_xlabel('body weight (kg)')  # Add an x-label to the axes.
 ax.set_ylabel('median brain weight (g)')  # Add a y-label to the axes.
 ax.legend()  # Add a legend.
+
+plt.show()
+```
+
+## Estimates
+
+```{python}
+fit.summary().tables[1]
 ```
 
 :::

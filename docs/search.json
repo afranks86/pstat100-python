@@ -102,7 +102,7 @@
     "href": "slides/week1-lifecycle.html#interpretation",
     "title": "Data science lifecycle",
     "section": "Interpretation",
-    "text": "Interpretation\nSo it appears that the brain-body scaling is well-described by a power law:\n\namong selected specimens of these 62 species of mammal, average brain weight is approximately proportional to a power of average body weight\n\n\nNotice that I did not say:\n\nanimals’ brains are proportional to a power of their bodies\namong these 62 mammals, average brain weight is approximately proportional to a power of average body weight"
+    "text": "Interpretation\nSo it appears that the brain-body scaling is well-described by a power law:\n\namong selected specimens of these 62 species of mammal, species average brain weight is approximately proportional to a power of species average body weight\n\n\nNotice that I did not say:\n\nanimals’ brains are proportional to a power of their bodies\namong these 62 mammals, average brain weight is approximately proportional to a power of average body weight"
   },
   {
     "objectID": "slides/week1-lifecycle.html#question-refinement",
@@ -158,7 +158,7 @@
     "href": "slides/week1-lifecycle.html#exploration-2",
     "title": "Data science lifecycle",
     "section": "Exploration",
-    "text": "Exploration\nFocusing on the nonmissing values, we see the same power law relationship but with different proportionality constants for (at least two of) the three classes of animals."
+    "text": "Exploration\nFocusing on the nonmissing values, we see the same power law relationship but with different proportionality constants and exponents for the three classes of animals."
   },
   {
     "objectID": "slides/week1-lifecycle.html#analysis-1",
@@ -186,7 +186,7 @@
     "href": "slides/week1-lifecycle.html#but-if-we-did-want-to-fit-a-model",
     "title": "Data science lifecycle",
     "section": "But if we did want to fit a model…",
-    "text": "But if we did want to fit a model…\n\\((\\text{brain}) = \\beta_j(\\text{body})^{\\alpha_j} \\quad \\text{animal class } j = 1, 2, 3\\)\n\nEstimatesFigure\n\n\n\n\n\n\n\n                      coef     std err      t      P>|t|  [0.025    0.975]  \n\n\n  Bird                -1.9574     0.040   -49.118  0.000    -2.036    -1.879\n\n\n  Mammal              -2.9391     0.029  -100.061  0.000    -2.997    -2.882\n\n\n  Reptile             -4.0335     0.083   -48.577  0.000    -4.196    -3.871\n\n\n  log.body.bird        0.5653     0.008    66.566  0.000     0.549     0.582\n\n\n  log.body.mammal      0.7651     0.004   191.544  0.000     0.757     0.773\n\n\n  log.body.reptile     0.5293     0.017    31.375  0.000     0.496     0.562\n\n\n\n\n\n\n\n\n<matplotlib.legend.Legend at 0x1c838179bb0>"
+    "text": "But if we did want to fit a model…\n\\((\\text{brain}) = \\beta_j(\\text{body})^{\\alpha_j} \\quad \\text{animal class } j = 1, 2, 3\\)\n\nFigureEstimates\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n                      coef     std err      t      P>|t|  [0.025    0.975]  \n\n\n  Bird                -1.9574     0.040   -49.118  0.000    -2.036    -1.879\n\n\n  Mammal              -2.9391     0.029  -100.061  0.000    -2.997    -2.882\n\n\n  Reptile             -4.0335     0.083   -48.577  0.000    -4.196    -3.871\n\n\n  log.body.bird        0.5653     0.008    66.566  0.000     0.549     0.582\n\n\n  log.body.mammal      0.7651     0.004   191.544  0.000     0.757     0.773\n\n\n  log.body.reptile     0.5293     0.017    31.375  0.000     0.496     0.562"
   },
   {
     "objectID": "slides/week1-lifecycle.html#zooming-out",
