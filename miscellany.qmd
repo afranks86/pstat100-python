@@ -15,4 +15,6 @@ format: html
 
 ## Troubleshooting
 
+- If you need to recover the (empty) distribution copy of any assignment notebook, perhaps due to accidentally deleting cells or similar issues, simply rename the notebook containing your work on the LSIT server and then redeploy the notebook from the course website link.
+
 - If you try to open a notebook and the server fails at the 'synchronizing git repository' stage, open the LSIT server separately, rename the `pstat100-content` directory, and then try opening the notebook from the website link again. If successfull, you will need to migrate all of your previous work into the new `pstat100-content` directory.

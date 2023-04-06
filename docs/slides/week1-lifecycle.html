@@ -438,7 +438,7 @@
 <h2>Data acquisition</h2>
 <p>From Allison <em>et al.</em> 1976, average body and brain weights for 62 mammals.</p>
 <div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;-&quot;}" data-execution_count="2">
-<div class="cell-output cell-output-display" data-execution_count="17">
+<div class="cell-output cell-output-display" data-execution_count="2">
 
 <div>
 <style scoped="">
@@ -524,14 +524,14 @@
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># dimensions?</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a>bb_weights.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="18">
+<div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>(62, 3)</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># missing values?</span></span>
 <span id="cb3-2"><a href="#cb3-2"></a>bb_weights.isna().<span class="bu">sum</span>(axis <span class="op">=</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="19">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>species     0
 body_wt     0
 brain_wt    0
@@ -543,15 +543,15 @@ dtype: int64</code></pre>
 <h2>Exploration</h2>
 <p>Visualization is usually a good starting point for exploring data.</p>
 <div class="cell" data-execution_count="5">
-<div class="cell-output cell-output-display" data-execution_count="20">
+<div class="cell-output cell-output-display" data-execution_count="5">
 
-<div id="altair-viz-7c11efced23f4255ac2a660ea9f0c18a"></div>
+<div id="altair-viz-95354167c157415ab31d4ec02b4f102b"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-7c11efced23f4255ac2a660ea9f0c18a") {
-      outputDiv = document.getElementById("altair-viz-7c11efced23f4255ac2a660ea9f0c18a");
+    if (outputDiv.id !== "altair-viz-95354167c157415ab31d4ec02b4f102b") {
+      outputDiv = document.getElementById("altair-viz-95354167c157415ab31d4ec02b4f102b");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
@@ -607,15 +607,15 @@ dtype: int64</code></pre>
 <h2>Exploration</h2>
 <p>A simple transformation of the axes reveals a clearer pattern.</p>
 <div class="cell" data-execution_count="6">
-<div class="cell-output cell-output-display" data-execution_count="21">
+<div class="cell-output cell-output-display" data-execution_count="6">
 
-<div id="altair-viz-7e3315352d884680a561f67e37bd088d"></div>
+<div id="altair-viz-4ccc5f0b505c4948ad23dc124a107902"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-7e3315352d884680a561f67e37bd088d") {
-      outputDiv = document.getElementById("altair-viz-7e3315352d884680a561f67e37bd088d");
+    if (outputDiv.id !== "altair-viz-4ccc5f0b505c4948ad23dc124a107902") {
+      outputDiv = document.getElementById("altair-viz-4ccc5f0b505c4948ad23dc124a107902");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
@@ -750,7 +750,7 @@ dtype: int64</code></pre>
 <div class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># missing values?</span></span>
 <span id="cb6-2"><a href="#cb6-2"></a>data.isna().mean(axis <span class="op">=</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="24">
+<div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>Order      0.00000
 Family     0.00000
 Genus      0.00000
@@ -767,15 +767,15 @@ dtype: float64</code></pre>
 <h2>Exploration</h2>
 <p>Focusing on the nonmissing values, we see the same power law relationship but with <em>different</em> proportionality constants and exponents for the three classes of animals.</p>
 <div class="cell" data-execution_count="12">
-<div class="cell-output cell-output-display" data-execution_count="27">
+<div class="cell-output cell-output-display" data-execution_count="12">
 
-<div id="altair-viz-d7dcd2ad26a24626b26a00ad0c7277f2"></div>
+<div id="altair-viz-20ab478c4ba646dfbc65d2f265df35eb"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-d7dcd2ad26a24626b26a00ad0c7277f2") {
-      outputDiv = document.getElementById("altair-viz-d7dcd2ad26a24626b26a00ad0c7277f2");
+    if (outputDiv.id !== "altair-viz-20ab478c4ba646dfbc65d2f265df35eb") {
+      outputDiv = document.getElementById("altair-viz-20ab478c4ba646dfbc65d2f265df35eb");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
@@ -878,7 +878,7 @@ dtype: float64</code></pre>
 </div>
 <div id="tabset-1-2">
 <div class="cell" data-execution_count="15">
-<div class="cell-output cell-output-display" data-execution_count="30">
+<div class="cell-output cell-output-display" data-execution_count="15">
 
 <table class="simpletable">
 <tbody><tr>
