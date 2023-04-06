@@ -8,7 +8,7 @@ format: html
 - [Attendance form](https://forms.gle/y4CW7QPM4KSKexrq9) (fill out once per class meeting, including sections)
 - [Gradescope](https://www.gradescope.com/courses/527056) (for assignment submissions)
 - [LSIT server](https://pstat100.lsit.ucsb.edu) (for course computing)
-- Discussion board (check back soon)
+- [Discussion board](https://app.nectir.io/invite/7Z36s6) (for Q&A)
 
 ## Getting started checklist
 
@@ -31,3 +31,9 @@ format: html
 **Lab sections**: Orientation to Jupyter notebooks [[activity](labs/lab0-gettingstarted/lab0-gettingstarted.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Flab0-gettingstarted%2Flab0-gettingstarted.ipynb&branch=main)] 
 
 **Wednesday**: Data science lifecycle [[slides](slides/week1-lifecycle.qmd)]
+
+## Week 2
+
+**Monday**: Tidy data [slides]
+
+**Lab sections**: Pandas [[activity](labs/lab1-pandas/lab1-pandas.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Flab1-pandas%2Flab1-pandas.ipynb&branch=main)] 
