@@ -33,6 +33,4 @@ format: html
 
 ## Week 2
 
-**Monday**: Tidy data [slides]
-
 **Lab sections**: Pandas [[activity](labs/lab1-pandas/lab1-pandas.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Flab1-pandas%2Flab1-pandas.ipynb&branch=main)] 
