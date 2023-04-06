@@ -1,0 +1,30 @@
+[
+  {
+    "objectID": "content.html",
+    "href": "content.html",
+    "title": "Materials",
+    "section": "",
+    "text": "Attendance form (fill out once per class meeting, including sections)\nGradescope (for assignment submissions)\nLSIT server (for course computing)"
+  },
+  {
+    "objectID": "content.html#getting-started-checklist",
+    "href": "content.html#getting-started-checklist",
+    "title": "Materials",
+    "section": "Getting started checklist",
+    "text": "Getting started checklist\n\nConfirm access to all course pages\nRead syllabus\nFill out intake survey"
+  },
+  {
+    "objectID": "content.html#week-1",
+    "href": "content.html#week-1",
+    "title": "Materials",
+    "section": "Week 1",
+    "text": "Week 1\nReadings:\n\nLDS1 The Data Science Lifecycle\nLDS5 Case Study: Why is my Bus Always Late?\nPDSH2.1 Understanding data types in python\nPDSH2.2 The basics of numpy arrays\nPDSH2.4 Aggregations: min, max, and everything in between\n\nMonday: Course introduction [slides]\nLab sections: Orientation to Jupyter notebooks [activity] [notebook]\nWednesday: Data science lifecycle [slides]"
+  },
+  {
+    "objectID": "content.html#week-2",
+    "href": "content.html#week-2",
+    "title": "Materials",
+    "section": "Week 2",
+    "text": "Week 2\nMonday: Tidy data [slides]\nLab sections: Pandas [activity] [notebook]"
+  }
+]

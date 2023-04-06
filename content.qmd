@@ -8,7 +8,6 @@ format: html
 - [Attendance form](https://forms.gle/y4CW7QPM4KSKexrq9) (fill out once per class meeting, including sections)
 - [Gradescope](https://www.gradescope.com/courses/527056) (for assignment submissions)
 - [LSIT server](https://pstat100.lsit.ucsb.edu) (for course computing)
-- [Discussion board](https://app.nectir.io/invite/7Z36s6) (for Q&A)
 
 ## Getting started checklist
 
