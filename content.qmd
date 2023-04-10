@@ -33,4 +33,15 @@ format: html
 
 ## Week 2
 
+*Readings*:
+
+- Wickham (2014). Tidy data. *Journal of statistical software* 59(10). [[link to paper](https://www.jstatsoft.org/article/view/v059i10)]
+- PDSH3.1 [Introducing pandas objects](https://jakevdp.github.io/PythonDataScienceHandbook/03.01-introducing-pandas-objects.html)
+- PDSH3.2 [Data indexing and selection](https://jakevdp.github.io/PythonDataScienceHandbook/03.02-data-indexing-and-selection.html)
+- PDSH3.7 [Merge and join](https://jakevdp.github.io/PythonDataScienceHandbook/03.07-merge-and-join.html)
+- PDSH3.8 [Aggregation and grouping](https://jakevdp.github.io/PythonDataScienceHandbook/03.08-aggregation-and-grouping.html)
+
+
+**Monday**: Tidy data [[slides](slides/week2-tidy.qmd)]
+
 **Lab sections**: Pandas [[activity](labs/lab1-pandas/lab1-pandas.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Flab1-pandas%2Flab1-pandas.ipynb&branch=main)] 

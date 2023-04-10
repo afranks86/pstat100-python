@@ -20,6 +20,12 @@ import numpy as np
 import altair as alt
 ```
 
+## Announcements
+
+* PDF export fixed on JupyterHub
+* Lab 0 due today 11:59PM; late submissions allowed until Wednesday 11:59PM
+* Complete Q1-Q4 (`fruit_info` section) of Lab 1 before section
+
 ## This week
 
 * **Tabular data**
@@ -33,7 +39,7 @@ import altair as alt
     + Common messes
     + Tidying operations
 
-* **Transforming tidy data**
+* **Transforming data frames**
     + Subsetting (slicing and filtering)
     + Derived variables
     + Aggregation and summary statistics
@@ -422,6 +428,7 @@ gdp2.head(4)
 ```
 
 . . .
+
 Comparison of semantics and structure:
 
 Semantics |  | Structure | 
@@ -443,6 +450,9 @@ weather2.head(3)
 ```
 
 Try this one on your own. Then compare with your neighbor.
+
+1. Identify the observations and variables
+2. What are the observational units?
 
 ## Tidy or messy?
 
@@ -614,7 +624,11 @@ There are various rules for exactly how to merge, but the general syntactical pr
     + keep all rows with key entries in either `df1` or `df2`, inducing missing values ('outer' join)
     + keep all rows with key entries in both `df1` and `df2` ('inner' join)
 
-    ## Next time
+## Next time
 
-    * Transformations of tabular data
-    * Aggregation and grouping
+Transformations of tabular data
+
+* Slicing and filtering
+* Defining new variables
+* Vectorized operatioons
+* Aggregation and grouping

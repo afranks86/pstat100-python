@@ -4,4 +4,13 @@ date: today
 published-title: "Updated"
 ---
 
+::: {.callout-note}
+
+## Announcements
+
+* PDF export fixed on JupyterHub
+* Lab 0 due today 11:59PM; late submissions allowed until Wednesday 11:59PM
+* Complete Q1-Q4 (`fruit_info` section) of Lab 1 before section
+:::
+
 This is the course website for UCSB's Data Science Concepts and Analysis class (PSTAT100). Content is directed towards currently enrolled students. Please ask permission before using course materials in any other capacity.
