@@ -7,7 +7,7 @@ published-title: "Updated"
 ::: {.callout-note}
 
 ## Announcements
-* HW1 posted [here](content.qmd#week-2)
+* HW1 posted [here](content.qmd#week-2); due 4/24
 * PDF export fixed on JupyterHub
 * Lab 0 due Monday 4/10 11:59PM; late submissions allowed until Wednesday 4/12 11:59PM
 * Complete Q1-Q4 (`fruit_info` section) of Lab 1 before section
