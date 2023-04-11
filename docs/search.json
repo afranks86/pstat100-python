@@ -1083,5 +1083,19 @@
     "title": "Dataframe Transformations",
     "section": "Up next",
     "text": "Up next\nWe started en media res at this stage of the lifecyle (tidy) so that you could start developing skills that would enable you to jump right into playing with datasets.\n\nNext week, we’ll backtrack to the data collection and assessment stages of a project and discuss:\n\nsampling\nscope of inference\ndata assessment\nmissing data"
+  },
+  {
+    "objectID": "hw/hw1-brfss/hw1-brfss-soln.html#recoding-and-renaming-categorical-variables",
+    "href": "hw/hw1-brfss/hw1-brfss-soln.html#recoding-and-renaming-categorical-variables",
+    "title": "PSTAT100",
+    "section": "Recoding and renaming categorical variables",
+    "text": "Recoding and renaming categorical variables\nIn the following series of questions you’ll tidy up the subsample by performing these steps:\n\nselecting columns of interest;\nreplacing coded values of question responses with responses;\ndefining new variables based on existing ones;\nrenaming columns.\n\nThe goal of this is to produce a clean version of the dataset that is well-organized, intuitive to navigate, and ready for analysis.\nNotice the missing values. How many entries are missing in each column? The cell below computes the proportion of missing values for each of the selected variables.\n\n# proportions of missingness -- uncomment after resolving q1a\nsamp.isna().mean()\n\nGENHLTH     0.0000\nADDEPEV3    0.0000\nACEDEPRS    0.8086\nACEDRINK    0.8088\nACEDRUGS    0.8088\nACEPRISN    0.8088\n_LLCPWT     0.0000\n_SEX        0.0000\n_AGEG5YR    0.0000\n_SMOKER3    0.0000\ndtype: float64"
+  },
+  {
+    "objectID": "hw/hw1-brfss/hw1-brfss.html#recoding-and-renaming-categorical-variables",
+    "href": "hw/hw1-brfss/hw1-brfss.html#recoding-and-renaming-categorical-variables",
+    "title": "PSTAT100",
+    "section": "Recoding and renaming categorical variables",
+    "text": "Recoding and renaming categorical variables\nIn the following series of questions you’ll tidy up the subsample by performing these steps:\n\nselecting columns of interest;\nreplacing coded values of question responses with responses;\ndefining new variables based on existing ones;\nrenaming columns.\n\nThe goal of this is to produce a clean version of the dataset that is well-organized, intuitive to navigate, and ready for analysis.\nNotice the missing values. How many entries are missing in each column? The cell below computes the proportion of missing values for each of the selected variables.\n\n# proportions of missingness -- uncomment after resolving q1a\nsamp.isna().mean()"
   }
 ]
