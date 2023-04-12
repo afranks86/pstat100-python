@@ -167,11 +167,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#question-3-sampling-design-and-data-collection" id="toc-question-3-sampling-design-and-data-collection" class="nav-link" data-scroll-target="#question-3-sampling-design-and-data-collection">Question 3: Sampling design and data collection</a></li>
   <li><a href="#question-4-variable-descriptions" id="toc-question-4-variable-descriptions" class="nav-link" data-scroll-target="#question-4-variable-descriptions">Question 4: Variable descriptions</a></li>
   </ul></li>
-  <li><a href="#subsampling" id="toc-subsampling" class="nav-link" data-scroll-target="#subsampling">Subsampling</a>
-  <ul class="collapse">
-  <li><a href="#recoding-and-renaming-categorical-variables" id="toc-recoding-and-renaming-categorical-variables" class="nav-link" data-scroll-target="#recoding-and-renaming-categorical-variables">Recoding and renaming categorical variables</a></li>
-  </ul></li>
-  <li><a href="#recoding-categorical-variables" id="toc-recoding-categorical-variables" class="nav-link" data-scroll-target="#recoding-categorical-variables">Recoding categorical variables</a>
+  <li><a href="#subsampling" id="toc-subsampling" class="nav-link" data-scroll-target="#subsampling">Subsampling</a></li>
+  <li><a href="#tidying" id="toc-tidying" class="nav-link" data-scroll-target="#tidying">Tidying</a>
   <ul class="collapse">
   <li><a href="#question-5-recoding-variables" id="toc-question-5-recoding-variables" class="nav-link" data-scroll-target="#question-5-recoding-variables">Question 5: Recoding variables</a></li>
   <li><a href="#question-6-value-replacement" id="toc-question-6-value-replacement" class="nav-link" data-scroll-target="#question-6-value-replacement">Question 6: Value replacement</a></li>
@@ -358,9 +355,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li><p>Notice that the random number generator seed is set before carrying out this task – this ensures that every time the cell is run, the same subsample is drawn. As a result, the computations in this notebook are <em>reproducible</em>: when I run the notebook on my computer, I get the same results as you get when you run the notebook on your computer.</p></li>
 <li><p>Notice also that <em>sampling weights</em> provided with the dataset are used to draw a weighted sample. Some respondents are more likely to be selected than others from the general population of U.S. adults with phone numbers, so the BRFSS calculates derived weights that are inversely proportional to estimates of the probability that the respondent is included in the survey. This is a somewhat sophisticated calculation, however if you’re interested, you can read about how these weights are calculated and why in the overview documentation you used to answer the questions above. We use the sampling weights in drawing the subsample so that we get a representative sample of U.S. adults with phone numbers.</p></li>
+<li><p>Notice the missing values. How many entries are missing in each column? The cell below computes the proportion of missing values for each of the selected variables. We’ll return to this issue later on.</p></li>
 </ul>
-<section id="recoding-and-renaming-categorical-variables" class="level2">
-<h2 class="anchored" data-anchor-id="recoding-and-renaming-categorical-variables">Recoding and renaming categorical variables</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># proportions of missingness </span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>samp.isna().mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="tidying" class="level1">
+<h1>Tidying</h1>
 <p>In the following series of questions you’ll tidy up the subsample by performing these steps:</p>
 <ul>
 <li>selecting columns of interest;</li>
@@ -369,15 +372,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>renaming columns.</li>
 </ul>
 <p>The goal of this is to produce a clean version of the dataset that is well-organized, intuitive to navigate, and ready for analysis.</p>
-<p>Notice the missing values. How many entries are missing in each column? The cell below computes the proportion of missing values for each of the selected variables.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># proportions of missingness -- uncomment after resolving q1a</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>samp.isna().mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-</section>
-<section id="recoding-categorical-variables" class="level1">
-<h1>Recoding categorical variables</h1>
 <p>The variable entries are coded numerically to represent certain responses. These should be replaced by more informative entries. We can use the codebook to determine which number means what, and replace the values accordingly.</p>
 <p>The cell below replaces the numeric values for <code>_AGEG5YR</code> by their meanings, illustrating how to use <code>.replace()</code> with a dictionary to convert the numeric coding to interpretable values. The basic strategy is:</p>
 <ol type="1">
