@@ -489,7 +489,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell" data-tags="[]">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># copy samp_mod6</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>samp_mod8 <span class="op">=</span> samp_mod6.copy()</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>samp_mod7 <span class="op">=</span> samp_mod6.copy()</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># ace column positions</span></span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>ace_positions <span class="op">=</span> ...</span>
@@ -504,7 +504,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>ace_numyes <span class="op">=</span> ...</span>
 <span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="co"># assign new variable</span></span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>samp_mod8[<span class="st">'adverse_conditions'</span>] <span class="op">=</span> ...</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>samp_mod7[<span class="st">'adverse_conditions'</span>] <span class="op">=</span> ...</span>
 <span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="co"># check result using .head()</span></span>
 <span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -566,7 +566,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="question-11-final-dataset" class="level3">
 <h3 class="anchored" data-anchor-id="question-11-final-dataset">Question 11: Final dataset</h3>
-<p>For the final dataset, drop the respondent answers to individual questions, the missingness indicator, and select just the derived indicator variables along with state, general health, sex, age, and smoking status. Check the <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.rename.html">pandas documentation</a> for <code>.rename()</code> and follow the examples to rename the latter variables:</p>
+<p>For the final dataset, drop the respondent answers to individual questions, the missingness indicator, and select just the derived indicator variables along with general health, sex, age, and smoking status. Check the <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.rename.html">pandas documentation</a> for <code>.rename()</code> and follow the examples to rename the latter variables:</p>
 <ul>
 <li>general_health</li>
 <li>sex</li>

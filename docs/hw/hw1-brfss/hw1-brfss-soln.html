@@ -971,7 +971,7 @@ dtype: object</code></pre>
 <span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a><span class="co">""" # </span><span class="re">BEGIN</span><span class="co"> PROMPT</span></span>
 <span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a><span class="co"># copy samp_mod6</span></span>
-<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a><span class="co">samp_mod8 = samp_mod6.copy()</span></span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a><span class="co">samp_mod7 = samp_mod6.copy()</span></span>
 <span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a><span class="co"># ace column positions</span></span>
 <span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a><span class="co">ace_positions = ...</span></span>
@@ -986,7 +986,7 @@ dtype: object</code></pre>
 <span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a><span class="co">ace_numyes = ...</span></span>
 <span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a><span class="co"># assign new variable</span></span>
-<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a><span class="co">samp_mod8['adverse_conditions'] = ...</span></span>
+<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a><span class="co">samp_mod7['adverse_conditions'] = ...</span></span>
 <span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a><span class="co"># check result using .head()</span></span>
 <span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a><span class="co">...</span></span>
@@ -1075,7 +1075,7 @@ dtype: object</code></pre>
 </section>
 <section id="question-11-final-dataset" class="level3">
 <h3 class="anchored" data-anchor-id="question-11-final-dataset">Question 11: Final dataset</h3>
-<p>For the final dataset, drop the respondent answers to individual questions, the missingness indicator, and select just the derived indicator variables along with state, general health, sex, age, and smoking status. Check the <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.rename.html">pandas documentation</a> for <code>.rename()</code> and follow the examples to rename the latter variables:</p>
+<p>For the final dataset, drop the respondent answers to individual questions, the missingness indicator, and select just the derived indicator variables along with general health, sex, age, and smoking status. Check the <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.rename.html">pandas documentation</a> for <code>.rename()</code> and follow the examples to rename the latter variables:</p>
 <ul>
 <li>general_health</li>
 <li>sex</li>
