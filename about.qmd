@@ -62,7 +62,7 @@ These skills will be discussed in depth during course lectures; students will pr
 Attainment of course learning outcomes will be measured by assessment of submitted work. Submitted work falls into four categories:
 
 - **Labs** will be assigned weekly in most weeks. These are structured coding assignments with small exercises throughout that introduce the programming skills needed to complete homework assignments.
-- **Homeworks** will be assigned biweekly. These are fairly involved assignments which apply concepts and techniques from the lectures and programming skills from the labs to real data sets in order to reproduce an analysis and answer substantive questions. Collaboration is encouraged, and group submissions will be allowed for groups of up to 3 students.
+- **Homeworks** will be assigned biweekly. These are fairly involved assignments which apply concepts and techniques from the lectures and programming skills from the labs to real data sets in order to reproduce an analysis and answer substantive questions. Collaboration is encouraged, but students must write up and submit their own work individually. 
 - **Mini projects** will be assigned biweekly in alternation with homeworks. These assignments prompt students to use skills from the course in an unstructured setting to answer high-level questions pertaining to one or more datasets. Mini projects should be completed collaboratively.
 - A **course project** will be assigned requiring students to carry out an open-ended data analysis. This will be completed in teams. Each team will prepare a project plan for initial feedback a few weeks before the end of the quarter, and submit a final report of work and findings by the end of the quarter.
 
