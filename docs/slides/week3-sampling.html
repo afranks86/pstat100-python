@@ -777,7 +777,7 @@ sample mean:  56.567779534464016</code></pre>
 <span id="cb2-14"><a href="#cb2-14"></a></span>
 <span id="cb2-15"><a href="#cb2-15"></a><span class="co"># take weighted average</span></span>
 <span id="cb2-16"><a href="#cb2-16"></a>samp_w.weighted_length.<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="687">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>54.40928091743469</code></pre>
 </div>
 </div>
@@ -788,7 +788,7 @@ sample mean:  56.567779534464016</code></pre>
 <p>However, even if we <em>didn’t</em> know the exact inclusion probabilities, we could estimate them from the sample:</p>
 <div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>samp.sex.value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="688">
+<div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>female    88
 male      12
 Name: sex, dtype: int64</code></pre>
@@ -814,7 +814,7 @@ Name: sex, dtype: int64</code></pre>
 <span id="cb6-15"><a href="#cb6-15"></a></span>
 <span id="cb6-16"><a href="#cb6-16"></a><span class="co"># take weighted average</span></span>
 <span id="cb6-17"><a href="#cb6-17"></a>samp_w.weighted_length.<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="689">
+<div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>54.082235672430265</code></pre>
 </div>
 </div>
@@ -859,7 +859,7 @@ Name: sex, dtype: int64</code></pre>
 <div class="fragment">
 <div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="bu">float</span>(<span class="st">'nan'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="690">
+<div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>nan</code></pre>
 </div>
 </div>
@@ -870,7 +870,7 @@ Name: sex, dtype: int64</code></pre>
 <p>Here is some made-up data with two missing values:</p>
 <div class="fragment">
 <div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="8">
-<div class="cell-output cell-output-display" data-execution_count="691">
+<div class="cell-output cell-output-display" data-execution_count="8">
 
 <div>
 <style scoped="">
@@ -944,7 +944,7 @@ Name: sex, dtype: int64</code></pre>
 <div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a>some_data <span class="op">=</span> pd.read_csv(<span class="st">'data/some_data.csv'</span>, index_col <span class="op">=</span> <span class="st">'obs'</span>, na_values <span class="op">=</span> <span class="st">'-'</span>)</span>
 <span id="cb10-2"><a href="#cb10-2"></a>some_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="692">
+<div class="cell-output cell-output-display" data-execution_count="9">
 
 <div>
 <style scoped="">
@@ -1017,7 +1017,7 @@ Name: sex, dtype: int64</code></pre>
 <div class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># mean in numpy -- halt</span></span>
 <span id="cb11-2"><a href="#cb11-2"></a>some_data.values.mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="693">
+<div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>nan</code></pre>
 </div>
 </div>
@@ -1028,7 +1028,7 @@ Name: sex, dtype: int64</code></pre>
 <div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a><span class="co"># mean in pandas -- ignore</span></span>
 <span id="cb13-2"><a href="#cb13-2"></a>some_data.mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="694">
+<div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>value   -0.281776
 dtype: float64</code></pre>
 </div>
@@ -1049,7 +1049,7 @@ dtype: float64</code></pre>
 <p>Now the mean is:</p>
 <div class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a>complete_data.mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="696">
+<div class="cell-output cell-output-display" data-execution_count="13">
 <pre><code>value    1.163668
 dtype: float64</code></pre>
 </div>

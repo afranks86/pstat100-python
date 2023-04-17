@@ -12,15 +12,29 @@ execute:
     echo: false
 ---
 
+```{python}
+#| slideshow: {slide_type: skip}
+#| tags: []
+import pandas as pd
+import numpy as np
+import altair as alt
+```
+
+
 ## Recap
 
 ## The Miller case
 
 On November 21, 2020, a professor at Williams College, Steven Miller, filed an affidavit alleging that an analysis of phone surveys showed that among registered republican voters in PA:
+
 * ~40K mail ballots were fraudlently requested;
 * ~48K mail ballots were not counted.
 
-> President Donald J. Trump amplified the statement in a tweet, the Chairman of the Federal Elections Commission (FEC) referenced the statement as indicative of fraud, and a conservative group prominently featured it in a legal brief seeking to overturn the Pennsylvania election results. (Samuel Wolf, Williams Record, 11/25/20)
+. . .
+
+> *"President Donald J. Trump amplified the statement in a tweet, the Chairman of the Federal Elections Commission (FEC) referenced the statement as indicative of fraud, and a conservative group prominently featured it in a legal brief seeking to overturn the Pennsylvania election results."* (Samuel Wolf, Williams Record, 11/25/20)
+
+. . .
 
 The Miller affidavit was criticized by statisticians as incorrect, irresponsible, and unethical.
 
@@ -28,22 +42,30 @@ The Miller affidavit was criticized by statisticians as incorrect, irresponsible
 
 On a purely mathematical level, Miller's calculations were standard. The key issue was a single flawed assumption:
 
-> The analysis is predicated on the assumption that the responders are a **representative sample** of the population of registered Republicans in Pennsylvania for whom a mail-in ballot was requested but not counted, and responded accurately to the questions during the phone calls. (Miller affidavit)
+. . .
 
-Essentially, Miller made two critical mistakes *in the analysis*:
+> *"The analysis is predicated on the assumption that the responders are a **representative sample** of the population of registered Republicans in Pennsylvania for whom a mail-in ballot was requested but not counted, and responded accurately to the questions during the phone calls."*" (Miller affidavit)
+
+. . .
+
+Essentially, two critical mistakes were made in the analysis:
 
 1. Failure to critically assess the sampling design and scope of inference.
-2. Ignored missing data.
+2. Ignoring missing data.
 
-We will conduct a *post mortem* and examine these issues. 
+. . .
 
-Miller is a number theorist, not a trained survey statistician, so on some level his mistakes were understandable, but they did a lot of damage.
+Miller is a number theorist, not a trained survey statistician, so on some level his mistakes were understandable, but they did a lot of damage. He issued an apology in short order.
 
 ## Sampling design
 
 > There were 165,412 unreturned mail ballots requested by registered republicans in PA.
 
+. . .
+
 Those voters were surveyed by phone by Matt Braynard's private firm External Affairs on behalf of the Voter Integrity Fund. 
+
+. . .
 
 We don't really know how they obtained and selected phone numbers or exactly what the survey procedure was, but here's what we do know:
 
@@ -52,71 +74,96 @@ We don't really know how they obtained and selected phone numbers or exactly wha
 3. If they said yes, they were asked if they requested a ballot.
 4. Those who requested a ballot were asked if they mailed it.
 
-## Spot any immediate issues?
+## Immediate problems
 
-We'll look in greater detail at these steps, but can you spot any obvious fishiness?
+We'll look in greater detail at the survey, but there are some obvious problems to start.
 
 * ~23K individuals were called on Nov. 9-10
-    + How did they pick who to call?
+    + Undisclosed selection mechanism
     + Narrow snapshot in time.
     + 9th and 10th were a Monday and Tuesday.
-    + Mail ballots were still being counted; don't actually know whether returned ballots were ultimately counted or not by this time.
+    + Mail ballots were still being counted, so the interviewers don't actually know whether returned ballots were ultimately counted or not by this time.
 
-* The ~2.5K who answered were asked if they were the registered voter or a family member.
-    + Family members could answer on behalf of one another.
+* The ~2.5K who answered were asked if they were the registered voter or a family member of the registered voter.
+    + Family members could answer on behalf of one another, and may give incorrect answers.
 
-* If they said yes, they were asked if they requested a ballot.
+* If they said yes, they were asked if the voter requested a ballot.
     + Misleading question: there's a registration checkbox; you don't have to file an explicit request in Pennsylvania.
 
-* Those who requested a ballot were asked if they mailed it.
+* Those who said they requested a ballot were asked if they mailed it.
     + What about voters who claimed not to request a ballot? Did they receive one, and if so, did they mail it?
 
 ## Survey schematic
 
-<img src="figures/miller-diagram.png" style="width:450px">
+![](figures/miller-diagram.PNG)
 
 ## Sampling design
 
 **Population**: republicans registered to vote in PA who had mail ballots officially requested that hadn't been returned or counted by November 9?
 
+. . .
+
 **Sampling frame**: unknown; source of phone numbers unspecified.
+
+. . .
 
 **Sample**: 2684 registered republicans or family members of registered repbulicans who had a mail ballot officially requested in PA and answered survey calls on Nov. 9 or 10.
 
+. . .
+
 **Sampling mechanism**: nonrandom; depends on availability during calling hours on Monday and Tuesday, language spoken, and willingness to talk.
+
+. . .
 
 *This is not a representative sample of any meaningful population.*
 
 ## Missingness
 
-Respondents hung up at every stage of the survey. 
+Respondents hung up at every stage of the survey. This is probably not at random -- individuals who do not believe voter fraud occurred are more likely to hang up. 
 
-This is probably not at random -- individuals who do not believe voter fraud occurred are more likely to hang up. 
-
-However, we don't have any information about whether respondents think fraud occurred.
+. . .
 
 So data are MNAR, and likely over-represent people more likely to claim they never requested a ballot.
 
 ## The analysis
 
-Miller first calculated:
+Miller first calculated the proportion of respondents who reported not requesting ballots among those who did not hang up.
 
-* The proportion of respondents who reported not requesting ballots among those who either voted in person, didn't request a ballot, or did request a ballot.
-    + Ignored those who weren't sure and those who hung up.
-    + Claimed that the estimated number of fraudulent requests was:
-    $\left(\frac{556}{1150 + 556 + 544}\right)\times 165,412 = 0.2471 \times 165,412 = 40,875$
+$$
+\left(\frac{556}{1150 + 556 + 544}\right) = 0.2471
+$$
+
+. . .
+
+Then he extrapolated that the estimated number of fraudulent requests was:
+
+$$
+0.2471 \times 165,412 = 40,875
+$$
+
+. . .
+
+The two main problems with this are:
+
+- nonrandom sampling $\Longrightarrow$ no scope of inference
+- no adjustment for nonresponse (*i.e.*, missing data)
 
 ## Simulation
 
-It's not too tricky to envision sources of bias that would affect Miller's results. *How much bias might there be?*
+It's not too tricky to envision sources of bias that would affect the results.
 
-This is an oversimplification, but if we are willing to assume that
+. . .
 
-1. respondents all know whether they actually requested a ballot and tell the truth,
-2. respondents who didn't request a ballot are more likely to be reached, and
-3. respondents who did request a ballot are more likely to hang up during the interview,
+Assume that:
 
-then we can show through a simple simulation that an actual fraud rate of under 1% will be estimated at over 20% almost all the time.
+1. respondents all know whether they actually requested a ballot 
+2. respondents tell the truth
+3. respondents who didn't request a ballot are more likely to be reached
+4. respondents who did request a ballot are more likely to hang up during the interview
+
+. . .
+
+Then we can show through a simple simulation that an actual fraud rate of under 1% will be estimated at over 20% almost all the time.
 
 ## Simulated population
 
@@ -125,6 +172,7 @@ First let's generate a population of 150K voters.
 ```{python}
 #| slideshow: {slide_type: fragment}
 #| tags: []
+#| echo: true
 np.random.seed(41021)
 
 # proportion of fraudlent requests
@@ -144,6 +192,7 @@ Then let's introduce sampling weights based on the conditional probability that 
 ```{python}
 #| slideshow: {slide_type: fragment}
 #| tags: []
+#| echo: true
 # assume respondents tell the truth
 p_request = 1 - true_prop
 p_nrequest = true_prop
@@ -151,7 +200,7 @@ p_nrequest = true_prop
 # assume respondents who claim no request are 15x more likely to talk
 talk_factor = 15
 
-# observed nonresponse rate
+# observed response rate
 p_talk = 0.09
 
 # conditional probability of talking given claimed request or not 
@@ -172,7 +221,8 @@ Then let's introduce missing values at different rates for respondents who reque
 ```{python}
 #| slideshow: {slide_type: fragment}
 #| tags: []
-# assume respondents who affirm requesting are 4x more likely to hang up or deflect
+#| echo: true
+# assume respondents who affirm requesting are 4x more likely to hang up
 missing_factor = 4
 
 # observed missing/unsure rate
@@ -197,15 +247,24 @@ If we then drop all the missing values and calculate the proportion of responden
 ```{python}
 #| slideshow: {slide_type: fragment}
 #| tags: []
+#| echo: true
 # compute mean after dropping missing values
 1 - samp.requested.mean()
 ```
 
+. . .
+
 So Miller's result is *expected* if the sampling and missing mechanisms introduce bias, even if the true rate of fraudulent requests is under 1% -- on the order of 1,000 ballots.
+
+## Your turn
+
+Open the notebook and try it for yourself.
 
 ## Takeaways
 
-The main mistakes were ignoring the sampling design and missing data -- in other words, proceeding to analyze the data without first getting well-acquainted. We should assume these were honest mistakes.
+The main mistakes were ignoring the sampling design and missing data. We should assume these were honest mistakes.
+
+. . .
 
 After the affidavit was filed, a colleague spoke with Miller; he recanted and acknowledged his mistakes, but this received far less attention than the conclusions in the affidavit.
 
@@ -221,20 +280,3 @@ The American Statistical Association publishes [ethical guidelines for statistic
 
 * When reporting analyses of volunteer data or other data that may not be representative of a defined population, includes appropriate disclaimers and, if used, appropriate weighting.
 
-# Summary
-
-This week we've touched on sampling design and missing data.
-
-**Terminology**: population, sampling frame, sample, sampling mechanism, missing data mechanism.
-
-* Sampling mechanisms: census; random sample, probability sample; convenience (nonrandom) sample.
-
-* Missing data mechanisms: completely at random (MCAR); at random (MAR); not at random (MNAR).
-
-**Key concepts**:
-
-* Sampling design and missing data handling determine the reliability and scope of inferences.
-
-* Either poor design or inappropriate handling of missing data can induce bias and generate misleading results.
-
-The Miller case study illustrated how easy it is to overlook these issues, and the potential social impact of statistical malpractice. 
