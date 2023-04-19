@@ -388,9 +388,6 @@
   <p class="date">Week 3, Lecture 2</p>
 </section>
 
-<section id="recap" class="slide level2">
-<h2>Recap</h2>
-</section>
 <section id="the-miller-case" class="slide level2">
 <h2>The Miller case</h2>
 <p>On November 21, 2020, a professor at Williams College, Steven Miller, filed an affidavit alleging that an analysis of phone surveys showed that among registered republican voters in PA:</p>
@@ -406,10 +403,26 @@
 <div class="fragment">
 <p>The Miller affidavit was criticized by statisticians as incorrect, irresponsible, and unethical.</p>
 </div>
+<div class="fragment">
+<p>We’ll focus on the first claim.</p>
+</div>
+</section>
+<section id="the-calculation" class="slide level2">
+<h2>The calculation</h2>
+<p>On a purely mathematical level, the calculations were straightforward.</p>
+<ol type="1">
+<li class="fragment"><span class="math inline">\(N = 165,412\)</span> mail ballots were requested by registered republicans but not returned.</li>
+<li class="fragment">Phone surveys of <span class="math inline">\(n = 2250\)</span> of those voters identified <span class="math inline">\(556\)</span> who claimed not to request ballots.</li>
+</ol>
+<div class="fragment">
+<p><span class="math display">\[
+\text{sample proportion} \times \text{population size} = \frac{556}{2250} \times 165,412 = 40,875
+\]</span></p>
+</div>
 </section>
 <section id="the-flawed-assumption" class="slide level2">
 <h2>The flawed assumption</h2>
-<p>On a purely mathematical level, Miller’s calculations were standard. The key issue was a single flawed assumption:</p>
+<p>The key issue was a single flawed assumption:</p>
 <div class="fragment">
 <blockquote>
 <p><em>“The analysis is predicated on the assumption that the responders are a <strong>representative sample</strong> of the population of registered Republicans in Pennsylvania for whom a mail-in ballot was requested but not counted, and responded accurately to the questions during the phone calls.”</em>” (Miller affidavit)</p>
@@ -426,8 +439,8 @@
 <p>Miller is a number theorist, not a trained survey statistician, so on some level his mistakes were understandable, but they did a lot of damage. He issued an apology in short order.</p>
 </div>
 </section>
-<section id="sampling-design" class="slide level2">
-<h2>Sampling design</h2>
+<section id="the-survey" class="slide level2">
+<h2>The survey</h2>
 <blockquote>
 <p>There were 165,412 unreturned mail ballots requested by registered republicans in PA.</p>
 </blockquote>
@@ -444,38 +457,30 @@
 </ol>
 </div>
 </section>
-<section id="immediate-problems" class="slide level2">
-<h2>Immediate problems</h2>
-<p>We’ll look in greater detail at the survey, but there are some obvious problems to start.</p>
-<ul>
-<li class="fragment">~23K individuals were called on Nov.&nbsp;9-10
-<ul>
+<section id="potential-sources-of-bias" class="slide level2">
+<h2>Potential sources of bias</h2>
+<p>There are several obvious sampling problems.</p>
+<ol type="1">
 <li class="fragment">Undisclosed selection mechanism</li>
-<li class="fragment">Narrow snapshot in time.</li>
-<li class="fragment">9th and 10th were a Monday and Tuesday.</li>
-<li class="fragment">Mail ballots were still being counted, so the interviewers don’t actually know whether returned ballots were ultimately counted or not by this time.</li>
-</ul></li>
-<li class="fragment">The ~2.5K who answered were asked if they were the registered voter or a family member of the registered voter.
-<ul>
-<li class="fragment">Family members could answer on behalf of one another, and may give incorrect answers.</li>
-</ul></li>
-<li class="fragment">If they said yes, they were asked if the voter requested a ballot.
-<ul>
-<li class="fragment">Misleading question: there’s a registration checkbox; you don’t have to file an explicit request in Pennsylvania.</li>
-</ul></li>
-<li class="fragment">Those who said they requested a ballot were asked if they mailed it.
-<ul>
-<li class="fragment">What about voters who claimed not to request a ballot? Did they receive one, and if so, did they mail it?</li>
-</ul></li>
-</ul>
+<li class="fragment">Narrow snapshot in time; 9th and 10th were a Monday and Tuesday, less likely to reach workers.</li>
+<li class="fragment">Unknown at this time whether mail ballots were ultimately returned and counted or not by this time, so the frame doesn’t align with the population.</li>
+</ol>
+<div class="fragment">
+<p>There are also some obvious measurement problems.</p>
+<ol type="1">
+<li class="fragment">Family members could answer on behalf of one another and may give incorrect answers.</li>
+<li class="fragment">Respondents may not be aware that they requested a ballot, as you don’t have to file an explicit request in Pennsylvania (there’s a checkbox on the voter registration form).</li>
+<li class="fragment">Voters who believed they did not request a ballot were not asked if they recieved and/or returned one.</li>
+</ol>
+</div>
 </section>
 <section id="survey-schematic" class="slide level2">
 <h2>Survey schematic</h2>
 
 <img data-src="figures/miller-diagram.PNG" class="r-stretch"></section>
-<section id="sampling-design-1" class="slide level2">
+<section id="sampling-design" class="slide level2">
 <h2>Sampling design</h2>
-<p><strong>Population</strong>: republicans registered to vote in PA who had mail ballots officially requested that hadn’t been returned or counted by November 9?</p>
+<p><strong>Population</strong>: republicans registered to vote in PA who had unreturned mail ballots issued</p>
 <div class="fragment">
 <p><strong>Sampling frame</strong>: unknown; source of phone numbers unspecified.</p>
 </div>
@@ -491,14 +496,14 @@
 </section>
 <section id="missingness" class="slide level2">
 <h2>Missingness</h2>
-<p>Respondents hung up at every stage of the survey. This is probably not at random – individuals who do not believe voter fraud occurred are more likely to hang up.</p>
+<p>Respondents hung up at every stage of the survey. This is not at random – individuals who do not believe there were any irregularities in mail ballots are less likely to talk or continue talking.</p>
 <div class="fragment">
-<p>So data are MNAR, and likely over-represent people more likely to claim they never requested a ballot.</p>
+<p>So data are MNAR and over-represent people more likely to claim they never requested a ballot.</p>
 </div>
 </section>
 <section id="the-analysis" class="slide level2">
 <h2>The analysis</h2>
-<p>Miller first calculated the proportion of respondents who reported not requesting ballots among those who did not hang up.</p>
+<p>Miller first calculated the proportion of respondents who reported not requesting ballots among those who did not hang up after the first question.</p>
 <p><span class="math display">\[
 \left(\frac{556}{1150 + 556 + 544}\right) = 0.2471
 \]</span></p>
@@ -542,11 +547,15 @@
 <span id="cb1-3"><a href="#cb1-3"></a><span class="co"># proportion of fraudlent requests</span></span>
 <span id="cb1-4"><a href="#cb1-4"></a>true_prop <span class="op">=</span> <span class="fl">0.009</span></span>
 <span id="cb1-5"><a href="#cb1-5"></a></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="co"># generate population of 100K; 100 of 100K did not request a ballot</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="co"># generate population of voters who had unreturned mail ballots</span></span>
 <span id="cb1-7"><a href="#cb1-7"></a>N <span class="op">=</span> <span class="dv">150000</span></span>
 <span id="cb1-8"><a href="#cb1-8"></a>population <span class="op">=</span> pd.DataFrame(data <span class="op">=</span> {<span class="st">'requested'</span>: np.ones(N)})</span>
-<span id="cb1-9"><a href="#cb1-9"></a>num_nrequest <span class="op">=</span> <span class="bu">round</span>(N<span class="op">*</span>true_prop) <span class="op">-</span> <span class="dv">1</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a>population.iloc[<span class="dv">0</span>:num_nrequest, <span class="dv">0</span>] <span class="op">=</span> <span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-9"><a href="#cb1-9"></a></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="co"># how many didn't request mail ballots?</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a>num_nrequest <span class="op">=</span> <span class="bu">round</span>(N<span class="op">*</span>true_prop) <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb1-12"><a href="#cb1-12"></a></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="co"># set the 'requested' indicator to zero for the top chunk of data</span></span>
+<span id="cb1-14"><a href="#cb1-14"></a>population.iloc[<span class="dv">0</span>:num_nrequest, <span class="dv">0</span>] <span class="op">=</span> <span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </section>
@@ -559,22 +568,27 @@
 <span id="cb2-2"><a href="#cb2-2"></a>p_request <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> true_prop</span>
 <span id="cb2-3"><a href="#cb2-3"></a>p_nrequest <span class="op">=</span> true_prop</span>
 <span id="cb2-4"><a href="#cb2-4"></a></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="co"># assume respondents who claim no request are 15x more likely to talk</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="co"># non-requesters are more likely to talk by this factor</span></span>
 <span id="cb2-6"><a href="#cb2-6"></a>talk_factor <span class="op">=</span> <span class="dv">15</span></span>
 <span id="cb2-7"><a href="#cb2-7"></a></span>
 <span id="cb2-8"><a href="#cb2-8"></a><span class="co"># observed response rate</span></span>
 <span id="cb2-9"><a href="#cb2-9"></a>p_talk <span class="op">=</span> <span class="fl">0.09</span></span>
 <span id="cb2-10"><a href="#cb2-10"></a></span>
-<span id="cb2-11"><a href="#cb2-11"></a><span class="co"># conditional probability of talking given claimed request or not </span></span>
+<span id="cb2-11"><a href="#cb2-11"></a><span class="co"># conditional response rates</span></span>
 <span id="cb2-12"><a href="#cb2-12"></a>p_talk_request <span class="op">=</span> p_talk<span class="op">/</span>(p_request <span class="op">+</span> talk_factor<span class="op">*</span>p_nrequest) </span>
 <span id="cb2-13"><a href="#cb2-13"></a>p_talk_nrequest <span class="op">=</span> talk_factor<span class="op">*</span>p_talk_request</span>
 <span id="cb2-14"><a href="#cb2-14"></a></span>
-<span id="cb2-15"><a href="#cb2-15"></a><span class="co"># draw sample weighted by conditional probabilities</span></span>
-<span id="cb2-16"><a href="#cb2-16"></a>np.random.seed(<span class="dv">41021</span>)</span>
-<span id="cb2-17"><a href="#cb2-17"></a>population.loc[population.requested <span class="op">==</span> <span class="dv">1</span>, <span class="st">'sample_weight'</span>] <span class="op">=</span> p_talk_request</span>
-<span id="cb2-18"><a href="#cb2-18"></a>population.loc[population.requested <span class="op">==</span> <span class="dv">0</span>, <span class="st">'sample_weight'</span>] <span class="op">=</span> p_talk_nrequest</span>
-<span id="cb2-19"><a href="#cb2-19"></a>samp <span class="op">=</span> population.sample(n <span class="op">=</span> <span class="dv">2500</span>, replace <span class="op">=</span> <span class="va">False</span>, weights <span class="op">=</span> <span class="st">'sample_weight'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-15"><a href="#cb2-15"></a><span class="co"># append conditional response rates as weights</span></span>
+<span id="cb2-16"><a href="#cb2-16"></a>population.loc[population.requested <span class="op">==</span> <span class="dv">1</span>, <span class="st">'sample_weight'</span>] <span class="op">=</span> p_talk_request</span>
+<span id="cb2-17"><a href="#cb2-17"></a>population.loc[population.requested <span class="op">==</span> <span class="dv">0</span>, <span class="st">'sample_weight'</span>] <span class="op">=</span> p_talk_nrequest</span>
+<span id="cb2-18"><a href="#cb2-18"></a></span>
+<span id="cb2-19"><a href="#cb2-19"></a><span class="co"># draw weighted sample</span></span>
+<span id="cb2-20"><a href="#cb2-20"></a>np.random.seed(<span class="dv">41923</span>)</span>
+<span id="cb2-21"><a href="#cb2-21"></a>samp_complete <span class="op">=</span> population.sample(n <span class="op">=</span> <span class="dv">2500</span>, replace <span class="op">=</span> <span class="va">False</span>, weights <span class="op">=</span> <span class="st">'sample_weight'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</div>
+<div class="fragment">
+<p>Think of the weights as conditional response rates.</p>
 </div>
 </section>
 <section id="simulated-missing-mechanism" class="slide level2">
@@ -582,22 +596,27 @@
 <p>Then let’s introduce missing values at different rates for respondents who requested a ballot and respondents who didn’t.</p>
 <div class="fragment">
 <div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># assume respondents who affirm requesting are 4x more likely to hang up</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a>missing_factor <span class="op">=</span> <span class="dv">4</span></span>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># requesters are more likely to hang up by this factor</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>missing_factor <span class="op">=</span> <span class="dv">10</span></span>
 <span id="cb3-3"><a href="#cb3-3"></a></span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="co"># observed missing/unsure rate</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a>p_missing <span class="op">=</span> <span class="fl">0.25</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="co"># overall nonresponse rate</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a>p_missing <span class="op">=</span> <span class="fl">0.6</span></span>
 <span id="cb3-6"><a href="#cb3-6"></a></span>
 <span id="cb3-7"><a href="#cb3-7"></a><span class="co"># conditional probabilities of missing given request status</span></span>
-<span id="cb3-8"><a href="#cb3-8"></a>p_missing_nrequest <span class="op">=</span> p_missing<span class="op">/</span>(<span class="fl">0.8</span> <span class="op">+</span> missing_factor<span class="op">*</span><span class="fl">0.2</span>) </span>
+<span id="cb3-8"><a href="#cb3-8"></a>p_missing_nrequest <span class="op">=</span> p_missing<span class="op">/</span>(p_nrequest <span class="op">+</span> missing_factor<span class="op">*</span>p_request) </span>
 <span id="cb3-9"><a href="#cb3-9"></a>p_missing_request <span class="op">=</span> missing_factor<span class="op">*</span>p_missing_nrequest</span>
 <span id="cb3-10"><a href="#cb3-10"></a></span>
-<span id="cb3-11"><a href="#cb3-11"></a><span class="co"># input missing values</span></span>
-<span id="cb3-12"><a href="#cb3-12"></a>np.random.seed(<span class="dv">41021</span>)</span>
-<span id="cb3-13"><a href="#cb3-13"></a>samp.loc[samp.requested <span class="op">==</span> <span class="dv">1</span>, <span class="st">'missing_weight'</span>] <span class="op">=</span> p_missing_request</span>
-<span id="cb3-14"><a href="#cb3-14"></a>samp.loc[samp.requested <span class="op">==</span> <span class="dv">0</span>, <span class="st">'missing_weight'</span>] <span class="op">=</span> p_missing_nrequest</span>
-<span id="cb3-15"><a href="#cb3-15"></a>samp[<span class="st">'missing'</span>] <span class="op">=</span> np.random.binomial(n <span class="op">=</span> <span class="dv">1</span>, p <span class="op">=</span> samp.missing_weight.values)</span>
-<span id="cb3-16"><a href="#cb3-16"></a>samp.loc[samp.missing <span class="op">==</span> <span class="dv">1</span>, <span class="st">'requested'</span>] <span class="op">=</span> <span class="bu">float</span>(<span class="st">'nan'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-11"><a href="#cb3-11"></a><span class="co"># append missingness weights to sample</span></span>
+<span id="cb3-12"><a href="#cb3-12"></a>samp_complete.loc[samp_complete.requested <span class="op">==</span> <span class="dv">1</span>, <span class="st">'missing_weight'</span>] <span class="op">=</span> p_missing_request</span>
+<span id="cb3-13"><a href="#cb3-13"></a>samp_complete.loc[samp_complete.requested <span class="op">==</span> <span class="dv">0</span>, <span class="st">'missing_weight'</span>] <span class="op">=</span> p_missing_nrequest</span>
+<span id="cb3-14"><a href="#cb3-14"></a></span>
+<span id="cb3-15"><a href="#cb3-15"></a><span class="co"># make a copy of the sample</span></span>
+<span id="cb3-16"><a href="#cb3-16"></a>samp_incomplete <span class="op">=</span> samp_complete.copy()</span>
+<span id="cb3-17"><a href="#cb3-17"></a></span>
+<span id="cb3-18"><a href="#cb3-18"></a><span class="co"># input missing values at random</span></span>
+<span id="cb3-19"><a href="#cb3-19"></a>np.random.seed(<span class="dv">41923</span>)</span>
+<span id="cb3-20"><a href="#cb3-20"></a>samp_incomplete[<span class="st">'missing'</span>] <span class="op">=</span> np.random.binomial(n <span class="op">=</span> <span class="dv">1</span>, p <span class="op">=</span> samp_incomplete.missing_weight.values)</span>
+<span id="cb3-21"><a href="#cb3-21"></a>samp_incomplete.loc[samp_incomplete.missing <span class="op">==</span> <span class="dv">1</span>, <span class="st">'requested'</span>] <span class="op">=</span> <span class="bu">float</span>(<span class="st">'nan'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </section>
@@ -607,9 +626,9 @@
 <div class="fragment">
 <div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># compute mean after dropping missing values</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="dv">1</span> <span class="op">-</span> samp.requested.mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="dv">1</span> <span class="op">-</span> samp_incomplete.requested.mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
-<pre><code>0.21206743566992015</code></pre>
+<pre><code>0.2395470383275261</code></pre>
 </div>
 </div>
 </div>
@@ -617,19 +636,21 @@
 <p>So Miller’s result is <em>expected</em> if the sampling and missing mechanisms introduce bias, even if the true rate of fraudulent requests is under 1% – on the order of 1,000 ballots.</p>
 </div>
 </section>
-<section id="your-turn" class="slide level2">
-<h2>Your turn</h2>
+<section id="in-class-activity" class="slide level2">
+<h2>In class activity</h2>
 <p>Open the notebook and try it for yourself.</p>
-</section>
-<section id="takeaways" class="slide level2">
-<h2>Takeaways</h2>
-<p>The main mistakes were ignoring the sampling design and missing data. We should assume these were honest mistakes.</p>
 <div class="fragment">
-<p>After the affidavit was filed, a colleague spoke with Miller; he recanted and acknowledged his mistakes, but this received far less attention than the conclusions in the affidavit.</p>
+<p>Some comments:</p>
+<ul>
+<li class="fragment">I chose these settings specifically to replicate the <span class="math inline">\(24\%\)</span> estimate.</li>
+<li class="fragment">I inflated the nonresponse rate relative to the survey to achieve this.</li>
+<li class="fragment">The simulation is not an exact model of the actual survey; the survey has other sources of bias.</li>
+<li class="fragment">You should try inputting settings that you think are realistic. You’ll still see significant bias.</li>
+</ul>
 </div>
 </section>
-<section id="professional-ethics-and-social-responsibility" class="slide level2">
-<h2>Professional ethics and social responsibility</h2>
+<section id="professional-ethics" class="slide level2">
+<h2>Professional ethics</h2>
 <p>The American Statistical Association publishes <a href="https://www.amstat.org/ASA/Your-Career/Ethical-Guidelines-for-Statistical-Practice.aspx">ethical guidelines for statistical practice</a>. The Miller case violated a large number of these, most prominently, that an ethical practitioner:</p>
 <ul>
 <li class="fragment"><p>Reports the sources and assessed adequacy of the data, accounts for all data considered in a study, and explains the sample(s) actually used.</p></li>

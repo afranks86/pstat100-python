@@ -20,9 +20,6 @@ import numpy as np
 import altair as alt
 ```
 
-
-## Recap
-
 ## The Miller case
 
 On November 21, 2020, a professor at Williams College, Steven Miller, filed an affidavit alleging that an analysis of phone surveys showed that among registered republican voters in PA:
@@ -38,9 +35,26 @@ On November 21, 2020, a professor at Williams College, Steven Miller, filed an a
 
 The Miller affidavit was criticized by statisticians as incorrect, irresponsible, and unethical.
 
+. . .
+
+We'll focus on the first claim.
+
+## The calculation
+
+On a purely mathematical level, the calculations were straightforward.
+
+1. $N = 165,412$ mail ballots were requested by registered republicans but not returned.
+2. Phone surveys of $n = 2250$ of those voters identified $556$ who claimed not to request ballots.
+
+. . .
+
+$$
+\text{sample proportion} \times \text{population size} = \frac{556}{2250} \times 165,412 = 40,875
+$$
+
 ## The flawed assumption
 
-On a purely mathematical level, Miller's calculations were standard. The key issue was a single flawed assumption:
+The key issue was a single flawed assumption:
 
 . . .
 
@@ -57,7 +71,7 @@ Essentially, two critical mistakes were made in the analysis:
 
 Miller is a number theorist, not a trained survey statistician, so on some level his mistakes were understandable, but they did a lot of damage. He issued an apology in short order.
 
-## Sampling design
+## The survey
 
 > There were 165,412 unreturned mail ballots requested by registered republicans in PA.
 
@@ -74,24 +88,21 @@ We don't really know how they obtained and selected phone numbers or exactly wha
 3. If they said yes, they were asked if they requested a ballot.
 4. Those who requested a ballot were asked if they mailed it.
 
-## Immediate problems
+## Potential sources of bias
 
-We'll look in greater detail at the survey, but there are some obvious problems to start.
+There are several obvious sampling problems.
 
-* ~23K individuals were called on Nov. 9-10
-    + Undisclosed selection mechanism
-    + Narrow snapshot in time.
-    + 9th and 10th were a Monday and Tuesday.
-    + Mail ballots were still being counted, so the interviewers don't actually know whether returned ballots were ultimately counted or not by this time.
+1. Undisclosed selection mechanism
+2. Narrow snapshot in time; 9th and 10th were a Monday and Tuesday, less likely to reach workers.
+3. Unknown at this time whether mail ballots were ultimately returned and counted or not by this time, so the frame doesn't align with the population.
 
-* The ~2.5K who answered were asked if they were the registered voter or a family member of the registered voter.
-    + Family members could answer on behalf of one another, and may give incorrect answers.
+. . . 
 
-* If they said yes, they were asked if the voter requested a ballot.
-    + Misleading question: there's a registration checkbox; you don't have to file an explicit request in Pennsylvania.
+There are also some obvious measurement problems.
 
-* Those who said they requested a ballot were asked if they mailed it.
-    + What about voters who claimed not to request a ballot? Did they receive one, and if so, did they mail it?
+1. Family members could answer on behalf of one another and may give incorrect answers.
+2. Respondents may not be aware that they requested a ballot, as you don't have to file an explicit request in Pennsylvania (there's a checkbox on the voter registration form).
+3. Voters who believed they did not request a ballot were not asked if they recieved and/or returned one.
 
 ## Survey schematic
 
@@ -99,7 +110,7 @@ We'll look in greater detail at the survey, but there are some obvious problems 
 
 ## Sampling design
 
-**Population**: republicans registered to vote in PA who had mail ballots officially requested that hadn't been returned or counted by November 9?
+**Population**: republicans registered to vote in PA who had unreturned mail ballots issued
 
 . . .
 
@@ -119,15 +130,15 @@ We'll look in greater detail at the survey, but there are some obvious problems 
 
 ## Missingness
 
-Respondents hung up at every stage of the survey. This is probably not at random -- individuals who do not believe voter fraud occurred are more likely to hang up. 
+Respondents hung up at every stage of the survey. This is not at random -- individuals who do not believe there were any irregularities in mail ballots are less likely to talk or continue talking.
 
 . . .
 
-So data are MNAR, and likely over-represent people more likely to claim they never requested a ballot.
+So data are MNAR and over-represent people more likely to claim they never requested a ballot.
 
 ## The analysis
 
-Miller first calculated the proportion of respondents who reported not requesting ballots among those who did not hang up.
+Miller first calculated the proportion of respondents who reported not requesting ballots among those who did not hang up after the first question.
 
 $$
 \left(\frac{556}{1150 + 556 + 544}\right) = 0.2471
@@ -178,10 +189,14 @@ np.random.seed(41021)
 # proportion of fraudlent requests
 true_prop = 0.009
 
-# generate population of 100K; 100 of 100K did not request a ballot
+# generate population of voters who had unreturned mail ballots
 N = 150000
 population = pd.DataFrame(data = {'requested': np.ones(N)})
+
+# how many didn't request mail ballots?
 num_nrequest = round(N*true_prop) - 1
+
+# set the 'requested' indicator to zero for the top chunk of data
 population.iloc[0:num_nrequest, 0] = 0
 ```
 
@@ -197,22 +212,28 @@ Then let's introduce sampling weights based on the conditional probability that 
 p_request = 1 - true_prop
 p_nrequest = true_prop
 
-# assume respondents who claim no request are 15x more likely to talk
+# non-requesters are more likely to talk by this factor
 talk_factor = 15
 
 # observed response rate
 p_talk = 0.09
 
-# conditional probability of talking given claimed request or not 
+# conditional response rates
 p_talk_request = p_talk/(p_request + talk_factor*p_nrequest) 
 p_talk_nrequest = talk_factor*p_talk_request
 
-# draw sample weighted by conditional probabilities
-np.random.seed(41021)
+# append conditional response rates as weights
 population.loc[population.requested == 1, 'sample_weight'] = p_talk_request
 population.loc[population.requested == 0, 'sample_weight'] = p_talk_nrequest
-samp = population.sample(n = 2500, replace = False, weights = 'sample_weight')
+
+# draw weighted sample
+np.random.seed(41923)
+samp_complete = population.sample(n = 2500, replace = False, weights = 'sample_weight')
 ```
+
+. . .
+
+Think of the weights as conditional response rates.
 
 ## Simulated missing mechanism
 
@@ -222,22 +243,27 @@ Then let's introduce missing values at different rates for respondents who reque
 #| slideshow: {slide_type: fragment}
 #| tags: []
 #| echo: true
-# assume respondents who affirm requesting are 4x more likely to hang up
-missing_factor = 4
+# requesters are more likely to hang up by this factor
+missing_factor = 10
 
-# observed missing/unsure rate
-p_missing = 0.25
+# overall nonresponse rate
+p_missing = 0.6
 
 # conditional probabilities of missing given request status
-p_missing_nrequest = p_missing/(0.8 + missing_factor*0.2) 
+p_missing_nrequest = p_missing/(p_nrequest + missing_factor*p_request) 
 p_missing_request = missing_factor*p_missing_nrequest
 
-# input missing values
-np.random.seed(41021)
-samp.loc[samp.requested == 1, 'missing_weight'] = p_missing_request
-samp.loc[samp.requested == 0, 'missing_weight'] = p_missing_nrequest
-samp['missing'] = np.random.binomial(n = 1, p = samp.missing_weight.values)
-samp.loc[samp.missing == 1, 'requested'] = float('nan')
+# append missingness weights to sample
+samp_complete.loc[samp_complete.requested == 1, 'missing_weight'] = p_missing_request
+samp_complete.loc[samp_complete.requested == 0, 'missing_weight'] = p_missing_nrequest
+
+# make a copy of the sample
+samp_incomplete = samp_complete.copy()
+
+# input missing values at random
+np.random.seed(41923)
+samp_incomplete['missing'] = np.random.binomial(n = 1, p = samp_incomplete.missing_weight.values)
+samp_incomplete.loc[samp_incomplete.missing == 1, 'requested'] = float('nan')
 ```
 
 ## Simulated result
@@ -249,26 +275,27 @@ If we then drop all the missing values and calculate the proportion of responden
 #| tags: []
 #| echo: true
 # compute mean after dropping missing values
-1 - samp.requested.mean()
+1 - samp_incomplete.requested.mean()
 ```
 
 . . .
 
 So Miller's result is *expected* if the sampling and missing mechanisms introduce bias, even if the true rate of fraudulent requests is under 1% -- on the order of 1,000 ballots.
 
-## Your turn
+## In class activity
 
 Open the notebook and try it for yourself.
 
-## Takeaways
-
-The main mistakes were ignoring the sampling design and missing data. We should assume these were honest mistakes.
-
 . . .
 
-After the affidavit was filed, a colleague spoke with Miller; he recanted and acknowledged his mistakes, but this received far less attention than the conclusions in the affidavit.
+Some comments:
 
-## Professional ethics and social responsibility
+- I chose these settings specifically to replicate the $24\%$ estimate.
+- I inflated the nonresponse rate relative to the survey to achieve this.
+- The simulation is not an exact model of the actual survey; the survey has other sources of bias.
+- You should try inputting settings that you think are realistic. You'll still see significant bias.
+
+## Professional ethics
 
 The American Statistical Association publishes [ethical guidelines for statistical practice](https://www.amstat.org/ASA/Your-Career/Ethical-Guidelines-for-Statistical-Practice.aspx). The Miller case violated a large number of these, most prominently, that an ethical practitioner:
 
