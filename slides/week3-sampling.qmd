@@ -696,7 +696,7 @@ Data are **missing not at random** (MNAR) if the _**probabilities of missing ent
 . . .
 
 $$
-q_{ij} = f(z_i, x{ij}) \quad z_i \text{ unknown}
+q_{ij} = f(z_i, x_{ij}) \quad z_i \text{ unknown}
 $$
 
 . . .

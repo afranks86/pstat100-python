@@ -1607,7 +1607,7 @@
     "href": "slides/week3-sampling.html#missing-not-at-random",
     "title": "Sampling and missingness",
     "section": "Missing not at random",
-    "text": "Missing not at random\nData are missing not at random (MNAR) if the probabilities of missing entries depend on unobserved data.\n\n\\[\nq_{ij} = f(z_i, x{ij}) \\quad z_i \\text{ unknown}\n\\]\n\n\nThis implies that information about the cause of missingness is unavailable. This is the most complicated scenario."
+    "text": "Missing not at random\nData are missing not at random (MNAR) if the probabilities of missing entries depend on unobserved data.\n\n\\[\nq_{ij} = f(z_i, x_{ij}) \\quad z_i \\text{ unknown}\n\\]\n\n\nThis implies that information about the cause of missingness is unavailable. This is the most complicated scenario."
   },
   {
     "objectID": "slides/week3-sampling.html#assessing-the-missing-data-mechanism",
