@@ -6,11 +6,7 @@ published-title: "Updated"
 
 ::: {.callout-note}
 ## Announcements
-* Gabrielle's office hour changed to Tuesday 7pm on Zoom
-* Lab 0 solutions posted [here](content.qmd#week-1)
-* Lab 1 due Monday 4/17 11:59PM; late submissions allowed until Wednesday 4/19 11:59PM
-* Lab 2 posted [here](content.qmd#week-3)
-* Mini project 1 posted [here](content.qmd#week-3) and due 5/1
+* Lab 1 solutions posted [here](content.qmd#week-2)
 :::
 
 This is the course website for UCSB's Data Science Concepts and Analysis class (PSTAT100). Content is directed towards currently enrolled students. Please ask permission before using course materials in any other capacity.
