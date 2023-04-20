@@ -1650,5 +1650,117 @@
     "title": "Sampling and missingness",
     "section": "Do’s and don’t’s",
     "text": "Do’s and don’t’s\nDo:\n\nAlways check for missing values upon import.\n\nTabulate the proportion of observations with missingness\nTabulate the proportion of values for each variable that are missing\n\nTake time to find out the reasons data are missing.\n\nDetermine which outcomes are coded as missing.\nInvestigate the physical mechanisms involved.\n\nReport missing data if they are present.\n\nDon’t:\n\nRely on software defaults for handling missing values.\nDrop missing values if data are not MCAR."
+  },
+  {
+    "objectID": "labs/lab3-visualization/lab3-visualization-soln.html",
+    "href": "labs/lab3-visualization/lab3-visualization-soln.html",
+    "title": "PSTAT100",
+    "section": "",
+    "text": "# Initialize Otter\nimport otter\ngrader = otter.Notebook(\"lab3-visualization.ipynb\")"
+  },
+  {
+    "objectID": "labs/lab3-visualization/lab3-visualization-soln.html#axes",
+    "href": "labs/lab3-visualization/lab3-visualization-soln.html#axes",
+    "title": "PSTAT100",
+    "section": "Axes",
+    "text": "Axes\nAxes establish a reference system for a graphic: they define a space within which the graphic will be constructed. Usually these are coordinate systems defined at a particular scale, like Cartesian coordinates on the region (0, 100) x (0, 100), or polar coordinates on the unit circle, or geographic coordinates for the globe.\nIn Altair, axes are automatically determined based on encodings, but are customizable to an extent."
+  },
+  {
+    "objectID": "labs/lab3-visualization/lab3-visualization-soln.html#geometric-objects",
+    "href": "labs/lab3-visualization/lab3-visualization-soln.html#geometric-objects",
+    "title": "PSTAT100",
+    "section": "Geometric objects",
+    "text": "Geometric objects\nGeometric objects are any objects superimposed on a set of axes: points, lines, polygons, circles, bars, arcs, curves, and the like. Often, visualizations are characterized according to the type of object used to display data – for example, the scatterplot consists of points, a bar plot consists of bars, a line plot consists of one or more lines, and so on.\nIn Altair, geometric objects are called marks."
+  },
+  {
+    "objectID": "labs/lab3-visualization/lab3-visualization-soln.html#aesthetic-attributes",
+    "href": "labs/lab3-visualization/lab3-visualization-soln.html#aesthetic-attributes",
+    "title": "PSTAT100",
+    "section": "Aesthetic attributes",
+    "text": "Aesthetic attributes\nThe word ‘aesthetics’ is used in a variety of ways in relation to graphics; you will see this in your reading. For us, ‘aesthetic attirbutes’ will refer to attributes of geometric objects like color. The primary aesthetics in statistical graphics are color, opacity, shape, and size.\nIn Altair, aesthetic attributes are called mark properties."
+  },
+  {
+    "objectID": "labs/lab3-visualization/lab3-visualization-soln.html#text",
+    "href": "labs/lab3-visualization/lab3-visualization-soln.html#text",
+    "title": "PSTAT100",
+    "section": "Text",
+    "text": "Text\nText is used in graphics to label axes, geometric objects, and legends for aesthetic mappings. Text specification is usually a step in customization for presentation graphics, but often skipped in exploratory graphics. Carefully chosen text is very important in this context, because it provides essential information that a general reader needs to interpret a plot.\nIn Altair, text is usually controlled as part of encoding specification."
+  },
+  {
+    "objectID": "labs/lab3-visualization/lab3-visualization-soln.html#basic-scatterplots",
+    "href": "labs/lab3-visualization/lab3-visualization-soln.html#basic-scatterplots",
+    "title": "PSTAT100",
+    "section": "Basic scatterplots",
+    "text": "Basic scatterplots\nThe following cell constructs a scatterplot of life expectancy at birth against GDP per capita; each point corresponds to one country in one year. The syntax works as follows: * alt.Chart() begins by constructing a ‘chart’ object constructed from the dataframe; * the result is passed to .mark_circle(), which specifies a geometric object (circles) to add to the chart; * the result is passed to .encode(), which specifies which columns should be used to determine the coordinates of the circles.\n\n# basic scatterplot\nalt.Chart(data).mark_circle().encode(\n    x = 'GDP per capita',\n    y = 'Life Expectancy'\n)\n\n\n\n\n\n\n\n\nQuestion 1: Different marks\nThe cell below is a copy of the previous cell. Have a look at the documentation on marks for a list of the possible mark types. Try out a few alternatives to see what they look like. Once you’re satisfied, change the mark to points.\n\n# BEGIN SOLUTION NO PROMPT\n# basic scatterplot\nfig_q1 = alt.Chart(data).mark_point().encode( # change made here from circle to point\n    x = 'GDP per capita',\n    y = 'Life Expectancy'\n)\n# END SOLUTION\n\n\"\"\" # BEGIN PROMPT\n# basic scatterplot\nalt.Chart(data).mark_circle().encode( # tinker here with different marks\n    x = 'GDP per capita',\n    y = 'Life Expectancy'\n)\n\"\"\"; # END PROMPT\n\nfig_q1 # SOLUTION NO PROMPT\n\n\n\n\n\n\n\n\n\n\nQuestion 2: Mark properties\nWhat is the difference between points and circles, according to the documentation?\nType your answer here, replacing this text.\nSOLUTION: Points can have many shapes; circles can not."
+  },
+  {
+    "objectID": "labs/lab3-visualization/lab3-visualization-soln.html#axis-adjustments-with-alt.x-and-alt.y",
+    "href": "labs/lab3-visualization/lab3-visualization-soln.html#axis-adjustments-with-alt.x-and-alt.y",
+    "title": "PSTAT100",
+    "section": "Axis adjustments with alt.X() and alt.Y()",
+    "text": "Axis adjustments with alt.X() and alt.Y()\nAn initial problem that would be good to resolve before continuing is that the y axis label isn’t informative. Let’s change that by wrapping the column to encode in alt.Y() and specifying the title manually.\n\n# change axis label\nalt.Chart(data).mark_circle().encode(\n    x = 'GDP per capita',\n    y = alt.Y('Life Expectancy', title = 'Life Expectancy at Birth')\n)\n\n\n\n\n\n\nalt.Y() and alt.X() are helper functions that modify encoding specifications. The cell below adjusts the scale of the y axis as well; since above there are no life expectancies below 30, starting the y axis at 0 adds whitespace.\n\n# don't start y axis at zero\nalt.Chart(data).mark_circle().encode(\n    x = 'GDP per capita',\n    y = alt.Y('Life Expectancy', title = 'Life Expectancy at Birth', scale = alt.Scale(zero = False))\n)\n\n\n\n\n\n\nIn the plot above, there are a lot of points squished together near \\(x = 0\\). It will make it easier to see the pattern of scatter in that region to adjust the x axis so that values are not displayed on a linear scale. Using alt.Scale() allows for efficient axis rescaling; the cell below puts GDP per capita on a log scale.\n\n# log scale for x axis\nalt.Chart(data).mark_circle().encode(\n    x = alt.X('GDP per capita', scale = alt.Scale(type = 'log')),\n    y = alt.Y('Life Expectancy', title = 'Life Expectancy at Birth', scale = alt.Scale(zero = False))\n)\n\n\n\n\n\n\n\n\nQuestion 3: Changing axis scale\nTry a different scale by modifying the type = ... argument of alt.Scale in the cell below. Look at the altair documentation for a list of the possible types.\n\n# try another axis scale\nalt.Chart(data).mark_circle().encode(\n    x = alt.X('GDP per capita', scale = alt.Scale(type = 'sqrt')), # SOLUTION\n    y = alt.Y('Life Expectancy', title = 'Life Expectancy at Birth', scale = alt.Scale(zero = False))\n)"
+  },
+  {
+    "objectID": "labs/lab3-visualization/lab3-visualization-soln.html#submission-checklist",
+    "href": "labs/lab3-visualization/lab3-visualization-soln.html#submission-checklist",
+    "title": "PSTAT100",
+    "section": "Submission Checklist",
+    "text": "Submission Checklist\n\nSave file to confirm all changes are on disk\nRun Kernel > Restart & Run All to execute all code from top to bottom\nSave file again to write any new output to disk\nSelect File > Download as > HTML.\nOpen in Google Chrome and print to PDF.\nSubmit to Gradescope"
+  },
+  {
+    "objectID": "labs/lab3-visualization/lab3-visualization.html",
+    "href": "labs/lab3-visualization/lab3-visualization.html",
+    "title": "PSTAT100",
+    "section": "",
+    "text": "# Initialize Otter\nimport otter\ngrader = otter.Notebook(\"lab3-visualization.ipynb\")"
+  },
+  {
+    "objectID": "labs/lab3-visualization/lab3-visualization.html#axes",
+    "href": "labs/lab3-visualization/lab3-visualization.html#axes",
+    "title": "PSTAT100",
+    "section": "Axes",
+    "text": "Axes\nAxes establish a reference system for a graphic: they define a space within which the graphic will be constructed. Usually these are coordinate systems defined at a particular scale, like Cartesian coordinates on the region (0, 100) x (0, 100), or polar coordinates on the unit circle, or geographic coordinates for the globe.\nIn Altair, axes are automatically determined based on encodings, but are customizable to an extent."
+  },
+  {
+    "objectID": "labs/lab3-visualization/lab3-visualization.html#geometric-objects",
+    "href": "labs/lab3-visualization/lab3-visualization.html#geometric-objects",
+    "title": "PSTAT100",
+    "section": "Geometric objects",
+    "text": "Geometric objects\nGeometric objects are any objects superimposed on a set of axes: points, lines, polygons, circles, bars, arcs, curves, and the like. Often, visualizations are characterized according to the type of object used to display data – for example, the scatterplot consists of points, a bar plot consists of bars, a line plot consists of one or more lines, and so on.\nIn Altair, geometric objects are called marks."
+  },
+  {
+    "objectID": "labs/lab3-visualization/lab3-visualization.html#aesthetic-attributes",
+    "href": "labs/lab3-visualization/lab3-visualization.html#aesthetic-attributes",
+    "title": "PSTAT100",
+    "section": "Aesthetic attributes",
+    "text": "Aesthetic attributes\nThe word ‘aesthetics’ is used in a variety of ways in relation to graphics; you will see this in your reading. For us, ‘aesthetic attirbutes’ will refer to attributes of geometric objects like color. The primary aesthetics in statistical graphics are color, opacity, shape, and size.\nIn Altair, aesthetic attributes are called mark properties."
+  },
+  {
+    "objectID": "labs/lab3-visualization/lab3-visualization.html#text",
+    "href": "labs/lab3-visualization/lab3-visualization.html#text",
+    "title": "PSTAT100",
+    "section": "Text",
+    "text": "Text\nText is used in graphics to label axes, geometric objects, and legends for aesthetic mappings. Text specification is usually a step in customization for presentation graphics, but often skipped in exploratory graphics. Carefully chosen text is very important in this context, because it provides essential information that a general reader needs to interpret a plot.\nIn Altair, text is usually controlled as part of encoding specification."
+  },
+  {
+    "objectID": "labs/lab3-visualization/lab3-visualization.html#basic-scatterplots",
+    "href": "labs/lab3-visualization/lab3-visualization.html#basic-scatterplots",
+    "title": "PSTAT100",
+    "section": "Basic scatterplots",
+    "text": "Basic scatterplots\nThe following cell constructs a scatterplot of life expectancy at birth against GDP per capita; each point corresponds to one country in one year. The syntax works as follows: * alt.Chart() begins by constructing a ‘chart’ object constructed from the dataframe; * the result is passed to .mark_circle(), which specifies a geometric object (circles) to add to the chart; * the result is passed to .encode(), which specifies which columns should be used to determine the coordinates of the circles.\n\n# basic scatterplot\nalt.Chart(data).mark_circle().encode(\n    x = 'GDP per capita',\n    y = 'Life Expectancy'\n)\n\n\n\nQuestion 1: Different marks\nThe cell below is a copy of the previous cell. Have a look at the documentation on marks for a list of the possible mark types. Try out a few alternatives to see what they look like. Once you’re satisfied, change the mark to points.\n\n\n# basic scatterplot\nalt.Chart(data).mark_circle().encode( # tinker here with different marks\n    x = 'GDP per capita',\n    y = 'Life Expectancy'\n)\n\n\n\n\n\nQuestion 2: Mark properties\nWhat is the difference between points and circles, according to the documentation?\nType your answer here, replacing this text."
+  },
+  {
+    "objectID": "labs/lab3-visualization/lab3-visualization.html#axis-adjustments-with-alt.x-and-alt.y",
+    "href": "labs/lab3-visualization/lab3-visualization.html#axis-adjustments-with-alt.x-and-alt.y",
+    "title": "PSTAT100",
+    "section": "Axis adjustments with alt.X() and alt.Y()",
+    "text": "Axis adjustments with alt.X() and alt.Y()\nAn initial problem that would be good to resolve before continuing is that the y axis label isn’t informative. Let’s change that by wrapping the column to encode in alt.Y() and specifying the title manually.\n\n# change axis label\nalt.Chart(data).mark_circle().encode(\n    x = 'GDP per capita',\n    y = alt.Y('Life Expectancy', title = 'Life Expectancy at Birth')\n)\n\nalt.Y() and alt.X() are helper functions that modify encoding specifications. The cell below adjusts the scale of the y axis as well; since above there are no life expectancies below 30, starting the y axis at 0 adds whitespace.\n\n# don't start y axis at zero\nalt.Chart(data).mark_circle().encode(\n    x = 'GDP per capita',\n    y = alt.Y('Life Expectancy', title = 'Life Expectancy at Birth', scale = alt.Scale(zero = False))\n)\n\nIn the plot above, there are a lot of points squished together near \\(x = 0\\). It will make it easier to see the pattern of scatter in that region to adjust the x axis so that values are not displayed on a linear scale. Using alt.Scale() allows for efficient axis rescaling; the cell below puts GDP per capita on a log scale.\n\n# log scale for x axis\nalt.Chart(data).mark_circle().encode(\n    x = alt.X('GDP per capita', scale = alt.Scale(type = 'log')),\n    y = alt.Y('Life Expectancy', title = 'Life Expectancy at Birth', scale = alt.Scale(zero = False))\n)\n\n\n\nQuestion 3: Changing axis scale\nTry a different scale by modifying the type = ... argument of alt.Scale in the cell below. Look at the altair documentation for a list of the possible types.\n\n# try another axis scale\nalt.Chart(data).mark_circle().encode(\n    x = ...\n    y = alt.Y('Life Expectancy', title = 'Life Expectancy at Birth', scale = alt.Scale(zero = False))\n)"
+  },
+  {
+    "objectID": "labs/lab3-visualization/lab3-visualization.html#submission-checklist",
+    "href": "labs/lab3-visualization/lab3-visualization.html#submission-checklist",
+    "title": "PSTAT100",
+    "section": "Submission Checklist",
+    "text": "Submission Checklist\n\nSave file to confirm all changes are on disk\nRun Kernel > Restart & Run All to execute all code from top to bottom\nSave file again to write any new output to disk\nSelect File > Download as > HTML.\nOpen in Google Chrome and print to PDF.\nSubmit to Gradescope"
   }
 ]
