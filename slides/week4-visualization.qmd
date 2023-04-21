@@ -1,5 +1,15 @@
 ---
+title: "Statistical graphics"
+author: "PSTAT100 Spring 2023"
+date: "Week 4, Lecture 1"
+format: 
+    revealjs:
+        smaller: true
+        incremental: true
+        slide-number: true
 jupyter: python3
+execute:
+    echo: false
 ---
 
 ```{python}
@@ -13,14 +23,6 @@ import altair as alt
 # disable row limit for plotting
 alt.data_transformers.disable_max_rows()
 ```
-
-# Data Science Concepts and Analysis
-
-### Week 3: Explore, visually
-
-* Why visualize?
-* Elements of statistical graphics
-* Principles of effective visualization
 
 ## This week: data visualization
 
@@ -39,44 +41,44 @@ alt.data_transformers.disable_max_rows()
 * **Principles of effective visualization**
     + Iliinsky: novel; informative; efficient; pleasing.
     + Workflow for developing effective plots
-    + Tips and advice
-
-# Why visualize?
-* No one likes reading a table
-* Exploratory graphics: discovery
-* Presentation graphics: communication
 
 ## Notice your reaction
 
-<img src="figures/example-table.png" style="width:1000px">
+![](figures/example-table.PNG)
 
-(There's a reaason that tables are usually put in appendices.)
+. . .
+
+This is great for a paper or technical report, but it takes effort to discern patterns; I'd much rather see a few plots, like achievement vs. year by grade and gender.
 
 ## Uses of graphics
 
 Graphics can be used for one of two main purposes.
+
 1. Discovery
 2. Communication of findings
+
+. . .
 
 We will focus on using graphics for discovery.
 
 ## Types of graphics
 
 There is a broad distinction between:
+
 * **exploratory graphics**, which are intended to be seen only by analysts; and
 * **presentation graphics**, which are intended to be seen by an audience.
 
+. . .
+
 Exploratory graphics are made quickly in large volumes, and usually not formatted too carefully. Think of them like the pages of a sketchbook.
+
+. . .
 
 Presentation graphics are made slowly with great attention to detail. Think of them as exhibition artworks.
 
+. . .
+
 The two are not mutually exclusive: an especially helpful exploratory graphic is often worth developing as a presentation graphic to help an audience understand 'what the data look like'.
-
-# Statistical graphics
-
-* Elements: axes, geometric objects, aesthetic attributes, and text
-* Construction: mapping data to graphical elements
-* Common statistical graphics
 
 ## Elements of statistical graphics
 
@@ -175,27 +177,32 @@ sizes = alt.Chart(points).mark_point().encode(
 
 We are all familiar with axes. The word *axis* literally means axle: an axis is an object that other things turn around.
 
-In graphics, axes establish references for locating any geometric object -- line, point, polygon -- on the graphic. 
+. . .
+
+In statistical graphics, axes establish positional references for locating any geometric object -- line, point, polygon -- on the graphic.
 
 ```{python}
+#| slideshow: {slide_type: fragment}
 axes
 ```
 
 ## Geometric objects
 
-Geometric objects are the things depicted on a plot, whatever those may be.
-
-Typically, they are points, lines, paths, shapes, and areas. 
+Geometric objects are the things depicted on a plot, whatever those may be; typically points, lines, polygons, and shapes.
 
 ```{python}
+#| slideshow: {slide_type: fragment}
 pointgeom | linegeom | polygeom
 ```
 
 ## Aesthetic attributes
 
-For us, aesthetic attributes (or 'aesthetics' for short) will mean qualities of geometric objects, like color.
+For us, *aesthetics* will mean qualities of geometric objects, like color.
 
-Primary aesthetics in graphics are:
+. . .
+
+Primary aesthetics in statistical graphics are:
+
 * Shape (for points)
 * Color
 * Size
@@ -211,49 +218,45 @@ shapes | colors | sizes | opacities
 
 Text is used to label axes, objects, legends, and specify titles.
 
+. . .
+
 Text may seem innocuous, but it is what creates story -- text gives a plot its plot!
 
 ```{python}
-#| slideshow: {slide_type: skip}
+#| slideshow: {slide_type: fragment}
 #| tags: []
 points['z'] = 10*points['x'] + 10
-labels = alt.Chart(points).mark_line().encode(
+alt.Chart(points).mark_line().encode(
     x = alt.X('z', title = 'Age'),
-    y = alt.Y('y', title = 'Greatness of socks as birthday gift')
+    y = alt.Y('y', title = 'Excitement about socks as birthday gift')
 ).properties(
     width = 300,
     height = 300
 )
 ```
 
-```{python}
-#| slideshow: {slide_type: fragment}
-#| tags: []
-labels
-```
-
 ## Statistical graphics are mappings
 
-Statistical graphics are **mappings** of dataframe columns to geometric objects and aesthetic attributes. For a simple example, consider the following time series of Cuba's population by year:
+Statistical graphics are **mappings** of dataframe columns to graphical elements: axes, geometric objects, and aesthetic attributes. 
+
+. . .
+
+For a simple example, consider the following time series of Cuba's population by year:
 
 ```{python}
-#| slideshow: {slide_type: skip}
+#| slideshow: {slide_type: fragment}
 #| tags: []
 pop = pd.read_csv('data/population.csv', encoding = 'latin1').melt(
     id_vars = ['Country Name', 'Country Code'],
     var_name = 'Year',
     value_name = 'Population'
 )
-```
 
-```{python}
-#| slideshow: {slide_type: fragment}
-#| tags: []
 pop[pop['Country Code'] == 'CUB'].head(2)
 ```
 
 ```{python}
-#| slideshow: {slide_type: skip}
+#| slideshow: {slide_type: fragment}
 #| tags: []
 pop_plot = alt.Chart(pop[pop['Country Code'] == 'CUB']).mark_line().encode(
     x = 'Year',
@@ -263,18 +266,16 @@ pop_plot = alt.Chart(pop[pop['Country Code'] == 'CUB']).mark_line().encode(
     height = 100,
     title = 'Population of Cuba'
 )
-```
 
-```{python}
-#| slideshow: {slide_type: fragment}
-#| tags: []
 pop_plot
 ```
 
+. . .
+
 In the plot:
-* population $\longrightarrow$ y-coordinate;
-* year $\longrightarrow$ x-coordinate;
-* the line connects the rows of the dataframe.
+* population $\longrightarrow$ y coordinate of axis;
+* year $\longrightarrow$ x coordinate of axis;
+* the line connects the rows.
 
 ```{python}
 #| slideshow: {slide_type: skip}
@@ -314,6 +315,8 @@ popregion.head(2)
 #| tags: []
 popregion_plot
 ```
+
+. . .
 
 In this plot:
 
@@ -365,33 +368,40 @@ finalplot2 = alt.Chart(lab3).mark_circle(opacity = 0.5).encode(
 
 This may seem like an overly theoretical framework for describing simple plots.
 
+. . .
+
 But the ability to map variables to the elements of a graphic is essential because *it means we can display more than two variables at a time by leveraging aesthetic attributes*.
 
 * Creates the possibility to visualize complex information.
+
+. . .
 
 You will explore how to leverage this in Lab 3. Here's a preview.
 
 ## Displaying complex information using aesthetics
 
-In lab 3, you'll begin with this scatterplot:
+Begin with this scatterplot:
 
 ```{python}
 firstplot
 ```
 
+. . .
+
 Each point represents a country in a particular year. The graphic shows that life expectancy increases with GDP per capita.
 
 ## Displaying complex information using aesthetics
 
-
-
-And you'll add aesthetic mappings step by step until arriving at this plot:
+In the lab you'll add aesthetic mappings step by step until arriving at this plot:
 
 ```{python}
 finalplot1
 ```
 
+. . .
+
 In this plot, each point represents a country and:
+
 * GDP per capita $\longrightarrow$ x
 * Life expectancy at birth $\longrightarrow$ y
 * Global region $\longrightarrow$ color
@@ -400,18 +410,25 @@ In this plot, each point represents a country and:
 
 ## Displaying complex information using aesthetics
 
-You'll then examine life expectancies by sex and show that increases in GDP per capita are associated with differential changes in life expectancy for men and women:
+Further incorporating sex shows that GDP per capita is associated with differential life expectancy gaps between men and women:
 
 ```{python}
 finalplot2
 ```
 
-The only change here is that the difference in life expectancy between women and men (a simple *transformation* of the data) is mapped to the y axis instead of overall life expectancy.
-* Notice that the gap increases with GDP in general, but Oceania exhibits the opposite trend!
+. . .
+
+In other words, on average women outlive men by longer in wealtheir countries.
+
+. . .
+
+Notice that the gap increases with GDP in general, but Oceania exhibits the opposite trend!
 
 ## Altair
 
 Altair, a python library, creates graphics exactly as described above: mapping columns of a dataframe to graphical elements. 
+
+. . .
 
 It has a somewhat idiosyncratic syntactical pattern involving a "chart", "marks", and "encodings":
 
@@ -421,30 +438,32 @@ Chart | `alt.Chart(df)` | Coerces a dataframe `df` to a chart object
 Mark | `mark_point()` | Specifies a geometric object
 Encoding | `encode(x = ..., y = ..., color = ...)` | Maps columns of `df` to objects and aesthetics
 
+. . .
+
 These are chained together to make a graphic.
 
 ```{python}
 #| slideshow: {slide_type: fragment}
 #| tags: []
-alt.Chart( # basis for graphic
-    popregion
+#| echo: true
+alt.Chart( # axes
+    popregion # dataframe
 ).mark_line( # geometric object
-).encode( # mapping
-    x = 'Year', 
-    y = 'Population', 
-    color = 'Region'
+).encode(x = 'Year', y = 'Population', color = 'Region' # mappings
 ).properties(width = 500, height = 100) # resize
 ```
 
 ## Altair
 
 Earlier, the y-axis scale was adjusted so that the lines were a bit more spread out in the graphic, and the x-axis had a less congested appearance. This was done by modifying the *encodings*:
+
 * specify data type for year as time
 * specify display scale for population
 
 ```{python}
 #| slideshow: {slide_type: fragment}
 #| tags: []
+#| echo: true
 alt.Chart( 
     popregion
 ).mark_line( 
@@ -460,17 +479,14 @@ alt.Chart(
 Broadly, the most common statistical graphics can be divided according to the number of variables that form their primary display. The uses listed below are not exclusive, just some of the most common.
 
 * **Single-variable graphics** are used to visualize distributions.
-    + Box plot
-    + Histogram
 
 * **Two-variable graphics** are used to visualize relationships.
-    + Scatterplot
-    + Bar plot
-    + Line plot
 
 * **Three-variable graphics** are used to visualize spatial data, matrices, and a collection of other data types.
-    + Heatmaps
-    + Contour plots
+
+. . .
+
+> Most graphics you'll encounter are grouped single- or two-variable graphics with superpositions of geometric objects differentiating observed from inferred values -- *e.g.*, scatterplots with points color-coded by another (grouping) variable and trend lines. 
 
 ```{python}
 #| slideshow: {slide_type: skip}
@@ -506,6 +522,8 @@ histogram = alt.Chart(popcountry.loc["1970"]).mark_bar().encode(
 
 Single-variable graphics are used to display the distribution of values of a single variable.
 
+. . .
+
 **Boxplots** show the spread, center, and skewness of values.
 
 ```{python}
@@ -519,6 +537,7 @@ boxplot
 The Altair syntax for boxplot construction is shown below: 
 
 ```{python}
+#| echo: true
 boxplot = alt.Chart(
     popcountry.loc["1970"]
 ).mark_boxplot().encode(
@@ -536,7 +555,9 @@ boxplot
 
 **Histograms** show the relative frequencies of values of a single variable.
 
-One can see spread, center, skewness, and outliers, but _**also shape**_. 
+. . .
+
+One can see spread, center, skewness, and outliers, as with boxplots, but _**also shape**_. 
 
 ```{python}
 histogram
@@ -547,6 +568,7 @@ histogram
 The Altair syntax for histogram constuction is as follows:
 
 ```{python}
+#| echo: true
 histogram = alt.Chart(
     popcountry.loc["1970"]
 ).mark_bar().encode(
@@ -587,16 +609,23 @@ boxplot = boxplot.properties(title = '', height = 30)
 These single-variable graphics show similar information, but a little differently.
 
 ```{python}
+#| echo: true
 histogram & boxplot
 ```
 
+. . .
+
 Notice that you can see two modes in the histogram, but only the primary mode in the boxplot.
 
-Notice also that Altair allows stacking of charts: `chart-top & chart-bottom` aligns charts vertically!
+. . .
+
+Notice also that Altair allows stacking of charts: `chart-top & chart-bottom` aligns charts vertically.
 
 ## Single-variable graphics
 
 **Single-variable graphics are not necessarily limited to univariate data.**
+
+. . .
 
 For example, we could make one boxplot for each year and show the distributions of national populations for each year:
 
@@ -636,6 +665,8 @@ Scatterplots display relationships between two variables.
 scatter
 ```
 
+. . .
+
 The pattern of scatter shows that life expectancy generally increases with GDP per capita.
 
 ## Two-variable graphics: scatterplot
@@ -643,6 +674,7 @@ The pattern of scatter shows that life expectancy generally increases with GDP p
 The Altair syntax for this plot is as follows:
 
 ```{python}
+#| echo: true
 alt.Chart(
     lifegdp.loc[2015]
 ).mark_point().encode(
@@ -658,6 +690,8 @@ alt.Chart(
 
 Line plots display trajectories by connecting rows in a dataframe. 
 
+. . .
+
 These can represent trends, time courses, or paths traveled.
 
 ```{python}
@@ -669,6 +703,7 @@ line
 The Altair syntax for this plot is as follows:
 
 ```{python}
+#| echo: true
 alt.Chart(popregion).mark_line().encode(
     x = 'Year:T',
     y = alt.Y('Population', scale = alt.Scale(type = 'log')),
@@ -680,6 +715,8 @@ alt.Chart(popregion).mark_line().encode(
 
 Bar plots usually depict the relationship between the magnitude of one variable and another.
 
+. . .
+
 For instance:
 
 ```{python}
@@ -690,19 +727,18 @@ alt.Chart(popregion).mark_bar().encode(
 ).properties(height = 200)
 ```
 
+. . .
+
 The graphic indicates in particular that:
+
 * global population growth (total height of bar) is increasing linearly;
 * the share of the global population in Asia is increasing over time.
-
-# Principles of effective visualization
-
-* Desiderata: novel; informative; efficient; pleasing.
-* Workflow for developing effective plots
-* Tips and advice
 
 ## What makes visualizations effective?
 
 Iliinsky introduces some *desiderata* for data visualizations.
+
+. . .
 
 The article focuses on going beyond conventional 'formats' (scatterplot, bar chart, etc.), but I think we can equally well apply the criteria to standard statistical graphics.
 
@@ -720,16 +756,9 @@ The article focuses on going beyond conventional 'formats' (scatterplot, bar cha
 * **Pleasant**. Visuals should be nice to look at!
     + Do you smile a little when you open up that plot?
 
-## Example
-
-<img src="figures/example-graphic.png" style ="width:500px">
-
 ## Workflow tips and advice
 
-Developing graphics is an iterative trial-and-error process:
-* make a plot, see how it looks, think about what to add or change, make another and repeat. 
-
-This process is modeled in Lab 3. When you're on your own, here are some general guidelines:
+Developing graphics is an iterative trial-and-error process.
 
 * **Hone in on an essential question or relationship.** 
     + This might require making a few crude plots to help you decide where to focus.
@@ -745,24 +774,3 @@ This process is modeled in Lab 3. When you're on your own, here are some general
 
 * **Don't be afraid of starting over.**
     + If an idea doesn't pan out, no harm done!
-
-# Summary
-
-This has been a primer on visualization basics. We touched on the following points:
-
-* The elements of statistical graphics are axes, geometric objects, aesthetics, and text
-
-* Statistical graphics are constructed by mapping dataframe columns to geometric objects and aesthetics
-    + Allows for display of complex information
-    + Specified in Altair as marks and encodings on a chart
-
-* The basic statistical graphics are histograms, boxplots, scatterplots, line plots, and barplots.
-    + Think of these as building blocks you can use to develop more sophisticated visualizations
-
-* Effective data visualizations are novel, informative, efficient/economical, and pleasing.
-
-* Developing visualizations is an iterative process
-    + Start simple, add complexity, and experiment!
-
-You will refine your understanding as you use these tools in context, and see many examples throughout the course. 
-
