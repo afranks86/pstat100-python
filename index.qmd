@@ -6,7 +6,9 @@ published-title: "Updated"
 
 ::: {.callout-note}
 ## Announcements
-* Lab 1 solutions posted [here](content.qmd#week-2)
+* HW1 BRFSS case study due Monday 4/24 11:59pm PST; late submissions accepted through Wednesday 4/26
+* Lab 3 posted [here](content.qmd#week-4)
+* Data science capstone applications for 2023-2024 open at [https://pstat197.github.io/](https://pstat197.github.io/) and through summer; apply by May 15 for priority consideration
 :::
 
 This is the course website for UCSB's Data Science Concepts and Analysis class (PSTAT100). Content is directed towards currently enrolled students. Please ask permission before using course materials in any other capacity.
