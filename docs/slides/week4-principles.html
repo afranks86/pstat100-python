@@ -419,7 +419,9 @@
 <section id="better-1" class="slide level2">
 <h2>Better</h2>
 
-<img data-src="figures/map-Texas-race-1.png" class="r-stretch"><p><em>Think about which scale type best matches your data</em></p>
+<img data-src="figures/map-Texas-race-1.png" class="r-stretch"><div class="fragment">
+<p>A diverging scale is appropriate here because 50% is a natural midpoint in context.</p>
+</div>
 </section>
 <section id="color-blindness" class="slide level2">
 <h2>Color blindness</h2>
@@ -432,11 +434,9 @@
 <section id="cvd-friendly-scales" class="slide level2">
 <h2>CVD-friendly scales</h2>
 <p>Some color scales still retain visible contrast for different types of color vision deficiency (CVD).</p>
+<p>Here is a simulation (for those without CVD).</p>
 
-<img data-src="figures/heat-cvd-sim-1.png" class="r-stretch quarto-figure-center"><p class="caption">Color scale shown for different types of colorblindness using CVD simulator</p><div class="fragment">
-<p><em>When possible, use scales designed to be CVD friendly.</em></p>
-</div>
-</section>
+<img data-src="figures/heat-cvd-sim-1.png" class="r-stretch quarto-figure-center"><p class="caption">Color scale shown for different types of colorblindness using CVD simulator</p></section>
 <section id="cvd-unfriendly-scales" class="slide level2">
 <h2>CVD-unfriendly scales</h2>
 <p>Other scales get muddled.</p>
@@ -445,14 +445,83 @@
 <p><em>When in doubt, use a CVD simulator to check figures</em></p>
 </div>
 </section>
-<section id="redundancy" class="slide level2">
-<h2>Redundancy</h2>
+<section id="another-approach-redundancy" class="slide level2">
+<h2>Another approach: redundancy</h2>
 <p>When possible, use ‘redundant coding’ – map the same variable to color <em>and</em> one other aesthetic.</p>
 
 <img data-src="figures/iris-scatter-three-shapes-1.png" class="r-stretch"></section>
-<section id="redundancy-1" class="slide level2">
+<section id="redundancy" class="slide level2">
 <h2>Redundancy</h2>
 <p>When possible, use ‘redundant coding’ – map the same variable to color <em>and</em> one other aesthetic.</p>
+<div class="fragment">
+<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="2">
+<div class="cell-output cell-output-display" data-execution_count="16">
+
+<div id="altair-viz-88a6b70483374b3f8af78ea8a88d6f11"></div>
+<script type="text/javascript">
+  var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
+  (function(spec, embedOpt){
+    let outputDiv = document.currentScript.previousElementSibling;
+    if (outputDiv.id !== "altair-viz-88a6b70483374b3f8af78ea8a88d6f11") {
+      outputDiv = document.getElementById("altair-viz-88a6b70483374b3f8af78ea8a88d6f11");
+    }
+    const paths = {
+      "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
+      "vega-lib": "https://cdn.jsdelivr.net/npm//vega-lib?noext",
+      "vega-lite": "https://cdn.jsdelivr.net/npm//vega-lite@4.17.0?noext",
+      "vega-embed": "https://cdn.jsdelivr.net/npm//vega-embed@6?noext",
+    };
+
+    function maybeLoadScript(lib, version) {
+      var key = `${lib.replace("-", "")}_version`;
+      return (VEGA_DEBUG[key] == version) ?
+        Promise.resolve(paths[lib]) :
+        new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          document.getElementsByTagName("head")[0].appendChild(s);
+          s.async = true;
+          s.onload = () => {
+            VEGA_DEBUG[key] = version;
+            return resolve(paths[lib]);
+          };
+          s.onerror = () => reject(`Error loading script: ${paths[lib]}`);
+          s.src = paths[lib];
+        });
+    }
+
+    function showError(err) {
+      outputDiv.innerHTML = `<div class="error" style="color:red;">${err}</div>`;
+      throw err;
+    }
+
+    function displayChart(vegaEmbed) {
+      vegaEmbed(outputDiv, spec, embedOpt)
+        .catch(err => showError(`Javascript Error: ${err.message}<br>This usually means there's a typo in your chart specification. See the javascript console for the full traceback.`));
+    }
+
+    if(typeof define === "function" && define.amd) {
+      requirejs.config({paths});
+      require(["vega-embed"], displayChart, err => showError(`Error loading script: ${err.message}`));
+    } else {
+      maybeLoadScript("vega", "5")
+        .then(() => maybeLoadScript("vega-lite", "4.17.0"))
+        .then(() => maybeLoadScript("vega-embed", "6"))
+        .catch(showError)
+        .then(() => displayChart(vegaEmbed));
+    }
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}, "axis": {"labelFontSize": 16, "titleFontSize": 16}, "legend": {"labelFontSize": 16, "titleFontSize": 16}}, "data": {"name": "data-835f93d0b47d703c9c289ad6ccf96a24"}, "mark": "line", "encoding": {"color": {"field": "Region", "type": "nominal"}, "strokeDash": {"field": "Region", "type": "nominal"}, "x": {"field": "Year", "type": "temporal"}, "y": {"field": "Population", "scale": {"type": "log", "zero": false}, "type": "quantitative"}}, "height": 150, "width": 500, "$schema": "https://vega.github.io/schema/vega-lite/v4.17.0.json", "datasets": {"data-835f93d0b47d703c9c289ad6ccf96a24": [{"Region": "Africa", "Year": "1960", "Population": 282962801.0}, {"Region": "Africa", "Year": "1961", "Population": 289804906.0}, {"Region": "Africa", "Year": "1962", "Population": 296899168.0}, {"Region": "Africa", "Year": "1963", "Population": 304243902.0}, {"Region": "Africa", "Year": "1964", "Population": 311834464.0}, {"Region": "Africa", "Year": "1965", "Population": 319670091.0}, {"Region": "Africa", "Year": "1966", "Population": 327757548.0}, {"Region": "Africa", "Year": "1967", "Population": 336108576.0}, {"Region": "Africa", "Year": "1968", "Population": 344734523.0}, {"Region": "Africa", "Year": "1969", "Population": 353648883.0}, {"Region": "Africa", "Year": "1970", "Population": 362866749.0}, {"Region": "Africa", "Year": "1971", "Population": 372392922.0}, {"Region": "Africa", "Year": "1972", "Population": 382242866.0}, {"Region": "Africa", "Year": "1973", "Population": 392446730.0}, {"Region": "Africa", "Year": "1974", "Population": 403043547.0}, {"Region": "Africa", "Year": "1975", "Population": 414062735.0}, {"Region": "Africa", "Year": "1976", "Population": 425515936.0}, {"Region": "Africa", "Year": "1977", "Population": 437404337.0}, {"Region": "Africa", "Year": "1978", "Population": 449724385.0}, {"Region": "Africa", "Year": "1979", "Population": 462479947.0}, {"Region": "Africa", "Year": "1980", "Population": 475661437.0}, {"Region": "Africa", "Year": "1981", "Population": 489260034.0}, {"Region": "Africa", "Year": "1982", "Population": 503271364.0}, {"Region": "Africa", "Year": "1983", "Population": 517696750.0}, {"Region": "Africa", "Year": "1984", "Population": 532544800.0}, {"Region": "Africa", "Year": "1985", "Population": 547806342.0}, {"Region": "Africa", "Year": "1986", "Population": 563487523.0}, {"Region": "Africa", "Year": "1987", "Population": 579567195.0}, {"Region": "Africa", "Year": "1988", "Population": 595970378.0}, {"Region": "Africa", "Year": "1989", "Population": 612610898.0}, {"Region": "Africa", "Year": "1990", "Population": 629422212.0}, {"Region": "Africa", "Year": "1991", "Population": 646391288.0}, {"Region": "Africa", "Year": "1992", "Population": 663532815.0}, {"Region": "Africa", "Year": "1993", "Population": 680861298.0}, {"Region": "Africa", "Year": "1994", "Population": 698411221.0}, {"Region": "Africa", "Year": "1995", "Population": 716203914.0}, {"Region": "Africa", "Year": "1996", "Population": 734266451.0}, {"Region": "Africa", "Year": "1997", "Population": 752618184.0}, {"Region": "Africa", "Year": "1998", "Population": 771291222.0}, {"Region": "Africa", "Year": "1999", "Population": 790332311.0}, {"Region": "Africa", "Year": "2000", "Population": 809778881.0}, {"Region": "Africa", "Year": "2001", "Population": 829656741.0}, {"Region": "Africa", "Year": "2002", "Population": 850010369.0}, {"Region": "Africa", "Year": "2003", "Population": 870914812.0}, {"Region": "Africa", "Year": "2004", "Population": 892466739.0}, {"Region": "Africa", "Year": "2005", "Population": 914742174.0}, {"Region": "Africa", "Year": "2006", "Population": 937768817.0}, {"Region": "Africa", "Year": "2007", "Population": 961556269.0}, {"Region": "Africa", "Year": "2008", "Population": 986138494.0}, {"Region": "Africa", "Year": "2009", "Population": 1011540481.0}, {"Region": "Africa", "Year": "2010", "Population": 1037780290.0}, {"Region": "Africa", "Year": "2011", "Population": 1064861709.0}, {"Region": "Africa", "Year": "2012", "Population": 1089525787.0}, {"Region": "Africa", "Year": "2013", "Population": 1118176688.0}, {"Region": "Africa", "Year": "2014", "Population": 1147512960.0}, {"Region": "Africa", "Year": "2015", "Population": 1177462092.0}, {"Region": "Africa", "Year": "2016", "Population": 1207999977.0}, {"Region": "Africa", "Year": "2017", "Population": 1239112130.0}, {"Region": "Africa", "Year": "2018", "Population": 1270737587.0}, {"Region": "Africa", "Year": "2019", "Population": 1302819408.0}, {"Region": "Americas", "Year": "1960", "Population": 418482836.0}, {"Region": "Americas", "Year": "1961", "Population": 427950859.0}, {"Region": "Americas", "Year": "1962", "Population": 437413486.0}, {"Region": "Americas", "Year": "1963", "Population": 446899047.0}, {"Region": "Americas", "Year": "1964", "Population": 456444183.0}, {"Region": "Americas", "Year": "1965", "Population": 465826422.0}, {"Region": "Americas", "Year": "1966", "Population": 475135227.0}, {"Region": "Americas", "Year": "1967", "Population": 484400396.0}, {"Region": "Americas", "Year": "1968", "Population": 493547401.0}, {"Region": "Americas", "Year": "1969", "Population": 502695893.0}, {"Region": "Americas", "Year": "1970", "Population": 512337960.0}, {"Region": "Americas", "Year": "1971", "Population": 522631299.0}, {"Region": "Americas", "Year": "1972", "Population": 532237976.0}, {"Region": "Americas", "Year": "1973", "Population": 541720027.0}, {"Region": "Americas", "Year": "1974", "Population": 551264414.0}, {"Region": "Americas", "Year": "1975", "Population": 561093057.0}, {"Region": "Americas", "Year": "1976", "Population": 570925676.0}, {"Region": "Americas", "Year": "1977", "Population": 580954834.0}, {"Region": "Americas", "Year": "1978", "Population": 591192626.0}, {"Region": "Americas", "Year": "1979", "Population": 601668379.0}, {"Region": "Americas", "Year": "1980", "Population": 612044295.0}, {"Region": "Americas", "Year": "1981", "Population": 622598653.0}, {"Region": "Americas", "Year": "1982", "Population": 633210175.0}, {"Region": "Americas", "Year": "1983", "Population": 643778014.0}, {"Region": "Americas", "Year": "1984", "Population": 654274473.0}, {"Region": "Americas", "Year": "1985", "Population": 664831983.0}, {"Region": "Americas", "Year": "1986", "Population": 675507081.0}, {"Region": "Americas", "Year": "1987", "Population": 686200624.0}, {"Region": "Americas", "Year": "1988", "Population": 696928438.0}, {"Region": "Americas", "Year": "1989", "Population": 707891333.0}, {"Region": "Americas", "Year": "1990", "Population": 719256058.0}, {"Region": "Americas", "Year": "1991", "Population": 731071787.0}, {"Region": "Americas", "Year": "1992", "Population": 743010192.0}, {"Region": "Americas", "Year": "1993", "Population": 754769481.0}, {"Region": "Americas", "Year": "1994", "Population": 766300125.0}, {"Region": "Americas", "Year": "1995", "Population": 777724804.0}, {"Region": "Americas", "Year": "1996", "Population": 789091187.0}, {"Region": "Americas", "Year": "1997", "Population": 800537593.0}, {"Region": "Americas", "Year": "1998", "Population": 811813287.0}, {"Region": "Americas", "Year": "1999", "Population": 822925394.0}, {"Region": "Americas", "Year": "2000", "Population": 833869624.0}, {"Region": "Americas", "Year": "2001", "Population": 844391871.0}, {"Region": "Americas", "Year": "2002", "Population": 854614153.0}, {"Region": "Americas", "Year": "2003", "Population": 864471589.0}, {"Region": "Americas", "Year": "2004", "Population": 874457199.0}, {"Region": "Americas", "Year": "2005", "Population": 884385731.0}, {"Region": "Americas", "Year": "2006", "Population": 894410056.0}, {"Region": "Americas", "Year": "2007", "Population": 904333126.0}, {"Region": "Americas", "Year": "2008", "Population": 914246429.0}, {"Region": "Americas", "Year": "2009", "Population": 923952414.0}, {"Region": "Americas", "Year": "2010", "Population": 933381138.0}, {"Region": "Americas", "Year": "2011", "Population": 942556208.0}, {"Region": "Americas", "Year": "2012", "Population": 951763070.0}, {"Region": "Americas", "Year": "2013", "Population": 960796466.0}, {"Region": "Americas", "Year": "2014", "Population": 969861066.0}, {"Region": "Americas", "Year": "2015", "Population": 978760505.0}, {"Region": "Americas", "Year": "2016", "Population": 987660066.0}, {"Region": "Americas", "Year": "2017", "Population": 996202961.0}, {"Region": "Americas", "Year": "2018", "Population": 1004332383.0}, {"Region": "Americas", "Year": "2019", "Population": 1012379771.0}, {"Region": "Asia", "Year": "1960", "Population": 1698003789.0}, {"Region": "Asia", "Year": "1961", "Population": 1716191885.0}, {"Region": "Asia", "Year": "1962", "Population": 1745756540.0}, {"Region": "Asia", "Year": "1963", "Population": 1787183440.0}, {"Region": "Asia", "Year": "1964", "Population": 1828749374.0}, {"Region": "Asia", "Year": "1965", "Population": 1871859254.0}, {"Region": "Asia", "Year": "1966", "Population": 1918828655.0}, {"Region": "Asia", "Year": "1967", "Population": 1965507063.0}, {"Region": "Asia", "Year": "1968", "Population": 2012980450.0}, {"Region": "Asia", "Year": "1969", "Population": 2064390879.0}, {"Region": "Asia", "Year": "1970", "Population": 2116272905.0}, {"Region": "Asia", "Year": "1971", "Population": 2169373355.0}, {"Region": "Asia", "Year": "1972", "Population": 2221319778.0}, {"Region": "Asia", "Year": "1973", "Population": 2272328154.0}, {"Region": "Asia", "Year": "1974", "Population": 2323630927.0}, {"Region": "Asia", "Year": "1975", "Population": 2372818003.0}, {"Region": "Asia", "Year": "1976", "Population": 2419854137.0}, {"Region": "Asia", "Year": "1977", "Population": 2466262261.0}, {"Region": "Asia", "Year": "1978", "Population": 2513317097.0}, {"Region": "Asia", "Year": "1979", "Population": 2561603208.0}, {"Region": "Asia", "Year": "1980", "Population": 2610181115.0}, {"Region": "Asia", "Year": "1981", "Population": 2660303803.0}, {"Region": "Asia", "Year": "1982", "Population": 2713422859.0}, {"Region": "Asia", "Year": "1983", "Population": 2767224488.0}, {"Region": "Asia", "Year": "1984", "Population": 2820277572.0}, {"Region": "Asia", "Year": "1985", "Population": 2874278945.0}, {"Region": "Asia", "Year": "1986", "Population": 2930142338.0}, {"Region": "Asia", "Year": "1987", "Population": 2987689889.0}, {"Region": "Asia", "Year": "1988", "Population": 3045742584.0}, {"Region": "Asia", "Year": "1989", "Population": 3103255256.0}, {"Region": "Asia", "Year": "1990", "Population": 3162405489.0}, {"Region": "Asia", "Year": "1991", "Population": 3218850487.0}, {"Region": "Asia", "Year": "1992", "Population": 3271751121.0}, {"Region": "Asia", "Year": "1993", "Population": 3325799947.0}, {"Region": "Asia", "Year": "1994", "Population": 3379549455.0}, {"Region": "Asia", "Year": "1995", "Population": 3434295020.0}, {"Region": "Asia", "Year": "1996", "Population": 3487055499.0}, {"Region": "Asia", "Year": "1997", "Population": 3539260300.0}, {"Region": "Asia", "Year": "1998", "Population": 3590552960.0}, {"Region": "Asia", "Year": "1999", "Population": 3640554828.0}, {"Region": "Asia", "Year": "2000", "Population": 3689897517.0}, {"Region": "Asia", "Year": "2001", "Population": 3738590172.0}, {"Region": "Asia", "Year": "2002", "Population": 3786410170.0}, {"Region": "Asia", "Year": "2003", "Population": 3833461203.0}, {"Region": "Asia", "Year": "2004", "Population": 3880059177.0}, {"Region": "Asia", "Year": "2005", "Population": 3926457770.0}, {"Region": "Asia", "Year": "2006", "Population": 3972707583.0}, {"Region": "Asia", "Year": "2007", "Population": 4018571574.0}, {"Region": "Asia", "Year": "2008", "Population": 4064396747.0}, {"Region": "Asia", "Year": "2009", "Population": 4109765286.0}, {"Region": "Asia", "Year": "2010", "Population": 4154698921.0}, {"Region": "Asia", "Year": "2011", "Population": 4199167787.0}, {"Region": "Asia", "Year": "2012", "Population": 4242983940.0}, {"Region": "Asia", "Year": "2013", "Population": 4286679037.0}, {"Region": "Asia", "Year": "2014", "Population": 4330446905.0}, {"Region": "Asia", "Year": "2015", "Population": 4373955996.0}, {"Region": "Asia", "Year": "2016", "Population": 4417527853.0}, {"Region": "Asia", "Year": "2017", "Population": 4460778879.0}, {"Region": "Asia", "Year": "2018", "Population": 4502404018.5}, {"Region": "Asia", "Year": "2019", "Population": 4542406314.0}, {"Region": "Europe", "Year": "1960", "Population": 597599081.0}, {"Region": "Europe", "Year": "1961", "Population": 603375654.0}, {"Region": "Europe", "Year": "1962", "Population": 609377536.0}, {"Region": "Europe", "Year": "1963", "Population": 615430595.0}, {"Region": "Europe", "Year": "1964", "Population": 621410061.0}, {"Region": "Europe", "Year": "1965", "Population": 627170937.0}, {"Region": "Europe", "Year": "1966", "Population": 631966733.0}, {"Region": "Europe", "Year": "1967", "Population": 636599381.0}, {"Region": "Europe", "Year": "1968", "Population": 640987312.0}, {"Region": "Europe", "Year": "1969", "Population": 645243153.0}, {"Region": "Europe", "Year": "1970", "Population": 648952305.0}, {"Region": "Europe", "Year": "1971", "Population": 652638656.0}, {"Region": "Europe", "Year": "1972", "Population": 656842394.0}, {"Region": "Europe", "Year": "1973", "Population": 660882282.0}, {"Region": "Europe", "Year": "1974", "Population": 664705875.0}, {"Region": "Europe", "Year": "1975", "Population": 668360280.0}, {"Region": "Europe", "Year": "1976", "Population": 671901098.0}, {"Region": "Europe", "Year": "1977", "Population": 675232894.0}, {"Region": "Europe", "Year": "1978", "Population": 678496553.0}, {"Region": "Europe", "Year": "1979", "Population": 681744626.0}, {"Region": "Europe", "Year": "1980", "Population": 685080562.0}, {"Region": "Europe", "Year": "1981", "Population": 688227298.0}, {"Region": "Europe", "Year": "1982", "Population": 690867799.0}, {"Region": "Europe", "Year": "1983", "Population": 693252001.0}, {"Region": "Europe", "Year": "1984", "Population": 695815796.0}, {"Region": "Europe", "Year": "1985", "Population": 698459335.0}, {"Region": "Europe", "Year": "1986", "Population": 701207741.0}, {"Region": "Europe", "Year": "1987", "Population": 704023119.0}, {"Region": "Europe", "Year": "1988", "Population": 706885668.0}, {"Region": "Europe", "Year": "1989", "Population": 709765379.0}, {"Region": "Europe", "Year": "1990", "Population": 719411817.0}, {"Region": "Europe", "Year": "1991", "Population": 721375182.0}, {"Region": "Europe", "Year": "1992", "Population": 723062507.0}, {"Region": "Europe", "Year": "1993", "Population": 724497469.0}, {"Region": "Europe", "Year": "1994", "Population": 725311807.0}, {"Region": "Europe", "Year": "1995", "Population": 725604200.0}, {"Region": "Europe", "Year": "1996", "Population": 725687939.0}, {"Region": "Europe", "Year": "1997", "Population": 725684521.0}, {"Region": "Europe", "Year": "1998", "Population": 725678603.0}, {"Region": "Europe", "Year": "1999", "Population": 725632469.0}, {"Region": "Europe", "Year": "2000", "Population": 725220286.0}, {"Region": "Europe", "Year": "2001", "Population": 724855107.0}, {"Region": "Europe", "Year": "2002", "Population": 724959150.0}, {"Region": "Europe", "Year": "2003", "Population": 725699982.0}, {"Region": "Europe", "Year": "2004", "Population": 726693452.0}, {"Region": "Europe", "Year": "2005", "Population": 727718758.0}, {"Region": "Europe", "Year": "2006", "Population": 728760240.0}, {"Region": "Europe", "Year": "2007", "Population": 730189759.0}, {"Region": "Europe", "Year": "2008", "Population": 731817526.0}, {"Region": "Europe", "Year": "2009", "Population": 733220412.0}, {"Region": "Europe", "Year": "2010", "Population": 734244284.0}, {"Region": "Europe", "Year": "2011", "Population": 733912533.0}, {"Region": "Europe", "Year": "2012", "Population": 735169225.0}, {"Region": "Europe", "Year": "2013", "Population": 736919768.0}, {"Region": "Europe", "Year": "2014", "Population": 738656474.0}, {"Region": "Europe", "Year": "2015", "Population": 740334289.0}, {"Region": "Europe", "Year": "2016", "Population": 741898668.0}, {"Region": "Europe", "Year": "2017", "Population": 742966689.0}, {"Region": "Europe", "Year": "2018", "Population": 743749413.0}, {"Region": "Europe", "Year": "2019", "Population": 744475805.0}, {"Region": "Oceania", "Year": "1960", "Population": 16023128.0}, {"Region": "Oceania", "Year": "1961", "Population": 16353964.0}, {"Region": "Oceania", "Year": "1962", "Population": 16756006.0}, {"Region": "Oceania", "Year": "1963", "Population": 17098314.0}, {"Region": "Oceania", "Year": "1964", "Population": 17456373.0}, {"Region": "Oceania", "Year": "1965", "Population": 17809937.0}, {"Region": "Oceania", "Year": "1966", "Population": 18212589.0}, {"Region": "Oceania", "Year": "1967", "Population": 18502963.0}, {"Region": "Oceania", "Year": "1968", "Population": 18833075.0}, {"Region": "Oceania", "Year": "1969", "Population": 19211327.0}, {"Region": "Oceania", "Year": "1970", "Population": 19598300.0}, {"Region": "Oceania", "Year": "1971", "Population": 20177644.0}, {"Region": "Oceania", "Year": "1972", "Population": 20575172.0}, {"Region": "Oceania", "Year": "1973", "Population": 20942190.0}, {"Region": "Oceania", "Year": "1974", "Population": 21456700.0}, {"Region": "Oceania", "Year": "1975", "Population": 21797627.0}, {"Region": "Oceania", "Year": "1976", "Population": 22079791.0}, {"Region": "Oceania", "Year": "1977", "Population": 22366981.0}, {"Region": "Oceania", "Year": "1978", "Population": 22656207.0}, {"Region": "Oceania", "Year": "1979", "Population": 22927246.0}, {"Region": "Oceania", "Year": "1980", "Population": 23243178.0}, {"Region": "Oceania", "Year": "1981", "Population": 23632159.0}, {"Region": "Oceania", "Year": "1982", "Population": 24062861.0}, {"Region": "Oceania", "Year": "1983", "Population": 24449031.0}, {"Region": "Oceania", "Year": "1984", "Population": 24803751.0}, {"Region": "Oceania", "Year": "1985", "Population": 25187058.0}, {"Region": "Oceania", "Year": "1986", "Population": 25592661.0}, {"Region": "Oceania", "Year": "1987", "Population": 26009874.0}, {"Region": "Oceania", "Year": "1988", "Population": 26429586.0}, {"Region": "Oceania", "Year": "1989", "Population": 26871118.0}, {"Region": "Oceania", "Year": "1990", "Population": 27299456.0}, {"Region": "Oceania", "Year": "1991", "Population": 27833881.0}, {"Region": "Oceania", "Year": "1992", "Population": 28233946.0}, {"Region": "Oceania", "Year": "1993", "Population": 28602105.0}, {"Region": "Oceania", "Year": "1994", "Population": 28997435.0}, {"Region": "Oceania", "Year": "1995", "Population": 29430632.0}, {"Region": "Oceania", "Year": "1996", "Population": 29895340.0}, {"Region": "Oceania", "Year": "1997", "Population": 30322249.0}, {"Region": "Oceania", "Year": "1998", "Population": 30723191.0}, {"Region": "Oceania", "Year": "1999", "Population": 31129330.0}, {"Region": "Oceania", "Year": "2000", "Population": 31545257.0}, {"Region": "Oceania", "Year": "2001", "Population": 31988096.0}, {"Region": "Oceania", "Year": "2002", "Population": 32449737.0}, {"Region": "Oceania", "Year": "2003", "Population": 32926990.0}, {"Region": "Oceania", "Year": "2004", "Population": 33379487.0}, {"Region": "Oceania", "Year": "2005", "Population": 33863917.0}, {"Region": "Oceania", "Year": "2006", "Population": 34400661.0}, {"Region": "Oceania", "Year": "2007", "Population": 34762980.0}, {"Region": "Oceania", "Year": "2008", "Population": 35420619.0}, {"Region": "Oceania", "Year": "2009", "Population": 36106696.0}, {"Region": "Oceania", "Year": "2010", "Population": 36693175.0}, {"Region": "Oceania", "Year": "2011", "Population": 37229533.0}, {"Region": "Oceania", "Year": "2012", "Population": 37839247.0}, {"Region": "Oceania", "Year": "2013", "Population": 38459591.0}, {"Region": "Oceania", "Year": "2014", "Population": 39069120.0}, {"Region": "Oceania", "Year": "2015", "Population": 39694111.0}, {"Region": "Oceania", "Year": "2016", "Population": 40370179.0}, {"Region": "Oceania", "Year": "2017", "Population": 41088791.0}, {"Region": "Oceania", "Year": "2018", "Population": 41727225.0}, {"Region": "Oceania", "Year": "2019", "Population": 42398021.0}]}}, {"mode": "vega-lite"});
+</script>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>Redundancy provides a failsafe against <em>any</em> circumstance that might compromise the effectiveness of color:</p>
+<ul>
+<li class="fragment">printers or black-and-white printing</li>
+<li class="fragment">projectors, displays, and lighting conditions</li>
+<li class="fragment">CVD</li>
+</ul>
+</div>
 </section>
 <section id="faceting" class="slide level2">
 <h2>Faceting</h2>
@@ -476,8 +545,26 @@
 <section id="many-facets" class="slide level2">
 <h2>Many facets</h2>
 <p>Often a big panel of scatterplots can be a useful exploratory graphic.</p>
-
-<img data-src="figures/movie-rankings-1.png" class="r-stretch"></section>
+<div class="columns">
+<div class="column" style="width:60%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figures/movie-rankings-1.png" width="500"></p>
+<p></p><figcaption>Movie ratings from IMDB</figcaption><p></p>
+</figure>
+</div>
+</div><div class="column" style="width:40%;">
+<p>The figure shows a lot:</p>
+<ol type="1">
+<li class="fragment">Timespan of data 1906-2005</li>
+<li class="fragment">More observations (movies) in later years</li>
+<li class="fragment">Higher vote counts in later years</li>
+<li class="fragment">Higher rating variance among movies with fewer votes</li>
+<li class="fragment">Long term reversal of voting/rating trend</li>
+</ol>
+</div>
+</div>
+</section>
 <section id="use-fixed-axis-scales" class="slide level2">
 <h2>Use fixed axis scales</h2>
 
@@ -489,6 +576,9 @@
 <h2>Use fixed axis scales</h2>
 
 <img data-src="figures/BA-degrees-fixed-y-lims-1.png" class="r-stretch quarto-figure-center"><p class="caption">Same as before, with common fixed axis scales.</p></section>
+<section id="what-about-this" class="slide level2">
+<h2>What about this?</h2>
+</section>
 <section id="labels-and-legends" class="slide level2">
 <h2>Labels and legends</h2>
 <p>The most common blunders with regard to labels are:</p>

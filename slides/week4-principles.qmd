@@ -123,7 +123,9 @@ The color scale doesn't match the data well, since the rainbow scale emphasizes 
 
 ![](figures/map-Texas-race-1.png)
 
-*Think about which scale type best matches your data*
+. . .
+
+A diverging scale is appropriate here because 50% is a natural midpoint in context.
 
 ## Color blindness
 
@@ -134,13 +136,11 @@ Color vision deficiency (CVD) or colorblindness refers to difficulty distinguish
 
 ## CVD-friendly scales
 
-Some color scales still retain visible contrast for different types of color vision deficiency (CVD).
+Some color scales still retain visible contrast for different types of color vision deficiency (CVD). 
+
+Here is a simulation (for those without CVD).
 
 ![Color scale shown for different types of colorblindness using CVD simulator](figures/heat-cvd-sim-1.png)
-
-. . .
-
-*When possible, use scales designed to be CVD friendly.*
 
 ## CVD-unfriendly scales
 
@@ -152,7 +152,7 @@ Other scales get muddled.
 
 *When in doubt, use a CVD simulator to check figures*
 
-## Redundancy
+## Another approach: redundancy
 
 When possible, use 'redundant coding' -- map the same variable to color *and* one other aesthetic.
 
@@ -163,7 +163,7 @@ When possible, use 'redundant coding' -- map the same variable to color *and* on
 When possible, use 'redundant coding' -- map the same variable to color *and* one other aesthetic.
 
 ```{python}
-#| slideshow: {slide_type: skip}
+#| slideshow: {slide_type: fragment}
 #| tags: []
 
 pop = pd.read_csv('data/population.csv', encoding = 'latin1').melt(
@@ -206,6 +206,14 @@ alt.Chart(
 )
 ```
 
+. . .
+
+Redundancy provides a failsafe against *any* circumstance that might compromise the effectiveness of color:
+
+- printers or black-and-white printing
+- projectors, displays, and lighting conditions
+- CVD
+
 ## Faceting
 
 You've already made a faceted plot. 
@@ -231,7 +239,23 @@ The most common blunders with faceting are:
 
 Often a big panel of scatterplots can be a useful exploratory graphic.
 
-![](figures/movie-rankings-1.png)
+::: {.columns}
+
+::: {.column width=60%}
+![Movie ratings from IMDB](figures/movie-rankings-1.png){width=500}
+:::
+
+::: {.column width=40%}
+The figure shows a lot:
+
+1. Timespan of data 1906-2005
+2. More observations (movies) in later years
+3. Higher vote counts in later years
+4. Higher rating variance among movies with fewer votes
+5. Long term reversal of voting/rating trend
+:::
+
+:::
 
 ## Use fixed axis scales
 
@@ -244,6 +268,10 @@ Suggests, misleadingly, that Education declined by the same amount as social sci
 ## Use fixed axis scales
 
 ![Same as before, with common fixed axis scales.](figures/BA-degrees-fixed-y-lims-1.png)
+
+## What about this?
+
+
 
 ## Labels and legends
 
