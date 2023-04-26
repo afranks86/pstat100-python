@@ -82,7 +82,7 @@ format: html
 
 *Assignments*: 
 
-- HW2, SEDA case study, due Monday, May 8
+- HW2, SEDA case study, due Monday, May 8 [[html](hw/hw2-seda/hw2-seda.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Fhw2-seda%2Fhw2-seda.ipynb&branch=main)] 
 
 **Monday**: Statistical graphics [[slides](slides/week4-graphics.qmd)]
 

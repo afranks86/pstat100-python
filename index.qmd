@@ -8,6 +8,7 @@ published-title: "Updated"
 ## Announcements
 * HW1 BRFSS case study due Monday 4/24 11:59pm PST; late submissions accepted through Wednesday 4/26
 * Lab 3 posted [here](content.qmd#week-4)
+* HW2 SEDA case study posted [here](content.qmd#week-4)
 * Data science capstone applications for 2023-2024 open at [https://pstat197.github.io/](https://pstat197.github.io/) and through summer; apply by May 15 for priority consideration
 :::
 
