@@ -88,7 +88,7 @@
     "href": "content.html#week-4",
     "title": "Materials",
     "section": "Week 4",
-    "text": "Week 4\nReadings:\n\nWilke, Fundamentals of Data Visualization Ch. 2-5\nLDS11.1 Choosing scale to reveal structure\n(Recommended) Cook, D., Lee, E. K., & Majumder, M. (2016). Data visualization and statistical graphics in big data analysis. Annual Review of Statistics and Its Application, 3, 133-159. [link to paper]\n(Recommended) Gelman, A., & Unwin, A. (2013). Infovis and statistical graphics: different goals, different looks. Journal of Computational and Graphical Statistics, 22(1), 2-28. [link to paper]\n(Recommended) Iliinsky, N. (2010). On beauty. Beautiful visualization: Looking at data through the eyes of experts, 1-13. [link to chapter]\n\nAssignments:\n\nHW2, SEDA case study, due Monday, May 8 [html] [notebook]\n\nMonday: Statistical graphics [slides]\nLab sections: Data visualization [html] [notebook]"
+    "text": "Week 4\nReadings:\n\nWilke, Fundamentals of Data Visualization Ch. 2-5\nLDS11.1 Choosing scale to reveal structure\n(Recommended) Cook, D., Lee, E. K., & Majumder, M. (2016). Data visualization and statistical graphics in big data analysis. Annual Review of Statistics and Its Application, 3, 133-159. [link to paper]\n(Recommended) Gelman, A., & Unwin, A. (2013). Infovis and statistical graphics: different goals, different looks. Journal of Computational and Graphical Statistics, 22(1), 2-28. [link to paper]\n(Recommended) Iliinsky, N. (2010). On beauty. Beautiful visualization: Looking at data through the eyes of experts, 1-13. [link to chapter]\n\nAssignments:\n\nHW2, SEDA case study, due Monday, May 8 [html] [notebook]\n\nMonday: Statistical graphics [slides]\nLab sections: Data visualization [html] [notebook]\nWednesday: Principles of figure design [slides]"
   },
   {
     "objectID": "hw/hw1-brfss/hw1-brfss-soln.html",
@@ -2109,119 +2109,119 @@
   {
     "objectID": "slides/week4-principles.html#principles-of-effective-design",
     "href": "slides/week4-principles.html#principles-of-effective-design",
-    "title": "Effective figure design",
+    "title": "Figure design",
     "section": "Principles of effective design",
     "text": "Principles of effective design\nA good figure should:\n\nconvey a clear message or story\navoid excessive complexity\nlook nice\nbe well-labeled and appropriately sized\nstand alone with a short caption\n\n\nHere we’ll mostly look at lots of examples."
   },
   {
     "objectID": "slides/week4-principles.html#on-color",
     "href": "slides/week4-principles.html#on-color",
-    "title": "Effective figure design",
+    "title": "Figure design",
     "section": "On color",
     "text": "On color\nColor is one of the most frequently used aesthetics and is easy to misuse.\n\nchoice of color scale should match the data\nuse of color should take account of colorblindness\ncolor can only encode a limited amount of information"
   },
   {
     "objectID": "slides/week4-principles.html#color-scales",
     "href": "slides/week4-principles.html#color-scales",
-    "title": "Effective figure design",
+    "title": "Figure design",
     "section": "Color scales",
     "text": "Color scales\nThere are three types of color scales.\n\nQualitative scales are non-monotonic sets of colors.\nSequential scales are monotonic sets of colors spanning a color gradient.\nDiverging scales are sequential scales centered at a neutral color."
   },
   {
     "objectID": "slides/week4-principles.html#qualitative-scales",
     "href": "slides/week4-principles.html#qualitative-scales",
-    "title": "Effective figure design",
+    "title": "Figure design",
     "section": "Qualitative scales",
     "text": "Qualitative scales\nQualitative scales are non-monotonic sets of colors.\n\n\nUseful for displaying categorical variables with few levels."
   },
   {
     "objectID": "slides/week4-principles.html#sequential-scales",
     "href": "slides/week4-principles.html#sequential-scales",
-    "title": "Effective figure design",
+    "title": "Figure design",
     "section": "Sequential scales",
     "text": "Sequential scales\nSequential scales are monotonic sets of colors spanning a color gradient.\n\n\nUseful for continuous variables."
   },
   {
     "objectID": "slides/week4-principles.html#sequential-scales-1",
     "href": "slides/week4-principles.html#sequential-scales-1",
-    "title": "Effective figure design",
+    "title": "Figure design",
     "section": "Sequential scales",
     "text": "Sequential scales\n\nExample sequential color scale"
   },
   {
     "objectID": "slides/week4-principles.html#diverging-scales",
     "href": "slides/week4-principles.html#diverging-scales",
-    "title": "Effective figure design",
+    "title": "Figure design",
     "section": "Diverging scales",
     "text": "Diverging scales\nDiverging scales are sequential scales centered at a neutral color.\n\n\nUseful for continuous variables with a ‘natural’ center."
   },
   {
     "objectID": "slides/week4-principles.html#diverging-scales-1",
     "href": "slides/week4-principles.html#diverging-scales-1",
-    "title": "Effective figure design",
+    "title": "Figure design",
     "section": "Diverging scales",
     "text": "Diverging scales"
   },
   {
     "objectID": "slides/week4-principles.html#use-of-color",
     "href": "slides/week4-principles.html#use-of-color",
-    "title": "Effective figure design",
+    "title": "Figure design",
     "section": "Use of color",
     "text": "Use of color\nCommon mistakes:\n\nEncoding too much information\nPoor choice of scale\nNot accounting for colorblindness"
   },
   {
     "objectID": "slides/week4-principles.html#tmi",
     "href": "slides/week4-principles.html#tmi",
-    "title": "Effective figure design",
+    "title": "Figure design",
     "section": "TMI",
     "text": "TMI"
   },
   {
     "objectID": "slides/week4-principles.html#better",
     "href": "slides/week4-principles.html#better",
-    "title": "Effective figure design",
+    "title": "Figure design",
     "section": "Better",
     "text": "Better\n\n\nAvoid encoding more than 5 categories using color"
   },
   {
     "objectID": "slides/week4-principles.html#inappropriate-scales",
     "href": "slides/week4-principles.html#inappropriate-scales",
-    "title": "Effective figure design",
+    "title": "Figure design",
     "section": "Inappropriate scales",
     "text": "Inappropriate scales\nThe color scale doesn’t match the data well, since the rainbow scale emphasizes arbitrary data values. In addition, colors here are too intense."
   },
   {
     "objectID": "slides/week4-principles.html#better-1",
     "href": "slides/week4-principles.html#better-1",
-    "title": "Effective figure design",
+    "title": "Figure design",
     "section": "Better",
     "text": "Better\n\n\nA diverging scale is appropriate here because 50% is a natural midpoint in context."
   },
   {
     "objectID": "slides/week4-principles.html#color-blindness",
     "href": "slides/week4-principles.html#color-blindness",
-    "title": "Effective figure design",
+    "title": "Figure design",
     "section": "Color blindness",
     "text": "Color blindness\nColor vision deficiency (CVD) or colorblindness refers to difficulty distinguishing specific colors.\n\nred-green CVD: protanomaly and deuteranomaly\nblue-yellow CVD: tritanomaly"
   },
   {
     "objectID": "slides/week4-principles.html#cvd-friendly-scales",
     "href": "slides/week4-principles.html#cvd-friendly-scales",
-    "title": "Effective figure design",
+    "title": "Figure design",
     "section": "CVD-friendly scales",
     "text": "CVD-friendly scales\nSome color scales still retain visible contrast for different types of color vision deficiency (CVD).\nHere is a simulation (for those without CVD).\n\nColor scale shown for different types of colorblindness using CVD simulator"
   },
   {
     "objectID": "slides/week4-principles.html#cvd-unfriendly-scales",
     "href": "slides/week4-principles.html#cvd-unfriendly-scales",
-    "title": "Effective figure design",
+    "title": "Figure design",
     "section": "CVD-unfriendly scales",
     "text": "CVD-unfriendly scales\nOther scales get muddled.\n\n\nWhen in doubt, use a CVD simulator to check figures"
   },
   {
     "objectID": "slides/week4-principles.html#redundancy",
     "href": "slides/week4-principles.html#redundancy",
-    "title": "Effective figure design",
+    "title": "Figure design",
     "section": "Redundancy",
     "text": "Redundancy\nWhen possible, use ‘redundant coding’ – map the same variable to color and one other aesthetic.\n\n\n\n\n\n\n\n\n\n\nRedundancy provides a failsafe against any circumstance that might compromise the effectiveness of color:\n\nprinters or black-and-white printing\nprojectors, displays, and lighting conditions\nCVD"
   },
@@ -2235,91 +2235,91 @@
   {
     "objectID": "slides/week4-principles.html#faceting",
     "href": "slides/week4-principles.html#faceting",
-    "title": "Effective figure design",
+    "title": "Figure design",
     "section": "Faceting",
     "text": "Faceting\nYou’ve already made a faceted plot.\n\n\nNotice the redundant use of color!"
   },
   {
     "objectID": "slides/week4-principles.html#faceting-1",
     "href": "slides/week4-principles.html#faceting-1",
-    "title": "Effective figure design",
+    "title": "Figure design",
     "section": "Faceting",
     "text": "Faceting\nFacets are another way to encode categorical variables when side-by-side comparisons are of interest.\n\nThe most common blunders with faceting are:\n\nFree axis scales are misleading\nFacet layout isn’t conducive to comparison of interest"
   },
   {
     "objectID": "slides/week4-principles.html#many-facets",
     "href": "slides/week4-principles.html#many-facets",
-    "title": "Effective figure design",
+    "title": "Figure design",
     "section": "Many facets",
     "text": "Many facets\nOften a big panel of scatterplots can be a useful exploratory graphic.\n\n\n\n\n\nMovie ratings from IMDB\n\n\n\nThe figure shows a lot:\n\nTimespan of data 1906-2005\nMore observations (movies) in later years\nHigher vote counts in later years\nHigher rating variance among movies with fewer votes\nLong term reversal of voting/rating trend"
   },
   {
     "objectID": "slides/week4-principles.html#use-fixed-axis-scales",
     "href": "slides/week4-principles.html#use-fixed-axis-scales",
-    "title": "Effective figure design",
+    "title": "Figure design",
     "section": "Use fixed axis scales",
     "text": "Use fixed axis scales\n\nExample of facets with different y axes\nSuggests, misleadingly, that Education declined by the same amount as social science and history."
   },
   {
     "objectID": "slides/week4-principles.html#use-fixed-axis-scales-1",
     "href": "slides/week4-principles.html#use-fixed-axis-scales-1",
-    "title": "Effective figure design",
+    "title": "Figure design",
     "section": "Use fixed axis scales",
     "text": "Use fixed axis scales\n\nSame as before, with common fixed axis scales."
   },
   {
     "objectID": "slides/week4-principles.html#labels-and-legends",
     "href": "slides/week4-principles.html#labels-and-legends",
-    "title": "Effective figure design",
+    "title": "Figure design",
     "section": "Labels and legends",
     "text": "Labels and legends\nThe most common blunders with regard to labels are:\n\nUse of dataframe column names as labels\nObscure or uninterpretable labels\nToo small or too big\n\n\nFor sizing, it’s important to pay attention to the balance of labels, whitespace, and graphical elements."
   },
   {
     "objectID": "slides/week4-principles.html#sizing",
     "href": "slides/week4-principles.html#sizing",
-    "title": "Effective figure design",
+    "title": "Figure design",
     "section": "Sizing",
     "text": "Sizing\nUsually figure defaults look fine on your IDE but render too small when graphics are exported.\n\nThese will be illegible in slide presentations, reports, etc."
   },
   {
     "objectID": "slides/week4-principles.html#sizing-1",
     "href": "slides/week4-principles.html#sizing-1",
-    "title": "Effective figure design",
+    "title": "Figure design",
     "section": "Sizing",
     "text": "Sizing\nThese labels are legible, but still too small – they take up a minimum of space in the figure.\n\nUnbalanced text/graphic/whitespace"
   },
   {
     "objectID": "slides/week4-principles.html#sizing-2",
     "href": "slides/week4-principles.html#sizing-2",
-    "title": "Effective figure design",
+    "title": "Figure design",
     "section": "Sizing",
     "text": "Sizing\nUse larger labels than you think you’ll need.\n\nBalanced\nNote also the mark size is increased a bit."
   },
   {
     "objectID": "slides/week4-principles.html#sizing-3",
     "href": "slides/week4-principles.html#sizing-3",
-    "title": "Effective figure design",
+    "title": "Figure design",
     "section": "Sizing",
     "text": "Sizing\nDon’t overdo it.\n\nUnbalanced again"
   },
   {
     "objectID": "slides/week4-principles.html#sizing-4",
     "href": "slides/week4-principles.html#sizing-4",
-    "title": "Effective figure design",
+    "title": "Figure design",
     "section": "Sizing",
     "text": "Sizing\nIf the figure will be reproduced in a scaled-down size, increase all sizes in proportion."
   },
   {
     "objectID": "slides/week4-principles.html#critiques",
     "href": "slides/week4-principles.html#critiques",
-    "title": "Effective figure design",
+    "title": "Figure design",
     "section": "Critiques",
-    "text": "Critiques"
+    "text": "Critiques\nSeries from NYC Life Expectancy Dropped 4.6 Years in 2020\n\n\n\n\nPositive:\n\neffective use of labels\neffective use of highlighting\nwell-proportioned\nclean axes\n\nNegative:\n\nCOVID spike looks minimal, contrary to story?\nthe most striking feature of the plot is the time trend and variance stabilization"
   },
   {
     "objectID": "slides/week4-principles.html#tidy-graphics",
     "href": "slides/week4-principles.html#tidy-graphics",
-    "title": "Effective figure design",
+    "title": "Figure design",
     "section": "Tidy graphics?",
     "text": "Tidy graphics?\nGraphics should avoid conflating data semantics.\n\nobservational units should be clearly distinguished\ndifferent types of observational units should be shown on different graphics\n\n\nIn addition, they should avoid conflating observed from inferred quantities.\n\naggregated values should be clearly distinguished from individual observations\npredictions, inferred trends, or uncertainty should be shown using a different graphical element than observed data\nunless comparing estimates and observations is the point, make separate graphics"
   },
@@ -2333,44 +2333,44 @@
   {
     "objectID": "slides/week4-principles.html#exploration-or-presentation",
     "href": "slides/week4-principles.html#exploration-or-presentation",
-    "title": "Effective figure design",
+    "title": "Figure design",
     "section": "Exploration or presentation?",
     "text": "Exploration or presentation?\nIn data exploration, it’s more important to generate lots of figures quickly than put a lot of care into details.\n\ndo not need to be scrupulous about labels, sizing, color scales, proportionality, etc.\ndo need to attend to axis scales and appropriate choice of graphical display (e.g., boxplots vs. densities)\nshould keep plots simple; don’t try to visualize too much information at once\n\n\nIn developing presentation graphics, details matter.\n\nconsider all visualization principles, especially sizing, color, etc.\noptimize for communication"
   },
   {
     "objectID": "slides/week4-principles.html#presenting-graphics",
     "href": "slides/week4-principles.html#presenting-graphics",
-    "title": "Effective figure design",
+    "title": "Figure design",
     "section": "Presenting graphics",
-    "text": "Presenting graphics\n\nDescribe clearly each graphical element and what each represents.\nDescribe clearly what is shown visually in the graphic without interpreting any patterns.\nFinally, say what the graphic shows."
+    "text": "Presenting graphics\nHere is my approach to presenting a graphic. I use this for both written and oral presentations.\n\nDescribe clearly each graphical element and what each represents.\n\nStart with the highest-level graphical elements (axes) and work progressively to the lowest-level elements (aesthetics)\n\nDescribe clearly what is shown visually in the graphic without interpreting any patterns.\nFinally, say what the graphic shows."
   },
   {
     "objectID": "slides/week4-principles.html#practice",
     "href": "slides/week4-principles.html#practice",
-    "title": "Effective figure design",
+    "title": "Figure design",
     "section": "Practice",
     "text": "Practice"
   },
   {
     "objectID": "slides/week4-principles.html#practice-1",
     "href": "slides/week4-principles.html#practice-1",
-    "title": "Effective figure design",
+    "title": "Figure design",
     "section": "Practice",
     "text": "Practice"
   },
   {
     "objectID": "slides/week4-principles.html#another-approach-redundancy",
     "href": "slides/week4-principles.html#another-approach-redundancy",
-    "title": "Effective figure design",
+    "title": "Figure design",
     "section": "Another approach: redundancy",
     "text": "Another approach: redundancy\nWhen possible, use ‘redundant coding’ – map the same variable to color and one other aesthetic."
   },
   {
     "objectID": "slides/week4-principles.html#what-about-this",
     "href": "slides/week4-principles.html#what-about-this",
-    "title": "Effective figure design",
+    "title": "Figure design",
     "section": "What about this?",
-    "text": "What about this?\nOne axis is fixed, one is free."
+    "text": "What about this?\nOne axis is fixed, one is free.\n\nA figure from HW2\nThe variable of interest, Gap, is still comparable across facets. So only one axis needs to be fixed.\n\n\nWhat would it look like if all axis scales were fixed? Would comparisons be easier or harder?"
   },
   {
     "objectID": "hw/hw2-seda/hw2-seda-soln.html",
@@ -2441,5 +2441,61 @@
     "title": "PSTAT100",
     "section": "Gender gaps and socioeconomic factors",
     "text": "Gender gaps and socioeconomic factors\nThe cell below generates a panel of scatterplots showing the relationship between estimated gender gap and socioeconomic factors for all grade levels by test subject. The plot suggests that the reading gap favors girls consistently across the socioeconomic spectrum – in a typical district girls seem to outperform boys by 0.25 standard deviations of the national average. By contrast, the math gap appears to depend on socioeconomic factors – boys only seem to outperform girls under better socioeconomic conditions.\n\n# plot gap against socioeconomic variables by subject for all grades\nfig1 = alt.Chart(plot_df).mark_circle(opacity = 0.1).encode(\n    y = 'Gap',\n    x = alt.X('Measure', scale = alt.Scale(zero = False), title = ''),\n    color = 'Gap type'\n).properties(\n    width = 100,\n    height = 100\n).facet(\n    column = alt.Column('Socioeconomic variable')\n).resolve_scale(x = 'independent')\n\nfig1\n\n\n\nQuestion 13: Relationships by grade level\nDoes the pattern shown in the plot above persist within each grade level? Modify the plot above to show these relationships by grade level: generate a panel of scatterplots of gap against socioeconomic measures by subject, where each column of the panel corresponds to one socioeconomic variable and each row corresponds to one grade level; the result should by a 5x5 panel. Resize the width and height of each facet so that the panel is of reasonable size. Keep a fixed axis scale for the variable of interest, but allow the axis scales for socioeconomic variables to vary independently. Store the plot as fig2; display the figure and provide an answer to the question of interest in the text cell.\n(Hint: you may find it useful to have a look at the altair documentation on compound charts, and lab 3, for examples to follow.)\nType your answer here, replacing this text.\n\n# plotting codes here\n...\n\n# display\n...\n\n\n\n\n\nQuestion 14: Association with grade level\nDo gaps shift across grade levels? It’s not so easy to tell from the last figure. Construct a 2x5 panel of scatterplots showing estimated achievement gap against each of the 5 socioeconomic variables, with one row per test subject. Display grade level using a color gradient. Store the plot as fig3; display the figure and answer the question of interest in a short sentence or two in the text cell provided.\nType your answer here, replacing this text.\n\n# plotting codes here\n...\n\n# display\n...\n\n\nWhile the magnitude of the achievement gaps seems to depend very slightly on grade level (figure 3), the form of relationship between achievement gap and socioeconomic factors does not differ from grade to grade (figure 2).\nGiven that the relationships between achievement gaps and socioeconomic factors don’t change drastically across grade levels, it is reasonable to look at the average relationship between estimated achievement gap and median income after aggregating across grade.\n\n\nQuestion 15: Aggregation across grade levels\nCompute the mean estimated achievement gap in each subject across grade levels by district using District ID and retain the district-level socioeconomic variables. Store the resulting data frame as seda_data_agg.\nNote: best practice here would be to aggregate just the test scores by district and then re-merge the result with the district-level socioeconomic variables. However, since the district-level socioeconomic variables do not differ by grade within a district, averaging them across grade levels by district together with the test scores will simply return their unique values; so the aggregation can be applied across all columns for a fast-and-loose way to obtain the desired result.\n\n# aggregate across grades\n...\n\n# print first few rows\n...\n\n\ngrader.check(\"q15\")\n\n\n\nQuestion 16: Melt aggregated data for plotting\nSimilar to working with the disaggregated data, it will be helpful for plotting to melt the two gap variables into a single column. Follow the example above at the beginning of this section to melt only the test score gap columns (not the district-level variables – we will not create scatterplot panels as before). Name the new columns Subject and Average estimated gap; store the resulting data frame as agg_plot_df and print the first four rows.\n\n# format for plotting\n...\n\n# print four rows\n...\n\n\ngrader.check(\"q16\")\n\n\n\n\nQuestion 17: District average gaps\nConstruct a scatterplot of the average estimated gap against log(Median income) by subject for each district and add trend lines (see lab 4). Store the plot as fig4. Describe and interpret the plot in a few sentences.\nType your answer here, replacing this text.\n\n# scatterplot\n...\n\n# trend line\ntrend = ...\n\n# combine layers\nfig4 = ...\n\n# display\n...\n\n\nNow let’s try to capture this pattern in tabular form. The cell below adds an Income bracket variable by cutting the median income into 8 contiguous intervals using pd.cut(), and tabulates the average socioeconomic measures and estimated gaps across districts by income bracket. Notice that with respect to the gaps, this displays the pattern that is shown visually in the figures above.\n\nseda_data_agg['Income bracket'] = pd.cut(np.e**seda_data_agg['log(Median income)'], 8)\nseda_data_agg.groupby('Income bracket').mean().drop(columns = ['District ID', 'log(Median income)'])\n\n\n\nQuestion 18: Proportion of districts with a math gap\nWhat proportion of districts in each income bracket have an average estimated math achievement gap favoring boys? Answer this question by performing the following steps:\n\nAppend an indicator variable Math gap favoring boys to seda_data_agg that records whether the average estimated math gap favors boys by more than 0.1 standard deviations relative to the national average.\nCompute the proportion of districts in each income bracket for which the indicator is true: group by bracket and take the mean. Store this as income_bracket_boys_favored\n\n\n# define indicator\nseda_data_agg['Math gap favoring boys'] = ...\n\n# proportion of districts with gap favoring boys, by income bracket\n...\n\n# print result\n...\n\n\ngrader.check(\"q18\")\n\n\n\nQuestion 19: Statewide averages\nTo wrap up the exploration, calculate a few statewide averages to get a sense of how some of the patterns above compare with the state as a whole.\n\n\nCompute the statewide average estimated achievement gaps. Store the result as state_avg.\n\n\nCompute the proportion of districts in the state with a math gap favoring boys. Store this result as math_boys_proportion\n\n\nCompute the proportion of districts in the state with a math gap favoring girls. You will need to define a new indicator within seda_data_agg to perform this calculation.\n\n\n\n# statewide average\nstate_avg = ...\n\n# proportion of districts in the state with a math gap favoring boys\nmath_boys_proportion = ...\n\n# proportion of districts in the state with a math gap favoring girls\nseda_data_agg['Math gap favoring girls'] = ...\nmath_girls_proportion = ...\n\n\ngrader.check(\"q19\")"
+  },
+  {
+    "objectID": "slides/week4-principles.html#an-untidy-plot",
+    "href": "slides/week4-principles.html#an-untidy-plot",
+    "title": "Figure design",
+    "section": "An untidy plot",
+    "text": "An untidy plot\nThe starting plot in lab 3 is actually a bad plot because all years are shown together – so observationational units (countries) are not clearly distinguished."
+  },
+  {
+    "objectID": "slides/week4-principles.html#critiques-1",
+    "href": "slides/week4-principles.html#critiques-1",
+    "title": "Figure design",
+    "section": "Critiques",
+    "text": "Critiques\nSeries from NYC Life Expectancy Dropped 4.6 Years in 2020\n\n\n\n\nPositive:\n\nsame as before\n\nNegative:\n\ndoesn’t convey proportional change in decrease efficiently, but that’s what the caption emphasizes\n‘overall’ looks like a fourth group"
+  },
+  {
+    "objectID": "slides/week4-principles.html#critiques-2",
+    "href": "slides/week4-principles.html#critiques-2",
+    "title": "Figure design",
+    "section": "Critiques",
+    "text": "Critiques\nSeries from NYC Life Expectancy Dropped 4.6 Years in 2020\n\n\n\n\nPositive:\n\nexemplary use of color scale/palette\nline shading shows missing data clearly\neffective use of labels\n\nNegative:\n\nno clear story\nlacking a baseline comparison"
+  },
+  {
+    "objectID": "slides/week4-principles.html#critiques-3",
+    "href": "slides/week4-principles.html#critiques-3",
+    "title": "Figure design",
+    "section": "Critiques",
+    "text": "Critiques\nSeries from NYC Life Expectancy Dropped 4.6 Years in 2020\n\n\n\n\nPositive:\n\nclear story\n\nNegative:\n\nawkward/distracting to include time, since no history for COVID\nnot the most efficient display of the captioned message\n\nRemark:\n\nit would be more interesting to see the time courses after 2020"
+  },
+  {
+    "objectID": "slides/week4-principles.html#more-critiques",
+    "href": "slides/week4-principles.html#more-critiques",
+    "title": "Figure design",
+    "section": "More critiques",
+    "text": "More critiques\n\n\n\n\nPositive:\n\nclear labels\nunambiguous\n\nNegative:\n\nbars take up all of the plot here\nmany words seem equivalent\n\nSuggestions:\n\nfind an alternative to the bar plot\nconsider emphasizing comparisons between word clusters rather than individual words"
+  },
+  {
+    "objectID": "slides/week4-principles.html#more-critiques-1",
+    "href": "slides/week4-principles.html#more-critiques-1",
+    "title": "Effective figure design",
+    "section": "More critiques",
+    "text": "More critiques"
+  },
+  {
+    "objectID": "slides/week4-principles.html#practice-2",
+    "href": "slides/week4-principles.html#practice-2",
+    "title": "Figure design",
+    "section": "Practice",
+    "text": "Practice"
+  },
+  {
+    "objectID": "slides/week4-principles.html#a-tidy-plot",
+    "href": "slides/week4-principles.html#a-tidy-plot",
+    "title": "Figure design",
+    "section": "A tidy plot",
+    "text": "A tidy plot\n\nThis is tidy, because within facets:\n\neach bubble represents a country\nany two bubbles represent distinct countries"
   }
 ]

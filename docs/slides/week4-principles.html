@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.0.38">
 
   <meta name="author" content="PSTAT100 Spring 2023">
-  <title>PSTAT100 - Effective figure design</title>
+  <title>PSTAT100 - Figure design</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -322,7 +322,7 @@
     <div class="slides">
 
 <section id="title-slide" class="center">
-  <h1 class="title">Effective figure design</h1>
+  <h1 class="title">Figure design</h1>
   <p class="author">PSTAT100 Spring 2023</p>
   <p class="date">Week 4, Lecture 2</p>
 </section>
@@ -455,15 +455,15 @@
 <p>When possible, use ‘redundant coding’ – map the same variable to color <em>and</em> one other aesthetic.</p>
 <div class="fragment">
 <div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="2">
-<div class="cell-output cell-output-display" data-execution_count="4">
+<div class="cell-output cell-output-display" data-execution_count="10">
 
-<div id="altair-viz-830fa75d46a942499b97f728a9eefdd1"></div>
+<div id="altair-viz-98571ace669a40939aecc4a6cac60408"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-830fa75d46a942499b97f728a9eefdd1") {
-      outputDiv = document.getElementById("altair-viz-830fa75d46a942499b97f728a9eefdd1");
+    if (outputDiv.id !== "altair-viz-98571ace669a40939aecc4a6cac60408") {
+      outputDiv = document.getElementById("altair-viz-98571ace669a40939aecc4a6cac60408");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
@@ -579,6 +579,13 @@
 <section id="what-about-this" class="slide level2">
 <h2>What about this?</h2>
 <p>One axis is fixed, one is free.</p>
+
+<img data-src="figures/seda-fig1.png" class="r-stretch quarto-figure-center"><p class="caption">A figure from HW2</p><div class="fragment">
+<p>The variable of interest, Gap, is still comparable across facets. So only one axis needs to be fixed.</p>
+</div>
+<div class="fragment">
+<p>What would it look like if all axis scales were fixed? Would comparisons be easier or harder?</p>
+</div>
 </section>
 <section id="labels-and-legends" class="slide level2">
 <h2>Labels and legends</h2>
@@ -619,9 +626,115 @@
 <h2>Sizing</h2>
 <p>If the figure will be reproduced in a scaled-down size, increase all sizes in proportion.</p>
 
-<img data-src="figures/Aus-athletes-big-good-1.png" style="width:1in" class="r-stretch"></section>
+<img data-src="figures/Aus-athletes-big-good-1.png" class="r-stretch"></section>
 <section id="critiques" class="slide level2">
 <h2>Critiques</h2>
+<p>Series from <a href="https://www.nytimes.com/2023/04/07/nyregion/nyc-covid-deaths.html">NYC Life Expectancy Dropped 4.6 Years in 2020</a></p>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p><img data-src="figures/nyt-nyc-death-rate-over-time.PNG"></p>
+</div><div class="column" style="width:40%;">
+<p>Positive:</p>
+<ul>
+<li class="fragment">effective use of labels</li>
+<li class="fragment">effective use of highlighting</li>
+<li class="fragment">well-proportioned</li>
+<li class="fragment">clean axes</li>
+</ul>
+<p>Negative:</p>
+<ul>
+<li class="fragment">COVID spike looks minimal, contrary to story?</li>
+<li class="fragment">the most striking feature of the plot is the time trend and variance stabilization</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="critiques-1" class="slide level2">
+<h2>Critiques</h2>
+<p>Series from <a href="https://www.nytimes.com/2023/04/07/nyregion/nyc-covid-deaths.html">NYC Life Expectancy Dropped 4.6 Years in 2020</a></p>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p><img data-src="figures/nyt-nyc-life-expectancy-2011-to-2020.PNG"></p>
+</div><div class="column" style="width:40%;">
+<p>Positive:</p>
+<ul>
+<li class="fragment">same as before</li>
+</ul>
+<p>Negative:</p>
+<ul>
+<li class="fragment">doesn’t convey proportional change in decrease efficiently, but that’s what the caption emphasizes</li>
+<li class="fragment">‘overall’ looks like a fourth group</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="critiques-2" class="slide level2">
+<h2>Critiques</h2>
+<p>Series from <a href="https://www.nytimes.com/2023/04/07/nyregion/nyc-covid-deaths.html">NYC Life Expectancy Dropped 4.6 Years in 2020</a></p>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p><img data-src="figures/nyt-nyc-premature-death-map.PNG" width="450"></p>
+</div><div class="column" style="width:40%;">
+<p>Positive:</p>
+<ul>
+<li class="fragment">exemplary use of color scale/palette</li>
+<li class="fragment">line shading shows missing data clearly</li>
+<li class="fragment">effective use of labels</li>
+</ul>
+<p>Negative:</p>
+<ul>
+<li class="fragment">no clear story</li>
+<li class="fragment">lacking a baseline comparison</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="critiques-3" class="slide level2">
+<h2>Critiques</h2>
+<p>Series from <a href="https://www.nytimes.com/2023/04/07/nyregion/nyc-covid-deaths.html">NYC Life Expectancy Dropped 4.6 Years in 2020</a></p>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p><img data-src="figures/nyc-nyt-leading-causes-premature-death.PNG"></p>
+</div><div class="column" style="width:40%;">
+<p>Positive:</p>
+<ul>
+<li class="fragment">clear story</li>
+</ul>
+<p>Negative:</p>
+<ul>
+<li class="fragment">awkward/distracting to include time, since no history for COVID</li>
+<li class="fragment">not the most efficient display of the captioned message</li>
+</ul>
+<p>Remark:</p>
+<ul>
+<li class="fragment">it would be more interesting to see the time courses <em>after</em> 2020</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="more-critiques" class="slide level2">
+<h2>More critiques</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p><img data-src="figures/nyt-spelling-bee-easy.PNG"></p>
+</div><div class="column" style="width:40%;">
+<p>Positive:</p>
+<ul>
+<li class="fragment">clear labels</li>
+<li class="fragment">unambiguous</li>
+</ul>
+<p>Negative:</p>
+<ul>
+<li class="fragment">bars take up all of the plot here</li>
+<li class="fragment">many words seem equivalent</li>
+</ul>
+<p>Suggestions:</p>
+<ul>
+<li class="fragment">find an alternative to the bar plot</li>
+<li class="fragment">consider emphasizing comparisons between word clusters rather than individual words</li>
+</ul>
+</div>
+</div>
 </section>
 <section id="tidy-graphics" class="slide level2">
 <h2>Tidy graphics?</h2>
@@ -639,11 +752,20 @@
 </ul>
 </div>
 </section>
-<section id="example" class="slide level2">
-<h2>Example</h2>
+<section id="an-untidy-plot" class="slide level2">
+<h2>An untidy plot</h2>
 <p>The starting plot in lab 3 is actually a bad plot because all years are shown together – so observationational units (countries) are not clearly distinguished.</p>
 
 <img data-src="figures/gdp-expectancy-bad.png" class="r-stretch"></section>
+<section id="a-tidy-plot" class="slide level2">
+<h2>A tidy plot</h2>
+
+<img data-src="figures/gdp-expectancy.png" class="r-stretch"><p>This is tidy, because within facets:</p>
+<ul>
+<li class="fragment">each bubble represents a country</li>
+<li class="fragment">any two bubbles represent distinct countries</li>
+</ul>
+</section>
 <section id="exploration-or-presentation" class="slide level2">
 <h2>Exploration or presentation?</h2>
 <p>In data exploration, it’s more important to generate lots of figures quickly than put a lot of care into details.</p>
@@ -662,8 +784,12 @@
 </section>
 <section id="presenting-graphics" class="slide level2">
 <h2>Presenting graphics</h2>
+<p>Here is my approach to presenting a graphic. I use this for both written and oral presentations.</p>
 <ol type="1">
-<li class="fragment">Describe clearly each graphical element and what each represents.</li>
+<li class="fragment">Describe clearly each graphical element and what each represents.
+<ul>
+<li class="fragment">Start with the highest-level graphical elements (axes) and work progressively to the lowest-level elements (aesthetics)</li>
+</ul></li>
 <li class="fragment">Describe clearly what is shown visually in the graphic <em>without</em> interpreting any patterns.</li>
 <li class="fragment">Finally, say what the graphic shows.</li>
 </ol>
@@ -671,11 +797,16 @@
 <section id="practice" class="slide level2">
 <h2>Practice</h2>
 
-<img data-src="figures/gdp-expectancy.png" class="r-stretch"></section>
+<img data-src="figures/electrocorticography.png" class="r-stretch"></section>
 <section id="practice-1" class="slide level2">
 <h2>Practice</h2>
 
-<div class="footer footer-default">
+<img data-src="figures/brfs-ace.png" class="r-stretch"></section>
+<section id="practice-2" class="slide level2">
+<h2>Practice</h2>
+
+
+<img data-src="figures/seda-fig.png" class="r-stretch"><div class="footer footer-default">
 
 </div>
 </section>
