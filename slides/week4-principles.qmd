@@ -271,6 +271,7 @@ Suggests, misleadingly, that Education declined by the same amount as social sci
 
 ## What about this?
 
+One axis is fixed, one is free.
 
 
 ## Labels and legends
@@ -295,7 +296,7 @@ Usually figure defaults look fine on your IDE but render too small when graphics
 
 These labels are legible, but still too small -- they take up a minimum of space in the figure.
 
-![Unbalanced text/graphic/whitespace](figures/Aus-athletes-small-1.png)
+![Unbalanced text/graphic/whitespace](figures/Aus-athletes-ugly-1.png)
 
 ## Sizing
 
@@ -317,7 +318,7 @@ Don't overdo it.
 
 If the figure will be reproduced in a scaled-down size, increase all sizes in proportion.
 
-![](figures/Aus-athletes-big-good-1.png)
+![](figures/Aus-athletes-big-good-1.png){width=400}
 
 ## Critiques
 
