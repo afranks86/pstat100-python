@@ -318,7 +318,7 @@ Don't overdo it.
 
 If the figure will be reproduced in a scaled-down size, increase all sizes in proportion.
 
-![](figures/Aus-athletes-big-good-1.png){width=400}
+![](figures/Aus-athletes-big-good-1.png){width=1in}
 
 ## Critiques
 
