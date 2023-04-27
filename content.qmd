@@ -43,7 +43,7 @@ format: html
 
 *Assignments*: 
 
-* HW1, BRFSS case study, due Monday, April 24 [[html](hw/hw1-brfss/hw1-brfss.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Fhw1-brfss%2Fhw1-brfss.ipynb&branch=main)] 
+* HW1, BRFSS case study, due Monday, April 24 [[html](hw/hw1-brfss/hw1-brfss.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Fhw1-brfss%2Fhw1-brfss.ipynb&branch=main)] [[solutions](hw/hw1-brfss/hw1-brfss-soln.ipynb)]
 
 **Monday**: Tidy data [[slides](slides/week2-tidy.qmd)]
 
@@ -66,7 +66,7 @@ format: html
 
 **Monday**: Sampling, bias, and missingness [[slides](slides/week3-sampling.qmd)]
 
-**Lab sections**: Exploring sampling bias through simulation [[html](labs/lab2-sampling/lab2-sampling.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Flab2-sampling%2Flab2-sampling.ipynb&branch=main)]
+**Lab sections**: Exploring sampling bias through simulation [[html](labs/lab2-sampling/lab2-sampling.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Flab2-sampling%2Flab2-sampling.ipynb&branch=main)] [[solutions](labs/lab2-sampling/lab2-sampling-soln.ipynb)]
 
 **Wednesday**: Voter fraud case study [[slides](slides/week3-casestudy.qmd)] [[activity html](activities/week3-activity-miller.ipynb)] [[activity notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Factivities%2Fweek3-activity-miller.ipynb&branch=main)]
 
