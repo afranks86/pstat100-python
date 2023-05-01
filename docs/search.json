@@ -2609,5 +2609,250 @@
     "title": "PSTAT100",
     "section": "Regression",
     "text": "Regression\nYou will be learning more about linear regression later in the course, but we can introduce regression lines now as a visualization technique. As with LOESS, you don’t need to concern yourself with the mathematical details (yet). From this perspective, regression is a form of linear smoothing – a regression smooth is a straight line. By contrast, LOESS smooths have curvature – they are not straight lines.\nIn the example above, the LOESS curves don’t have much curvature. So it may be a cleaner choice visually to show linear smooths. This can be done using .transform_regression(...) with a similar argument structure.\n\n# scatterplot\nscatter = alt.Chart(data_mod1).transform_filter(\n    alt.FieldEqualPredicate(field = 'Year', equal = 2000)\n).mark_circle(opacity = 0.5).encode(\n    x = alt.X('log(GDP per capita)', scale = alt.Scale(zero = False)),\n    y = alt.Y('Life Expectancy', title = 'Life Expectancy at Birth', scale = alt.Scale(zero = False)),\n    size = alt.Size('Population', scale = alt.Scale(type = 'sqrt')),\n    color = 'region'\n)\n\n# compute smooth\nsmooth = scatter.transform_regression(\n    groupby = ['region'],\n    on = 'log(GDP per capita)', \n    regression = 'Life Expectancy'\n).mark_line(color = 'black')\n\n# add as a layer to the scatterplot\nscatter + smooth\n\n\n\nQuestion 9: Simple regression line\nBased on the example immediately above, construct a scatterplot of life expectancy against log GDP per capita in 2010 with points sized according to population (and no distinction between regions). Layer a single linear smooth on the scatterplot using .transform_regression(...).\n(Hint: remove the color aesthetic and grouping from the previous plot.)\n\n# construct scatterplot\nscatter = alt.Chart(data_mod1).transform_filter(\n    ...\n).mark_circle(opacity = 0.5).encode(\n    x = ...\n    y = ...\n    size = ...\n)\n\n# construct smooth\nsmooth = scatter.transform_regression(\n    on = ...\n    regression = ...\n).mark_line(color = 'black')\n\n# layer\n..."
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#announcements",
+    "href": "slides/week5-smoothing.html#announcements",
+    "title": "Exploratory analysis and density estimation",
+    "section": "Announcements",
+    "text": "Announcements\n\nNo assignment posted this week\nNo lab next week"
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#this-week-smoothing",
+    "href": "slides/week5-smoothing.html#this-week-smoothing",
+    "title": "Kernel Density Estimation",
+    "section": "This week: smoothing",
+    "text": "This week: smoothing\n\nWhat is exploratory data analysis (EDA)?\n\nThe role of data: information or evidence?\nExploratory vs. confirmatory analysis\nEssential exploratory questions: variation and co-variation\n\nSmoothing\n\nWhy smooth?\nKernel density estimation (KDE)\n\nConnections with probability\n\nWhat’s a probability distribution again?\nEDA and conditional distributions"
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#eda",
+    "href": "slides/week5-smoothing.html#eda",
+    "title": "Exploratory analysis and density estimation",
+    "section": "EDA",
+    "text": "EDA\nThe term and spirit of exploratory data analysis (EDA) is attributed to John Tukey, whose philosophically-leaning work in statistics in the 1960’s and 1970’s stressed the need for more data-driven methods.\n\n\nFor a long time I have thought I was a statistician, interested in inferences from the particular to the general … All in all, I have come to feel that my central interest is in data analysis [which] is a larger and more varied field than inference. (Tukey, 1962)\n\n\n\nEDA is an initial stage of non-inferential and largely model-free analysis aiming at understanding the structure, patterns, and particularities present in a dataset."
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#data-as-evidence",
+    "href": "slides/week5-smoothing.html#data-as-evidence",
+    "title": "Exploratory analysis and density estimation",
+    "section": "Data as evidence",
+    "text": "Data as evidence\nExperimental data usually serve the role of evidence for or against prespecified hypotheses.\n\n\\[\n\\text{hypothesis} \\longrightarrow \\text{data} \\longrightarrow \\text{inference}\n\\]\n\n\nFor example, in vaccine efficacy trials, trial data are collected precisely to affirm or refute the hypothesis of no effect:\n\n\n\nVaccine group\nPlacebo group\n\n\n\n\n11 cases\n185 cases\n\n\n\n\\(\\hat{P}(\\text{case is in the vaccine group}) = 0.056 \\quad\\Longrightarrow\\quad \\text{evidence of effect}\\)"
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#data-as-information",
+    "href": "slides/week5-smoothing.html#data-as-information",
+    "title": "Exploratory analysis and density estimation",
+    "section": "Data as information",
+    "text": "Data as information\nBy contrast, observational data more often serve the role of information about some phenomenon.\n\nFor example, a secondary trial target might is to assess saftey by gathering observational data on side effects; for this there is no hypothesis."
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#eda-then-cda",
+    "href": "slides/week5-smoothing.html#eda-then-cda",
+    "title": "Exploratory analysis and density estimation",
+    "section": "EDA then CDA",
+    "text": "EDA then CDA\nThe picture that most practitioners have of modern data science is that EDA precedes confirmatory data analysis (CDA).\n\nEDA is used to generate hypotheses or formulate a model based on patterns in the data\nCDA, consisting of model specification and estimation, is used for inference and/or prediction\n\n\nAside: Historically, statistics has focused on CDA – and therefore a lot of your PSTAT coursework does, too."
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#essential-exploratory-questions",
+    "href": "slides/week5-smoothing.html#essential-exploratory-questions",
+    "title": "Exploratory analysis and density estimation",
+    "section": "Essential exploratory questions",
+    "text": "Essential exploratory questions\n\nWhen you ask a question, the question focuses your attention on a specific part of your dataset and helps you decide which graphs, models, or transformations to make.\n\n\nThere are two basic kinds of questions that are always useful:\n\nWhat type of variation occurs within variables?\nWhat type of covariation occurs between variables?"
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#variation-in-one-variable",
+    "href": "slides/week5-smoothing.html#variation-in-one-variable",
+    "title": "Exploratory analysis and density estimation",
+    "section": "Variation in one variable",
+    "text": "Variation in one variable\nVariation in data is the tendency of values to change from measurement to measurement.\n\nFor example, the following observations from your mini project data are around 8 \\(\\mu g/m^3\\), but each one is different.\n\n\n\n\n\n\n  \n    \n      \n      PM25_mean\n      City\n      State\n      Year\n    \n  \n  \n    \n      0\n      8.6\n      Aberdeen\n      SD\n      2000\n    \n    \n      1\n      8.6\n      Aberdeen\n      SD\n      2001\n    \n    \n      2\n      7.9\n      Aberdeen\n      SD\n      2002\n    \n    \n      3\n      8.4\n      Aberdeen\n      SD\n      2003\n    \n  \n\n\n\n\n\n\nWhat does it mean to ask what ‘type’ of variation there is in this data?"
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#questions-about-variation",
+    "href": "slides/week5-smoothing.html#questions-about-variation",
+    "title": "Exploratory analysis and density estimation",
+    "section": "Questions about variation",
+    "text": "Questions about variation\nThere aren’t exact types of variation, but here are some useful questions:\n\n(Common) Which values are most common?\n(Rare) Which values are rare?\n(Spread) How spread out are the values and how are they spread out?\n(Shape) Are values spread out evenly or irregularly?\n\n\nThese questions often lead the way to more focused ones."
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#air-quality",
+    "href": "slides/week5-smoothing.html#air-quality",
+    "title": "Exploratory analysis and density estimation",
+    "section": "Air quality",
+    "text": "Air quality\nThe following histogram shows the distribution of PM 2.5 concentrations across all 200 cities and 20 years.\n\n\n\n\n\n\n\n\nIt shows several statistical properties of the data related to variation:\n\nThe common values have the highest bars – values between roughly 6 and 14.\nValues under 4 and over 18 are rare, accounting for under 5% of the data.\nValues are concentrated between 4 and 18, but are spread from 2 to 52.\nThe shape is pretty even but a little more spread out to the right (“right skew”)."
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#question-refinement",
+    "href": "slides/week5-smoothing.html#question-refinement",
+    "title": "Exploratory analysis and density estimation",
+    "section": "Question refinement",
+    "text": "Question refinement\nNew question: The national standard is 12 micrograms per cubic meter. Over 1,000 measurements exceeded this. Was it just a few cities, or more widespread?\n\n\n\n\n\n\n\n\n\n\nMany cities exceeded the standard at some point in time: over 70% of the cities in the dataset. So it was more widespread, but these were the worst:\n\n\n\n\nCity                 State\nHanford-Corcoran      CA      20\nVisalia-Porterville   CA      20\nFresno                CA      19\nBakersfield           CA      18\nName: Years exceeding standard, dtype: int64"
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#further-questions",
+    "href": "slides/week5-smoothing.html#further-questions",
+    "title": "Exploratory analysis and density estimation",
+    "section": "Further questions",
+    "text": "Further questions\nHow many cities exceed the benchmark each year? Does this change from year to year?\n\n\n\n\n\n\n\n\n\n\nThere are a lot of years and it’s hard to see anything with all the overlapping bars.\n\nRemember the rule? Don’t stack histograms.\nUse density plots instead."
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#further-questions-1",
+    "href": "slides/week5-smoothing.html#further-questions-1",
+    "title": "Exploratory analysis and density estimation",
+    "section": "Further questions",
+    "text": "Further questions\nVisually, it’s a lot easier to distinguish overlapping lines than overlapping bars. Smoothing out the histogram produces this:\n\n\n\n\n\n\n\n\n\n\nThis shows that both the variation in PM 2.5 and the typical values are diminishing over time.\n\nsuggests fewer cities exceed the EPA standard (12 \\(\\mu g/m^3\\)) over time\na few outliers in some early year\nnot the best presentation graphic, but useful exploratory graphic"
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#further-questions-2",
+    "href": "slides/week5-smoothing.html#further-questions-2",
+    "title": "Exploratory analysis and density estimation",
+    "section": "Further questions",
+    "text": "Further questions\n\n\nThis gets the message across better.\n\n\n\n\n\n\n\n\nAnd here are those outlying values:\n\n\n\n\n\n\n  \n    \n      \n      PM25_mean\n      City\n      State\n      Year\n    \n  \n  \n    \n      1984\n      51.2\n      Fairbanks\n      AK\n      2004\n    \n    \n      1985\n      31.3\n      Fairbanks\n      AK\n      2005"
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#density-estimates",
+    "href": "slides/week5-smoothing.html#density-estimates",
+    "title": "Exploratory analysis and density estimation",
+    "section": "Density estimates",
+    "text": "Density estimates\nAll of the above has amounted to exploration of the distribution of PM 2.5 values across years and cities.\n\nDensity estimates provide smooth approximations of distributions:\n\n\n\n\n\n\n\n\n\nThese are useful tools for answering questions about variation. Relative to the histogram:\n\nEasier to see the shape, spread, and typical values quickly.\nEasier to compare multiple distributions."
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#histograms-and-probability-densities",
+    "href": "slides/week5-smoothing.html#histograms-and-probability-densities",
+    "title": "Exploratory analysis and density estimation",
+    "section": "Histograms and probability densities",
+    "text": "Histograms and probability densities\nFrom 120A, a probability density/mass function has two properties:\n\nNonnegative: \\(f(x) \\geq 0\\) for every \\(x \\in \\mathbb{R}\\).\nSums/integrates to one: \\(\\int_\\mathbb{R} f(x) dx = 1\\) or \\(\\sum_{x \\in \\mathbb{R}} f(x) = 1\\)\n\n\nHistograms are almost proper density functions: they satisfy (1) but not (2)."
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#count-scale-histograms",
+    "href": "slides/week5-smoothing.html#count-scale-histograms",
+    "title": "Exploratory analysis and density estimation",
+    "section": "Count scale histograms",
+    "text": "Count scale histograms\nWhen the bar height is a count of the number of observations in each bin, the histogram is on the count scale.\n\nMore precisely, if the values are \\(x_1, \\dots, x_n\\), then the height of the bar for the \\(j\\)th bin \\(B_j = (a_j, b_j]\\) is:\n\\[\n\\text{height}_j = \\sum_{i = 1}^n \\mathbf{1}\\{x_i \\in B_j\\}\n\\]\n\n\n\n\nBad for comparisons: the bar heights incomparable in scale whenever the bin widths and/or sample sizes differ."
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#density-scale-histograms",
+    "href": "slides/week5-smoothing.html#density-scale-histograms",
+    "title": "Exploratory analysis and density estimation",
+    "section": "Density scale histograms",
+    "text": "Density scale histograms\nA fix that ensures comparability of scale for any two histograms is to normalize heights by bin width \\(b\\) and sample size \\(n\\).\n\\[\n\\text{height}_j = \\color{red}{\\frac{1}{nb}} \\sum_{i = 1}^n \\mathbf{1}\\{x_i \\in B_j\\} \\quad\\text{where}\\quad b = b_j - a_j\n\\]\n\nNow the area under the histogram is \\(\\sum_j b \\times \\text{height}_j = 1\\), so we call this a density scale histogram, because it is a valid probability density."
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#smoothing",
+    "href": "slides/week5-smoothing.html#smoothing",
+    "title": "Exploratory analysis and density estimation",
+    "section": "Smoothing",
+    "text": "Smoothing\nKernel density estimates are local smoothings of the density scale histogram.\nThis can be seen by comparing the type of smooth curve we saw earlier with the density scale histogram."
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#how-kde-works",
+    "href": "slides/week5-smoothing.html#how-kde-works",
+    "title": "Exploratory analysis and density estimation",
+    "section": "How KDE works",
+    "text": "How KDE works\nTechnically, KDE is a convolution filtering. We can try to understand it in more intuitive terms by developing the idea constructively from the density histogram in two steps.\n\nDo locally adaptive binning\nReplace counting by weighted aggregation"
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#a-preliminary-indicator-functions",
+    "href": "slides/week5-smoothing.html#a-preliminary-indicator-functions",
+    "title": "Exploratory analysis and density estimation",
+    "section": "A preliminary: indicator functions",
+    "text": "A preliminary: indicator functions\nIn what follows we’re going to express the histogram mathematically as a function of data values.\n\nThis will require the use of indicator functions, which are simply functions that are 1 or 0 depending on a condition. They are denoted like this:\n\\[\n\\mathbf{1}\\{\\text{condition}\\} = \\begin{cases} 1 &\\text{ if condition is true} \\\\ 0 &\\text{ if condition is false} \\end{cases}\n\\]\n\n\nThe sum of an indicator gives a count of how many times the condition is met:\n\\[\n\\sum_i \\mathbf{1}\\{x_i > 0\\} = \\#\\text{ of values that are positive}\n\\]"
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#the-histogram-as-a-step-function",
+    "href": "slides/week5-smoothing.html#the-histogram-as-a-step-function",
+    "title": "Exploratory analysis and density estimation",
+    "section": "The histogram as a step function",
+    "text": "The histogram as a step function\nThe value (height) of the density scale histogram at an arbitrary point \\(\\color{red}{x}\\) is\n\\[\n\\text{hist}(\\color{red}{x}) = \\frac{1}{nb} \\sum_{i = 1}^n \\sum_{j} \\mathbf{1}\\{\\color{red}{x} \\in B_j\\} \\mathbf{1}\\{x_i \\in B_j\\}\n\\]\n\nHere’s what those indicators do:\n\\[\n\\mathbf{1}\\{\\color{red}{x} \\in B_j\\} \\quad \\text{finds the right bin}\\;,\\quad\n\\mathbf{1}\\{x_i \\in B_j\\} \\quad \\text{picks out the data points in the bin}\n\\]"
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#a-local-histogram",
+    "href": "slides/week5-smoothing.html#a-local-histogram",
+    "title": "Exploratory analysis and density estimation",
+    "section": "A ‘local’ histogram",
+    "text": "A ‘local’ histogram\nOne could do a ‘moving window’ binning by allowing the height at \\(\\color{red}{x}\\) to be a normalization of the count in a neighborhood of \\(x\\) of width \\(b\\) rather than in one of a fixed set of bins:\n\\[\n\\text{hist}_\\text{local}(\\color{red}{x}) = \\frac{1}{nb} \\sum_{i = 1}^n \\mathbf{1}\\left\\{|x_i - \\color{red}{x}| < \\frac{b}{2}\\right\\}\n\\]\n\nLet’s call this a local histogram, because the height at any point \\(\\color{red}{x}\\) is determined relative to the exact location of \\(\\color{red}{x}\\)."
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#local-vs.-fixed-binning",
+    "href": "slides/week5-smoothing.html#local-vs.-fixed-binning",
+    "title": "Kernel Density Estimation",
+    "section": "Local vs. fixed binning",
+    "text": "Local vs. fixed binning"
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#drawing-a-local-histogram",
+    "href": "slides/week5-smoothing.html#drawing-a-local-histogram",
+    "title": "Exploratory analysis and density estimation",
+    "section": "Drawing a local histogram",
+    "text": "Drawing a local histogram\n\\[\n\\text{hist}_\\text{local}(\\color{red}{x}) = \\frac{1}{nb} \\sum_{i = 1}^n \\mathbf{1}\\left\\{|x_i - \\color{red}{x}| < \\frac{b}{2}\\right\\}\n\\]"
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#pm-2.5-data",
+    "href": "slides/week5-smoothing.html#pm-2.5-data",
+    "title": "Exploratory analysis and density estimation",
+    "section": "PM 2.5 data",
+    "text": "PM 2.5 data\nHere’s what that would look like with \\(b = 1\\) for the air quality data:"
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#pm-2.5-data-1",
+    "href": "slides/week5-smoothing.html#pm-2.5-data-1",
+    "title": "Exploratory analysis and density estimation",
+    "section": "PM 2.5 data",
+    "text": "PM 2.5 data\nZooming in reveals that this is still a step function:"
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#the-kernel-function",
+    "href": "slides/week5-smoothing.html#the-kernel-function",
+    "title": "Exploratory analysis and density estimation",
+    "section": "The kernel function",
+    "text": "The kernel function\nThe local histogram is in fact a density estimate with a uniform ‘kernel’:\n\\[\n\\text{hist}_\\text{local}(\\color{red}{x}) = \\frac{1}{n} \\sum_{i = 1}^n \\underbrace{\\frac{1}{b}\\mathbf{1}\\left\\{|x_i - \\color{red}{x}| < \\frac{b}{2}\\right\\}}_\\text{kernel function}\n\\]\n\nuniform because the kernel function is constant about \\(x\\)\nwhen \\(x_1, \\dots, x_n\\) are a random sample, this is an estimate of the population denisty"
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#gaussian-kde",
+    "href": "slides/week5-smoothing.html#gaussian-kde",
+    "title": "Exploratory analysis and density estimation",
+    "section": "Gaussian KDE",
+    "text": "Gaussian KDE\nReplacing the uniform kernel with a Gaussian kernel yields a smooth density estimate:\n\\[\n\\hat{f}(\\color{red}{x}) = \\frac{1}{n} \\sum_{i = 1}^n \\frac{1}{b}\\varphi\\left(\\frac{x_i - \\color{red}{x}}{b}\\right)\n\\]\n\n\\(\\varphi\\) is the standard Gaussian density \\(\\varphi(z) = \\frac{1}{\\sqrt{2\\pi}}\\exp\\left\\{- \\frac{z^2}{2}\\right\\}\\)\n\\(b\\) is the smoothing ‘bandwidth’\n\n\nIn effect, the KDE curve at any point \\(\\color{red}{x}\\) is a weighted aggregation of all the data with weights proportional to their distance from \\(\\color{red}{x}\\)."
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#smoothing-bandwidth",
+    "href": "slides/week5-smoothing.html#smoothing-bandwidth",
+    "title": "Exploratory analysis and density estimation",
+    "section": "Smoothing bandwidth",
+    "text": "Smoothing bandwidth\nThe bandwidth parameter \\(b\\) controls how wiggly the KDE curve is.\n\n\n\n\n\n\n\n\nThe choice of smoothing bandwidth can change the visual impression.\n\ntoo much smoothing can obscure outliers and multiple modes\ntoo little smoothing can misleadingly overemphasize sample artefacts"
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#other-kernels",
+    "href": "slides/week5-smoothing.html#other-kernels",
+    "title": "Exploratory analysis and density estimation",
+    "section": "Other kernels",
+    "text": "Other kernels\nIn general, a KDE can be computed with any appropriately normalized nonnegative kernel function \\(K_b(\\cdot)\\).\n\\[\n\\hat{f}_{K_b}(\\color{red}{x}) = \\frac{1}{n} \\sum_{i = 1}^n K_b\\left(x_i - \\color{red}{x}\\right)\n\\]\nOther common kernel functions include:\n\ntriangular kernel \\(K(z) = 1 - |z|\\)\nparabolic kernel \\(K(z) \\propto 1 - z^2\\)\ncosine kernel \\(K(z) \\propto \\cos\\left(\\frac{\\pi z}{2}\\right)\\)\ncircular density \\(K(z) \\propto \\exp\\left\\{k\\cos(z)\\right\\}\\)\nany symmetric continuous probability density function"
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#kde-in-higher-dimensions",
+    "href": "slides/week5-smoothing.html#kde-in-higher-dimensions",
+    "title": "Exploratory analysis and density estimation",
+    "section": "KDE in higher dimensions",
+    "text": "KDE in higher dimensions\nUsually for multivariate data it’s easier to work with conditional distributions, but KDE can be generalized to estimating joint densities in \\(p\\) dimensions:\n\\[\n\\hat{f}_K (\\mathbf{x}) = \\frac{1}{n} \\sum_i |\\mathbf{B}|^{-1/2} K \\left(\\mathbf{B^{-1/2}}(\\mathbf{x} - \\mathbf{x}_i)\\right)\n\\]\n\n\\(\\mathbf{x}\\in\\mathbb{R}^p\\) is a \\(p\\)-dimensional vector\n\\(K:\\mathbb{R}^p \\rightarrow \\mathbb{R}\\) is a nonnegative kernel function\n\\(B\\) is a \\(p\\times p\\) matrix of bandwidth parameters\n\n\nThe usual approach is to decorrelate the variates and apply a product kernel \\(K(\\mathbf{z}) = K_1(z_1)K_2(z_2)\\cdots K_p(z_p)\\) with separate bandwidths for each dimension."
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#this-week-eda-and-smoothing",
+    "href": "slides/week5-smoothing.html#this-week-eda-and-smoothing",
+    "title": "Exploratory analysis and density estimation",
+    "section": "This week: EDA and smoothing",
+    "text": "This week: EDA and smoothing\n\nWhat is exploratory data analysis (EDA)?\n\nThe role of data: information or evidence?\nExploratory vs. confirmatory analysis\nEssential exploratory questions: variation and co-variation\n\nSmoothing\n\nKernel density estimation (KDE)\nLOESS"
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#bivariate-example",
+    "href": "slides/week5-smoothing.html#bivariate-example",
+    "title": "Exploratory analysis and density estimation",
+    "section": "Bivariate example",
+    "text": "Bivariate example\n\n\n\n\n\n\nBivariate histogram shown as a raster plot\n\n\n\n\n\n\n\nContours of density estimate\n\n\n\n\n\nDoes race time seem correlated with runner’s age?"
+  },
+  {
+    "objectID": "content.html#week-5",
+    "href": "content.html#week-5",
+    "title": "Materials",
+    "section": "Week 5",
+    "text": "Week 5\nReadings:\n\nLDS 11.2 Smoothing and aggregating data\nScott, D.W. (2012). Multivariate Density Estimation and Visualization. In: Gentle, J., Härdle, W., Mori, Y. (eds) Handbook of Computational Statistics. [link to chapter]\n\nMonday: Exploratory analysis and density estimation [slides]\nLab sections: Smoothing [html] [notebook]"
   }
 ]
