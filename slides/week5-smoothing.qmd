@@ -1,5 +1,5 @@
 ---
-title: "Kernel smoothing"
+title: "Density estimation, mixture models, and smoothing"
 author: "PSTAT100 Spring 2023"
 date: "Week 5, Lecture 2"
 format: 
@@ -14,7 +14,19 @@ execute:
     echo: true
 ---
 
+## Outline for today
+
+* More on density estimation
+    + non-Gaussian kernels
+    + multivariate KDE
+    + mixture models
+* Scatterplot smoothing
+    + Kernel smoothing
+    + LOESS
+
 ```{python}
+#| echo: false
+#| output: false
 import os
 os.environ["OMP_NUM_THREADS"] = "1"
 import numpy as np
@@ -25,16 +37,6 @@ from statsmodels.nonparametric.kde import kernel_switch
 from sklearn import mixture
 alt.data_transformers.disable_max_rows()
 ```
-
-## Outline
-
-* More on density estimation
-    + non-Gaussian kernels
-    + multivariate KDE
-    + mixture models
-* Scatterplot smoothing
-    + Kernel smoothing
-    + LOESS
 
 ## Sustainability data
 
@@ -47,7 +49,6 @@ sust.iloc[:, 1:5].head(2)
 
 * 933 distinct cities 
 * indices for sustainability in enviornmental, social, and eonomic domains
-* composite sustainability index
 
 ## Environmental sustainability index
 
@@ -110,7 +111,7 @@ smooth = alt.Chart(
 )
 ```
 
-## Computing KDE without Altair
+## KDEs with statsmodels
 
 The `statsmodels` package has KDE implementations with finer control. This will allow us to experiment with other kernels.
 
@@ -123,12 +124,15 @@ kde.fit(bw = bw_scott)
 
 . . .
 
-The object `kde` has `.support` and `.density` attributes; we'll arrange these into a dataframe:
+The object `kde` has `.support` ($x$) and `.density` ($\hat{f}(x)$) attributes:
 
 ```{python}
-kde_df = pd.DataFrame({'Environmental sustainability index': kde.support, 
-                       'Density': kde.density})
-kde_df.head()
+#| code-line-numbers: "2-3"
+kde_df = pd.DataFrame({
+    'Environmental sustainability index': kde.support, 
+    'Density': kde.density
+    })
+kde_df.head(3)
 ```
 
 ## Other kernels
@@ -160,17 +164,14 @@ smooth2 = alt.Chart(
 
 ## Other kernels
 
-Here are the forms of some common kernel functions:
-
 ![](figures/kernel-functions.png)
 
-. . . 
+* Titles indicate `statsmodels.nonparametric.KDEUnivariate` abbreviations
+* Note different axis scales -- not as similar as they look!
 
-Titles indicate abbreviations for use in `statsmodels.nonparametric.KDEUnivariate`
+## Explore
 
-## Exploration
-
-Use the activity notebook to experiment and answer the following.
+Take 5-6 minutes with your neighbor and use the activity notebook to experiment and answer the following.
 
 * How does the KDE differ if a parabolic (`epa`) kernel is used in place of a Gaussian (`gau`) kernel while the bandwidth is held constant?
 * What effect does a triangular kernel (`tri`) have on how local peaks appear?
@@ -179,11 +180,7 @@ Use the activity notebook to experiment and answer the following.
 
 ## Multivariate KDE
 
-We'll use the same data to illustrate multivariate density estimation. 
-
-. . .
-
-For this we'll consider the joint distribution of environmental and economic sustainability indices.
+Now let's estimate the joint distribution of environmental and economic sustainability indices. Here are the values:
 
 ```{python}
 alt.Chart(
@@ -202,6 +199,7 @@ alt.Chart(
 There are a few options for displaying a 2-D histogram. One is to bin and plot a heatmap, as we saw before:
 
 ```{python}
+#| code-line-numbers: "4-6"
 alt.Chart(
     sust
 ).mark_rect().encode(
@@ -248,11 +246,11 @@ The following computes a multivariate Gaussian KDE
 fit_ary = sust.loc[:, ['Env_Domain', 'Econ_Domain']].values
 
 # compute KDE
-kde = sm.nonparametric.KDEMultivariate(fit_ary, 'cc')
+kde = sm.nonparametric.KDEMultivariate(data = fit_ary, var_type = 'cc')
 kde
 ```
 
-* input: 2-D $(\text{observations} \times \text{variables})$ array
+* input: 2-D array $(\text{observations} \times \text{variables})$
 * variable type specification, one per variate: continuous, discrete, etc.
 * method of bandwidth selection (not shown)
 
@@ -262,9 +260,39 @@ A common visualization strategy is to generate a *prediction grid*: a mesh of va
 
 . . .
 
-Here we'll use a 100 x 100 mesh and use `kde.fit()` to compute the estimated density at each combination of coordinates.
+Here is a 20 x 20 mesh:
 
 ```{python}
+# resolution of grid (number of points to use along each axis)
+grid_res = 20
+
+# find grid point coordinates along each axis
+x1 = np.linspace(start = sust.Env_Domain.min(), stop = sust.Env_Domain.max(), num = grid_res)
+x2 = np.linspace(start = sust.Econ_Domain.min(), stop = sust.Econ_Domain.max(), num = grid_res)
+
+# generate a mesh from the coordinates
+grid1, grid2 = np.meshgrid(x1, x2, indexing = 'ij')
+grid_ary = np.array([grid1.ravel(), grid2.ravel()]).T
+
+# plot grid points
+alt.Chart(
+    pd.DataFrame(grid_ary).rename(columns = {0: 'env', 1: 'econ'})
+).mark_point(color = 'black').encode(
+    x = alt.X('env', scale = alt.Scale(zero = False)),
+    y = alt.Y('econ', scale = alt.Scale(zero = False))
+).configure_axis(
+    labelFontSize = 14,
+    titleFontSize = 16
+)
+```
+
+
+## Prediction grids
+
+We'll use a 100 x 100 mesh and `kde.pdf()` to compute the estimated density at each grid point:
+
+```{python}
+#| code-line-numbers: "13"
 # resolution of grid (number of points to use along each axis)
 grid_res = 100
 
@@ -308,7 +336,7 @@ bubble = alt.Chart(
 ).mark_circle().encode(
     x = alt.X('Env_Domain', bin = alt.Bin(maxbins = 40), title = 'Environmental sustainability'),
     y = alt.Y('Econ_Domain', bin = alt.Bin(maxbins = 40), title = 'Economic sustainability'),
-    size = alt.Size('count()', scale = alt.Scale(scheme = 'bluepurple'))
+    size = alt.Size('count()', scale = alt.Scale(scheme = 'bluepurple'), title = 'Cities')
 )
 
 # layer
@@ -321,19 +349,16 @@ bubble = alt.Chart(
 )
 ```
 
-Questions:
-
 * Does the KDE seem like a good estimate?
 * What, if anything, does the graphic convey about the sustainability of cities?
 
 ## Mixture models
 
-KDE is a *nonparametric* technique: it involves no population parameters, and thus minimal assumptions about the specific form of distribution being approximated.
+KDE is a *nonparametric* technique: it involves no population parameters.
 
 . . .
 
-
-Mixture models are a *parametric* alternative for density estimation. The Gaussian mixture model is: 
+Mixture models are a parametric alternative for density estimation. The Gaussian mixture model is: 
 $$
 f(x) = a_1 \varphi(x; \mu_1, \sigma_1) + \cdots + a_n \varphi(x; \mu_n, \sigma_n)
 $$
@@ -369,7 +394,7 @@ centers
 And the mixing parameters:
 
 ```{python}
-pd.DataFrame({'mixing': gmm.weights_})
+print('mixing parameters', gmm.weights_)
 ```
 
 ## Bivariate mixture model
@@ -401,13 +426,12 @@ ctr = alt.Chart(centers).mark_point(color = 'black', shape = 'triangle').encode(
 )
 ```
 
-. . .
-
-What differences do you observe? Which do you prefer and why?
+* What differences do you observe? 
+* Which do you prefer and why?
 
 ## Pros and Cons
 
-KDE is *nonparametric* and what's sometimes called a *memory-based* procedure: it uses all available data every time an estimated value is calculated.
+KDE is a nonparametric method and is sometimes called a *memory-based* procedure: it uses all available data every time an estimated value is calculated.
 
 * Advantages: minimal assumptions, highly flexible
 * Disadvantages: not parsimonious, computationally intensive
@@ -440,7 +464,7 @@ male_hawks = pd.DataFrame(
 
 population_hawks = pd.concat([female_hawks, male_hawks], axis = 0)
 
-population_hawks.groupby('sex').head(2)
+population_hawks.groupby('sex').head(1)
 ```
 
 . . .
@@ -492,10 +516,10 @@ gmm_hawks.fit(samp.length.values.reshape(-1, 1))
 
 # compare components with subpopulations
 print('gmm component means: ', gmm_hawks.means_.ravel())
-print('population means by sex: ', population_hawks.groupby('sex').mean().values.ravel())
+print('population means by sex: ', np.sort(population_hawks.groupby('sex').mean().values.ravel()))
 
 print('gmm component variances: ', gmm_hawks.covariances_.ravel())
-print('population variances by sex: ', population_hawks.groupby('sex').var().values.ravel())
+print('population variances by sex: ', np.sort(population_hawks.groupby('sex').var().values.ravel()))
 ```
 
 . . . 
@@ -526,7 +550,7 @@ gmm_smooth_hawks = alt.Chart(
 
 ## Explore
 
-Take a few minutes and the activity notebook to explore the following questions.
+Take 2 minutes with your neighbor and use the activity notebook to explore the following questions.
 
 * What happens if you fit the GMM with different numbers of components? 
 * Does the solution change if the GMM is re-fitted?
@@ -659,7 +683,7 @@ If we compare the LOESS curve with the kernel smoother, the different behavior o
 
 ## Explore
 
-Use the activity notebook to answer the following questions.
+Take 2-3 minutes with your neighbor and use the activity notebook to answer the following questions.
 
 * Are there any bandwidths that give you a straight-line fit?
 * What seems to be the minimum bandwidth?

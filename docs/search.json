@@ -2823,7 +2823,7 @@
   {
     "objectID": "slides/week5-smoothing.html#other-kernels",
     "href": "slides/week5-smoothing.html#other-kernels",
-    "title": "Kernel smoothing",
+    "title": "Density estimation, mixture models, and smoothing",
     "section": "Other kernels",
     "text": "Other kernels\nNow let’s try varying the kernel. The ‘local histogram’ introduced last lecture is a KDE with a uniform kernel.\n\n\nCode\n# compute density estimate\nkde = sm.nonparametric.KDEUnivariate(sust.Env_Domain)\nkde.fit(kernel = 'uni', fft = False, bw = 0.02)\n\n# arrange as dataframe\nkde_df = pd.DataFrame({'Environmental sustainability index': kde.support, 'Density': kde.density})\n\n# plot\nsmooth2 = alt.Chart(\n    kde_df\n).mark_line(color = 'black').encode(\n    x = 'Environmental sustainability index:Q',\n    y = alt.Y('Density:Q', scale = alt.Scale(domain = [0, 12]))\n)\n\n(hist + smooth2 + smooth2.mark_area(opacity = 0.3)).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n)"
   },
@@ -3292,204 +3292,232 @@
   {
     "objectID": "slides/week5-smoothing.html#outline",
     "href": "slides/week5-smoothing.html#outline",
-    "title": "Kernel smoothing",
+    "title": "Density estimation, mixture models, and smoothing",
     "section": "Outline",
     "text": "Outline\n\nMore on density estimation\n\nnon-Gaussian kernels\nmultivariate KDE\nmixture models\n\nScatterplot smoothing\n\nKernel smoothing\nLOESS"
   },
   {
     "objectID": "slides/week5-smoothing.html#sustainability-data",
     "href": "slides/week5-smoothing.html#sustainability-data",
-    "title": "Kernel smoothing",
+    "title": "Density estimation, mixture models, and smoothing",
     "section": "Sustainability data",
-    "text": "Sustainability data\nWe’ll work with sustainability index data for US cities to explore density estimation further.\n\n\nCode\nsust = pd.read_csv('data/sustainability.csv')\nsust.iloc[:, 1:5].head(2)\n\n\n\n\n\n\n  \n    \n      \n      Name\n      Econ_Domain\n      Social_Domain\n      Env_Domain\n    \n  \n  \n    \n      0\n      Aberdeen, SD Micro Area\n      0.565264\n      0.591259\n      0.444472\n    \n    \n      1\n      Aberdeen, WA Micro Area\n      0.427671\n      0.520744\n      0.429274\n    \n  \n\n\n\n\n\n933 distinct cities\nindices for sustainability in enviornmental, social, and eonomic domains\ncomposite sustainability index"
+    "text": "Sustainability data\nWe’ll work with sustainability index data for US cities to explore density estimation further.\n\n\nCode\nsust = pd.read_csv('data/sustainability.csv')\nsust.iloc[:, 1:5].head(2)\n\n\n\n\n\n\n  \n    \n      \n      Name\n      Econ_Domain\n      Social_Domain\n      Env_Domain\n    \n  \n  \n    \n      0\n      Aberdeen, SD Micro Area\n      0.565264\n      0.591259\n      0.444472\n    \n    \n      1\n      Aberdeen, WA Micro Area\n      0.427671\n      0.520744\n      0.429274\n    \n  \n\n\n\n\n\n933 distinct cities\nindices for sustainability in enviornmental, social, and eonomic domains"
   },
   {
     "objectID": "slides/week5-smoothing.html#environmental-sustainability-index",
     "href": "slides/week5-smoothing.html#environmental-sustainability-index",
-    "title": "Kernel smoothing",
+    "title": "Density estimation, mixture models, and smoothing",
     "section": "Environmental sustainability index",
     "text": "Environmental sustainability index\nLet’s use the environmental sustainability index (Env_Domain) initially. The distribution of environmental sustainability across cities is shown below.\n\n\nCode\nhist = alt.Chart(\n    sust\n).transform_bin(\n    'esi',\n    field = 'Env_Domain',\n    bin = alt.Bin(step = 0.02)\n).transform_aggregate(\n    count = 'count()',\n    groupby = ['esi']\n).transform_calculate(\n    Density = 'datum.count/(0.02*933)',\n    ESI = 'datum.esi + 0.01'\n).mark_bar(size = 8).encode(\n    x = 'ESI:Q',\n    y = 'Density:Q'\n)\n\nhist.configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n)"
   },
   {
     "objectID": "slides/week5-smoothing.html#kde-bandwidth-selection",
     "href": "slides/week5-smoothing.html#kde-bandwidth-selection",
-    "title": "Kernel smoothing",
+    "title": "Density estimation, mixture models, and smoothing",
     "section": "KDE bandwidth selection",
     "text": "KDE bandwidth selection\nA common choice for Gaussian KDE bandwidth is Scott’s rule:\n\\[\nb = 1.06 \\times s \\times n^{-1/5}\n\\]\n\n\nCode\n# bandwitdth parameter\nn, p = sust.shape\nsigma_hat = sust.Env_Domain.std()\nbw_scott = 1.06*sigma_hat*n**(-1/5)\n\n# plot\nsmooth = alt.Chart(\n    sust\n).transform_density(\n  'Env_Domain',\n  as_ = ['Environmental sustainability index', 'Density'],\n  extent = [0.1, 0.8],\n  bandwidth = bw_scott\n).mark_line(color = 'black').encode(\n    x = 'Environmental sustainability index:Q',\n    y = 'Density:Q'\n)\n\n(hist + smooth).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n)"
   },
   {
     "objectID": "slides/week5-smoothing.html#computing-kde-without-altair",
     "href": "slides/week5-smoothing.html#computing-kde-without-altair",
-    "title": "Kernel smoothing",
+    "title": "Density estimation, mixture models, and smoothing",
     "section": "Computing KDE without Altair",
-    "text": "Computing KDE without Altair\nThe statsmodels package has KDE implementations with finer control. This will allow us to experiment with other kernels.\n\n# compute the gaussian KDE using statsmodels\nkde = sm.nonparametric.KDEUnivariate(sust.Env_Domain)\nkde.fit(bw = bw_scott)\n\n<statsmodels.nonparametric.kde.KDEUnivariate at 0x2b1b0de8670>\n\n\n\nThe object kde has .support and .density attributes; we’ll arrange these into a dataframe:\n\n\nCode\nkde_df = pd.DataFrame({'Environmental sustainability index': kde.support, \n                       'Density': kde.density})\nkde_df.head()\n\n\n\n\n\n\n  \n    \n      \n      Environmental sustainability index\n      Density\n    \n  \n  \n    \n      0\n      0.088614\n      0.000609\n    \n    \n      1\n      0.089334\n      0.000621\n    \n    \n      2\n      0.090054\n      0.000645\n    \n    \n      3\n      0.090774\n      0.000682\n    \n    \n      4\n      0.091494\n      0.000731"
+    "text": "Computing KDE without Altair\nThe statsmodels package has KDE implementations with finer control. This will allow us to experiment with other kernels.\n\n# compute the gaussian KDE using statsmodels\nkde = sm.nonparametric.KDEUnivariate(sust.Env_Domain)\nkde.fit(bw = bw_scott)\n\n<statsmodels.nonparametric.kde.KDEUnivariate at 0x2a441e42cd0>\n\n\n\nThe object kde has .support and .density attributes; we’ll arrange these into a dataframe:\n\n\nCode\nkde_df = pd.DataFrame({'Environmental sustainability index': kde.support, 'Density': kde.density})\nkde_df.head(3)\n\n\n\n\n\n\n  \n    \n      \n      Environmental sustainability index\n      Density\n    \n  \n  \n    \n      0\n      0.088614\n      0.000609\n    \n    \n      1\n      0.089334\n      0.000621\n    \n    \n      2\n      0.090054\n      0.000645"
   },
   {
     "objectID": "slides/week5-smoothing.html#other-kernels-1",
     "href": "slides/week5-smoothing.html#other-kernels-1",
-    "title": "Kernel smoothing",
+    "title": "Density estimation, mixture models, and smoothing",
     "section": "Other kernels",
-    "text": "Other kernels\nHere are the forms of some common kernel functions:\n\n\nTitles indicate abbreviations for use in statsmodels.nonparametric.KDEUnivariate"
+    "text": "Other kernels\n\n\nTitles indicate statsmodels.nonparametric.KDEUnivariate abbreviations\nNote different axis scales – not as similar as they look!"
   },
   {
     "objectID": "slides/week5-smoothing.html#exploration",
     "href": "slides/week5-smoothing.html#exploration",
-    "title": "Kernel smoothing",
+    "title": "Density estimation, mixture models, and smoothing",
     "section": "Exploration",
     "text": "Exploration\nUse the activity notebook to experiment and answer the following.\n\nHow does the KDE differ if a parabolic (epa) kernel is used in place of a Gaussian (gau) kernel while the bandwidth is held constant?\nWhat effect does a triangular kernel (tri) have on how local peaks appear?\nPick two kernels. What will happen to the KDE for large bandwidths?\nWhich kernel seems to do the best job at capturing the shape closely without under-smoothing?"
   },
   {
     "objectID": "slides/week5-smoothing.html#multivariate-kde",
     "href": "slides/week5-smoothing.html#multivariate-kde",
-    "title": "Kernel smoothing",
+    "title": "Density estimation, mixture models, and smoothing",
     "section": "Multivariate KDE",
-    "text": "Multivariate KDE\nWe’ll use the same data to illustrate multivariate density estimation.\n\nFor this we’ll consider the joint distribution of environmental and economic sustainability indices.\n\n\nCode\nalt.Chart(\n    sust\n).mark_point().encode(\n    x = alt.X('Env_Domain', title = 'Environmental sustainability'),\n    y = alt.Y('Econ_Domain', title = 'Economic sustainability')\n).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n)"
+    "text": "Multivariate KDE\nNow let’s estimate the joint distribution of environmental and economic sustainability indices. Here are the values:\n\n\nCode\nalt.Chart(\n    sust\n).mark_point().encode(\n    x = alt.X('Env_Domain', title = 'Environmental sustainability'),\n    y = alt.Y('Econ_Domain', title = 'Economic sustainability')\n).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n)"
   },
   {
     "objectID": "slides/week5-smoothing.html#multivariate-histograms",
     "href": "slides/week5-smoothing.html#multivariate-histograms",
-    "title": "Kernel smoothing",
+    "title": "Density estimation, mixture models, and smoothing",
     "section": "Multivariate histograms",
     "text": "Multivariate histograms\nThere are a few options for displaying a 2-D histogram. One is to bin and plot a heatmap, as we saw before:\n\n\nCode\nalt.Chart(\n    sust\n).mark_rect().encode(\n    x = alt.X('Env_Domain', bin = alt.Bin(maxbins = 40), title = 'Environmental sustainability'),\n    y = alt.Y('Econ_Domain', bin = alt.Bin(maxbins = 40), title = 'Economic sustainability'),\n    color = alt.Color('count()', scale = alt.Scale(scheme = 'bluepurple'), title = 'Number of U.S. cities')\n).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n).configure_legend(\n    labelFontSize = 14, \n    titleFontSize = 16\n)"
   },
   {
     "objectID": "slides/week5-smoothing.html#multivariate-histograms-1",
     "href": "slides/week5-smoothing.html#multivariate-histograms-1",
-    "title": "Kernel smoothing",
+    "title": "Density estimation, mixture models, and smoothing",
     "section": "Multivariate histograms",
     "text": "Multivariate histograms\nAnother option is to make a bubble chart with the size of the bubble proportional to the count of observations in the corresponding bin:\n\n\nCode\nalt.Chart(\n    sust\n).mark_circle().encode(\n    x = alt.X('Env_Domain', bin = alt.Bin(maxbins = 40), title = 'Environmental sustainability'),\n    y = alt.Y('Econ_Domain', bin = alt.Bin(maxbins = 40), title = 'Economic sustainability'),\n    size = alt.Size('count()', scale = alt.Scale(scheme = 'bluepurple'))\n).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n).configure_legend(\n    labelFontSize = 14, \n    titleFontSize = 16\n)"
   },
   {
     "objectID": "slides/week5-smoothing.html#multivariate-kde-1",
     "href": "slides/week5-smoothing.html#multivariate-kde-1",
-    "title": "Kernel smoothing",
+    "title": "Density estimation, mixture models, and smoothing",
     "section": "Multivariate KDE",
-    "text": "Multivariate KDE\nThe following computes a multivariate Gaussian KDE\n\n# retrieve data as 2-d array (num observations, num variables)\nfit_ary = sust.loc[:, ['Env_Domain', 'Econ_Domain']].values\n\n# compute KDE\nkde = sm.nonparametric.KDEMultivariate(fit_ary, 'cc')\nkde\n\nKDE instance\nNumber of variables: k_vars = 2\nNumber of samples:   nobs = 933\nVariable types:      cc\nBW selection method: normal_reference\n\n\n\ninput: 2-D \\((\\text{observations} \\times \\text{variables})\\) array\nvariable type specification, one per variate: continuous, discrete, etc.\nmethod of bandwidth selection (not shown)"
+    "text": "Multivariate KDE\nThe following computes a multivariate Gaussian KDE\n\n# retrieve data as 2-d array (num observations, num variables)\nfit_ary = sust.loc[:, ['Env_Domain', 'Econ_Domain']].values\n\n# compute KDE\nkde = sm.nonparametric.KDEMultivariate(data = fit_ary, var_type = 'cc')\nkde\n\nKDE instance\nNumber of variables: k_vars = 2\nNumber of samples:   nobs = 933\nVariable types:      cc\nBW selection method: normal_reference\n\n\n\ninput: 2-D array \\((\\text{observations} \\times \\text{variables})\\)\nvariable type specification, one per variate: continuous, discrete, etc.\nmethod of bandwidth selection (not shown)"
   },
   {
     "objectID": "slides/week5-smoothing.html#prediction-grids",
     "href": "slides/week5-smoothing.html#prediction-grids",
-    "title": "Kernel smoothing",
+    "title": "Density estimation, mixture models, and smoothing",
     "section": "Prediction grids",
-    "text": "Prediction grids\nA common visualization strategy is to generate a prediction grid: a mesh of values spanning a domain of interest, for the purpose of computing a function at each grid point.\n\nHere we’ll use a 100 x 100 mesh and use kde.fit() to compute the estimated density at each combination of coordinates.\n\n\nCode\n# resolution of grid (number of points to use along each axis)\ngrid_res = 100\n\n# find grid point coordinates along each axis\nx1 = np.linspace(start = sust.Env_Domain.min(), stop = sust.Env_Domain.max(), num = grid_res)\nx2 = np.linspace(start = sust.Econ_Domain.min(), stop = sust.Econ_Domain.max(), num = grid_res)\n\n# generate a mesh from the coordinates\ngrid1, grid2 = np.meshgrid(x1, x2, indexing = 'ij')\ngrid_ary = np.array([grid1.ravel(), grid2.ravel()]).T\n\n# compute the density at each grid point\nf_hat = kde.pdf(grid_ary)\n\n# rearrange as a dataframe\ngrid_df = pd.DataFrame({'env': grid1.reshape(grid_res**2), \n                        'econ': grid2.reshape(grid_res**2),\n                        'density': f_hat})\n\n# preview, for understanding\ngrid_df.head()\n\n\n\n\n\n\n  \n    \n      \n      env\n      econ\n      density\n    \n  \n  \n    \n      0\n      0.132467\n      0.143811\n      1.325548e-17\n    \n    \n      1\n      0.132467\n      0.150278\n      6.367762e-17\n    \n    \n      2\n      0.132467\n      0.156745\n      2.929104e-16\n    \n    \n      3\n      0.132467\n      0.163212\n      1.290785e-15\n    \n    \n      4\n      0.132467\n      0.169679\n      5.451826e-15"
+    "text": "Prediction grids\nA common visualization strategy is to generate a prediction grid: a mesh of values spanning a domain of interest, for the purpose of computing a function at each grid point.\n\nHere is a 20 x 20 mesh:\n\n\nCode\n# resolution of grid (number of points to use along each axis)\ngrid_res = 20\n\n# find grid point coordinates along each axis\nx1 = np.linspace(start = sust.Env_Domain.min(), stop = sust.Env_Domain.max(), num = grid_res)\nx2 = np.linspace(start = sust.Econ_Domain.min(), stop = sust.Econ_Domain.max(), num = grid_res)\n\n# generate a mesh from the coordinates\ngrid1, grid2 = np.meshgrid(x1, x2, indexing = 'ij')\ngrid_ary = np.array([grid1.ravel(), grid2.ravel()]).T\n\n# plot grid points\nalt.Chart(\n    pd.DataFrame(grid_ary).rename(columns = {0: 'env', 1: 'econ'})\n).mark_point(color = 'black').encode(\n    x = alt.X('env', scale = alt.Scale(zero = False)),\n    y = alt.Y('econ', scale = alt.Scale(zero = False))\n).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n)"
   },
   {
     "objectID": "slides/week5-smoothing.html#multivariate-kde-heatmap",
     "href": "slides/week5-smoothing.html#multivariate-kde-heatmap",
-    "title": "Kernel smoothing",
+    "title": "Density estimation, mixture models, and smoothing",
     "section": "Multivariate KDE heatmap",
-    "text": "Multivariate KDE heatmap\n\n\nCode\n# kde\nkde_smooth = alt.Chart(\n    grid_df, title = 'Gaussian KDE'\n).mark_rect(opacity = 0.8).encode(\n    x = alt.X('env', bin = alt.Bin(maxbins = grid_res), title = 'Environmental sustainability'),\n    y = alt.Y('econ', bin = alt.Bin(maxbins = grid_res), title = 'Economic sustainability'),\n    color = alt.Color('mean(density)', # a bit hacky, but works\n                      scale = alt.Scale(scheme = 'bluepurple', type = 'sqrt'),\n                      title = 'Density')\n)\n\n# histogram\nbubble = alt.Chart(\n    sust\n).mark_circle().encode(\n    x = alt.X('Env_Domain', bin = alt.Bin(maxbins = 40), title = 'Environmental sustainability'),\n    y = alt.Y('Econ_Domain', bin = alt.Bin(maxbins = 40), title = 'Economic sustainability'),\n    size = alt.Size('count()', scale = alt.Scale(scheme = 'bluepurple'))\n)\n\n# layer\n(bubble + kde_smooth).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n).configure_legend(\n    labelFontSize = 14, \n    titleFontSize = 16\n)\n\n\n\n\n\n\n\n\nQuestions:\n\nDoes the KDE seem like a good estimate?\nWhat, if anything, does the graphic convey about the sustainability of cities?"
+    "text": "Multivariate KDE heatmap\n\n\nCode\n# kde\nkde_smooth = alt.Chart(\n    grid_df, title = 'Gaussian KDE'\n).mark_rect(opacity = 0.8).encode(\n    x = alt.X('env', bin = alt.Bin(maxbins = grid_res), title = 'Environmental sustainability'),\n    y = alt.Y('econ', bin = alt.Bin(maxbins = grid_res), title = 'Economic sustainability'),\n    color = alt.Color('mean(density)', # a bit hacky, but works\n                      scale = alt.Scale(scheme = 'bluepurple', type = 'sqrt'),\n                      title = 'Density')\n)\n\n# histogram\nbubble = alt.Chart(\n    sust\n).mark_circle().encode(\n    x = alt.X('Env_Domain', bin = alt.Bin(maxbins = 40), title = 'Environmental sustainability'),\n    y = alt.Y('Econ_Domain', bin = alt.Bin(maxbins = 40), title = 'Economic sustainability'),\n    size = alt.Size('count()', scale = alt.Scale(scheme = 'bluepurple'), title = 'Cities')\n)\n\n# layer\n(bubble + kde_smooth).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n).configure_legend(\n    labelFontSize = 14, \n    titleFontSize = 16\n)\n\n\n\n\n\n\n\n\n\nDoes the KDE seem like a good estimate?\nWhat, if anything, does the graphic convey about the sustainability of cities?"
   },
   {
     "objectID": "slides/week5-smoothing.html#mixture-models",
     "href": "slides/week5-smoothing.html#mixture-models",
-    "title": "Kernel smoothing",
+    "title": "Density estimation, mixture models, and smoothing",
     "section": "Mixture models",
-    "text": "Mixture models\nKDE is a nonparametric technique: it involves no population parameters, and thus minimal assumptions about the specific form of distribution being approximated.\n\nMixture models are a parametric alternative for density estimation. The Gaussian mixture model is:\n\\[\nf(x) = a_1 \\varphi(x; \\mu_1, \\sigma_1) + \\cdots + a_n \\varphi(x; \\mu_n, \\sigma_n)\n\\]\n\n\\(f(x)\\) is the distribution of interest\n\\(\\varphi(\\cdot; \\mu, \\sigma)\\) denotes a Gaussian density with mean \\(\\mu\\) and standard deviation \\(\\sigma\\)\nthe model has \\(n\\) components\n\\(a_1, \\dots, a_n\\) are the mixing parameters\nfitted using the EM algorithm"
+    "text": "Mixture models\nKDE is a nonparametric technique: it involves no population parameters.\n\nMixture models are a parametric alternative for density estimation. The Gaussian mixture model is:\n\\[\nf(x) = a_1 \\varphi(x; \\mu_1, \\sigma_1) + \\cdots + a_n \\varphi(x; \\mu_n, \\sigma_n)\n\\]\n\n\\(f(x)\\) is the distribution of interest\n\\(\\varphi(\\cdot; \\mu, \\sigma)\\) denotes a Gaussian density with mean \\(\\mu\\) and standard deviation \\(\\sigma\\)\nthe model has \\(n\\) components\n\\(a_1, \\dots, a_n\\) are the mixing parameters\nfitted using the EM algorithm"
   },
   {
     "objectID": "slides/week5-smoothing.html#bivariate-mixture-model",
     "href": "slides/week5-smoothing.html#bivariate-mixture-model",
-    "title": "Kernel smoothing",
+    "title": "Density estimation, mixture models, and smoothing",
     "section": "Bivariate mixture model",
-    "text": "Bivariate mixture model\nLet’s fit a mixture to the joint distribution of environmental and economic sustainability indices:\n\n# configure and fit mixture model\ngmm = mixture.GaussianMixture(n_components = 2, covariance_type = 'full')\ngmm.fit(fit_ary)\n\n\nWe can inspect the estimated components’ centers (means):\n\n\nCode\ncenters = pd.DataFrame(gmm.means_).rename(columns = {0: 'env', 1: 'econ'})\ncenters\n\n\n\n\n\n\n  \n    \n      \n      env\n      econ\n    \n  \n  \n    \n      0\n      0.381889\n      0.478218\n    \n    \n      1\n      0.440006\n      0.461773\n    \n  \n\n\n\n\n\n\nAnd the mixing parameters:\n\n\nCode\npd.DataFrame({'mixing': gmm.weights_})\n\n\n\n\n\n\n  \n    \n      \n      mixing\n    \n  \n  \n    \n      0\n      0.279643\n    \n    \n      1\n      0.720357"
+    "text": "Bivariate mixture model\nLet’s fit a mixture to the joint distribution of environmental and economic sustainability indices:\n\n# configure and fit mixture model\ngmm = mixture.GaussianMixture(n_components = 2, covariance_type = 'full')\ngmm.fit(fit_ary)\n\n\nWe can inspect the estimated components’ centers (means):\n\n\nCode\ncenters = pd.DataFrame(gmm.means_).rename(columns = {0: 'env', 1: 'econ'})\ncenters\n\n\n\n\n\n\n  \n    \n      \n      env\n      econ\n    \n  \n  \n    \n      0\n      0.440006\n      0.461773\n    \n    \n      1\n      0.381889\n      0.478218\n    \n  \n\n\n\n\n\n\nAnd the mixing parameters:\n\n\nCode\nprint('mixing parameters', gmm.weights_)\n\n\nmixing parameters [0.7203574 0.2796426]"
   },
   {
     "objectID": "slides/week5-smoothing.html#bivariate-mixture-model-1",
     "href": "slides/week5-smoothing.html#bivariate-mixture-model-1",
-    "title": "Kernel smoothing",
+    "title": "Density estimation, mixture models, and smoothing",
     "section": "Bivariate mixture model",
-    "text": "Bivariate mixture model\n\n\nCode\n# evaluate log-likelihood\ngrid_df['gmm'] = np.exp(gmm.score_samples(grid_ary))\n\n# gmm\ngmm_smooth = alt.Chart(\n    grid_df, title = 'GMM'\n).mark_rect(opacity = 0.8).encode(\n    x = alt.X('env', bin = alt.Bin(maxbins = grid_res), title = 'Environmental sustainability'),\n    y = alt.Y('econ', bin = alt.Bin(maxbins = grid_res), title = 'Economic sustainability'),\n    color = alt.Color('mean(gmm)', # a bit hacky, but works\n                      scale = alt.Scale(scheme = 'bluepurple', type = 'sqrt'),\n                      title = 'Density')\n)\n\n# centers of mixture components\nctr = alt.Chart(centers).mark_point(color = 'black', shape = 'triangle').encode(x = 'env', y = 'econ')\n\n((bubble + gmm_smooth + ctr) | (bubble + kde_smooth)).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n).configure_legend(\n    labelFontSize = 14, \n    titleFontSize = 16\n)\n\n\n\n\n\n\n\n\n\nWhat differences do you observe? Which do you prefer and why?"
+    "text": "Bivariate mixture model\n\n\nCode\n# evaluate log-likelihood\ngrid_df['gmm'] = np.exp(gmm.score_samples(grid_ary))\n\n# gmm\ngmm_smooth = alt.Chart(\n    grid_df, title = 'GMM'\n).mark_rect(opacity = 0.8).encode(\n    x = alt.X('env', bin = alt.Bin(maxbins = grid_res), title = 'Environmental sustainability'),\n    y = alt.Y('econ', bin = alt.Bin(maxbins = grid_res), title = 'Economic sustainability'),\n    color = alt.Color('mean(gmm)', # a bit hacky, but works\n                      scale = alt.Scale(scheme = 'bluepurple', type = 'sqrt'),\n                      title = 'Density')\n)\n\n# centers of mixture components\nctr = alt.Chart(centers).mark_point(color = 'black', shape = 'triangle').encode(x = 'env', y = 'econ')\n\n((bubble + gmm_smooth + ctr) | (bubble + kde_smooth)).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n).configure_legend(\n    labelFontSize = 14, \n    titleFontSize = 16\n)\n\n\n\n\n\n\n\n\n\nWhat differences do you observe?\nWhich do you prefer and why?"
   },
   {
     "objectID": "slides/week5-smoothing.html#pros-and-cons",
     "href": "slides/week5-smoothing.html#pros-and-cons",
-    "title": "Kernel smoothing",
+    "title": "Density estimation, mixture models, and smoothing",
     "section": "Pros and Cons",
-    "text": "Pros and Cons\nKDE is nonparametric and what’s sometimes called a memory-based procedure: it uses all available data every time an estimated value is calculated.\n\nAdvantages: minimal assumptions, highly flexible\nDisadvantages: not parsimonious, computationally intensive\n\n\nGMM’s are parametric models.\n\nAdvantages: closed-form structure, good for multimodal distributions, various kinds of inference and prediction are possible\nDisadvantages: estimation is less straightforward, may over-smooth, possible identifiability issues"
+    "text": "Pros and Cons\nKDE is a nonparametric method and is sometimes called a memory-based procedure: it uses all available data every time an estimated value is calculated.\n\nAdvantages: minimal assumptions, highly flexible\nDisadvantages: not parsimonious, computationally intensive\n\n\nGMM’s are parametric models.\n\nAdvantages: closed-form structure, good for multimodal distributions, various kinds of inference and prediction are possible\nDisadvantages: estimation is less straightforward, may over-smooth, possible identifiability issues"
   },
   {
     "objectID": "slides/week5-smoothing.html#gmms-for-capturing-subpopulations",
     "href": "slides/week5-smoothing.html#gmms-for-capturing-subpopulations",
-    "title": "Kernel smoothing",
+    "title": "Density estimation, mixture models, and smoothing",
     "section": "GMMs for capturing subpopulations",
-    "text": "GMMs for capturing subpopulations\nThe GMM is especially useful if there are latent subpopulations in the data. Recall the simulated population of hawks:\n\n\nCode\n# for reproducibility\nnp.random.seed(40721)\n\n# simulate hypothetical population\nfemale_hawks = pd.DataFrame(\n    data = {'length': np.random.normal(loc = 57.5, scale = 3, size = 3000),\n            'sex': np.repeat('female', 3000)}\n)\n\nmale_hawks = pd.DataFrame(\n    data = {'length': np.random.normal(loc = 50.5, scale = 3, size = 2000),\n            'sex': np.repeat('male', 2000)}\n)\n\npopulation_hawks = pd.concat([female_hawks, male_hawks], axis = 0)\n\npopulation_hawks.groupby('sex').head(2)\n\n\n\n\n\n\n  \n    \n      \n      length\n      sex\n    \n  \n  \n    \n      0\n      53.975230\n      female\n    \n    \n      1\n      60.516768\n      female\n    \n    \n      0\n      53.076663\n      male\n    \n    \n      1\n      49.933166\n      male\n    \n  \n\n\n\n\n\nLet’s imagine we have a sample but without recorded sexes.\n\n\nCode\nnp.random.seed(50223)\nsamp = population_hawks.sample(n = 500).drop(columns = 'sex')\nsamp.head(3)\n\n\n\n\n\n\n  \n    \n      \n      length\n    \n  \n  \n    \n      840\n      62.513960\n    \n    \n      2747\n      52.490258\n    \n    \n      2698\n      56.879861"
+    "text": "GMMs for capturing subpopulations\nThe GMM is especially useful if there are latent subpopulations in the data. Recall the simulated population of hawks:\n\n\nCode\n# for reproducibility\nnp.random.seed(40721)\n\n# simulate hypothetical population\nfemale_hawks = pd.DataFrame(\n    data = {'length': np.random.normal(loc = 57.5, scale = 3, size = 3000),\n            'sex': np.repeat('female', 3000)}\n)\n\nmale_hawks = pd.DataFrame(\n    data = {'length': np.random.normal(loc = 50.5, scale = 3, size = 2000),\n            'sex': np.repeat('male', 2000)}\n)\n\npopulation_hawks = pd.concat([female_hawks, male_hawks], axis = 0)\n\npopulation_hawks.groupby('sex').head(1)\n\n\n\n\n\n\n  \n    \n      \n      length\n      sex\n    \n  \n  \n    \n      0\n      53.975230\n      female\n    \n    \n      0\n      53.076663\n      male\n    \n  \n\n\n\n\n\nLet’s imagine we have a sample but without recorded sexes.\n\n\nCode\nnp.random.seed(50223)\nsamp = population_hawks.sample(n = 500).drop(columns = 'sex')\nsamp.head(3)\n\n\n\n\n\n\n  \n    \n      \n      length\n    \n  \n  \n    \n      840\n      62.513960\n    \n    \n      2747\n      52.490258\n    \n    \n      2698\n      56.879861"
   },
   {
     "objectID": "slides/week5-smoothing.html#hawks",
     "href": "slides/week5-smoothing.html#hawks",
-    "title": "Kernel smoothing",
+    "title": "Density estimation, mixture models, and smoothing",
     "section": "Hawks",
     "text": "Hawks\nThe histogram is not obviously bimodal, but we can suppose we’re aware of the sex differences in length and just don’t have that information.\n\n\nCode\nhist_hawks = alt.Chart(samp).transform_bin(\n    'length',\n    field = 'length',\n    bin = alt.Bin(step = 2)\n).transform_aggregate(\n    count = 'count()',\n    groupby = ['length']\n).transform_calculate(\n    density = 'datum.count/1000',\n    length = 'datum.length + 1'\n).mark_bar(size = 20).encode(\n    x = 'length:Q', \n    y = 'density:Q'\n)\n\nhist_hawks.configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n)"
   },
   {
     "objectID": "slides/week5-smoothing.html#recovering-subpopulations",
     "href": "slides/week5-smoothing.html#recovering-subpopulations",
-    "title": "Kernel smoothing",
+    "title": "Density estimation, mixture models, and smoothing",
     "section": "Recovering subpopulations",
-    "text": "Recovering subpopulations\nIf we fit a mixture model with two components, amazingly, the mixture components accurately recover the distributions for each sex, even though this was a latent (unobserved) variable:\n\n# configure and fit mixture model\ngmm_hawks = mixture.GaussianMixture(n_components = 2)\ngmm_hawks.fit(samp.length.values.reshape(-1, 1))\n\n# compare components with subpopulations\nprint('gmm component means: ', gmm_hawks.means_.ravel())\nprint('population means by sex: ', population_hawks.groupby('sex').mean().values.ravel())\n\nprint('gmm component variances: ', gmm_hawks.covariances_.ravel())\nprint('population variances by sex: ', population_hawks.groupby('sex').var().values.ravel())\n\ngmm component means:  [50.70543698 57.33071086]\npopulation means by sex:  [57.5749014  50.48194081]\ngmm component variances:  [ 8.60692088 10.12549367]\npopulation variances by sex:  [9.39645762 8.522606  ]\n\n\n\nNote that the means and variances are estimated from the sample but compared with the population values above."
+    "text": "Recovering subpopulations\nIf we fit a mixture model with two components, amazingly, the mixture components accurately recover the distributions for each sex, even though this was a latent (unobserved) variable:\n\n# configure and fit mixture model\ngmm_hawks = mixture.GaussianMixture(n_components = 2)\ngmm_hawks.fit(samp.length.values.reshape(-1, 1))\n\n# compare components with subpopulations\nprint('gmm component means: ', gmm_hawks.means_.ravel())\nprint('population means by sex: ', np.sort(population_hawks.groupby('sex').mean().values.ravel()))\n\nprint('gmm component variances: ', gmm_hawks.covariances_.ravel())\nprint('population variances by sex: ', np.sort(population_hawks.groupby('sex').var().values.ravel()))\n\ngmm component means:  [50.70543698 57.33071086]\npopulation means by sex:  [50.48194081 57.5749014 ]\ngmm component variances:  [ 8.60692088 10.12549367]\npopulation variances by sex:  [8.522606   9.39645762]\n\n\n\nNote that the means and variances are estimated from the sample but compared with the population values above."
   },
   {
     "objectID": "slides/week5-smoothing.html#gmm-density-estimate",
     "href": "slides/week5-smoothing.html#gmm-density-estimate",
-    "title": "Kernel smoothing",
+    "title": "Density estimation, mixture models, and smoothing",
     "section": "GMM density estimate",
     "text": "GMM density estimate\nFurther, the density estimate fits reasonably well:\n\n\nCode\n# compute a grid of lengths\ngrid_hawks = np.linspace(population_hawks.length.min(), population_hawks.length.max(), num = 500)\ndens = np.exp(gmm_hawks.score_samples(grid_hawks.reshape(-1, 1)))\n\ngmm_smooth_hawks = alt.Chart(\n    pd.DataFrame({'length': grid_hawks, 'density': dens})\n).mark_line(color = 'black').encode(\n    x = 'length',\n    y = 'density'\n)\n\n(hist_hawks + gmm_smooth_hawks).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n)"
   },
   {
     "objectID": "slides/week5-smoothing.html#explore",
     "href": "slides/week5-smoothing.html#explore",
-    "title": "Kernel smoothing",
+    "title": "Density estimation, mixture models, and smoothing",
     "section": "Explore",
-    "text": "Explore\nTake a few minutes and the activity notebook to explore the following questions.\n\nWhat happens if you fit the GMM with different numbers of components?\nDoes the solution change if the GMM is re-fitted?"
+    "text": "Explore\nTake 5-6 minutes with your neighbor and use the activity notebook to experiment and answer the following.\n\nHow does the KDE differ if a parabolic (epa) kernel is used in place of a Gaussian (gau) kernel while the bandwidth is held constant?\nWhat effect does a triangular kernel (tri) have on how local peaks appear?\nPick two kernels. What will happen to the KDE for large bandwidths?\nWhich kernel seems to do the best job at capturing the shape closely without under-smoothing?"
   },
   {
     "objectID": "slides/week5-smoothing.html#kernel-smoothing",
     "href": "slides/week5-smoothing.html#kernel-smoothing",
-    "title": "Kernel smoothing",
+    "title": "Density estimation, mixture models, and smoothing",
     "section": "Kernel smoothing",
     "text": "Kernel smoothing\nKernel smoothing is a technique similar to KDE used to visualize and estimate relationships (rather than distributions).\n\nWe’ll use the GDP and life expectancy data from lab 3 to illustrate.\n\n\nCode\n# read in data and subset\nlife = pd.read_csv('data/life-gdp.csv')\nlife = life[life.Year == 2000].loc[:, ['Country Name', 'All', 'GDP per capita']]\nlife['GDP per capita'] = np.log(life['GDP per capita'])\nlife.rename(columns = {'GDP per capita': 'log_gdp', 'All': 'life_exp', 'Country Name': 'country'}, inplace=True)\n\n# scatterplot\nscatter = alt.Chart(\n    life\n).mark_point().encode(\n    x = alt.X('log_gdp', scale = alt.Scale(zero = False), title = 'log(GDP/capita)'),\n    y = alt.Y('life_exp', scale = alt.Scale(zero = False), title = 'Life expectancy')\n)\n\nscatter.configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n)"
   },
   {
     "objectID": "slides/week5-smoothing.html#the-method",
     "href": "slides/week5-smoothing.html#the-method",
-    "title": "Kernel smoothing",
+    "title": "Density estimation, mixture models, and smoothing",
     "section": "The method",
     "text": "The method\nThe technique consists in estimating trend by local weighted averaging; a kernel function is used to determine the exact weights.\n\\[\n\\hat{y}(x) = \\frac{\\sum_i K_b (x_i - x) y_i}{\\sum_i K_b(x_i - x)}\n\\]\n\n\n\n\nIllustration of kernel smoothing"
   },
   {
     "objectID": "slides/week5-smoothing.html#example",
     "href": "slides/week5-smoothing.html#example",
-    "title": "Kernel smoothing",
+    "title": "Density estimation, mixture models, and smoothing",
     "section": "Example",
     "text": "Example\n\n\nCode\n# calculate kernel smoother\nkernreg = sm.nonparametric.KernelReg(endog = life.life_exp.values,\n                                     exog = life.log_gdp.values,\n                                     reg_type = 'lc', \n                                     var_type = 'c',\n                                     ckertype = 'gaussian')\n\n# grid of gdp values\ngdp_grid = np.linspace(life.log_gdp.min(), life.log_gdp.max(), num = 100)\n\n# calculate kernel smooth at each value\nfitted_values = kernreg.fit(gdp_grid)[0]\n\n# arrange as data frame\npred_df = pd.DataFrame({'log_gdp': gdp_grid, 'life_exp': fitted_values})\n\n# plot\nkernel_smooth = alt.Chart(\n    pred_df\n).mark_line(\n    color = 'black'\n).encode(\n    x = 'log_gdp', \n    y = alt.Y('life_exp', scale = alt.Scale(zero = False))\n)\n\n(scatter + kernel_smooth).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n)\n\n\n\n\n\n\n\n\nNotice that the kernel smooth trails off a bit near the boundary – this is because fewer points are being averaged once the smoothing window begins to extend beyond the range of the data."
   },
   {
     "objectID": "slides/week5-smoothing.html#loess",
     "href": "slides/week5-smoothing.html#loess",
-    "title": "Kernel smoothing",
+    "title": "Density estimation, mixture models, and smoothing",
     "section": "LOESS",
     "text": "LOESS\nLocally weighted scatterplot smoothing (LOESS or LOWESS) largely corrects this issue by stitching together lines (or low-order polynomials) fitted to local subsets of data; this way, near the boundary, the estimate still takes account of any trend present in the data."
   },
   {
     "objectID": "slides/week5-smoothing.html#loess-example",
     "href": "slides/week5-smoothing.html#loess-example",
-    "title": "Kernel smoothing",
+    "title": "Density estimation, mixture models, and smoothing",
     "section": "LOESS example",
     "text": "LOESS example\n\n\nCode\n# fit loess smooth\nloess = sm.nonparametric.lowess(endog = life.life_exp.values,\n                                exog = life.log_gdp.values, \n                                frac = 0.3,\n                                xvals = gdp_grid)\n\n# store as data frame\nloess_df = pd.DataFrame({'log_gdp': gdp_grid, 'life_exp': loess})\n\n# plot\nloess_smooth = alt.Chart(\n    loess_df\n).mark_line(\n    color = 'blue',\n    strokeDash = [8, 8]\n).encode(\n    x = 'log_gdp', \n    y = alt.Y('life_exp', scale = alt.Scale(zero = False))\n)\n\n(scatter + loess_smooth).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n)"
   },
   {
     "objectID": "slides/week5-smoothing.html#comparison",
     "href": "slides/week5-smoothing.html#comparison",
-    "title": "Kernel smoothing",
+    "title": "Density estimation, mixture models, and smoothing",
     "section": "Comparison",
     "text": "Comparison\nIf we compare the LOESS curve with the kernel smoother, the different behavior on the boundary is evident:\n\n\nCode\n(scatter + loess_smooth + kernel_smooth).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n)"
   },
   {
     "objectID": "slides/week5-smoothing.html#explore-1",
     "href": "slides/week5-smoothing.html#explore-1",
-    "title": "Kernel smoothing",
+    "title": "Density estimation, mixture models, and smoothing",
     "section": "Explore",
-    "text": "Explore\nUse the activity notebook to answer the following questions.\n\nAre there any bandwidths that give you a straight-line fit?\nWhat seems to be the minimum bandwidth?\nWhich bandwidth best captures the pattern of scatter?"
+    "text": "Explore\nTake 2 minutes with your neighbor and use the activity notebook to explore the following questions.\n\nWhat happens if you fit the GMM with different numbers of components?\nDoes the solution change if the GMM is re-fitted?"
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#outline-for-today",
+    "href": "slides/week5-smoothing.html#outline-for-today",
+    "title": "Density estimation, mixture models, and smoothing",
+    "section": "Outline for today",
+    "text": "Outline for today\n\nMore on density estimation\n\nnon-Gaussian kernels\nmultivariate KDE\nmixture models\n\nScatterplot smoothing\n\nKernel smoothing\nLOESS"
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#kdes-with-statsmodels",
+    "href": "slides/week5-smoothing.html#kdes-with-statsmodels",
+    "title": "Density estimation, mixture models, and smoothing",
+    "section": "KDEs with statsmodels",
+    "text": "KDEs with statsmodels\nThe statsmodels package has KDE implementations with finer control. This will allow us to experiment with other kernels.\n\n# compute the gaussian KDE using statsmodels\nkde = sm.nonparametric.KDEUnivariate(sust.Env_Domain)\nkde.fit(bw = bw_scott)\n\n<statsmodels.nonparametric.kde.KDEUnivariate at 0x1a9004f34c0>\n\n\n\nThe object kde has .support (\\(x\\)) and .density (\\(\\hat{f}(x)\\)) attributes:\n\n\nCode\nkde_df = pd.DataFrame({\n    'Environmental sustainability index': kde.support, \n    'Density': kde.density\n    })\nkde_df.head(3)\n\n\n\n\n\n\n  \n    \n      \n      Environmental sustainability index\n      Density\n    \n  \n  \n    \n      0\n      0.088614\n      0.000609\n    \n    \n      1\n      0.089334\n      0.000621\n    \n    \n      2\n      0.090054\n      0.000645"
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#prediction-grids-1",
+    "href": "slides/week5-smoothing.html#prediction-grids-1",
+    "title": "Density estimation, mixture models, and smoothing",
+    "section": "Prediction grids",
+    "text": "Prediction grids\nWe’ll use a 100 x 100 mesh and kde.pdf() to compute the estimated density at each grid point:\n\n\nCode\n# resolution of grid (number of points to use along each axis)\ngrid_res = 100\n\n# find grid point coordinates along each axis\nx1 = np.linspace(start = sust.Env_Domain.min(), stop = sust.Env_Domain.max(), num = grid_res)\nx2 = np.linspace(start = sust.Econ_Domain.min(), stop = sust.Econ_Domain.max(), num = grid_res)\n\n# generate a mesh from the coordinates\ngrid1, grid2 = np.meshgrid(x1, x2, indexing = 'ij')\ngrid_ary = np.array([grid1.ravel(), grid2.ravel()]).T\n\n# compute the density at each grid point\nf_hat = kde.pdf(grid_ary)\n\n# rearrange as a dataframe\ngrid_df = pd.DataFrame({'env': grid1.reshape(grid_res**2), \n                        'econ': grid2.reshape(grid_res**2),\n                        'density': f_hat})\n\n# preview, for understanding\ngrid_df.head()\n\n\n\n\n\n\n  \n    \n      \n      env\n      econ\n      density\n    \n  \n  \n    \n      0\n      0.132467\n      0.143811\n      1.325548e-17\n    \n    \n      1\n      0.132467\n      0.150278\n      6.367762e-17\n    \n    \n      2\n      0.132467\n      0.156745\n      2.929104e-16\n    \n    \n      3\n      0.132467\n      0.163212\n      1.290785e-15\n    \n    \n      4\n      0.132467\n      0.169679\n      5.451826e-15"
+  },
+  {
+    "objectID": "slides/week5-smoothing.html#explore-2",
+    "href": "slides/week5-smoothing.html#explore-2",
+    "title": "Density estimation, mixture models, and smoothing",
+    "section": "Explore",
+    "text": "Explore\nTake 2-3 minutes with your neighbor and use the activity notebook to answer the following questions.\n\nAre there any bandwidths that give you a straight-line fit?\nWhat seems to be the minimum bandwidth?\nWhich bandwidth best captures the pattern of scatter?"
   }
 ]
