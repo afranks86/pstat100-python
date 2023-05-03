@@ -349,6 +349,7 @@ $$
 Let's fit a mixture to the joint distribution of environmental and economic sustainability indices:
 ```{python}
 #| code-fold: false
+#| output: false
 # configure and fit mixture model
 gmm = mixture.GaussianMixture(n_components = 2, covariance_type = 'full')
 gmm.fit(fit_ary)
