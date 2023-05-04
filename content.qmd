@@ -86,7 +86,7 @@ format: html
 
 **Monday**: Statistical graphics [[slides](slides/week4-graphics.qmd)]
 
-**Lab sections**: Data visualization [[html](labs/lab3-visualization/lab3-visualization.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Flab3-visualization%2Flab3-visualization.ipynb&branch=main)]
+**Lab sections**: Data visualization [[html](labs/lab3-visualization/lab3-visualization.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Flab3-visualization%2Flab3-visualization.ipynb&branch=main)] [[solutions](labs/lab3-visualization/lab3-visualization-soln.ipynb)]
 
 **Wednesday**: Principles of figure design [[slides](slides/week4-principles.qmd)]
 
