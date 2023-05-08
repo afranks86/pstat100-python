@@ -6,8 +6,8 @@ published-title: "Updated"
 
 ::: {.callout-note}
 ## Announcements
-* MP1 and Lab 3 due Monday, May 1 11:59pm PDT (**be sure to check figure rendering on PDFs**); late submissions until Wednesday, May 3 11:59pm PDT
-* Lab 4 posted [here](content.qmd#week-5)
+* HW2 and Lab 4 due Monday, May 8 11:59pm PDT (**be sure to check figure rendering on PDFs**); late submissions until Wednesday, May 10 11:59pm PDT
+* _**No labs this week**_
 * Data science capstone applications for 2023-2024 open at [https://pstat197.github.io/](https://pstat197.github.io/) and through summer; apply by May 15 for priority consideration
 :::
 

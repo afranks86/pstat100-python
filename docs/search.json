@@ -3519,5 +3519,621 @@
     "title": "Density estimation, mixture models, and smoothing",
     "section": "Explore",
     "text": "Explore\nTake 2-3 minutes with your neighbor and use the activity notebook to answer the following questions.\n\nAre there any bandwidths that give you a straight-line fit?\nWhat seems to be the minimum bandwidth?\nWhich bandwidth best captures the pattern of scatter?"
+  },
+  {
+    "objectID": "slides/week6-pca.html#this-week-principal-components",
+    "href": "slides/week6-pca.html#this-week-principal-components",
+    "title": "Covariance and correlation",
+    "section": "This week: principal components",
+    "text": "This week: principal components\n\nCovariance and correlation\n\nDefinitions\nCovariance and correlation matrices\n\nEigendecomposition\n\nThe eigenvalue problem\nGeometric interpretation\nComputations\n\nPrincipal components analysis\n\nPCA in the low-dimensional setting\nVariation capture and loss\nInterpreting principal components"
+  },
+  {
+    "objectID": "slides/week6-pca.html#city-sustainability-data",
+    "href": "slides/week6-pca.html#city-sustainability-data",
+    "title": "Covariance and correlation",
+    "section": "City sustainability data",
+    "text": "City sustainability data\nWe’ll use the dataset on the sustainability of U.S. cities introduced last time:\n\n\n\n\n\n\n  \n    \n      \n      GEOID_MSA\n      Name\n      Econ_Domain\n      Social_Domain\n      Env_Domain\n      Sustain_Index\n    \n  \n  \n    \n      0\n      310M300US10100\n      Aberdeen, SD Micro Area\n      0.565264\n      0.591259\n      0.444472\n      1.600995\n    \n    \n      1\n      310M300US10140\n      Aberdeen, WA Micro Area\n      0.427671\n      0.520744\n      0.429274\n      1.377689\n    \n  \n\n\n\n\nFor each Metropolitan Statistical Area (MSA), a sustainability index is calculated based on economic, social, and environmental indicators (also indices):\n\\[\\text{sustainability index} = \\text{economic} + \\text{social} + \\text{environmental}\\]"
+  },
+  {
+    "objectID": "slides/week6-pca.html#what-is-covariation",
+    "href": "slides/week6-pca.html#what-is-covariation",
+    "title": "Covariance and correlation",
+    "section": "What is covariation?",
+    "text": "What is covariation?\nCovariation refers to the tendency of two variables to change together across observations. Covariation is about relationships.\n\n\n\nCode\n# scatterplot of social vs economic indices\necon_social = alt.Chart(city_sust).mark_point().encode(\n    x = alt.X('Econ_Domain', scale = alt.Scale(zero = False)),\n    y = alt.Y('Social_Domain', scale = alt.Scale(zero = False))\n).properties(\n    width = 350,\n    height = 200\n)\n\necon_social.configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n)\n\n\n\n\n\n\n\n\n\n\nThe social and economic indices do seem to vary together: higher values of the economic index coincide with higher values of the social index.That’s all there is to it."
+  },
+  {
+    "objectID": "slides/week6-pca.html#how-is-covariation-measured",
+    "href": "slides/week6-pca.html#how-is-covariation-measured",
+    "title": "Covariance and correlation",
+    "section": "How is covariation measured?",
+    "text": "How is covariation measured?\nLet \\((x_1, y_1) \\dots, (x_n, y_n)\\) denote \\(n\\) values of two variables, \\(X\\) and \\(Y\\).\n\nIf \\(X\\) and \\(Y\\) tend to vary together, then whenever \\(X\\) is far from its mean, so is \\(Y\\): in other words, their deviations from typical values coincide.\n\n\nThis coincidence (or lack thereof) is measured quantiatively by the (sample) covariance:\n\\[\n\\text{cov}(\\mathbf{x}, \\mathbf{y}) = \\frac{1}{n - 1}\\sum_{i = 1}^n (x_i - \\bar{x})(y_i - \\bar{y})\n\\]\n\n\nNote \\(\\text{cov}(\\mathbf{x}, \\mathbf{x}) = \\text{var}(\\mathbf{x})\\)."
+  },
+  {
+    "objectID": "slides/week6-pca.html#as-an-inner-product",
+    "href": "slides/week6-pca.html#as-an-inner-product",
+    "title": "Covariance and correlation",
+    "section": "As an inner product",
+    "text": "As an inner product\nThe sum can be written as an inner product. First, ‘center’ \\(\\mathbf{x}\\) and \\(\\mathbf{y}\\):\n\\[\n\\tilde{\\mathbf{x}} = \\left[\\begin{array}{c}\n    x_1 - \\bar{x} \\\\\n    x_2 - \\bar{x} \\\\\n    \\vdots \\\\\n    x_n - \\bar{x}\n    \\end{array}\\right]\n\\quad\n\\tilde{\\mathbf{y}} = \\left[\\begin{array}{c}\n    y_1 - \\bar{y} \\\\\n    y_2 - \\bar{y} \\\\\n    \\vdots \\\\\n    y_n - \\bar{y}\n    \\end{array}\\right]\n\\]\n\nThen, the sample covariance is:\n\\[\n\\text{cov}(\\mathbf{x}, \\mathbf{y})\n= \\frac{\\tilde{\\mathbf{x}}^T \\tilde{\\mathbf{y}}}{n - 1}\n\\]\n\n\n\n# x = econ, y = social\nxy = city_sust.iloc[:, 2:4].values\n\n# center the observations\nxy_centered = xy - xy.mean(axis = 0)\n\n# compute covariancne\nxy_cov = np.inner(xy_centered[:, 0], xy_centered[:, 1])/(len(xy) - 1)\nxy_cov\n\n0.0019850231634313846"
+  },
+  {
+    "objectID": "slides/week6-pca.html#correlation-standardized-covariance",
+    "href": "slides/week6-pca.html#correlation-standardized-covariance",
+    "title": "Covariance and correlation",
+    "section": "Correlation: standardized covariance",
+    "text": "Correlation: standardized covariance\nCovariance is a little tricky to interpret. Is 0.00199 large or small?\n\nIt is more useful to compute the (sample) correlation:\n\\[\n\\text{corr}(\\mathbf{x}, \\mathbf{y}) = \\frac{\\text{cov}(\\mathbf{x}, \\mathbf{y})}{S_x S_y}\n\\]\n\n\nThis is simply covariance standardized to [-1, 1].\n\n\\(\\text{corr}(\\mathbf{x}, \\mathbf{y}) = 1, -1\\) are the strongest possible correlations\n\\(\\text{corr}(\\mathbf{x}, \\mathbf{y}) = 0\\) is the weakest possible correlation\nthe sign indicates whether \\(X\\) and \\(Y\\) vary together or in opposition\n\\(\\text{corr}(\\mathbf{x}, \\mathbf{x}) = 1\\), since any variable’s deviations coincide perfectly with themselves"
+  },
+  {
+    "objectID": "slides/week6-pca.html#correlation-of-social-and-economic-indices",
+    "href": "slides/week6-pca.html#correlation-of-social-and-economic-indices",
+    "title": "Covariance and correlation",
+    "section": "Correlation of social and economic indices",
+    "text": "Correlation of social and economic indices\nStandardizing the covariance makes it more interpretable:\n\n# cov(x, y)/(sx*sy)\nxy_cov/(xy.std(axis = 0).prod()) \n\n0.5320609060898916\n\n\nThe correlation indicates that the social and economic indices vary together (positive) moderately (halfway from zero to one).\n\nThis is just a number that quantifies what you already knew from the graphic: there is a positive relationship."
+  },
+  {
+    "objectID": "slides/week6-pca.html#what-is-the-use-of-a-quantitative-measure-of-covariation",
+    "href": "slides/week6-pca.html#what-is-the-use-of-a-quantitative-measure-of-covariation",
+    "title": "Principal components",
+    "section": "What is the use of a quantitative measure of covariation?",
+    "text": "What is the use of a quantitative measure of covariation?\nIt helps to have a number so that we can talk precisely about the strength of a relationship, and compare relationships quantitatvely.\n\nConsider all pairwise relationships:\n\n\nCode\n# extract social and economic indices\nx_mx = city_sust.iloc[:, 2:5]\n\n# long form dataframe for plotting panel\nscatter_df = x_mx.melt(\n    var_name = 'row',\n    value_name = 'row_index'\n).join(\n    pd.concat([x_mx, x_mx, x_mx], axis = 0).reset_index(),\n).drop(\n    columns = 'index'\n).melt(\n    id_vars = ['row', 'row_index'],\n    var_name = 'col',\n    value_name = 'col_index'\n)\n\n# panel\nalt.Chart(scatter_df).mark_point(opacity = 0.4).encode(\n    x = alt.X('row_index', scale = alt.Scale(zero = False), title = ''),\n    y = alt.Y('col_index', scale = alt.Scale(zero = False), title = '')\n).properties(\n    width = 150, \n    height = 75\n).facet(\n    column = alt.Column('col', title = ''),\n    row = alt.Row('row', title = '')\n).resolve_scale(x = 'independent', y = 'independent')\n\n\n\n\n\n\n\n\n\nIs the economic index more related to the environmental index or the social index?"
+  },
+  {
+    "objectID": "slides/week6-pca.html#correlation-matrix",
+    "href": "slides/week6-pca.html#correlation-matrix",
+    "title": "Covariance and correlation",
+    "section": "Correlation matrix",
+    "text": "Correlation matrix\nThe pairwise correlations among all three variables can be represented in a simple square matrix:\n\n# extract social and economic indices\nx_mx = city_sust.iloc[:, 2:5]\n\n# compute matrix of correlations\nx_mx.corr()\n\n\n\n\n\n  \n    \n      \n      Econ_Domain\n      Social_Domain\n      Env_Domain\n    \n  \n  \n    \n      Econ_Domain\n      1.000000\n      0.531491\n      0.011206\n    \n    \n      Social_Domain\n      0.531491\n      1.000000\n      -0.138674\n    \n    \n      Env_Domain\n      0.011206\n      -0.138674\n      1.000000\n    \n  \n\n\n\n\n\nThe strongest relationship is between social and economic indices; the weakest is between environmental and economic indices."
+  },
+  {
+    "objectID": "slides/week6-pca.html#covariance-matrix",
+    "href": "slides/week6-pca.html#covariance-matrix",
+    "title": "Covariance and correlation",
+    "section": "Covariance matrix",
+    "text": "Covariance matrix\nLet \\(\\mathbf{X}\\) denote \\(n\\) observations of \\(p\\) variables: \\(\\mathbf{X} = \\left[\\begin{array}{cccc} \\mathbf{x}_{1} &\\mathbf{x}_{2} &\\cdots &\\mathbf{x}_{p} \\end{array}\\right]\\)\n\nThe (sample) covariance matrix is:\n\\[\n\\text{cov}(\\mathbf{X}) = \\left[\\begin{array}{cccc}\n    \\text{cov}(\\mathbf{x}_1, \\mathbf{x}_1)\n        &\\text{cov}(\\mathbf{x}_1, \\mathbf{x}_2)\n        &\\cdots\n        &\\text{cov}(\\mathbf{x}_1, \\mathbf{x}_p) \\\\\n    \\text{cov}(\\mathbf{x}_2, \\mathbf{x}_1)\n        &\\text{cov}(\\mathbf{x}_2, \\mathbf{x}_2)\n        &\\cdots\n        &\\text{cov}(\\mathbf{x}_2, \\mathbf{x}_p) \\\\\n    \\vdots &\\vdots &\\ddots &\\vdots \\\\\n    \\text{cov}(\\mathbf{x}_p, \\mathbf{x}_1)\n        &\\text{cov}(\\mathbf{x}_p, \\mathbf{x}_2)\n        &\\cdots\n        &\\text{cov}(\\mathbf{x}_p, \\mathbf{x}_p) \\\\\n    \\end{array}\\right]\n\\]\n\n\nIt is easy to calculate as a matrix product after centering the data:\n\\[\n\\text{cov}(\\mathbf{X})\n= \\frac{(\\mathbf{X} - \\bar{\\mathbf{X}})^T(\\mathbf{X} - \\bar{\\mathbf{X}})}{n - 1}\n\\]\n\n\nHere \\(\\bar{\\mathbf{X}}\\) is a matrix whose rows are \\(n\\) copies of the column means of \\(\\mathbf{X}\\)."
+  },
+  {
+    "objectID": "slides/week6-pca.html#correlation-matrix-1",
+    "href": "slides/week6-pca.html#correlation-matrix-1",
+    "title": "Covariance and correlation",
+    "section": "Correlation matrix",
+    "text": "Correlation matrix\nThe (sample) correlation matrix is, similarly, the matrix of pariwise correlations:\n\\[\n\\text{corr}(\\mathbf{X}) = \\left[\\begin{array}{cccc}\n    \\text{corr}(\\mathbf{x}_1, \\mathbf{x}_1)\n        &\\text{corr}(\\mathbf{x}_1, \\mathbf{x}_2)\n        &\\cdots\n        &\\text{corr}(\\mathbf{x}_1, \\mathbf{x}_p) \\\\\n    \\text{cov}(\\mathbf{x}_2, \\mathbf{x}_1)\n        &\\text{corr}(\\mathbf{x}_2, \\mathbf{x}_2)\n        &\\cdots\n        &\\text{corr}(\\mathbf{x}_2, \\mathbf{x}_p) \\\\\n    \\vdots &\\vdots &\\ddots &\\vdots \\\\\n    \\text{corr}(\\mathbf{x}_p, \\mathbf{x}_1)\n        &\\text{corr}(\\mathbf{x}_p, \\mathbf{x}_2)\n        &\\cdots\n        &\\text{corr}(\\mathbf{x}_p, \\mathbf{x}_p) \\\\\n    \\end{array}\\right]\n\\]\n\nAnd can be obtained by standardizing the covariance matrix:\n\\[\n\\text{corr}(\\mathbf{X}) = (\\text{diag}(\\text{cov}(\\mathbf{X})))^{-1/2} \\left[\\text{cov}(\\mathbf{X})\\right] (\\text{diag}(\\text{cov}(\\mathbf{X})))^{-1/2}\n\\]"
+  },
+  {
+    "objectID": "slides/week6-pca.html#correlation-matrix-2",
+    "href": "slides/week6-pca.html#correlation-matrix-2",
+    "title": "Covariance and correlation",
+    "section": "Correlation matrix",
+    "text": "Correlation matrix\nFor another perspective, the correlation matrix can be seen as the covariance after normalizing. Consider:\n\\[\n\\mathbf{Z}\n= \\left\\{\\frac{x_{ij} - \\bar{x}_j}{s_{x_j}}\\right\\}\n= \\left[\\begin{array}{ccc}\n    \\frac{x_{11} - \\bar{x}_1}{s_{x_1}} &\\cdots &\\frac{x_{1p} - \\bar{x}_p}{s_{x_p}} \\\\\n    \\frac{x_{21} - \\bar{x}_1}{s_{x_1}} &\\cdots &\\frac{x_{2p} - \\bar{x}_p}{s_{x_p}} \\\\\n    \\vdots &\\ddots &\\vdots\\\\\n    \\frac{x_{n1} - \\bar{x}_1}{s_{x_1}} &\\cdots &\\frac{x_{np} - \\bar{x}_p}{s_{x_p}} \\\\\n    \\end{array}\\right]\n\\]\n\nThe (sample) correlation matrix is then:\n\\[\n\\text{corr}(\\mathbf{X}) = \\underbrace{\\frac{\\mathbf{Z}'\\mathbf{Z}}{n - 1}}_{\\text{call this } \\mathbf{R}}\n\\]"
+  },
+  {
+    "objectID": "slides/week6-pca.html#thanks-pandas",
+    "href": "slides/week6-pca.html#thanks-pandas",
+    "title": "Principal components",
+    "section": "Thanks, pandas",
+    "text": "Thanks, pandas\nLuckily, df.cov() and df.cor() will do all the work for you, but you should understand and be able to verify the calculations."
+  },
+  {
+    "objectID": "slides/week6-pca.html#heatmap-visualization",
+    "href": "slides/week6-pca.html#heatmap-visualization",
+    "title": "Covariance and correlation",
+    "section": "Heatmap visualization",
+    "text": "Heatmap visualization\n\n\nCode\n# store correlation matrix\ncorr_mx = x_mx.corr()\n\n# melt to long form\ncorr_mx_long = corr_mx.reset_index().rename(\n    columns = {'index': 'row'}\n).melt(\n    id_vars = 'row',\n    var_name = 'col',\n    value_name = 'Correlation'\n)\n\n# visualize\nalt.Chart(corr_mx_long).mark_rect().encode(\n    x = alt.X('col', title = '', sort = {'field': 'Correlation', 'order': 'ascending'}),\n    y = alt.Y('row', title = '', sort = {'field': 'Correlation', 'order': 'ascending'}),\n    color = alt.Color('Correlation', \n                      scale = alt.Scale(scheme = 'blueorange',\n                                        domain = (-1, 1), \n                                        type = 'sqrt'),\n                     legend = alt.Legend(tickCount = 5))\n).properties(width = 200, height = 200)\n\n\n\n\n\n\n\n\nEach cell corresponds to a pair of variables\nCells are colored acccording to the magnitude of correlation between the pair\nRows and columns are sorted in order of correlation strength\nDiverging color scale should always be used!"
+  },
+  {
+    "objectID": "slides/week6-pca.html#total-variance",
+    "href": "slides/week6-pca.html#total-variance",
+    "title": "Covariance and correlation",
+    "section": "Total variance",
+    "text": "Total variance\nA measure of total variability across all variables is given by the determinant of the covariance matrix:\n\\[\n\\text{det}(\\text{cov}(\\mathbf{X}))\n\\]\n\nOften with multivariate data one wants to know which variables or variable combinations contribute the most to total variation. For instance:\n\nIn which domain do cities vary most?\n\n\n\nWe can answer this by factoring the correlation matrix into components using eigendecomposition."
+  },
+  {
+    "objectID": "slides/week6-pca.html#a-question",
+    "href": "slides/week6-pca.html#a-question",
+    "title": "Principal components",
+    "section": "A question",
+    "text": "A question\nOften with multivariate data one wants to know which variables contribute the most to total variation. For instance:\n\nIn which domain do cities vary most?\n\n\nWe can answer this by factoring the correlation matrix into components."
+  },
+  {
+    "objectID": "slides/week6-pca.html#the-eigenvalue-problem",
+    "href": "slides/week6-pca.html#the-eigenvalue-problem",
+    "title": "Covariance and correlation",
+    "section": "The eigenvalue problem",
+    "text": "The eigenvalue problem\nLet \\(\\mathbf{A}\\) be a square \\((n\\times n)\\) matrix.\n\nThe eigenvalue problem refers to finding nonzero \\(\\lambda\\) and \\(\\mathbf{x}\\) that satisfy the equation:\n\\[\n\\mathbf{Ax} = \\lambda\\mathbf{x}\n\\]\n\n\nFor any such solutions:\n\n\\(\\lambda\\) is an eigenvalue of \\(\\mathbf{A}\\);\n\\(\\mathbf{x}\\) is an eigenvector of \\(\\mathbf{A}\\)."
+  },
+  {
+    "objectID": "slides/week6-pca.html#geometry",
+    "href": "slides/week6-pca.html#geometry",
+    "title": "Covariance and correlation",
+    "section": "Geometry",
+    "text": "Geometry\nFor a simple example, suppose \\(n = 2\\) and \\(\\mathbf{x}\\) is an eigenvalue of \\(\\mathbf{A}\\). Then:\n\\[\n\\mathbf{Ax}\n= \\left[\\begin{array}{cc}\n        a_{11} & a_{12} \\\\\n        a_{21} & a_{22}\n      \\end{array}\\right]\n      \\left[\\begin{array}{c}\n        x_1 \\\\ x_2\n      \\end{array}\\right]\n= \\left[\\begin{array}{c}\n        a_{11} x_1 + a_{12} x_2 \\\\\n        a_{21} x_1 + a_{22} x_2\n      \\end{array}\\right]\n= \\left[\\begin{array}{c}\n        \\lambda x_1 \\\\ \\lambda x_2\n        \\end{array}\\right]\n= \\lambda\\mathbf{x}\n\\]\n\n\n\nSo the eigenvalue problem equation says that the linear transformation of \\(\\mathbf{x}\\) by \\(\\mathbf{A}\\) is simply a rescaling of \\(\\mathbf{x}\\) by a factor of \\(\\lambda\\)."
+  },
+  {
+    "objectID": "slides/week6-pca.html#the-decomposition",
+    "href": "slides/week6-pca.html#the-decomposition",
+    "title": "Principal components",
+    "section": "The decomposition",
+    "text": "The decomposition\nThe eigendecomposition of a square matrix consists in finding the eigenvalues and eigenvectors.\n…\nThis is considered a ‘decomposition’ because the eigenvectors \\(\\mathbf{V}\\) and eigenvalues \\(\\Lambda\\) satisfy\n\\[\n\\underbrace{\\mathbf{A}}_{\\text{original matrix}} = \\underbrace{\\mathbf{V}\\Lambda\\mathbf{V}'}_{\\text{eigendecomposition}}\n\\]\nSo the original matrix can be reconstructed from the eigenvalues and eigenvectors."
+  },
+  {
+    "objectID": "slides/week6-pca.html#uniqueness",
+    "href": "slides/week6-pca.html#uniqueness",
+    "title": "Covariance and correlation",
+    "section": "Uniqueness",
+    "text": "Uniqueness\nIf \\(\\lambda, \\mathbf{x}\\) are solutions, then so are \\(c\\lambda, c\\mathbf{x}\\) for any constant \\(c\\).\n\nSo assume that \\(\\|\\mathbf{x}\\| = 1\\).\n\n\nThen solutions are unique to within the sign of \\(\\mathbf{x}\\)."
+  },
+  {
+    "objectID": "slides/week6-pca.html#special-case",
+    "href": "slides/week6-pca.html#special-case",
+    "title": "Covariance and correlation",
+    "section": "Special case",
+    "text": "Special case\nWe will be applying eigendecomposition to correlation matrices, which have a special form \\(\\mathbf{A} = \\mathbf{Z'Z}\\).\nOne can show that for matrices of this form:\n\n\\(\\mathbf{V'V} = \\mathbf{I}\\), in other words, the eigenvectors are an orthonormal basis;\n\\(\\lambda_i \\geq 0\\), in other words, all eigenvalues are nonnegative."
+  },
+  {
+    "objectID": "slides/week6-pca.html#computations",
+    "href": "slides/week6-pca.html#computations",
+    "title": "Covariance and correlation",
+    "section": "Computations",
+    "text": "Computations\nThe eigendecomposition is computed numerically using iterative methods. Luckily, these are very easy to implement:\n\n\n# compute decomposition\ndecomp = linalg.eig(corr_mx)\ndecomp\n\n(array([0.44788559+0.j, 1.54664121+0.j, 1.0054732 +0.j]),\n array([[ 0.68276586, -0.68571102,  0.2522522 ],\n        [-0.70523279, -0.7087523 , -0.01780118],\n        [-0.19099079,  0.16574249,  0.96749778]]))\n\n\n\n\n\n# eigenvalues\ndecomp[0]\n\narray([0.44788559+0.j, 1.54664121+0.j, 1.0054732 +0.j])\n\n\n\n\n\n# eigenvectors (columns)\ndecomp[1]\n\narray([[ 0.68276586, -0.68571102,  0.2522522 ],\n       [-0.70523279, -0.7087523 , -0.01780118],\n       [-0.19099079,  0.16574249,  0.96749778]])"
+  },
+  {
+    "objectID": "slides/week6-pca.html#does-the-decomposition-really-work",
+    "href": "slides/week6-pca.html#does-the-decomposition-really-work",
+    "title": "Covariance and correlation",
+    "section": "Does the decomposition really work?",
+    "text": "Does the decomposition really work?\nLet’s check that in fact \\(\\mathbf{A} = \\mathbf{V\\Lambda V'}\\):\n\n\neigenvecs.dot(eigenvals).dot(eigenvecs.transpose()) # V Lambda V'\n\n\n\n\n\n  \n    \n      \n      Econ_Domain\n      Social_Domain\n      Env_Domain\n    \n  \n  \n    \n      Econ_Domain\n      1.000000\n      0.531491\n      0.011206\n    \n    \n      Social_Domain\n      0.531491\n      1.000000\n      -0.138674\n    \n    \n      Env_Domain\n      0.011206\n      -0.138674\n      1.000000\n    \n  \n\n\n\n\n\n\n\ncorr_mx # correlation matrix (our 'A')\n\n\n\n\n\n  \n    \n      \n      Econ_Domain\n      Social_Domain\n      Env_Domain\n    \n  \n  \n    \n      Econ_Domain\n      1.000000\n      0.531491\n      0.011206\n    \n    \n      Social_Domain\n      0.531491\n      1.000000\n      -0.138674\n    \n    \n      Env_Domain\n      0.011206\n      -0.138674\n      1.000000"
+  },
+  {
+    "objectID": "slides/week6-pca.html#orthogonality",
+    "href": "slides/week6-pca.html#orthogonality",
+    "title": "Covariance and correlation",
+    "section": "Orthogonality",
+    "text": "Orthogonality\nLet’s check also that in fact \\(\\mathbf{V'V} = \\mathbf{I}\\):\n\n\neigenvecs.transpose().dot(eigenvecs) # V'V\n\n\n\n\n\n  \n    \n      \n      v1\n      v2\n      v3\n    \n  \n  \n    \n      v1\n      1.000000e+00\n      2.843276e-16\n      -1.434873e-16\n    \n    \n      v2\n      2.843276e-16\n      1.000000e+00\n      7.316332e-17\n    \n    \n      v3\n      -1.434873e-16\n      7.316332e-17\n      1.000000e+00\n    \n  \n\n\n\n\n\n\nThe significance of this property is that \\(\\mathbf{v}_1, \\mathbf{v}_2, \\mathbf{v}_3\\) form an orthonormal basis."
+  },
+  {
+    "objectID": "slides/week6-pca.html#whats-a-basis",
+    "href": "slides/week6-pca.html#whats-a-basis",
+    "title": "Covariance and correlation",
+    "section": "What’s a basis?",
+    "text": "What’s a basis?\nA basis in linear algebra is a set of vectors that span a linear space. Think of a basis as a set of axes.\n\nFor instance, the usual basis for \\(\\mathbb{R}^3\\) are the unit vectors:\n\\[\n\\mathbf{e}_1 = (1, 0, 0) \\quad \\mathbf{e}_2 = (0, 1, 0) \\quad \\mathbf{e}_3 = (0, 0, 1)\n\\]\nThe usual coordinates in \\(\\mathbb{R}^3\\) in fact refer to multiples of these basis vectors:\n\\[\n(1, 2, 1) = 1\\mathbf{e}_1 + 2\\mathbf{e}_2 + 1\\mathbf{e}_3\n\\]\n\nA basis is orthogonal if all basis vectors are at right angles to one another\nA basis is orthonormal if it is orthogonal and basis vectors are of unit length"
+  },
+  {
+    "objectID": "slides/week6-pca.html#nonstandard-bases",
+    "href": "slides/week6-pca.html#nonstandard-bases",
+    "title": "Covariance and correlation",
+    "section": "Nonstandard bases",
+    "text": "Nonstandard bases\n\n\nTo an extent the usual choice of \\(\\mathbf{e}_1, \\mathbf{e}_2, \\mathbf{e}_3\\) is arbitrary.\nIt’s possible to choose any system based on three directions to represent the same point relative to the origin."
+  },
+  {
+    "objectID": "slides/week6-pca.html#change-of-basis",
+    "href": "slides/week6-pca.html#change-of-basis",
+    "title": "Covariance and correlation",
+    "section": "Change of basis",
+    "text": "Change of basis\nDifferent bases are simply different coordinate systems.\nIt’s akin to the possibility of locating the distance to the corner store by different units and relative to different directions. For example:\n\nhalf a block to the right from the front door; or\nsixty steps diagonally in a straight line; or\nfifteen steps north, fifty steps east."
+  },
+  {
+    "objectID": "slides/week6-pca.html#eigendecomposition-of-the-correlation-matrix",
+    "href": "slides/week6-pca.html#eigendecomposition-of-the-correlation-matrix",
+    "title": "Covariance and correlation",
+    "section": "Eigendecomposition of the correlation matrix",
+    "text": "Eigendecomposition of the correlation matrix\nSo, decomposing the correlation matrix yields a basis.\nWhen standardized data are represented on that basis, observations are uncorrelated.\n\nLet \\(\\mathbf{Y} = \\mathbf{ZV}\\); this is the representation of \\(\\mathbf{Z}\\) on the basis given by \\(\\mathbf{V}\\).\n\n\nThen:\n\\[\n\\mathbf{Y'Y} = \\mathbf{V'Z'ZV} =\\mathbf{V'V\\Lambda V' V} = \\Lambda\n\\]\n\n\nTogether with the observation that \\(\\bar{\\mathbf{Y}} = 0\\), this implies that \\(\\text{cov}(\\mathbf{y}_j, \\mathbf{y}_k) = 0\\) since \\(\\Lambda\\) is diagonal.\n\n\nSo the eigenbasis in a sense ‘captures’ the covariation in the data.\n\nprovides a coordinate system on which the (standardized) data are uncorrelated\ncoordinate axes are the ‘main’ directions of total variability (will demonstrate empirically)"
+  },
+  {
+    "objectID": "slides/week6-pca.html#principal-components-analysis",
+    "href": "slides/week6-pca.html#principal-components-analysis",
+    "title": "Principal components",
+    "section": "Principal components analysis",
+    "text": "Principal components analysis\nPrincipal components analysis (PCA) consists in finding a linear transformation of one’s data that captures covariation.\nApplications are varied, and so are descriptions of just what the method is supposed to do, but the core technique is simple:\n\nCompute the eigendecomposition of the correlation matrix.\nChoose a subset of eigenvectors.\nThen do other stuff (the ‘analysis’ part).\n\nPCA terminology:\n\nEigenvectors are called ‘principal component directions’\nThe values of eigenvectors are called ‘loadings’\nThe projected data consist of the ‘principal components’"
+  },
+  {
+    "objectID": "slides/week6-pca.html#pca-in-the-low-dimensional-setting",
+    "href": "slides/week6-pca.html#pca-in-the-low-dimensional-setting",
+    "title": "Principal components",
+    "section": "PCA in the low-dimensional setting",
+    "text": "PCA in the low-dimensional setting\nLet’s consider what happens if we follow the steps of PCA outlined above with just two variables, say the social index and the economic index, which were the most correlated pair in the example data.\nDenote the observations on these two variables by\n\\[\\mathbf{X} = [\\mathbf{x}_1 \\; \\mathbf{x}_2] \\qquad\\text{where}\\qquad \\mathbf{x}_1 = \\text{social index} \\;\\text{and}\\; \\mathbf{x}_2 = \\text{economic index}\\]\nTo get the correlation matrix, first compute \\(\\mathbf{Z} = \\left\\{\\frac{x_i - \\bar{x}}{s_x}\\right\\}\\).\n\n\n\nCode\nplot.configure_axis(domain = False)\n\n\n\n\n\n\n\nThe red dots indicate the means."
+  },
+  {
+    "objectID": "slides/week6-pca.html#pca-in-the-low-dimensional-setting-1",
+    "href": "slides/week6-pca.html#pca-in-the-low-dimensional-setting-1",
+    "title": "Principal components",
+    "section": "PCA in the low-dimensional setting",
+    "text": "PCA in the low-dimensional setting\nNow we’ll compute the eigendecomposition. This is pretty much all there is to it.\n\n\n\nCode\n# compute correlation mx\nr_mx = z_mx.transpose().dot(z_mx)/(len(z_mx) - 1)\nr_mx\n\n\n\n\n\n\n  \n    \n      \n      Econ_Domain\n      Social_Domain\n    \n  \n  \n    \n      Econ_Domain\n      1.000000\n      0.531491\n    \n    \n      Social_Domain\n      0.531491\n      1.000000\n    \n  \n\n\n\n\n\n\n\n\nCode\n# decomposition\nr_eig = linalg.eig(r_mx.values)\n\n# show PC directions\ndirections = pd.DataFrame(r_eig[1], columns = ['PC1_Direction', 'PC2_Direction'], index = r_mx.columns)\ndirections\n\n\n\n\n\n\n  \n    \n      \n      PC1_Direction\n      PC2_Direction\n    \n  \n  \n    \n      Econ_Domain\n      -0.707107\n      -0.707107\n    \n    \n      Social_Domain\n      0.707107\n      -0.707107\n    \n  \n\n\n\n\nRemember that the principal component directions are just the eigenvectors."
+  },
+  {
+    "objectID": "slides/week6-pca.html#geometry-of-pca",
+    "href": "slides/week6-pca.html#geometry-of-pca",
+    "title": "Principal components",
+    "section": "Geometry of PCA",
+    "text": "Geometry of PCA\nWhat did we just do? Let’s plot the principal component directions on the centered and scaled data.\n\n\nCode\ncentered_plot + eigenbasis\n\n\n\n\n\n\n\nDo you notice any relationship between the directions and the scatter?"
+  },
+  {
+    "objectID": "slides/week6-pca.html#geometry-of-pca-1",
+    "href": "slides/week6-pca.html#geometry-of-pca-1",
+    "title": "Principal components",
+    "section": "Geometry of PCA",
+    "text": "Geometry of PCA\nHow about now?\n\n\n\nCode\ncentered_plot + eigenbasis\n\n\n\n\n\n\n\nThe difference here comes from scaling the directions by the corresponding eigenvalues (plotting \\(\\lambda_1\\mathbf{v}_1\\) and \\(\\lambda_2\\mathbf{v}_2\\)).\nThe principal component directions are the axes along which the data vary most, and the eigenvalues give the magnitude of that variation."
+  },
+  {
+    "objectID": "slides/week6-pca.html#geometry-of-pca-projection",
+    "href": "slides/week6-pca.html#geometry-of-pca-projection",
+    "title": "Principal components",
+    "section": "Geometry of PCA: projection",
+    "text": "Geometry of PCA: projection\nSo if we wanted to look at just one quantity that retains variation and covariation in the original data, we could:\n\nproject the data onto the new basis\nand look at the values on the axis of the first PC direction (the one with the most variation, i.e., largest \\(\\lambda_i\\)).\n\n\n\n\nCode\nprojection & pc1\n\n\n\n\n\n\n\nIf we select just the first principal component to ‘do other stuff’ with, we lose the variation in PC2. Is this a problem?"
+  },
+  {
+    "objectID": "slides/week6-pca.html#quantifying-variation-captureloss",
+    "href": "slides/week6-pca.html#quantifying-variation-captureloss",
+    "title": "Principal components",
+    "section": "Quantifying variation capture/loss",
+    "text": "Quantifying variation capture/loss\nTo figure out how much variation/covariation is captured and lost, we need to know how much is available in the first place.\nThe total variation in \\(\\mathbf{X}\\) is given in terms of the correlation matrix by:\n\\[\\text{total variation} = \\text{det}\\left(\\mathbf{R}\\right) = \\sum_{i = 1}^p \\lambda_i\\]\nNow let \\(\\mathbf{y}_j = \\mathbf{Zv}_j\\) be the \\(j\\)th principal component. Its variance is:\n\\[\\frac{1}{n - 1}\\mathbf{y}_j'\\mathbf{y} = \\frac{1}{n - 1}\\mathbf{v}_j'\\mathbf{Z'Zv}_j = \\mathbf{v}_j'\\mathbf{V'\\Lambda Vv}_j = \\mathbf{e}_j'\\mathbf{\\Lambda e}_j = \\lambda_j\\]"
+  },
+  {
+    "objectID": "slides/week6-pca.html#quantifying-variation-captureloss-1",
+    "href": "slides/week6-pca.html#quantifying-variation-captureloss-1",
+    "title": "Principal components",
+    "section": "Quantifying variation capture/loss",
+    "text": "Quantifying variation capture/loss\nSo the total variation is the sum of the eigenvalues, and the variance of each PC is the corresponding eigenvalue.\nWe can therefore define the proportion of total variation explained by the \\(j\\)th principal component as:\n\\[\\frac{\\lambda_j}{\\sum_{j = 1}^p \\lambda_j}\\]\nThis is sometimes also called the variance ratio for the \\(j\\)th principal component.\nSo in our example:\n\n\nCode\neigenvalues = r_eig[0].real # store eigenvalues as real array\neigenvalues[0]/eigenvalues.sum() # variance ratio\n\n\n0.23425468141705302\n\n\nThe first principal component captures 77% of total variation."
+  },
+  {
+    "objectID": "slides/week6-pca.html#interpreting-principal-components",
+    "href": "slides/week6-pca.html#interpreting-principal-components",
+    "title": "Principal components",
+    "section": "Interpreting principal components",
+    "text": "Interpreting principal components\nSo we have obtained a single derived variable that captures 3/4 of all variation and covariation in both variables. But what is this?\nThe values of the first principal component (green ticks) are given by:\n\\[\\text{PC1}_i = \\mathbf{x}_i'\\mathbf{v}_1 = 0.7071 \\times\\text{economic}_i + 0.7071 \\times\\text{social}_i\\]\nSo the principal component is a linear combination of the underlying variables.\nThose coefficients are known as loadings: they determine the relative weights by which the variables contribute to the principal component.\nIn this case, the PC1 loadings are equal; so this principal component is simply the average of the social and economic indices."
+  },
+  {
+    "objectID": "slides/week6-pca.html#example-application",
+    "href": "slides/week6-pca.html#example-application",
+    "title": "Principal components",
+    "section": "Example application",
+    "text": "Example application\nNow that we’ve reviewed the basic technique, we can consider cases with a larger number of variables.\nThis is really where PCA is most useful.\n\nIt can help answer the question: which variables are driving variation in the data?\nIt can help reduce data dimensions by finding combinations of variables that preserve variation.\nIt can provide a means of visualizing high-dimensional data.\n\nSo, let’s look at a different example: world development indicators.\n\n\nCode\nwdi = pd.read_csv('data/wdi-data.csv').iloc[:, 2:].set_index('country')\nwdi.head(3)\n\n\n\n\n\n\n  \n    \n      \n      inequality_adjusted_life\n      inequality_adjusted_education\n      maternal_mortality\n      parliament_pct_women\n      labor_participation_women\n      labor_participation_men\n      total_pop\n      urban_pct_pop\n      pop_under5\n      pop_15to64\n      ...\n      total_unemployment\n      youth_unemployment\n      prison_5yr\n      trade\n      foreign_investment\n      net_migration\n      immigrant_pop\n      tourists_2018\n      internet_users_2018\n      mobile_users_2018\n    \n    \n      country\n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n    \n  \n  \n    \n      Norway\n      0.931\n      0.908\n      2\n      40.8\n      60.4\n      67.2\n      5.4\n      82.6\n      0.055556\n      0.648148\n      ...\n      3.3\n      9.3\n      80\n      72.1\n      0.4\n      5.3\n      16.1\n      5688\n      96.5\n      107.2\n    \n    \n      Ireland\n      0.926\n      0.892\n      5\n      24.3\n      56.0\n      68.4\n      4.9\n      63.4\n      0.061224\n      0.653061\n      ...\n      4.9\n      13.1\n      82\n      239.2\n      -20.4\n      4.9\n      17.1\n      10926\n      84.5\n      103.2\n    \n    \n      Switzerland\n      0.947\n      0.883\n      5\n      38.6\n      62.9\n      73.8\n      8.6\n      73.8\n      0.046512\n      0.662791\n      ...\n      4.6\n      7.4\n      77\n      119.4\n      -2.6\n      6.1\n      29.9\n      10362\n      89.7\n      129.6\n    \n  \n\n3 rows × 31 columns"
+  },
+  {
+    "objectID": "slides/week6-pca.html#computation-via-sklearn.decomposition.pca",
+    "href": "slides/week6-pca.html#computation-via-sklearn.decomposition.pca",
+    "title": "Principal components",
+    "section": "Computation via sklearn.decomposition.PCA",
+    "text": "Computation via sklearn.decomposition.PCA\nLuckily, sklearn contains an easy-to-use implementation that saves the trouble of going through all the calculations we did before ‘by hand’.\n\n\nCode\nfrom sklearn.decomposition import PCA\n\n\nThe implementation simply requires centering and scaling the data first.\n\n\nCode\n# center and scale\nwdi_ctr = (wdi - wdi.mean())/wdi.std()\n\n# compute principal components\npca = PCA(31)\npca.fit(wdi_ctr)\n\n\nPCA(n_components=31)In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.PCAPCA(n_components=31)"
+  },
+  {
+    "objectID": "slides/week6-pca.html#variance-ratios",
+    "href": "slides/week6-pca.html#variance-ratios",
+    "title": "Principal components",
+    "section": "Variance ratios",
+    "text": "Variance ratios\nSelecting the number of principal components to use is somewhat subjective, but always based on the variance ratios.\n\nhow many PCs capture substantial variation individually before the variance ratio ‘tails off’?\nhow many PCs are needed to capture a certain proportion of the total variation?\n\nThis can be assessed by plotting the variance ratios and their cumulative sum:\n\n\nCode\nvariance_plot.properties(height = 200, width = 400)\n\n\n\n\n\n\n\nIn this case, the variance ratios drop off after 2 components. These first two capture about half of total variation in the data."
+  },
+  {
+    "objectID": "slides/week6-pca.html#loading-plots",
+    "href": "slides/week6-pca.html#loading-plots",
+    "title": "Principal components",
+    "section": "Loading plots",
+    "text": "Loading plots\nExamining the loadings can help address the question: which variables drive variation in the data?\n\n\n\nCode\nloading_plot.properties(width = 300, height = 400)"
+  },
+  {
+    "objectID": "slides/week6-pca.html#visualization",
+    "href": "slides/week6-pca.html#visualization",
+    "title": "Principal components",
+    "section": "Visualization",
+    "text": "Visualization\nFinally, we might want to use the first two principal components to visualize the data. Often it’s helpful to merge the principal components with the original data and apply visualization techniques you already know to search for interesting patterns.\n\n\nCode\nscatter + text"
+  },
+  {
+    "objectID": "slides/week6-pca.html#about-the-data",
+    "href": "slides/week6-pca.html#about-the-data",
+    "title": "Covariance and correlation",
+    "section": "About the data",
+    "text": "About the data\nThe domain indices are computed from a large number of development indicator variables.\nIf you’re interested, you can dig deeper on the Sustainable Development Report website, which provides detailed data reports related to the U.N.’s 2030 sustainable development goals."
+  },
+  {
+    "objectID": "slides/week6-pca.html#why-measure",
+    "href": "slides/week6-pca.html#why-measure",
+    "title": "Covariance and correlation",
+    "section": "Why measure?",
+    "text": "Why measure?\nIt helps to have a number to quantify the strength of a relationship.\n\nFor instance, which pair is most related?\n\n\nCode\n# extract social and economic indices\nx_mx = city_sust.iloc[:, 2:5]\n\n# long form dataframe for plotting panel\nscatter_df = x_mx.melt(\n    var_name = 'row',\n    value_name = 'row_index'\n).join(\n    pd.concat([x_mx, x_mx, x_mx], axis = 0).reset_index(),\n).drop(\n    columns = 'index'\n).melt(\n    id_vars = ['row', 'row_index'],\n    var_name = 'col',\n    value_name = 'col_index'\n)\n\n# panel\nalt.Chart(scatter_df).mark_point(opacity = 0.4).encode(\n    x = alt.X('row_index', scale = alt.Scale(zero = False), title = ''),\n    y = alt.Y('col_index', scale = alt.Scale(zero = False), title = '')\n).properties(\n    width = 150, \n    height = 75\n).facet(\n    column = alt.Column('col', title = ''),\n    row = alt.Row('row', title = '')\n).resolve_scale(x = 'independent', y = 'independent')"
+  },
+  {
+    "objectID": "slides/week6-pca.html#calculations",
+    "href": "slides/week6-pca.html#calculations",
+    "title": "Covariance and correlation",
+    "section": "Calculations",
+    "text": "Calculations\n\n\n# correlation matrix 'by hand'\nn = len(x_mx) # sample size\nz_mx = (x_mx - x_mx.mean())/x_mx.std() # (xi - xbar)/sx\nz_mx.transpose().dot(z_mx)/(n - 1) # Z'Z/(n - 1)\n\n\n\n\n\n  \n    \n      \n      Econ_Domain\n      Social_Domain\n      Env_Domain\n    \n  \n  \n    \n      Econ_Domain\n      1.000000\n      0.531491\n      0.011206\n    \n    \n      Social_Domain\n      0.531491\n      1.000000\n      -0.138674\n    \n    \n      Env_Domain\n      0.011206\n      -0.138674\n      1.000000\n    \n  \n\n\n\n\n\n\nLuckily, df.cov() and df.cor() will do all the work for you:\n\nx_mx.corr()\n\n\n\n\n\n  \n    \n      \n      Econ_Domain\n      Social_Domain\n      Env_Domain\n    \n  \n  \n    \n      Econ_Domain\n      1.000000\n      0.531491\n      0.011206\n    \n    \n      Social_Domain\n      0.531491\n      1.000000\n      -0.138674\n    \n    \n      Env_Domain\n      0.011206\n      -0.138674\n      1.000000\n    \n  \n\n\n\n\n\n\nHowever, you should understand and be able to verify the calculations."
+  },
+  {
+    "objectID": "slides/week6-pca.html#eigendecomposition",
+    "href": "slides/week6-pca.html#eigendecomposition",
+    "title": "Covariance and correlation",
+    "section": "Eigendecomposition",
+    "text": "Eigendecomposition\nThe eigendecomposition of a square matrix consists in finding the eigenvalues and eigenvectors.\n\nThis is considered a ‘decomposition’ because the eigenvectors \\(\\mathbf{V}\\) and eigenvalues \\(\\Lambda\\) satisfy\n\\[\n\\underbrace{\\mathbf{A}}_{\\text{original matrix}} = \\underbrace{\\mathbf{V}\\Lambda\\mathbf{V}'}_{\\text{eigendecomposition}}\n\\]\n\n\nSo the original matrix can be reconstructed from the eigenvalues and eigenvectors."
+  },
+  {
+    "objectID": "slides/week6-covariation.html#this-week-principal-components",
+    "href": "slides/week6-covariation.html#this-week-principal-components",
+    "title": "Covariance and correlation",
+    "section": "This week: principal components",
+    "text": "This week: principal components\n\nCovariance and correlation\n\nDefinitions\nCovariance and correlation matrices\n\nEigendecomposition\n\nThe eigenvalue problem\nGeometric interpretation\nComputations\n\nPrincipal components analysis\n\nPCA in the low-dimensional setting\nVariation capture and loss\nInterpreting principal components"
+  },
+  {
+    "objectID": "slides/week6-covariation.html#city-sustainability-data",
+    "href": "slides/week6-covariation.html#city-sustainability-data",
+    "title": "Covariance and correlation",
+    "section": "City sustainability data",
+    "text": "City sustainability data\nWe’ll use the dataset on the sustainability of U.S. cities introduced last time:\n\n\n\n\n\n\n  \n    \n      \n      GEOID_MSA\n      Name\n      Econ_Domain\n      Social_Domain\n      Env_Domain\n      Sustain_Index\n    \n  \n  \n    \n      0\n      310M300US10100\n      Aberdeen, SD Micro Area\n      0.565264\n      0.591259\n      0.444472\n      1.600995\n    \n    \n      1\n      310M300US10140\n      Aberdeen, WA Micro Area\n      0.427671\n      0.520744\n      0.429274\n      1.377689\n    \n  \n\n\n\n\nFor each Metropolitan Statistical Area (MSA), a sustainability index is calculated based on economic, social, and environmental indicators (also indices):\n\\[\\text{sustainability index} = \\text{economic} + \\text{social} + \\text{environmental}\\]"
+  },
+  {
+    "objectID": "slides/week6-covariation.html#about-the-data",
+    "href": "slides/week6-covariation.html#about-the-data",
+    "title": "Covariance and correlation",
+    "section": "About the data",
+    "text": "About the data\nThe domain indices are computed from a large number of development indicator variables.\nIf you’re interested, you can dig deeper on the Sustainable Development Report website, which provides detailed data reports related to the U.N.’s 2030 sustainable development goals."
+  },
+  {
+    "objectID": "slides/week6-covariation.html#what-is-covariation",
+    "href": "slides/week6-covariation.html#what-is-covariation",
+    "title": "Covariance and correlation",
+    "section": "What is covariation?",
+    "text": "What is covariation?\nCovariation refers to the tendency of two variables to change together across observations. Covariation is about relationships.\n\n\n\nCode\n# scatterplot of social vs economic indices\necon_social = alt.Chart(city_sust).mark_point().encode(\n    x = alt.X('Econ_Domain', scale = alt.Scale(zero = False)),\n    y = alt.Y('Social_Domain', scale = alt.Scale(zero = False))\n).properties(\n    width = 350,\n    height = 200\n)\n\necon_social.configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n)\n\n\n\n\n\n\n\n\n\n\nThe social and economic indices do seem to vary together: higher values of the economic index coincide with higher values of the social index. That’s all there is to it."
+  },
+  {
+    "objectID": "slides/week6-covariation.html#how-is-covariation-measured",
+    "href": "slides/week6-covariation.html#how-is-covariation-measured",
+    "title": "Covariance and correlation",
+    "section": "How is covariation measured?",
+    "text": "How is covariation measured?\nLet \\((x_1, y_1) \\dots, (x_n, y_n)\\) denote \\(n\\) values of two variables, \\(X\\) and \\(Y\\).\n\nIf \\(X\\) and \\(Y\\) tend to vary together, then whenever \\(X\\) is far from its mean, so is \\(Y\\): in other words, their deviations coincide.\n\n\nThis coincidence (or lack thereof) is measured quantiatively by the (sample) covariance:\n\\[\n\\text{cov}(\\mathbf{x}, \\mathbf{y}) = \\frac{1}{n - 1}\\sum_{i = 1}^n (x_i - \\bar{x})(y_i - \\bar{y})\n\\]\n\n\nNote \\(\\text{cov}(\\mathbf{x}, \\mathbf{x}) = \\text{var}(\\mathbf{x})\\)."
+  },
+  {
+    "objectID": "slides/week6-covariation.html#as-an-inner-product",
+    "href": "slides/week6-covariation.html#as-an-inner-product",
+    "title": "Covariance and correlation",
+    "section": "As an inner product",
+    "text": "As an inner product\nThe sum can be written as an inner product. First, ‘center’ \\(\\mathbf{x}\\) and \\(\\mathbf{y}\\):\n\\[\n\\tilde{\\mathbf{x}} = \\left[\\begin{array}{c}\n    x_1 - \\bar{x} \\\\\n    \\vdots \\\\\n    x_n - \\bar{x}\n    \\end{array}\\right]\n\\quad\n\\tilde{\\mathbf{y}} = \\left[\\begin{array}{c}\n    y_1 - \\bar{y} \\\\\n    \\vdots \\\\\n    y_n - \\bar{y}\n    \\end{array}\\right]\n\\]\n\nThen, the sample covariance is:\n\\[\n\\text{cov}(\\mathbf{x}, \\mathbf{y})\n= \\frac{\\tilde{\\mathbf{x}}^T \\tilde{\\mathbf{y}}}{n - 1}\n\\]\n\n\n\n# x = econ, y = social\nxy = city_sust.iloc[:, 2:4].values\n\n# center the observations\nxy_centered = xy - xy.mean(axis = 0)\n\n# compute covariancne\nxy_cov = np.inner(xy_centered[:, 0], xy_centered[:, 1])/(len(xy) - 1)\nxy_cov\n\n0.0019850231634313846"
+  },
+  {
+    "objectID": "slides/week6-covariation.html#correlation-standardized-covariance",
+    "href": "slides/week6-covariation.html#correlation-standardized-covariance",
+    "title": "Covariance and correlation",
+    "section": "Correlation: standardized covariance",
+    "text": "Correlation: standardized covariance\nCovariance is a little tricky to interpret. Is 0.00199 large or small?\n\nIt is more useful to compute the (sample) correlation:\n\\[\n\\text{corr}(\\mathbf{x}, \\mathbf{y}) = \\frac{\\text{cov}(\\mathbf{x}, \\mathbf{y})}{S_x S_y}\n\\]\n\n\nThis is simply a standardized covariance measure.\n\n\\(\\text{corr}(\\mathbf{x}, \\mathbf{y}) = 1, -1\\) are the strongest possible correlations\n\\(\\text{corr}(\\mathbf{x}, \\mathbf{y}) = 0\\) is the weakest possible correlation\nthe sign indicates whether \\(X\\) and \\(Y\\) vary together or in opposition\n\\(\\text{corr}(\\mathbf{x}, \\mathbf{x}) = 1\\), since any variable’s deviations coincide perfectly with themselves"
+  },
+  {
+    "objectID": "slides/week6-covariation.html#correlation-of-social-and-economic-indices",
+    "href": "slides/week6-covariation.html#correlation-of-social-and-economic-indices",
+    "title": "Covariance and correlation",
+    "section": "Correlation of social and economic indices",
+    "text": "Correlation of social and economic indices\nStandardizing the covariance makes it more interpretable:\n\n# cov(x, y)/(sx*sy)\nxy_cov/(xy.std(axis = 0).prod()) \n\n0.5320609060898916\n\n\nThe correlation indicates that the social and economic indices vary together (positive) moderately (halfway from zero to one).\n\nThis is just a number that quantifies what you already knew from the graphic: there is a positive relationship."
+  },
+  {
+    "objectID": "slides/week6-covariation.html#common-micsonceptions",
+    "href": "slides/week6-covariation.html#common-micsonceptions",
+    "title": "Covariance and correlation",
+    "section": "Common micsonceptions",
+    "text": "Common micsonceptions\nNo correlation does not imply no relationship – symmetry can produce strongly related but uncorrelated data.\n\n\n\n\nCode\nnp.random.seed(50323)\n# simulate observations of x\nn = 100\nx = np.random.uniform(low = 0, high = 1, size = n)\nsim_df = pd.DataFrame({'x': x})\n\n# center x, center y, scale\na, b, c = 0.5, 0.5, 3\n\n# noise\nnoise_sd = 0.1\nnoise = np.random.normal(loc = 0, scale = noise_sd, size = n)\n\n# simulate observations of y\nsim_df['y'] = c*(x - a)*(x - b) + noise\n\n# plot\nscatter = alt.Chart(\n    sim_df\n).mark_point().encode(\n    x = 'x',\n    y = 'y'\n)\n\n# compute correlation\nprint('correlation: ', sim_df.corr().loc['x', 'y'])\nscatter.configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n)\n\n\ncorrelation:  0.07227477481863409\n\n\n\n\n\n\n\n\n\n\nCode\nnp.random.seed(50323)\n# simulate observations of x\nn = 100\nx = np.random.uniform(low = 0, high = 1, size = n)\nsim_df = pd.DataFrame({'x': x})\n\n# center x, center y, scale\na, b, c = 0.5, 0.5, 3\n\n# noise\nnoise_sd = 0.2\nnoise = np.random.normal(loc = 0, scale = noise_sd, size = n)\n\n# simulate observations of y\nsim_df['y'] = np.cos(4*np.pi*x) + noise\n\n# plot\nscatter = alt.Chart(\n    sim_df\n).mark_point().encode(\n    x = 'x',\n    y = 'y'\n)\n\n# compute correlation\nprint('correlation: ', sim_df.corr().loc['x', 'y'])\nscatter.configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n)\n\n\ncorrelation:  0.044829620336962715"
+  },
+  {
+    "objectID": "slides/week6-covariation.html#linearity",
+    "href": "slides/week6-covariation.html#linearity",
+    "title": "Covariance and correlation",
+    "section": "Linearity",
+    "text": "Linearity\nCorrelation measures the strength of linear relationships. But what does “strength” mean exactly?\n\n\\(\\text{cor}(\\mathbf{x}, \\mathbf{y}) = 1\\) implies the data lie exactly on a line with positive slope\n\\(\\text{cor}(\\mathbf{x}, \\mathbf{y}) = -1\\) implies the data lie exactly on a line with negative slope\n\\(\\text{cor}(\\mathbf{x}, \\mathbf{y}) = 0\\) implies that the best linear fit to the data is a horizontal line\nvalues near \\(1\\) or \\(-1\\) imply the data lie near a line with nonzero slope"
+  },
+  {
+    "objectID": "slides/week6-covariation.html#more-common-misconceptions",
+    "href": "slides/week6-covariation.html#more-common-misconceptions",
+    "title": "Covariance and correlation",
+    "section": "More common misconceptions",
+    "text": "More common misconceptions\nCorrelations are affected by outliers – low correlation does not imply no relationship.\n\n\nCode\nnp.random.seed(50423)\n# intercept, slope\na, b = 1, -1\n\n# noise\nnoise_sd = 0.1\nnoise = np.random.normal(loc = 0, scale = noise_sd, size = n)\n\n# simulate y\nsim_df['y'] = a + b*x + noise\nsim_df.loc[100] = [3, 3]\n\n# plot\nscatter = alt.Chart(\n    sim_df\n).mark_point().encode(\n    x = 'x',\n    y = 'y'\n)\n\n# compute correlation\nprint('correlation: ', sim_df.corr().loc['x', 'y'])\nsim_df = sim_df.loc[0:99].copy()\nscatter.configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n)\n\n\ncorrelation:  -0.05770001990055094"
+  },
+  {
+    "objectID": "slides/week6-covariation.html#more-common-misconceptions-1",
+    "href": "slides/week6-covariation.html#more-common-misconceptions-1",
+    "title": "Covariance and correlation",
+    "section": "More common misconceptions",
+    "text": "More common misconceptions\nA strong correlation does not imply a meaningful relationship – it could be practically insignificant.\n\n\nCode\nnp.random.seed(50423)\n# intercept, slope\na, b = -0.002, 0.005\n\n# noise\nnoise_sd = 0.001\nnoise = np.random.normal(loc = 0, scale = noise_sd, size = 100)\n\n# simulate y\nsim_df['y'] = a + b*x + noise\n\n# plot\nscatter = alt.Chart(\n    sim_df\n).mark_point().encode(\n    x = alt.X('x', title = 'rate'),\n    y = alt.Y('y', title = 'earnings (USD)')\n)\n\n# compute correlation\nprint('correlation: ', sim_df.corr().loc['x', 'y'])\nscatter.configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n)\n\n\ncorrelation:  0.7941451068317529"
+  },
+  {
+    "objectID": "slides/week6-covariation.html#more-common-misconceptions-2",
+    "href": "slides/week6-covariation.html#more-common-misconceptions-2",
+    "title": "Covariance and correlation",
+    "section": "More common misconceptions",
+    "text": "More common misconceptions\nA weak correlation does not imply no linear relationship – it could just be really noisy.\n\n\nCode\nnp.random.seed(50423)\n# intercept, slope\na, b = 1, -3\n\n# noise\nnoise_sd = 4\nnoise = np.random.normal(loc = 0, scale = noise_sd, size = 100)\n\n# simulate y\nsim_df['y'] = a + b*x + noise\n\n# plot\nscatter = alt.Chart(\n    sim_df\n).mark_point().encode(\n    x = 'x',\n    y = 'y'\n)\n\ntrend = scatter.transform_regression('x', 'y').mark_line()\n\n# compute correlation\nprint('correlation: ', sim_df.corr().loc['x', 'y'])\n(scatter + trend).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n)\n\n\ncorrelation:  -0.25527538975904007"
+  },
+  {
+    "objectID": "slides/week6-covariation.html#why-measure-at-all",
+    "href": "slides/week6-covariation.html#why-measure-at-all",
+    "title": "Covariance and correlation",
+    "section": "Why measure at all?",
+    "text": "Why measure at all?\nIt helps to have a number to quantify the strength of a relationship.\n\nFor instance, which pair is most related? Are some pairs more related than others?\n\n\nCode\n# extract social and economic indices\nx_mx = city_sust.iloc[:, 2:5]\n\n# long form dataframe for plotting panel\nscatter_df = x_mx.melt(\n    var_name = 'row',\n    value_name = 'row_index'\n).join(\n    pd.concat([x_mx, x_mx, x_mx], axis = 0).reset_index(),\n).drop(\n    columns = 'index'\n).melt(\n    id_vars = ['row', 'row_index'],\n    var_name = 'col',\n    value_name = 'col_index'\n)\n\n# panel\nalt.Chart(scatter_df).mark_point(opacity = 0.4).encode(\n    x = alt.X('row_index', scale = alt.Scale(zero = False), title = ''),\n    y = alt.Y('col_index', scale = alt.Scale(zero = False), title = '')\n).properties(\n    width = 150, \n    height = 75\n).facet(\n    column = alt.Column('col', title = ''),\n    row = alt.Row('row', title = '')\n).resolve_scale(x = 'independent', y = 'independent')\n\n\n\n\n\n\n\n\n\nCorrelations give us an exact and concise answer, despite their imperfection."
+  },
+  {
+    "objectID": "slides/week6-covariation.html#correlation-matrix",
+    "href": "slides/week6-covariation.html#correlation-matrix",
+    "title": "Covariance and correlation",
+    "section": "Correlation matrix",
+    "text": "Correlation matrix\nThe pairwise correlations among all three variables can be represented in a simple square matrix:\n\n# extract social and economic indices\nx_mx = city_sust.iloc[:, 2:5]\n\n# compute matrix of correlations\nx_mx.corr()\n\n\n\n\n\n  \n    \n      \n      Econ_Domain\n      Social_Domain\n      Env_Domain\n    \n  \n  \n    \n      Econ_Domain\n      1.000000\n      0.531491\n      0.011206\n    \n    \n      Social_Domain\n      0.531491\n      1.000000\n      -0.138674\n    \n    \n      Env_Domain\n      0.011206\n      -0.138674\n      1.000000\n    \n  \n\n\n\n\n\nThe strongest linear relationship is between social and economic indices; the weakest is between environmental and economic indices."
+  },
+  {
+    "objectID": "slides/week6-covariation.html#covariance-matrix",
+    "href": "slides/week6-covariation.html#covariance-matrix",
+    "title": "Covariance and correlation",
+    "section": "Covariance matrix",
+    "text": "Covariance matrix\nLet \\(\\mathbf{X}\\) denote \\(n\\) observations of \\(p\\) variables: \\(\\mathbf{X} = \\left[\\begin{array}{cccc} \\mathbf{x}_{1} &\\mathbf{x}_{2} &\\cdots &\\mathbf{x}_{p} \\end{array}\\right]\\)\n\nThe (sample) covariance matrix is:\n\\[\n\\text{cov}(\\mathbf{X}) = \\left[\\begin{array}{cccc}\n    \\text{cov}(\\mathbf{x}_1, \\mathbf{x}_1)\n        &\\text{cov}(\\mathbf{x}_1, \\mathbf{x}_2)\n        &\\cdots\n        &\\text{cov}(\\mathbf{x}_1, \\mathbf{x}_p) \\\\\n    \\text{cov}(\\mathbf{x}_2, \\mathbf{x}_1)\n        &\\text{cov}(\\mathbf{x}_2, \\mathbf{x}_2)\n        &\\cdots\n        &\\text{cov}(\\mathbf{x}_2, \\mathbf{x}_p) \\\\\n    \\vdots &\\vdots &\\ddots &\\vdots \\\\\n    \\text{cov}(\\mathbf{x}_p, \\mathbf{x}_1)\n        &\\text{cov}(\\mathbf{x}_p, \\mathbf{x}_2)\n        &\\cdots\n        &\\text{cov}(\\mathbf{x}_p, \\mathbf{x}_p) \\\\\n    \\end{array}\\right]\n\\]\n\n\nIt is easy to calculate as a matrix product after centering the data:\n\\[\n\\text{cov}(\\mathbf{X})\n= \\frac{(\\mathbf{X} - \\bar{\\mathbf{X}})^T(\\mathbf{X} - \\bar{\\mathbf{X}})}{n - 1}\n\\]\n\n\nHere \\(\\bar{\\mathbf{X}}\\) is a matrix whose rows are \\(n\\) copies of the column means of \\(\\mathbf{X}\\)."
+  },
+  {
+    "objectID": "slides/week6-covariation.html#correlation-matrix-1",
+    "href": "slides/week6-covariation.html#correlation-matrix-1",
+    "title": "Covariance and correlation",
+    "section": "Correlation matrix",
+    "text": "Correlation matrix\nThe (sample) correlation matrix is, similarly, the matrix of pariwise correlations:\n\\[\n\\text{corr}(\\mathbf{X}) = \\left[\\begin{array}{cccc}\n    \\text{corr}(\\mathbf{x}_1, \\mathbf{x}_1)\n        &\\text{corr}(\\mathbf{x}_1, \\mathbf{x}_2)\n        &\\cdots\n        &\\text{corr}(\\mathbf{x}_1, \\mathbf{x}_p) \\\\\n    \\text{cov}(\\mathbf{x}_2, \\mathbf{x}_1)\n        &\\text{corr}(\\mathbf{x}_2, \\mathbf{x}_2)\n        &\\cdots\n        &\\text{corr}(\\mathbf{x}_2, \\mathbf{x}_p) \\\\\n    \\vdots &\\vdots &\\ddots &\\vdots \\\\\n    \\text{corr}(\\mathbf{x}_p, \\mathbf{x}_1)\n        &\\text{corr}(\\mathbf{x}_p, \\mathbf{x}_2)\n        &\\cdots\n        &\\text{corr}(\\mathbf{x}_p, \\mathbf{x}_p) \\\\\n    \\end{array}\\right]\n\\]\n\nAnd can be obtained by standardizing the covariance matrix:\n\\[\n\\text{corr}(\\mathbf{X}) = (\\text{diag}(\\text{cov}(\\mathbf{X})))^{-1/2} \\left[\\text{cov}(\\mathbf{X})\\right] (\\text{diag}(\\text{cov}(\\mathbf{X})))^{-1/2}\n\\]"
+  },
+  {
+    "objectID": "slides/week6-covariation.html#correlation-matrix-2",
+    "href": "slides/week6-covariation.html#correlation-matrix-2",
+    "title": "Covariance and correlation",
+    "section": "Correlation matrix",
+    "text": "Correlation matrix\nFor another perspective, the correlation matrix can be seen as the covariance after normalizing. Consider:\n\\[\n\\mathbf{Z}\n= \\left\\{\\frac{x_{ij} - \\bar{x}_j}{s_{x_j}}\\right\\}\n= \\left[\\begin{array}{ccc}\n    \\frac{x_{11} - \\bar{x}_1}{s_{x_1}} &\\cdots &\\frac{x_{1p} - \\bar{x}_p}{s_{x_p}} \\\\\n    \\frac{x_{21} - \\bar{x}_1}{s_{x_1}} &\\cdots &\\frac{x_{2p} - \\bar{x}_p}{s_{x_p}} \\\\\n    \\vdots &\\ddots &\\vdots\\\\\n    \\frac{x_{n1} - \\bar{x}_1}{s_{x_1}} &\\cdots &\\frac{x_{np} - \\bar{x}_p}{s_{x_p}} \\\\\n    \\end{array}\\right]\n\\]\n\nThe (sample) correlation matrix is then:\n\\[\n\\text{corr}(\\mathbf{X}) = \\text{cov}(\\mathbf{Z}) = \\underbrace{\\frac{\\mathbf{Z}'\\mathbf{Z}}{n - 1}}_{\\text{call this } \\mathbf{R}}\n\\]"
+  },
+  {
+    "objectID": "slides/week6-covariation.html#calculations",
+    "href": "slides/week6-covariation.html#calculations",
+    "title": "Covariance and correlation",
+    "section": "Calculations",
+    "text": "Calculations\n\n\n# correlation matrix 'by hand'\nn = len(x_mx) # sample size\nz_mx = (x_mx - x_mx.mean())/x_mx.std() # (xi - xbar)/sx\nz_mx.transpose().dot(z_mx)/(n - 1) # Z'Z/(n - 1)\n\n\n\n\n\n  \n    \n      \n      Econ_Domain\n      Social_Domain\n      Env_Domain\n    \n  \n  \n    \n      Econ_Domain\n      1.000000\n      0.531491\n      0.011206\n    \n    \n      Social_Domain\n      0.531491\n      1.000000\n      -0.138674\n    \n    \n      Env_Domain\n      0.011206\n      -0.138674\n      1.000000\n    \n  \n\n\n\n\n\n\nLuckily, df.cov() and df.cor() will do all the work for you:\n\nx_mx.corr()\n\n\n\n\n\n  \n    \n      \n      Econ_Domain\n      Social_Domain\n      Env_Domain\n    \n  \n  \n    \n      Econ_Domain\n      1.000000\n      0.531491\n      0.011206\n    \n    \n      Social_Domain\n      0.531491\n      1.000000\n      -0.138674\n    \n    \n      Env_Domain\n      0.011206\n      -0.138674\n      1.000000\n    \n  \n\n\n\n\n\n\nHowever, you should understand and be able to verify the calculations."
+  },
+  {
+    "objectID": "slides/week6-covariation.html#heatmap-visualization",
+    "href": "slides/week6-covariation.html#heatmap-visualization",
+    "title": "Covariance and correlation",
+    "section": "Heatmap visualization",
+    "text": "Heatmap visualization\n\n\nCode\n# store correlation matrix\ncorr_mx = x_mx.corr()\n\n# melt to long form\ncorr_mx_long = corr_mx.reset_index().rename(\n    columns = {'index': 'row'}\n).melt(\n    id_vars = 'row',\n    var_name = 'col',\n    value_name = 'Correlation'\n)\n\n# visualize\nalt.Chart(corr_mx_long).mark_rect().encode(\n    x = alt.X('col', title = '', sort = {'field': 'Correlation', 'order': 'ascending'}),\n    y = alt.Y('row', title = '', sort = {'field': 'Correlation', 'order': 'ascending'}),\n    color = alt.Color('Correlation', \n                      scale = alt.Scale(scheme = 'blueorange',\n                                        domain = (-1, 1), \n                                        type = 'sqrt'),\n                     legend = alt.Legend(tickCount = 5))\n).properties(width = 200, height = 200)\n\n\n\n\n\n\n\n\nEach cell corresponds to a pair of variables\nCells are colored acccording to the magnitude of correlation between the pair\nRows and columns are sorted in order of correlation strength\nDiverging color scale should always be used!"
+  },
+  {
+    "objectID": "slides/week6-covariation.html#total-variance",
+    "href": "slides/week6-covariation.html#total-variance",
+    "title": "Covariance and correlation",
+    "section": "Total variance",
+    "text": "Total variance\nA measure of total variability across all variables is given by the determinant of the covariance matrix:\n\\[\n\\text{det}(\\text{cov}(\\mathbf{X}))\n\\]\n\nOften with multivariate data one wants to know which variables or variable combinations contribute the most to total variation. For instance:\n\nIn which domain do cities vary most?\n\n\n\nWe can answer this by factoring the correlation matrix into components using eigendecomposition."
+  },
+  {
+    "objectID": "slides/week6-covariation.html#the-eigenvalue-problem",
+    "href": "slides/week6-covariation.html#the-eigenvalue-problem",
+    "title": "Covariance and correlation",
+    "section": "The eigenvalue problem",
+    "text": "The eigenvalue problem\nLet \\(\\mathbf{A}\\) be a square \\((n\\times n)\\) matrix.\n\nThe eigenvalue problem refers to finding nonzero \\(\\lambda\\) and \\(\\mathbf{x}\\) that satisfy the equation:\n\\[\n\\mathbf{Ax} = \\lambda\\mathbf{x}\n\\]\n\n\nFor any such solutions:\n\n\\(\\lambda\\) is an eigenvalue of \\(\\mathbf{A}\\);\n\\(\\mathbf{x}\\) is an eigenvector of \\(\\mathbf{A}\\)."
+  },
+  {
+    "objectID": "slides/week6-covariation.html#geometry",
+    "href": "slides/week6-covariation.html#geometry",
+    "title": "Covariance and correlation",
+    "section": "Geometry",
+    "text": "Geometry\nFor a simple example, suppose \\(n = 2\\) and \\(\\mathbf{x}\\) is an eigenvalue of \\(\\mathbf{A}\\). Then:\n\\[\n\\mathbf{Ax}\n= \\left[\\begin{array}{cc}\n        a_{11} & a_{12} \\\\\n        a_{21} & a_{22}\n      \\end{array}\\right]\n      \\left[\\begin{array}{c}\n        x_1 \\\\ x_2\n      \\end{array}\\right]\n= \\left[\\begin{array}{c}\n        a_{11} x_1 + a_{12} x_2 \\\\\n        a_{21} x_1 + a_{22} x_2\n      \\end{array}\\right]\n= \\left[\\begin{array}{c}\n        \\lambda x_1 \\\\ \\lambda x_2\n        \\end{array}\\right]\n= \\lambda\\mathbf{x}\n\\]\n\n\n\nSo the eigenvalue problem equation says that the linear transformation of \\(\\mathbf{x}\\) by \\(\\mathbf{A}\\) is simply a rescaling of \\(\\mathbf{x}\\) by a factor of \\(\\lambda\\)."
+  },
+  {
+    "objectID": "slides/week6-covariation.html#eigendecomposition",
+    "href": "slides/week6-covariation.html#eigendecomposition",
+    "title": "Covariance and correlation",
+    "section": "Eigendecomposition",
+    "text": "Eigendecomposition\nThe eigendecomposition of a square matrix consists in finding the eigenvalues and eigenvectors.\n\nThis is considered a ‘decomposition’ because the eigenvectors \\(\\mathbf{V}\\) and eigenvalues \\(\\Lambda\\) satisfy\n\\[\n\\underbrace{\\mathbf{A}}_{\\text{original matrix}} = \\underbrace{\\mathbf{V}\\Lambda\\mathbf{V}'}_{\\text{eigendecomposition}}\n\\]\nIt’s also known as the ‘spectral decomposition’.\n\n\nSo the original matrix can be reconstructed from the eigenvalues and eigenvectors."
+  },
+  {
+    "objectID": "slides/week6-covariation.html#uniqueness",
+    "href": "slides/week6-covariation.html#uniqueness",
+    "title": "Covariance and correlation",
+    "section": "Uniqueness",
+    "text": "Uniqueness\nIf \\(\\lambda, \\mathbf{x}\\) are solutions, then so are \\(c\\lambda, c\\mathbf{x}\\) for any constant \\(c\\).\n\nSo assume that \\(\\|\\mathbf{x}\\| = 1\\).\n\n\nThen solutions are unique to within the sign of \\(\\mathbf{x}\\)."
+  },
+  {
+    "objectID": "slides/week6-covariation.html#special-case",
+    "href": "slides/week6-covariation.html#special-case",
+    "title": "Covariance and correlation",
+    "section": "Special case",
+    "text": "Special case\nWe will be applying eigendecomposition to correlation matrices, which have a special form \\(\\mathbf{A} = \\mathbf{Z'Z}\\).\nOne can show that for matrices of this form:\n\n\\(\\mathbf{V'V} = \\mathbf{I}\\), in other words, the eigenvectors are an orthonormal basis\n\ncolumns of \\(\\mathbf{V}\\) are orthogonal\ncolumns of \\(\\mathbf{V}\\) are of unit length\n\n\\(\\lambda_i \\geq 0\\), in other words, all eigenvalues are nonnegative"
+  },
+  {
+    "objectID": "slides/week6-covariation.html#computations",
+    "href": "slides/week6-covariation.html#computations",
+    "title": "Covariance and correlation",
+    "section": "Computations",
+    "text": "Computations\nThe eigendecomposition is computed numerically using iterative methods. Luckily, these are very easy to implement:\n\n\n# compute decomposition\ncorr_mx = x_mx.corr()\ndecomp = linalg.eig(corr_mx)\ndecomp\n\n(array([0.44788559+0.j, 1.54664121+0.j, 1.0054732 +0.j]),\n array([[ 0.68276586, -0.68571102,  0.2522522 ],\n        [-0.70523279, -0.7087523 , -0.01780118],\n        [-0.19099079,  0.16574249,  0.96749778]]))\n\n\n\n\n\n# eigenvalues\ndecomp[0]\n\narray([0.44788559+0.j, 1.54664121+0.j, 1.0054732 +0.j])\n\n\n\n\n\n# eigenvectors (columns)\ndecomp[1]\n\narray([[ 0.68276586, -0.68571102,  0.2522522 ],\n       [-0.70523279, -0.7087523 , -0.01780118],\n       [-0.19099079,  0.16574249,  0.96749778]])"
+  },
+  {
+    "objectID": "slides/week6-covariation.html#does-the-decomposition-really-work",
+    "href": "slides/week6-covariation.html#does-the-decomposition-really-work",
+    "title": "Covariance and correlation",
+    "section": "Does the decomposition really work?",
+    "text": "Does the decomposition really work?\nLet’s check that in fact \\(\\mathbf{A} = \\mathbf{V\\Lambda V'}\\):\n\n\neigenvecs.dot(eigenvals).dot(eigenvecs.transpose()) # V Lambda V'\n\n\n\n\n\n  \n    \n      \n      Econ_Domain\n      Social_Domain\n      Env_Domain\n    \n  \n  \n    \n      Econ_Domain\n      1.000000\n      0.531491\n      0.011206\n    \n    \n      Social_Domain\n      0.531491\n      1.000000\n      -0.138674\n    \n    \n      Env_Domain\n      0.011206\n      -0.138674\n      1.000000\n    \n  \n\n\n\n\n\n\n\ncorr_mx # correlation matrix (our 'A')\n\n\n\n\n\n  \n    \n      \n      Econ_Domain\n      Social_Domain\n      Env_Domain\n    \n  \n  \n    \n      Econ_Domain\n      1.000000\n      0.531491\n      0.011206\n    \n    \n      Social_Domain\n      0.531491\n      1.000000\n      -0.138674\n    \n    \n      Env_Domain\n      0.011206\n      -0.138674\n      1.000000"
+  },
+  {
+    "objectID": "slides/week6-covariation.html#orthogonality",
+    "href": "slides/week6-covariation.html#orthogonality",
+    "title": "Covariance and correlation",
+    "section": "Orthogonality",
+    "text": "Orthogonality\nLet’s check also that in fact \\(\\mathbf{V'V} = \\mathbf{I}\\):\n\n\neigenvecs.transpose().dot(eigenvecs) # V'V\n\n\n\n\n\n  \n    \n      \n      v1\n      v2\n      v3\n    \n  \n  \n    \n      v1\n      1.000000e+00\n      2.843276e-16\n      -1.434873e-16\n    \n    \n      v2\n      2.843276e-16\n      1.000000e+00\n      7.316332e-17\n    \n    \n      v3\n      -1.434873e-16\n      7.316332e-17\n      1.000000e+00\n    \n  \n\n\n\n\n\n\nThe significance of this property is that \\(\\mathbf{v}_1, \\mathbf{v}_2, \\mathbf{v}_3\\) form an orthonormal basis."
+  },
+  {
+    "objectID": "slides/week6-covariation.html#whats-a-basis",
+    "href": "slides/week6-covariation.html#whats-a-basis",
+    "title": "Covariance and correlation",
+    "section": "What’s a basis?",
+    "text": "What’s a basis?\nA basis in linear algebra is a set of vectors that span a linear space. Think of a basis as a set of axes.\n\nFor instance, the usual basis for \\(\\mathbb{R}^3\\) are the unit vectors:\n\\[\n\\mathbf{e}_1 = (1, 0, 0) \\quad \\mathbf{e}_2 = (0, 1, 0) \\quad \\mathbf{e}_3 = (0, 0, 1)\n\\]\nThe usual coordinates in \\(\\mathbb{R}^3\\) in fact refer to multiples of these basis vectors:\n\\[\n(1, 2, 1) = 1\\mathbf{e}_1 + 2\\mathbf{e}_2 + 1\\mathbf{e}_3\n\\]\n\nA basis is orthogonal if all basis vectors are at right angles to one another\nA basis is orthonormal if it is orthogonal and basis vectors are of unit length"
+  },
+  {
+    "objectID": "slides/week6-covariation.html#nonstandard-bases",
+    "href": "slides/week6-covariation.html#nonstandard-bases",
+    "title": "Covariance and correlation",
+    "section": "Nonstandard bases",
+    "text": "Nonstandard bases\n\n\nTo an extent the usual choice of \\(\\mathbf{e}_1, \\mathbf{e}_2, \\mathbf{e}_3\\) is arbitrary.\nIt’s possible to choose any system based on three directions to represent the same point relative to the origin."
+  },
+  {
+    "objectID": "slides/week6-covariation.html#change-of-basis",
+    "href": "slides/week6-covariation.html#change-of-basis",
+    "title": "Covariance and correlation",
+    "section": "Change of basis",
+    "text": "Change of basis\nDifferent bases are simply different coordinate systems.\nIt’s akin to the possibility of locating the distance to the corner store by different units and relative to different directions. For example:\n\nhalf a block to the right from the front door; or\nsixty steps diagonally in a straight line; or\nfifteen steps north, fifty steps east."
+  },
+  {
+    "objectID": "slides/week6-covariation.html#eigendecomposition-of-the-correlation-matrix",
+    "href": "slides/week6-covariation.html#eigendecomposition-of-the-correlation-matrix",
+    "title": "Covariance and correlation",
+    "section": "Eigendecomposition of the correlation matrix",
+    "text": "Eigendecomposition of the correlation matrix\nSo, decomposing the correlation matrix yields a basis.\nWhen standardized data are represented on that basis, observations are uncorrelated.\n\nLet \\(\\mathbf{Y} = \\mathbf{ZV}\\); this is the representation of \\(\\mathbf{Z}\\) on the basis given by \\(\\mathbf{V}\\).\n\n\nThen:\n\\[\n\\mathbf{Y'Y} = \\mathbf{V'Z'ZV} =\\mathbf{V'V\\Lambda V' V} = \\Lambda\n\\]\n\n\nTogether with the observation that \\(\\bar{\\mathbf{Y}} = 0\\), this implies that \\(\\text{cov}(\\mathbf{y}_j, \\mathbf{y}_k) = 0\\) since \\(\\Lambda\\) is diagonal.\n\n\nSo the eigenbasis in a sense ‘captures’ the covariation in the data.\n\nprovides a coordinate system on which the (standardized) data are uncorrelated\ncoordinate axes are the ‘main’ directions of total variability (will demonstrate empirically)"
+  },
+  {
+    "objectID": "slides/week6-covariation.html#higher-dimensions",
+    "href": "slides/week6-covariation.html#higher-dimensions",
+    "title": "Covariance and correlation",
+    "section": "Higher dimensions",
+    "text": "Higher dimensions\nConsider a larger collection of development-related variables measured on countries:\n\n\nCode\nwdi = pd.read_csv('data/wdi-data.csv').iloc[:, 2:].set_index('country')\n\n# store correlation matrix\ncorr_mx = wdi.corr()\n\n# melt to long form\ncorr_mx_long = corr_mx.reset_index().rename(\n    columns = {'index': 'row'}\n).melt(\n    id_vars = 'row',\n    var_name = 'col',\n    value_name = 'Correlation'\n)\n\n# visualize\nalt.Chart(corr_mx_long).mark_rect().encode(\n    x = alt.X('col', title = '', sort = {'field': 'Correlation', 'order': 'ascending'}),\n    y = alt.Y('row', title = '', sort = {'field': 'Correlation', 'order': 'ascending'}),\n    color = alt.Color('Correlation', \n                      scale = alt.Scale(scheme = 'blueorange',\n                                        domain = (-1, 1), \n                                        type = 'sqrt'),\n                     legend = alt.Legend(tickCount = 5))\n).configure_axis(\n    labelFontSize = 14\n).configure_legend(\n    labelFontSize = 14,\n    titleFontSize = 16\n)"
+  },
+  {
+    "objectID": "slides/week6-covariation.html#higher-dimensions-1",
+    "href": "slides/week6-covariation.html#higher-dimensions-1",
+    "title": "Covariance and correlation",
+    "section": "Higher dimensions",
+    "text": "Higher dimensions\nFor larger collections of variables, we might wish to:\n\nfind a simplified representation of the correlation structure\nvisualize the data in a lower-dimensional space\n\n\nFactoring the correlation matrix provides a means of doing both. We’ll use eigendecomposition."
+  },
+  {
+    "objectID": "slides/week6-covariation.html#basis-from-correlations",
+    "href": "slides/week6-covariation.html#basis-from-correlations",
+    "title": "Covariance and correlation",
+    "section": "Basis from correlations",
+    "text": "Basis from correlations\nDecomposing the correlation matrix yields a basis for \\(\\mathbb{R}^p\\) – when standardized data are represented on that basis, observations become uncorrelated.\n\nLet \\(\\mathbf{Y} = \\mathbf{ZV}\\); this is the representation of \\(\\mathbf{Z}\\) on the basis given by \\(\\mathbf{V}\\).\n\n\nThen:\n\\[\n\\mathbf{Y'Y} = \\mathbf{V'Z'ZV} =\\mathbf{V'V\\Lambda V' V} = \\Lambda\n\\]\n\n\nTogether with the observation that \\(\\bar{\\mathbf{Y}} = 0\\), this implies that \\(\\text{cov}(\\mathbf{y}_j, \\mathbf{y}_k) = 0\\) since \\(\\Lambda\\) is diagonal."
+  },
+  {
+    "objectID": "slides/week6-covariation.html#capturing-variation",
+    "href": "slides/week6-covariation.html#capturing-variation",
+    "title": "Covariance and correlation",
+    "section": "Capturing variation",
+    "text": "Capturing variation\nThe eigenbasis from the correlation matrix in a sense ‘captures’ the covariation in the data.\n\nprovides a coordinate system on which the (standardized) data are uncorrelated\ncoordinate axes are the ‘main’ directions of total variability (will demonstrate empirically)\n\n\nThose ‘main directions’ are known as principal components."
+  },
+  {
+    "objectID": "slides/week6-covariation.html#other-decompositions",
+    "href": "slides/week6-covariation.html#other-decompositions",
+    "title": "Covariance and correlation",
+    "section": "Other decompositions",
+    "text": "Other decompositions\nThe eigenbasis from the correlation matrix can also be recovered from the singular value decomposition of \\(\\mathbf{Z}\\).\n\n\\[\n\\mathbf{Z} = \\mathbf{UDV'}\n\\quad\\Longrightarrow\\quad\n\\mathbf{Z'Z} = \\mathbf{V}\\underbrace{(\\mathbf{D'U'UD})}_{\\mathbf{\\Lambda}}\\mathbf{V'}\n\\]\n\n\nIn fact, most implementations of principal components use the SVD instead of eigendecomposition."
+  },
+  {
+    "objectID": "slides/week6-covariation.html#this-week",
+    "href": "slides/week6-covariation.html#this-week",
+    "title": "Covariance and correlation",
+    "section": "This week",
+    "text": "This week\n\nCovariance and correlation\n\nDefinitions\nCovariance and correlation matrices\n\nEigendecomposition\n\nThe eigenvalue problem\nGeometric interpretation\nComputations\n\nPrincipal components analysis\n\nPCA in the low-dimensional setting\nVariation capture and loss\nInterpreting principal components\nDimension reduction"
+  },
+  {
+    "objectID": "slides/week6-covariation.html#aside-other-correlations",
+    "href": "slides/week6-covariation.html#aside-other-correlations",
+    "title": "Covariance and correlation",
+    "section": "Aside: other correlations",
+    "text": "Aside: other correlations\nWhat we will call ‘correlation’ in this class is known as the Pearson correlation coefficient.\n\nThere are other correlation measures:\n\nSpearman correlation: Pearson correlation between ranks of observations\nKendall rank correlation\nDistribution-specific dependence measures (e.g., circular data)"
+  },
+  {
+    "objectID": "slides/week6-covariation.html#decorrelating-data",
+    "href": "slides/week6-covariation.html#decorrelating-data",
+    "title": "Covariance and correlation",
+    "section": "Decorrelating data",
+    "text": "Decorrelating data\nWe can easily verify this property by computing \\(\\text{cor}(\\mathbf{ZV})\\):\n\nz_rotated = z_mx.dot(eigenvecs)\n\n\nThe columns are now orthogonal:\n\nz_rotated.T.dot(z_rotated)\n\n\n\n\n\n  \n    \n      \n      v1\n      v2\n      v3\n    \n  \n  \n    \n      v1\n      4.174294e+02\n      6.012968e-13\n      9.947598e-14\n    \n    \n      v2\n      6.012968e-13\n      1.441470e+03\n      2.318146e-13\n    \n    \n      v3\n      9.947598e-14\n      2.318146e-13\n      9.371010e+02\n    \n  \n\n\n\n\n\n\nAnd (since each column of \\(\\mathbf{Z}\\) has mean zero) also uncorrelated:\n\nz_rotated.corr()\n\n\n\n\n\n  \n    \n      \n      v1\n      v2\n      v3\n    \n  \n  \n    \n      v1\n      1.000000e+00\n      7.453958e-16\n      1.778661e-16\n    \n    \n      v2\n      7.453958e-16\n      1.000000e+00\n      2.277301e-16\n    \n    \n      v3\n      1.778661e-16\n      2.277301e-16\n      1.000000e+00"
+  },
+  {
+    "objectID": "content.html#week-6",
+    "href": "content.html#week-6",
+    "title": "Materials",
+    "section": "Week 6",
+    "text": "Week 6\nReadings:\n\nLDS 10.2-10.5 Exploratory data analysis\nPDSH5.9 Principal component andalysis\n\nAssignments:\n\nHW3, Diatom paleoclimatology case study, due Monday, May 22\n\nMonday: Covariance, correlation, and spectral decomposition [slides]\nNO lab sections this week"
   }
 ]
