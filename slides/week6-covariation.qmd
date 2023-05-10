@@ -498,7 +498,7 @@ $$
         &\text{corr}(\mathbf{x}_1, \mathbf{x}_2)
         &\cdots 
         &\text{corr}(\mathbf{x}_1, \mathbf{x}_p) \\
-    \text{cov}(\mathbf{x}_2, \mathbf{x}_1)
+    \text{corr}(\mathbf{x}_2, \mathbf{x}_1)
         &\text{corr}(\mathbf{x}_2, \mathbf{x}_2)
         &\cdots 
         &\text{corr}(\mathbf{x}_2, \mathbf{x}_p) \\

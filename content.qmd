@@ -117,3 +117,5 @@ format: html
 **Monday**: Covariance, correlation, and spectral decomposition [[slides](slides/week6-covariation.qmd)]
 
 _**NO lab sections this week**_
+
+**Wednesday**: Principal components [[slides](slides/week6-pca.qmd)]

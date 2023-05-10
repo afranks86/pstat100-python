@@ -130,7 +130,7 @@
     "href": "content.html#week-6",
     "title": "Materials",
     "section": "Week 6",
-    "text": "Week 6\nReadings:\n\nLDS 10.2-10.5 Exploratory data analysis\nPDSH5.9 Principal component andalysis\n\nAssignments:\n\nHW3, Diatom paleoclimatology case study, due Monday, May 22 [html] [notebook]\n\nMonday: Covariance, correlation, and spectral decomposition [slides]\nNO lab sections this week"
+    "text": "Week 6\nReadings:\n\nLDS 10.2-10.5 Exploratory data analysis\nPDSH5.9 Principal component andalysis\n\nAssignments:\n\nHW3, Diatom paleoclimatology case study, due Monday, May 22 [html] [notebook]\n\nMonday: Covariance, correlation, and spectral decomposition [slides]\nNO lab sections this week\nWednesday: Principal components [slides]"
   },
   {
     "objectID": "hw/hw1-brfss/hw1-brfss-soln.html",
@@ -3362,23 +3362,23 @@
   {
     "objectID": "slides/week6-pca.html#pca-in-the-low-dimensional-setting",
     "href": "slides/week6-pca.html#pca-in-the-low-dimensional-setting",
-    "title": "Principal components analysis",
+    "title": "Principal components",
     "section": "PCA in the low-dimensional setting",
-    "text": "PCA in the low-dimensional setting\nLet’s consider what happens if we follow the steps of PCA outlined above with just two variables, say the social index and the economic index, which were the most correlated pair in the example data.\nDenote the observations on these two variables by\n\\[\\mathbf{X} = [\\mathbf{x}_1 \\; \\mathbf{x}_2] \\qquad\\text{where}\\qquad \\mathbf{x}_1 = \\text{social index} \\;\\text{and}\\; \\mathbf{x}_2 = \\text{economic index}\\]\nTo get the correlation matrix, first compute \\(\\mathbf{Z} = \\left\\{\\frac{x_i - \\bar{x}}{s_x}\\right\\}\\).\n\n\n\nCode\nplot.configure_axis(domain = False)\n\n\nThe red dots indicate the means."
+    "text": "PCA in the low-dimensional setting\nLet’s consider finding the principal components for \\(p = 2\\) variables. Consider:\n\\[\n\\mathbf{X} = [\\mathbf{x}_1 \\; \\mathbf{x}_2] \\qquad\\text{where}\\qquad \\mathbf{x}_1 = \\text{social index} \\;\\text{and}\\; \\mathbf{x}_2 = \\text{economic index}\n\\]\n\nTo get the correlation matrix, first compute \\(\\mathbf{Z} = \\left\\{\\frac{x_i - \\bar{x}}{s_x}\\right\\}\\).\n\n\n\n\nCode\n# scatterplot of unscaled data\nraw = alt.Chart(x_mx).mark_point(opacity = 0.1, color = 'black').encode(\n    x = alt.X('Social_Domain', scale = alt.Scale(domain = [0.1, 0.8])),\n    y = alt.Y('Econ_Domain', scale = alt.Scale(domain = [0.1, 0.8]))\n).properties(width = 200, height = 200, title = 'original data (X)')\n\n# mean vector\nmean = alt.Chart(\n    pd.DataFrame(x_mx.mean()).transpose()\n).mark_circle(color = 'red', size = 100).encode(\n    x = alt.X('Social_Domain'),\n    y = alt.Y('Econ_Domain')\n)\n\n# scatterplot of centered and scaled data\ncentered = alt.Chart(z_mx).mark_point(opacity = 0.1, color = 'black').encode(\n    x = alt.X('Social_Domain'),\n    y = alt.Y('Econ_Domain')\n).properties(width = 200, height = 200, title = 'centered and scaled (Z)')\n\n# mean vector\nmean_ctr = alt.Chart(\n    pd.DataFrame(z_mx.mean()).transpose()\n).mark_circle(color = 'red', size = 100).encode(\n    x = alt.X('Social_Domain'),\n    y = alt.Y('Econ_Domain')\n)\n\n# lines at zero\naxbase = alt.Chart(\n    pd.DataFrame({'Social_Domain': 0, 'Econ_Domain': 0}, index = [0])\n)\nax1 = axbase.mark_rule().encode(x = 'Social_Domain')\nax2 = axbase.mark_rule().encode(y = 'Econ_Domain')\n\n#layer\nfig1 = (raw + mean) | (centered + mean_ctr + ax1 + ax2)\n\nfig1.configure_axis(\n    domain = False,\n    labelFontSize = 14,\n    titleFontSize = 16\n    ).configure_title(\n        fontSize = 16\n    )"
   },
   {
     "objectID": "slides/week6-pca.html#pca-in-the-low-dimensional-setting-1",
     "href": "slides/week6-pca.html#pca-in-the-low-dimensional-setting-1",
-    "title": "Principal components analysis",
+    "title": "Principal components",
     "section": "PCA in the low-dimensional setting",
-    "text": "PCA in the low-dimensional setting\nNow we’ll compute the eigendecomposition. This is pretty much all there is to it.\n\n\n\nCode\n# compute correlation mx\nr_mx = z_mx.transpose().dot(z_mx)/(len(z_mx) - 1)\nr_mx\n\n\n\n\n\n\nCode\n# decomposition\nr_eig = linalg.eig(r_mx.values)\n\n# show PC directions\ndirections = pd.DataFrame(r_eig[1], columns = ['PC1_Direction', 'PC2_Direction'], index = r_mx.columns)\ndirections\n\n\nRemember that the principal component directions are just the eigenvectors."
+    "text": "PCA in the low-dimensional setting\nNow we’ll compute the eigendecomposition.\n\n\n\nCode\nx_mx = x_mx.iloc[:, 0:2]\nz_mx = z_mx.iloc[:, 0:2]\n\n# compute correlation mx\nr_mx = z_mx.transpose().dot(z_mx)/(len(z_mx) - 1)\n\n# eigendecomposition\nr_eig = linalg.eig(r_mx.values)\n\n# show PC directions\ndirections = pd.DataFrame(r_eig[1], columns = ['PC1_Direction', 'PC2_Direction'], index = r_mx.columns)\ndirections\n\n\n\n\n\n\n  \n    \n      \n      PC1_Direction\n      PC2_Direction\n    \n  \n  \n    \n      Econ_Domain\n      -0.707107\n      -0.707107\n    \n    \n      Social_Domain\n      0.707107\n      -0.707107\n    \n  \n\n\n\n\n\n\nThe ‘principal component directions’ are simply the eigenvectors."
   },
   {
     "objectID": "slides/week6-pca.html#geometry-of-pca",
     "href": "slides/week6-pca.html#geometry-of-pca",
-    "title": "Principal components analysis",
+    "title": "Principal components",
     "section": "Geometry of PCA",
-    "text": "Geometry of PCA\nWhat did we just do? Let’s plot the principal component directions on the centered and scaled data.\n\n\nCode\ncentered_plot + eigenbasis\n\n\nDo you notice any relationship between the directions and the scatter?"
+    "text": "Geometry of PCA\nNow scale the directions by the corresponding eigenvalues (plotting \\(\\lambda_1\\mathbf{v}_1\\) and \\(\\lambda_2\\mathbf{v}_2\\) instead of \\(\\mathbf{v}_1\\) and \\(\\mathbf{v}_2\\)).\n\n\n\nCode\n# scale directions by eigenvalues\ndirection_df = pd.DataFrame(\n    np.vstack([np.zeros(2), r_eig[1][:, 0]*r_eig[0][0].real, np.zeros(2), r_eig[1][:, 1]*r_eig[0][1].real]),\n    columns = ['Econ_Domain', 'Social_Domain']\n).join(\n    pd.Series(np.repeat(['PC1', 'PC2'], 2), name = 'PC direction')\n)\n\n# repeat plot\neigenbasis = alt.Chart(direction_df).mark_line(order = False).encode(\n    x = 'Social_Domain', \n    y = 'Econ_Domain', \n    color = alt.Color('PC direction', scale = alt.Scale(scheme = 'dark2'))\n)\n\n(centered_plot + eigenbasis).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n).configure_title(\n    fontSize = 16\n).configure_legend(\n    labelFontSize = 14,\n    titleFontSize = 16\n)\n\n\n\n\n\n\n\n\n\nThe principal component directions are the axes along which the data vary most, and the eigenvalues give the magnitude of that variation."
   },
   {
     "objectID": "slides/week6-pca.html#geometry-of-pca-1",
@@ -3397,57 +3397,232 @@
   {
     "objectID": "slides/week6-pca.html#quantifying-variation-captureloss",
     "href": "slides/week6-pca.html#quantifying-variation-captureloss",
-    "title": "Principal components analysis",
+    "title": "Principal components",
     "section": "Quantifying variation capture/loss",
-    "text": "Quantifying variation capture/loss\nTo figure out how much variation/covariation is captured and lost, we need to know how much is available in the first place.\nThe total variation in \\(\\mathbf{X}\\) is given in terms of the correlation matrix by:\n\\[\\text{total variation} = \\text{det}\\left(\\mathbf{R}\\right) = \\sum_{i = 1}^p \\lambda_i\\]\nNow let \\(\\mathbf{y}_j = \\mathbf{Zv}_j\\) be the \\(j\\)th principal component. Its variance is:\n\\[\\frac{1}{n - 1}\\mathbf{y}_j'\\mathbf{y} = \\frac{1}{n - 1}\\mathbf{v}_j'\\mathbf{Z'Zv}_j = \\mathbf{v}_j'\\mathbf{V'\\Lambda Vv}_j = \\mathbf{e}_j'\\mathbf{\\Lambda e}_j = \\lambda_j\\]"
+    "text": "Quantifying variation capture/loss\nTo figure out how much variation/covariation is captured and lost, we need to know how much is available in the first place.\n\nOne measure of the total variation in \\(\\mathbf{X}\\) is given by the determinant of the correlation matrix \\(\\mathbf{R}\\):\n\\[\n\\text{total variation} = \\text{det}\\left(\\mathbf{R}\\right) = \\sum_{i = 1}^p \\lambda_i\n\\]\n\n\nNow let \\(\\mathbf{y}_j = \\mathbf{Zv}_j\\) be the \\(j\\)th principal component. Its variance is:\n\\[\n\\frac{\\mathbf{y}_j'\\mathbf{y}}{n - 1} = \\frac{\\mathbf{v}_j'\\mathbf{Z'Zv}_j}{n - 1} = \\mathbf{v}_j'\\mathbf{V'\\Lambda Vv}_j = \\mathbf{e}_j'\\mathbf{\\Lambda e}_j = \\lambda_j\n\\]"
   },
   {
     "objectID": "slides/week6-pca.html#quantifying-variation-captureloss-1",
     "href": "slides/week6-pca.html#quantifying-variation-captureloss-1",
-    "title": "Principal components analysis",
+    "title": "Principal components",
     "section": "Quantifying variation capture/loss",
-    "text": "Quantifying variation capture/loss\nSo the total variation is the sum of the eigenvalues, and the variance of each PC is the corresponding eigenvalue.\nWe can therefore define the proportion of total variation explained by the \\(j\\)th principal component as:\n\\[\\frac{\\lambda_j}{\\sum_{j = 1}^p \\lambda_j}\\]\nThis is sometimes also called the variance ratio for the \\(j\\)th principal component.\nSo in our example:\n\n\nCode\neigenvalues = r_eig[0].real # store eigenvalues as real array\neigenvalues[0]/eigenvalues.sum() # variance ratio\n\n\nThe first principal component captures 77% of total variation."
+    "text": "Quantifying variation capture/loss\nSo the total variation is the sum of the eigenvalues, and the variance of each PC is the corresponding eigenvalue.\n\nWe can therefore define the proportion of total variation explained by the \\(j\\)th principal component as:\n\\[\n\\frac{\\lambda_j}{\\sum_{j = 1}^p \\lambda_j}\n\\]\n\n\nThis is sometimes also called the variance ratio for the \\(j\\)th principal component."
   },
   {
     "objectID": "slides/week6-pca.html#interpreting-principal-components",
     "href": "slides/week6-pca.html#interpreting-principal-components",
-    "title": "Principal components analysis",
+    "title": "Principal components",
     "section": "Interpreting principal components",
-    "text": "Interpreting principal components\nSo we have obtained a single derived variable that captures 3/4 of all variation and covariation in both variables. But what is this?\nThe values of the first principal component (green ticks) are given by:\n\\[\\text{PC1}_i = \\mathbf{x}_i'\\mathbf{v}_1 = 0.7071 \\times\\text{economic}_i + 0.7071 \\times\\text{social}_i\\]\nSo the principal component is a linear combination of the underlying variables.\nThose coefficients are known as loadings: they determine the relative weights by which the variables contribute to the principal component.\nIn this case, the PC1 loadings are equal; so this principal component is simply the average of the social and economic indices."
+    "text": "Interpreting principal components\nSo we have obtained a single derived variable that captures 3/4 of total variation.\n\nBut what is the meaning of the derived variable? What does it represent in the context of the data?\n\n\nThe values of the first principal component (green ticks) are given by:\n\\[\n\\text{PC1}_i = \\mathbf{x}_i'\\mathbf{v}_1 = 0.7071 \\times\\text{economic}_i + 0.7071 \\times\\text{social}_i\n\\]\n\n\nSo the principal component is a linear combination of the underlying variables.\n\nthe coefficients \\((0.7071, 0.7071)\\) are known as loadings\nthe values are known as principal component scores\n\n\n\n\nIn this case, the PC1 loadings are equal; so this principal component is simply the average of the social and economic indices."
   },
   {
     "objectID": "slides/week6-pca.html#example-application",
     "href": "slides/week6-pca.html#example-application",
-    "title": "Principal components analysis",
+    "title": "Principal components",
     "section": "Example application",
-    "text": "Example application\nNow that we’ve reviewed the basic technique, we can consider cases with a larger number of variables.\nThis is really where PCA is most useful.\n\nIt can help answer the question: which variables are driving variation in the data?\nIt can help reduce data dimensions by finding combinations of variables that preserve variation.\nIt can provide a means of visualizing high-dimensional data.\n\nSo, let’s look at a different example: world development indicators.\n\n\nCode\nwdi = pd.read_csv('data/wdi-data.csv').iloc[:, 2:].set_index('country')\nwdi.head(3)"
+    "text": "Example application\nSo, let’s look at a different example: world development indicators.\n\n\nCode\nwdi = pd.read_csv('data/wdi-data.csv').iloc[:, 2:].set_index('country')\nwdi.head(3)\n\n\n\n\n\n\n  \n    \n      \n      inequality_adjusted_life\n      inequality_adjusted_education\n      maternal_mortality\n      parliament_pct_women\n      labor_participation_women\n      labor_participation_men\n      total_pop\n      urban_pct_pop\n      pop_under5\n      pop_15to64\n      ...\n      total_unemployment\n      youth_unemployment\n      prison_5yr\n      trade\n      foreign_investment\n      net_migration\n      immigrant_pop\n      tourists_2018\n      internet_users_2018\n      mobile_users_2018\n    \n    \n      country\n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n    \n  \n  \n    \n      Norway\n      0.931\n      0.908\n      2\n      40.8\n      60.4\n      67.2\n      5.4\n      82.6\n      0.055556\n      0.648148\n      ...\n      3.3\n      9.3\n      80\n      72.1\n      0.4\n      5.3\n      16.1\n      5688\n      96.5\n      107.2\n    \n    \n      Ireland\n      0.926\n      0.892\n      5\n      24.3\n      56.0\n      68.4\n      4.9\n      63.4\n      0.061224\n      0.653061\n      ...\n      4.9\n      13.1\n      82\n      239.2\n      -20.4\n      4.9\n      17.1\n      10926\n      84.5\n      103.2\n    \n    \n      Switzerland\n      0.947\n      0.883\n      5\n      38.6\n      62.9\n      73.8\n      8.6\n      73.8\n      0.046512\n      0.662791\n      ...\n      4.6\n      7.4\n      77\n      119.4\n      -2.6\n      6.1\n      29.9\n      10362\n      89.7\n      129.6\n    \n  \n\n3 rows × 31 columns"
   },
   {
     "objectID": "slides/week6-pca.html#computation-via-sklearn.decomposition.pca",
     "href": "slides/week6-pca.html#computation-via-sklearn.decomposition.pca",
     "title": "Principal components analysis",
     "section": "Computation via sklearn.decomposition.PCA",
-    "text": "Computation via sklearn.decomposition.PCA\nLuckily, sklearn contains an easy-to-use implementation that saves the trouble of going through all the calculations we did before ‘by hand’.\n\n\nCode\nfrom sklearn.decomposition import PCA\n\n\nThe implementation simply requires centering and scaling the data first.\n\n\nCode\n# center and scale\nwdi_ctr = (wdi - wdi.mean())/wdi.std()\n\n# compute principal components\npca = PCA(31)\npca.fit(wdi_ctr)"
+    "text": "Computation via sklearn.decomposition.PCA\nRecall that this implementation requires centering and scaling the data first ‘by hand’.\n\nfrom sklearn.decomposition import PCA\n\n# center and scale\nwdi_ctr = (wdi - wdi.mean())/wdi.std()\n\n# compute principal components\npca = PCA(31)\npca.fit(wdi_ctr)"
   },
   {
     "objectID": "slides/week6-pca.html#variance-ratios",
     "href": "slides/week6-pca.html#variance-ratios",
-    "title": "Principal components analysis",
+    "title": "Principal components",
     "section": "Variance ratios",
-    "text": "Variance ratios\nSelecting the number of principal components to use is somewhat subjective, but always based on the variance ratios.\n\nhow many PCs capture substantial variation individually before the variance ratio ‘tails off’?\nhow many PCs are needed to capture a certain proportion of the total variation?\n\nThis can be assessed by plotting the variance ratios and their cumulative sum:\n\n\nCode\nvariance_plot.properties(height = 200, width = 400)\n\n\nIn this case, the variance ratios drop off after 2 components. These first two capture about half of total variation in the data."
+    "text": "Variance ratios\nSelecting the number of principal components to use is somewhat subjective, but always based on the variance ratios and their cumulative sum:\n\n\n\nCode\n# store proportion of variance explained as a dataframe\npcvars = pd.DataFrame({'Proportion of variance explained': pca.explained_variance_ratio_})\n\n# add component number as a new column\npcvars['Component'] = np.arange(1, 32)\n\n# add cumulative variance explained as a new column\npcvars['Cumulative variance explained'] = pcvars.iloc[:, 0].cumsum(axis = 0)\n\n# encode component axis only as base layer\nbase = alt.Chart(pcvars).encode(\n    x = 'Component')\n\n# make a base layer for the proportion of variance explained\nprop_var_base = base.encode(\n    y = alt.Y('Proportion of variance explained',\n              axis = alt.Axis(titleColor = '#57A44C'))\n)\n\n# make a base layer for the cumulative variance explained\ncum_var_base = base.encode(\n    y = alt.Y('Cumulative variance explained', axis = alt.Axis(titleColor = '#5276A7'))\n)\n\n# add points and lines to each base layer\nline = alt.Chart(pd.DataFrame({'Component': [2.5]})).mark_rule(opacity = 0.3, color = 'red').encode(x = 'Component')\nprop_var = prop_var_base.mark_line(stroke = '#57A44C') + prop_var_base.mark_point(color = '#57A44C') + line\ncum_var = cum_var_base.mark_line() + cum_var_base.mark_point() + line\n\n# layer the layers\nvariance_plot = alt.layer(prop_var, cum_var).resolve_scale(y = 'independent') \n\nvariance_plot.properties(height = 200, width = 400).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n)\n\n\n\n\n\n\n\n\n\nIn this case, the variance ratios drop off after 2 components. These first two capture about half of total variation in the data."
   },
   {
     "objectID": "slides/week6-pca.html#loading-plots",
     "href": "slides/week6-pca.html#loading-plots",
-    "title": "Principal components analysis",
+    "title": "Principal components",
     "section": "Loading plots",
-    "text": "Loading plots\nExamining the loadings can help address the question: which variables drive variation in the data?\n\n\n\nCode\nloading_plot.properties(width = 300, height = 400)"
+    "text": "Loading plots\nExamining the loadings graphically can help to interpret the components.\n\n\n\nCode\n# store the loadings as a data frame with appropriate names\nloading_df = pd.DataFrame(pca.components_).transpose().rename(\n    columns = {0: 'PC1', 1: 'PC2'}\n).loc[:, ['PC1', 'PC2']]\n\n# add a column with the taxon names\nloading_df['indicator'] = wdi_ctr.columns.values\n\n# melt from wide to long\nloading_plot_df = loading_df.melt(\n    id_vars = 'indicator',\n    var_name = 'PC',\n    value_name = 'Loading'\n)\n\n# create base layer with encoding\nbase = alt.Chart(loading_plot_df).encode(\n    y = alt.X('indicator', title = ''),\n    x = 'Loading',\n    color = 'PC'\n)\n\n# store horizontal line at zero\nrule = alt.Chart(pd.DataFrame({'Loading': 0}, index = [0])).mark_rule().encode(x = 'Loading', size = alt.value(2))\n\n# layer points + lines + rule to construct loading plot\nloading_plot = base.mark_point() + base.mark_line() + rule\n\nloading_plot.properties(width = 300, height = 400).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n)"
   },
   {
     "objectID": "slides/week6-pca.html#visualization",
     "href": "slides/week6-pca.html#visualization",
-    "title": "Principal components analysis",
+    "title": "Principal components",
     "section": "Visualization",
-    "text": "Visualization\nFinally, we might want to use the first two principal components to visualize the data. Often it’s helpful to merge the principal components with the original data and apply visualization techniques you already know to search for interesting patterns.\n\n\nCode\nscatter + text"
+    "text": "Visualization\nFinally, we might want to use the first two principal components to visualize the data.\n\n\n\nCode\n# project pcdata onto first two components; store as data frame\nprojected_data = pd.DataFrame(pca.fit_transform(wdi_ctr)).iloc[:, 0:2].rename(columns = {0: 'PC1', 1: 'PC2'})\n\n# add index and reset\nprojected_data.index = wdi_ctr.index\nprojected_data = projected_data.reset_index()\n\n# append one of the original variables\nprojected_data['gdppc'] = wdi.gdp_percapita.values\nprojected_data['pop'] = wdi.total_pop.values\n\n# base chart\nbase = alt.Chart(projected_data)\n\n# data scatter\nscatter = base.mark_point().encode(\n    x = alt.X('PC1:Q', title = 'Mortality'),\n    y = alt.Y('PC2:Q', title = 'Labor'),\n    color = alt.Color('gdppc', \n                      bin = alt.Bin(maxbins = 6), \n                      scale = alt.Scale(scheme = 'blues'), \n                      title = 'GDP per capita'),\n    size = alt.Size('pop',\n                   scale = alt.Scale(type = 'sqrt'),\n                   title = 'Population')\n).properties(width = 400, height = 400)\n\n# text labels\nlabel = projected_data.sort_values(by = 'gdppc', ascending = False).head(4)\n\ntext = alt.Chart(label).mark_text(align = 'left', dx = 3).encode(\n     x = alt.X('PC1:Q', title = 'Mortality'),\n    y = alt.Y('PC2:Q', title = 'Labor'),\n    text = 'country'\n)\n\n(scatter + text).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n)\n\n\n\n\n\n\n\n\nOften it’s helpful to merge the principal components with the original data and apply visualization techniques you already know to search for interesting patterns."
+  },
+  {
+    "objectID": "slides/week6-pca.html#from-last-time",
+    "href": "slides/week6-pca.html#from-last-time",
+    "title": "Principal components",
+    "section": "From last time",
+    "text": "From last time\nFacts:\n\ncorrelation is a measure of (linear) dependence\ncorrelation matrices – arrays of pairwise correlations – are a common summary for multivariate data\na basis can be thought of as an alternative coordinate system\nthe eigendecomposition of a \\(p \\times p\\) correlation matrix yields a basis for \\(\\mathbb{R}^p\\) on which the standardized data are uncorrelated"
+  },
+  {
+    "objectID": "slides/week6-pca.html#a-remark",
+    "href": "slides/week6-pca.html#a-remark",
+    "title": "Principal components",
+    "section": "A remark",
+    "text": "A remark\nThe eigenbasis from the correlation matrix can also be recovered from the singular value decomposition of \\(\\mathbf{Z}\\).\n\n\\[\n\\mathbf{Z} = \\mathbf{UDV'}\n\\quad\\Longrightarrow\\quad\n\\mathbf{Z'Z} = \\mathbf{V}\\underbrace{(\\mathbf{D'U'UD})}_{\\mathbf{\\Lambda}}\\mathbf{V'}\n\\]\n\n\nMost implementations use SVD, so don’t be surprised if you see this more often than eigendecomposition."
+  },
+  {
+    "objectID": "slides/week6-pca.html#principal-components",
+    "href": "slides/week6-pca.html#principal-components",
+    "title": "Principal components",
+    "section": "Principal components",
+    "text": "Principal components\nLet \\(\\mathbf{X}\\) be an \\(n \\times p\\) data matrix and \\(\\mathbf{V}\\) be the matrix of eigenvectors of \\(\\text{corr}(\\mathbf{X})\\).\n\nThe principal components (of \\(\\mathbf{X}\\)) are the coordinates of each observation on the eigenbasis \\(\\mathbf{V}\\):\n\\[\n\\text{principal components of }\\mathbf{X} = \\mathbf{XV}\n\\]\n\n\nThe name comes from the observation that \\(\\mathbf{V}\\) gives the ‘main directions’ of variability in the data."
+  },
+  {
+    "objectID": "slides/week6-pca.html#pca-in-the-low-dimensional-setting-2",
+    "href": "slides/week6-pca.html#pca-in-the-low-dimensional-setting-2",
+    "title": "Principal components",
+    "section": "PCA in the low-dimensional setting",
+    "text": "PCA in the low-dimensional setting\nLet’s plot the principal component directions on the centered and scaled data.\n\n\nCode\n# store directions as dataframe for plotting\ndirection_df = pd.DataFrame(\n    np.vstack([np.zeros(2), r_eig[1][:, 0], np.zeros(2), r_eig[1][:, 1]]),\n    columns = ['Econ_Domain', 'Social_Domain']\n).join(\n    pd.Series(np.repeat(['PC1', 'PC2'], 2), name = 'PC direction')\n)\n\n# plot directions as vectors\neigenbasis = alt.Chart(direction_df).mark_line(order = False).encode(\n    x = 'Social_Domain', \n    y = 'Econ_Domain', \n    color = alt.Color('PC direction', scale = alt.Scale(scheme = 'dark2'))\n)\n\n# combine with scatter\ncentered_plot = (centered.properties(width = 300, height = 300) + mean_ctr + ax1 + ax2)\n\n(centered_plot + eigenbasis).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n).configure_title(\n    fontSize = 16\n).configure_legend(\n    labelFontSize = 14,\n    titleFontSize = 16\n)\n\n\n\n\n\n\n\n\nWhere do these directions point relative to the scatter?"
+  },
+  {
+    "objectID": "slides/week6-pca.html#projection",
+    "href": "slides/week6-pca.html#projection",
+    "title": "Principal components",
+    "section": "Projection",
+    "text": "Projection\nSo if we wanted to look at just one quantity that captures variability in both dimensions we could:\n\nproject the data onto the first principal component direction\ntreat the projected values as a new, derived variable\n\n\n\n\n\n\nCode\n# project data onto pc directions\npcdata = z_mx.dot(r_eig[1]).rename(columns = {0: 'PC1', 1: 'PC2'})\n\n# scatterplot\nprojection = alt.Chart(pcdata).mark_point(opacity = 0.1, color = 'black').encode(\n    x = alt.X('PC1', title = '', axis = None),\n    y = 'PC2'\n).properties(\n    width = 300, \n    height = 200,\n    title = 'Projected data'\n)\n\n# layer with univariate tick plot of pc1 values\npc1 = alt.Chart(pcdata).mark_tick(color = '#1B9E77').encode(x = 'PC1').properties(width = 300)\n\n(projection & pc1).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n).configure_title(fontSize = 16)\n\n\n\n\n\n\n\n\nIs it a problem to just drop PC2?"
+  },
+  {
+    "objectID": "slides/week6-pca.html#quantifying-variation-captureloss-2",
+    "href": "slides/week6-pca.html#quantifying-variation-captureloss-2",
+    "title": "Principal components",
+    "section": "Quantifying variation capture/loss",
+    "text": "Quantifying variation capture/loss\nSo in our example, the variance ratios are:\n\n# compute correlation mx\nr_mx = z_mx.transpose().dot(z_mx)/(len(z_mx) - 1)\n\n# eigendecomposition\nr_eig = linalg.eig(r_mx.values)\n\n# store eigenvalues as real array\neigenvalues = r_eig[0].real \n\n# variance ratios\neigenvalues/eigenvalues.sum() \n\narray([0.23425468, 0.76574532])\n\n\n\nthe first principal component captures 77% of total variation\nthe second captures 23% of total variation"
+  },
+  {
+    "objectID": "slides/week6-pca.html#interpreting-principal-components-1",
+    "href": "slides/week6-pca.html#interpreting-principal-components-1",
+    "title": "Principal components",
+    "section": "Interpreting principal components",
+    "text": "Interpreting principal components\nThe loadings for the second component are:\n\nr_eig[1][:, 0]\n\narray([-0.70710678,  0.70710678])\n\n\n\n\\[\n\\text{PC2}_i = \\mathbf{x}_i'\\mathbf{v}_1 = 0.7071 \\times\\text{social}_i - 0.7071 \\times\\text{economic}_i\n\\]\n\n\nHow would you interpret this quantity?"
+  },
+  {
+    "objectID": "slides/week6-pca.html#packages-for-pca",
+    "href": "slides/week6-pca.html#packages-for-pca",
+    "title": "Principal components",
+    "section": "Packages for PCA",
+    "text": "Packages for PCA\nIn scikit-learn, one must preprocess the data by centering and scaling:\n\nfrom sklearn.decomposition import PCA\n\n# center and scale data\nz_mx = (x_mx - x_mx.mean())/x_mx.std()\n\n# compute principal components\npca = PCA(n_components = 2)\npca.fit(z_mx)\n\n\nCheck that the results are the same:\n\n# loadings\npca.components_\n\narray([[-0.70710678, -0.70710678],\n       [ 0.70710678, -0.70710678]])\n\n\n\n\nThe variance ratios are stored as an attribute:\n\n# variance ratios\npca.explained_variance_ratio_\n\narray([0.76574532, 0.23425468])"
+  },
+  {
+    "objectID": "slides/week6-pca.html#packages-for-pca-1",
+    "href": "slides/week6-pca.html#packages-for-pca-1",
+    "title": "Principal components",
+    "section": "Packages for PCA",
+    "text": "Packages for PCA\nIn scikit-learn, to retrieve the scores – the coordinates on the principal axes – one must ‘transform’ input data:\n\n# get scores\npca.transform(z_mx)\n\narray([[-1.29591927,  0.32681298],\n       [ 0.98357823,  0.34852919],\n       [ 0.93478265,  1.17632266],\n       ...,\n       [ 0.61009199, -0.73354446],\n       [-0.13641772, -0.34803313],\n       [ 3.44303576, -0.86984466]])\n\n\n\nuseful if you want to compute PC’s from one dataset and then apply the transformation to a new collection of observations\ninconvenient if all you want are the scores of the input data"
+  },
+  {
+    "objectID": "slides/week6-pca.html#effect-of-standardization",
+    "href": "slides/week6-pca.html#effect-of-standardization",
+    "title": "Principal components",
+    "section": "Effect of standardization",
+    "text": "Effect of standardization\nIf the data are not standardized, then the covariance matrix is decomposed instead of the correlation matrix.\n\n# refit without standardization\npca_unscaled = PCA(x_mx, standardize = False, normalize = False)\n\n# examine\nprint('variance ratios: ', pca_unscaled.eigenvals.values/pca_unscaled.eigenvals.sum())\npca_unscaled.loadings\n\nvariance ratios:  [0.86663761 0.13336239]\n\n\n\n\n\n\n  \n    \n      \n      comp_0\n      comp_1\n    \n  \n  \n    \n      Econ_Domain\n      -0.952189\n      -0.305509\n    \n    \n      Social_Domain\n      -0.305509\n      0.952189\n    \n  \n\n\n\n\n\nThe economic index gets upweighted significantly\nThe first component captures more variance"
+  },
+  {
+    "objectID": "slides/week6-pca.html#effect-of-standardization-1",
+    "href": "slides/week6-pca.html#effect-of-standardization-1",
+    "title": "Principal components",
+    "section": "Effect of standardization",
+    "text": "Effect of standardization\nWhen the data are not standardized, the method is susceptible to problems of scale.\nIn our example, the economic index became more ‘important’, but this is only because it has a larger variance:\n\nx_mx.cov()\n\n\n\n\n\n  \n    \n      \n      Econ_Domain\n      Social_Domain\n    \n  \n  \n    \n      Econ_Domain\n      0.007428\n      0.001985\n    \n    \n      Social_Domain\n      0.001985\n      0.001878\n    \n  \n\n\n\n\n\nSo if the covariance (not correlation) matrix is decomposed, economic sustainability accounts for more of the total variation measure, because it dominates the variance-covariance matrix, but only because of scale."
+  },
+  {
+    "objectID": "slides/week6-pca.html#effect-of-standardization-2",
+    "href": "slides/week6-pca.html#effect-of-standardization-2",
+    "title": "Principal components",
+    "section": "Effect of standardization",
+    "text": "Effect of standardization\nVisually, here is the difference.\n\n\nCode\ndirection_df = pd.DataFrame(\n    np.vstack([np.zeros(2), r_eig[1][:, 0]*r_eig[0][0].real, np.zeros(2), r_eig[1][:, 1]*r_eig[0][1].real]),\n    columns = ['Econ_Domain', 'Social_Domain']\n).join(\n    pd.Series(np.repeat(['PC1', 'PC2'], 2), name = 'PC direction')\n)\n\n# repeat plot\neigenbasis = alt.Chart(direction_df).mark_line(order = False).encode(\n    x = 'Social_Domain', \n    y = 'Econ_Domain', \n    color = alt.Color('PC direction', scale = alt.Scale(scheme = 'dark2'))\n)\n\nc_eig = linalg.eig(x_mx.cov())\nc_eigenval_std = c_eig[0].real/c_eig[0].real.sum()\n\ndirection_df_cov = pd.DataFrame(\n    30*np.vstack([np.zeros(2), c_eig[1][:, 0]*c_eig[0][0].real, np.zeros(2), c_eig[1][:, 1]*c_eig[0][1].real]) + x_mx.mean().values,\n    columns = ['Econ_Domain', 'Social_Domain']\n).join(\n    pd.Series(np.repeat(['PC1', 'PC2'], 2), name = 'PC direction')\n)\n\neigenbasis_cov = alt.Chart(direction_df_cov).mark_line(order = False).encode(\n    x = 'Social_Domain', \n    y = 'Econ_Domain', \n    color = alt.Color('PC direction', scale = alt.Scale(scheme = 'dark2'))\n)\n\n(raw + eigenbasis_cov | centered + eigenbasis).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n).configure_title(\n    fontSize = 16\n).configure_legend(\n    labelFontSize = 14,\n    titleFontSize = 16\n)\n\n\n\n\n\n\n\n\nPrincipal axes are sensitive to scale\nIf not standardized, the principal components will upweight variables with larger variances"
+  },
+  {
+    "objectID": "slides/week6-pca.html#terminology",
+    "href": "slides/week6-pca.html#terminology",
+    "title": "Principal components",
+    "section": "Terminology",
+    "text": "Terminology\nA quick review of PCA terminology:\n\nthe principal components are the eigenbasis vectors; the principal axes or directions\nthe loadings are the eigenvectors; these correspond to the principal axes or principal directions\nthe scores are the data values projected onto the principal axes\n\nsome refer to scores as principal components instead\n\nthe variance ratios are the proportions of total variance explained by each component/direction"
+  },
+  {
+    "objectID": "slides/week6-pca.html#pca-in-higher-dimensions",
+    "href": "slides/week6-pca.html#pca-in-higher-dimensions",
+    "title": "Principal components",
+    "section": "PCA in higher dimensions",
+    "text": "PCA in higher dimensions\nPCA is rarely used for bivariate data; it is a multivariate technique.\n\nThe technique is this:\n\ncompute all principal components\nexamine the variance ratios\nselect a subset of components that collectively explain ‘enough’ variance"
+  },
+  {
+    "objectID": "slides/week6-pca.html#perspectives-on-pca",
+    "href": "slides/week6-pca.html#perspectives-on-pca",
+    "title": "Principal components",
+    "section": "Perspectives on PCA",
+    "text": "Perspectives on PCA\nNow that you know that a subcollection of principal components is usually selected, you have a sense that PCA involves projecting multivariate data onto a subspace.\n\nThere are two main perspectives on the meaning of this:\n\nLow-rank approximation of the correlation structure\n\nThis is the perspective we’ve taken in this class\n\nLatent regression or optimization problem\n\nFind the axes that maximize variance of projected data"
+  },
+  {
+    "objectID": "slides/week6-pca.html#other-applications-of-pca",
+    "href": "slides/week6-pca.html#other-applications-of-pca",
+    "title": "Principal components",
+    "section": "Other applications of PCA",
+    "text": "Other applications of PCA\nPCA can also be used as a filtering technique for image data.\n\n\n\n\nNoisy handwritten digits\n\n\n\n\n\n\n\nReconstruction from 12 PC’s computed from the pixel values."
+  },
+  {
+    "objectID": "slides/week6-pca.html#other-applications-of-pca-1",
+    "href": "slides/week6-pca.html#other-applications-of-pca-1",
+    "title": "Principal components",
+    "section": "Other applications of PCA",
+    "text": "Other applications of PCA\nIn a similar vein, it can be used as a compression technique.\n\n\n\nFull-size images are roughly 3K pixels\nProjecting pixel values onto 150 PC’s and then reconstructing the data from this subset yields a heavily compressed image"
+  },
+  {
+    "objectID": "slides/week6-pca.html#packages-for-pca-2",
+    "href": "slides/week6-pca.html#packages-for-pca-2",
+    "title": "Principal components",
+    "section": "Packages for PCA",
+    "text": "Packages for PCA\nIn statsmodels, the implementation is a bit more streamlined:\n\nfrom statsmodels.multivariate.pca import PCA\npca = PCA(x_mx, normalize = False, standardize = True)\npca.loadings\n\n\n\n\n\n  \n    \n      \n      comp_0\n      comp_1\n    \n  \n  \n    \n      Econ_Domain\n      -0.707107\n      -0.707107\n    \n    \n      Social_Domain\n      -0.707107\n      0.707107\n    \n  \n\n\n\n\n\ninput here is x_mx – no need to preprocess\nstandardize = True will center and scale the input data x_mx\nnormalize = True rescales the scores (not the input data)\nsee documentation for additional control arguments"
+  },
+  {
+    "objectID": "slides/week6-pca.html#packages-for-pca-3",
+    "href": "slides/week6-pca.html#packages-for-pca-3",
+    "title": "Principal components",
+    "section": "Packages for PCA",
+    "text": "Packages for PCA\nFor this implementation the scores of the input data are retained as an attribute .scores:\n\npca.scores.head(3)\n\n\n\n\n\n  \n    \n      \n      comp_0\n      comp_1\n    \n  \n  \n    \n      0\n      -1.296614\n      -0.326988\n    \n    \n      1\n      0.984106\n      -0.348716\n    \n    \n      2\n      0.935284\n      -1.176954\n    \n  \n\n\n\n\n\nThe variance ratios, however, must be calculated manually:\n\npca.eigenvals/pca.eigenvals.sum()\n\n0    0.765745\n1    0.234255\nName: eigenvals, dtype: float64"
+  },
+  {
+    "objectID": "slides/week6-pca.html#packages-for-pca-4",
+    "href": "slides/week6-pca.html#packages-for-pca-4",
+    "title": "Principal components analysis",
+    "section": "Packages for PCA",
+    "text": "Packages for PCA\nInterestingly, statsmodels has a .project() method, which will compute a reconstruction of the original data from a specified number of PC’s.\n\nIf we use both PC’s…\n\npca.project(ncomp = 2).head(3)\n\n\n\n\n\n  \n    \n      \n      Econ_Domain\n      Social_Domain\n    \n  \n  \n    \n      0\n      0.565264\n      0.591259\n    \n    \n      1\n      0.427671\n      0.520744\n    \n    \n      2\n      0.481092\n      0.496874\n    \n  \n\n\n\n\nWe get the input data back again:\n\nx_mx.head(3)\n\n\n\n\n\n  \n    \n      \n      Econ_Domain\n      Social_Domain\n    \n  \n  \n    \n      0\n      0.565264\n      0.591259\n    \n    \n      1\n      0.427671\n      0.520744\n    \n    \n      2\n      0.481092\n      0.496874"
+  },
+  {
+    "objectID": "slides/week6-pca.html#packages-for-pca-5",
+    "href": "slides/week6-pca.html#packages-for-pca-5",
+    "title": "Principal components analysis",
+    "section": "Packages for PCA",
+    "text": "Packages for PCA\nIf we use only one PC, we get a low-dimensional approximation:\n\npca.project(ncomp = 1)\n\n\n\n\n\n  \n    \n      \n      Econ_Domain\n      Social_Domain\n    \n  \n  \n    \n      0\n      0.545347\n      0.601274\n    \n    \n      1\n      0.406431\n      0.531424\n    \n    \n      2\n      0.409404\n      0.532919\n    \n    \n      3\n      0.431310\n      0.543933\n    \n    \n      4\n      0.522787\n      0.589930\n    \n    \n      ...\n      ...\n      ...\n    \n    \n      928\n      0.478590\n      0.567707\n    \n    \n      929\n      0.452560\n      0.554619\n    \n    \n      930\n      0.429192\n      0.542869\n    \n    \n      931\n      0.474685\n      0.565743\n    \n    \n      932\n      0.256547\n      0.456060\n    \n  \n\n933 rows × 2 columns\n\n\n\n\nCompare with input data:\n\nx_mx.head(3)\n\n\n\n\n\n  \n    \n      \n      Econ_Domain\n      Social_Domain\n    \n  \n  \n    \n      0\n      0.565264\n      0.591259\n    \n    \n      1\n      0.427671\n      0.520744\n    \n    \n      2\n      0.481092\n      0.496874"
+  },
+  {
+    "objectID": "slides/week6-pca.html#reconstruction-and-approximation",
+    "href": "slides/week6-pca.html#reconstruction-and-approximation",
+    "title": "Principal components",
+    "section": "Reconstruction and approximation",
+    "text": "Reconstruction and approximation\nInterestingly, statsmodels has a .project() method, which will compute a reconstruction of the original data from a specified number of PC’s.\n\nIf we use both PC’s…\n\npca.project(ncomp = 2).head(3)\n\n\n\n\n\n  \n    \n      \n      Econ_Domain\n      Social_Domain\n    \n  \n  \n    \n      0\n      0.565264\n      0.591259\n    \n    \n      1\n      0.427671\n      0.520744\n    \n    \n      2\n      0.481092\n      0.496874\n    \n  \n\n\n\n\nWe get the input data back again:\n\nx_mx.head(3)\n\n\n\n\n\n  \n    \n      \n      Econ_Domain\n      Social_Domain\n    \n  \n  \n    \n      0\n      0.565264\n      0.591259\n    \n    \n      1\n      0.427671\n      0.520744\n    \n    \n      2\n      0.481092\n      0.496874"
+  },
+  {
+    "objectID": "slides/week6-pca.html#reconstruction-and-approximation-1",
+    "href": "slides/week6-pca.html#reconstruction-and-approximation-1",
+    "title": "Principal components",
+    "section": "Reconstruction and approximation",
+    "text": "Reconstruction and approximation\nIf we use only one PC, we get a low-dimensional approximation:\n\npca.project(ncomp = 1).head(3)\n\n\n\n\n\n  \n    \n      \n      Econ_Domain\n      Social_Domain\n    \n  \n  \n    \n      0\n      0.545347\n      0.601274\n    \n    \n      1\n      0.406431\n      0.531424\n    \n    \n      2\n      0.409404\n      0.532919\n    \n  \n\n\n\n\n\nCompare with input data:\n\nx_mx.head(3)\n\n\n\n\n\n  \n    \n      \n      Econ_Domain\n      Social_Domain\n    \n  \n  \n    \n      0\n      0.565264\n      0.591259\n    \n    \n      1\n      0.427671\n      0.520744\n    \n    \n      2\n      0.481092\n      0.496874"
+  },
+  {
+    "objectID": "slides/week6-pca.html#pca-in-higher-dimensions-1",
+    "href": "slides/week6-pca.html#pca-in-higher-dimensions-1",
+    "title": "Principal components",
+    "section": "PCA in higher dimensions",
+    "text": "PCA in higher dimensions\nNow that we’ve reviewed the basic technique, we can consider cases with a larger number of variables.\nThis is really where PCA is most useful.\n\nIt can help answer the question: which variables are driving variation in the data?\nIt can help reduce data dimensions by finding combinations of variables that preserve variation.\nIt can provide a means of visualizing high-dimensional data."
+  },
+  {
+    "objectID": "slides/week6-pca.html#computation-via-sklearn",
+    "href": "slides/week6-pca.html#computation-via-sklearn",
+    "title": "Principal components",
+    "section": "Computation via sklearn",
+    "text": "Computation via sklearn\nRecall that this implementation requires centering and scaling the data first ‘by hand’.\n\nfrom sklearn.decomposition import PCA\n\n# center and scale\nwdi_ctr = (wdi - wdi.mean())/wdi.std()\n\n# compute principal components\npca = PCA(31)\npca.fit(wdi_ctr)"
   }
 ]
