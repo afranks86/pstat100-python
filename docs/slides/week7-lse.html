@@ -428,7 +428,7 @@
 </section>
 <section id="what-makes-a-model-statistical" class="slide level2">
 <h2>What makes a model ‘statistical’?</h2>
-<p>One straightforward view is that a <strong>statistical model</strong> is simply a <em><strong>probabilistic a data-generating process</strong></em>. In other words, a probability distribution.</p>
+<p>One straightforward view is that a <strong>statistical model</strong> is simply a <em><strong>probabilistic representation of a data-generating process</strong></em>. In other words, a probability distribution.</p>
 <div class="fragment">
 <p>For a probability distribution to provide a sensible description of a data generating process:</p>
 <ul>
@@ -575,7 +575,12 @@
 <li class="fragment"><p>Quantify the association between median income and achievement gaps.</p></li>
 </ul>
 <div class="fragment">
-<p>We’re going to talk in detail about the model itself: * definition; * estimation; * assumptions.</p>
+<p>We’re going to talk in detail about the model itself:</p>
+<ul>
+<li class="fragment">definition</li>
+<li class="fragment">estimation</li>
+<li class="fragment">assumptions</li>
+</ul>
 </div>
 </section>
 <section id="data-setting" class="slide level2">
@@ -882,32 +887,9 @@ dtype: float64</code></pre>
 <pre><code>array([-1.35616996,  0.12105696])</code></pre>
 </div>
 </div>
-</section>
-<section id="visualizing-model-output" class="slide level2">
-<h2>Visualizing model output</h2>
-<p>A prediction grid can be used to visualize the line.</p>
-<div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># grid of values for plotting</span></span>
-<span id="cb10-2"><a href="#cb10-2"></a>line_df <span class="op">=</span> pd.DataFrame({<span class="st">'log_income'</span>: np.linspace(x.<span class="bu">min</span>(), x.<span class="bu">max</span>(), <span class="dv">500</span>)})</span>
-<span id="cb10-3"><a href="#cb10-3"></a>line_df[<span class="st">'gap'</span>] <span class="op">=</span> line_df.log_income<span class="op">*</span>slope <span class="op">+</span> intercept</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="fragment">
-<p>Compare the result of layering a line plot of <code>line_df</code> on the data scatter (left) with the regression transform from Altair (right):</p>
-<p><img data-src="figures/fig4-olsline.png"></p>
-</div>
-</section>
-<section id="not-a-statistical-model-yet" class="slide level2">
-<h2>Not a statistical model, yet</h2>
-<p>The least squares line is simply an algebraic transformation of the data – technically, a projection.</p>
-<div class="fragment">
-<p>This is not yet a statistical model according to our definition, since there is no probability distribution involved.</p>
-</div>
-<div class="fragment">
-<p>We can change that by considering the residuals to be random.</p>
 
 <div class="footer footer-default">
 
-</div>
 </div>
 </section>
     </div>

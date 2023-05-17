@@ -60,7 +60,7 @@ Quick discussion:
 
 ## What makes a model 'statistical'?
 
-One straightforward view is that a **statistical model** is simply a _**probabilistic a data-generating process**_. In other words, a probability distribution.
+One straightforward view is that a **statistical model** is simply a _**probabilistic representation of a data-generating process**_. In other words, a probability distribution.
 
 . . .
 
@@ -221,9 +221,10 @@ Linear models can be used for prediction, inference, or both.
 . . .
 
 We're going to talk in detail about the model itself:
-* definition;
-* estimation;
-* assumptions.
+
+* definition
+* estimation
+* assumptions
 
 ## Data setting
 
@@ -471,33 +472,3 @@ xtx = x_mx.transpose().dot(x_mx) # X'X
 xtx_inv = np.linalg.inv(xtx) # (X'X)^{-1}
 xtx_inv.dot(x_mx.transpose()).dot(y) # (X'X)^{-1} X'y
 ```
-
-## Visualizing model output
-
-A prediction grid can be used to visualize the line.
-
-```{python}
-#| code-fold: false
-#| eval: false
-# grid of values for plotting
-line_df = pd.DataFrame({'log_income': np.linspace(x.min(), x.max(), 500)})
-line_df['gap'] = line_df.log_income*slope + intercept
-```
-
-. . .
-
-Compare the result of layering a line plot of `line_df` on the data scatter (left) with the regression transform from Altair (right):
-
-![](figures/fig4-olsline.png)
-
-## Not a statistical model, yet
-
-The least squares line is simply an algebraic transformation of the data -- technically, a projection.
-
-. . .
-
-This is not yet a statistical model according to our definition, since there is no probability distribution involved.
-
-. . .
-
-We can change that by considering the residuals to be random.
