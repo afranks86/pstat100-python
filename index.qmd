@@ -6,6 +6,7 @@ published-title: "Updated"
 
 ::: {.callout-note}
 ## Announcements
+* MP2 posted [here](content.qmd#week-7)
 * Data science capstone applications for 2023-2024 open at [https://pstat197.github.io/](https://pstat197.github.io/) and through summer; apply by May 15 for priority consideration
 :::
 

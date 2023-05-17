@@ -129,7 +129,7 @@ _**NO lab sections this week**_
 
 *Assignments*:
 
-- Mini project 2
+- Mini project 2 [[html](projects/mp2/mp2-ncca.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Fmp2-ncca%2Fmp2-ncca.ipynb&branch=main)]
 
 **Monday**: Modeling concepts; least squares [[slides](slides/week7-lse.qmd)]
 
