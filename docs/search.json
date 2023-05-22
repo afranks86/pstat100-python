@@ -3672,7 +3672,7 @@
     "href": "content.html#week-7",
     "title": "Materials",
     "section": "Week 7",
-    "text": "Week 7\nReadings:\n\nLDS 15.1-15.3 Simple linear models\n\nAssignments:\n\nMini project 2 [html] [notebook]\n\nMonday: Modeling concepts; least squares [slides]\nLab sections: Principal components [html] [notebook]\nWednesday: The simple linear regression model [slides]"
+    "text": "Week 7\nReadings:\n\nLDS 15.1-15.3 Simple linear models\n\nAssignments:\n\nMini project 2, due Tuesday, May 30 [html] [notebook]\n\nMonday: Modeling concepts; least squares [slides]\nLab sections: Principal components [html] [notebook]\nWednesday: The simple linear regression model [slides]"
   },
   {
     "objectID": "labs/lab5-pca/lab5-pca-soln.html",
@@ -4758,5 +4758,229 @@
     "title": "PSTAT100",
     "section": "",
     "text": "Code appendix\n\nimport pandas as pd\nimport numpy as np\nimport altair as alt\n\nncca_raw = pd.read_csv('data/assessed_ncca2010_waterchem.csv')\nncca_sites = pd.read_csv('data/assessed_ncca2010_siteinfo.csv')"
+  },
+  {
+    "objectID": "slides/week8-prediction.html#from-last-week",
+    "href": "slides/week8-prediction.html#from-last-week",
+    "title": "Prediction",
+    "section": "From last week",
+    "text": "From last week\nSimple linear regression model:\n\\[\ny_i = \\beta_0 + \\beta_1 x_i + \\epsilon_i \\quad\n\\begin{cases}\ni = 1, \\dots, n \\\\\n\\epsilon_i \\sim N\\left(0,\\sigma^2\\right)\n\\end{cases}\n\\]\n\nestimation of \\(\\beta_0, \\beta_1, \\sigma^2\\)\nstandard errors for the coefficients\nparameter interpretations\n\n\nExample using the SEDA data:\n\\[\n\\left(\\text{math gap}\\right)_i = \\beta_0 + \\beta_1 \\log\\left(\\text{median income}\\right)_i + \\epsilon_i\n\\quad\n\\text{district } i = 1, \\dots, 625\n\\]\n\n\\(\\hat{\\beta_0} = -1.356, \\hat{\\beta_1} = 0.121, \\hat{\\sigma}^2 = 0.0132\\)\ncentering the explanatory variable helped with interpretability"
+  },
+  {
+    "objectID": "slides/week8-prediction.html#where-we-left-off",
+    "href": "slides/week8-prediction.html#where-we-left-off",
+    "title": "Prediction",
+    "section": "Where we left off",
+    "text": "Where we left off\n\n\n\n\nUncertainty bands are a common visualization technique for conveying variability in estimates.\n\nconstructed using standard errors\nbut how?"
+  },
+  {
+    "objectID": "slides/week8-prediction.html#predictions",
+    "href": "slides/week8-prediction.html#predictions",
+    "title": "Prediction",
+    "section": "Predictions",
+    "text": "Predictions\nThe line we are visualizing shows model predictions across the range of the data:\n\\[\n\\hat{y} = \\hat{\\beta}_0 + \\hat{\\beta}_1 x\n\\;,\\quad\nx \\in [x_\\text{min}, x_\\text{max}]\n\\]\n\nsame calculation as for the fitted values\nbut predictions because we didn’t fit the model to \\(x \\in [x_\\text{min}, x_\\text{max}]\\)"
+  },
+  {
+    "objectID": "slides/week8-prediction.html#predictions-1",
+    "href": "slides/week8-prediction.html#predictions-1",
+    "title": "Prediction",
+    "section": "Predictions",
+    "text": "Predictions\nIf for example, we’d like to make a prediction for a district with a median income of 86K, we’d calculate:\n\\[\n\\hat{\\beta}_0 + \\hat{\\beta}_1\\log(86000)\n\\]\n\nIn statsmodels, there is a .predict method to perform this basic calculation:\n\n# prediction\nnewobs = np.array([1, np.log(86000)])\nslr.fit().predict(newobs)\n\narray([0.01929165])\n\n\n\n\nNote that this returns a numpy array. The uncertainty bands are intervals constructed around such predictions for a fine grid of values on the interval \\([x_\\text{min}, x_\\text{max}]\\)."
+  },
+  {
+    "objectID": "slides/week8-prediction.html#two-types-of-prediction",
+    "href": "slides/week8-prediction.html#two-types-of-prediction",
+    "title": "Prediction",
+    "section": "Two types of prediction",
+    "text": "Two types of prediction\nThe prediction \\(\\hat{y}\\) is an estimate, but what of?\n\nTwo options:\n\nestimate of the mean at \\(x\\):\n\n\\[\n\\mathbb{E}y = \\beta_0 + \\beta_1 x\n\\]\n\nestimate of an observation at \\(x\\)\n\n\\[\ny = \\beta_0 + \\beta_1 x + \\epsilon\n\\]"
+  },
+  {
+    "objectID": "slides/week8-prediction.html#standard-error-for-the-mean",
+    "href": "slides/week8-prediction.html#standard-error-for-the-mean",
+    "title": "Prediction",
+    "section": "Standard error for the mean",
+    "text": "Standard error for the mean\nIf we interpret \\(\\hat{y}\\) as a prediction for the mean, the standard error is based on:\n\\[\n\\text{var}\\left(\\hat{\\beta}_0 + \\hat{\\beta}_1 x\\right)\n= \\text{var}\\hat{\\beta}_0 + x^2 \\text{var}\\hat{\\beta}_1 + 2x\\text{cov}\\left(\\hat{\\beta}_0 + \\hat{\\beta}_1\\right)\n\\]\n\nTo get the standard error (estimated standard deviation), substitute \\(\\hat{\\sigma}^2\\) for \\(\\sigma^2\\) and take the square root."
+  },
+  {
+    "objectID": "slides/week8-prediction.html#standard-error-for-the-observation",
+    "href": "slides/week8-prediction.html#standard-error-for-the-observation",
+    "title": "Prediction",
+    "section": "Standard error for the observation",
+    "text": "Standard error for the observation\nIf instead we interpret \\(\\hat{y}\\) as a prediction for a new observation, the standard error is based on:\n\\[\n\\text{var}\\left(\\hat{\\beta}_0 + \\hat{\\beta}_1 x + \\epsilon\\right)\n= \\text{var}\\hat{\\beta}_0 + x^2 \\text{var}\\hat{\\beta}_1 + 2x\\text{cov}\\left(\\hat{\\beta}_0 + \\hat{\\beta}_1\\right) + \\text{var}\\epsilon\n\\]\nThe above holds because we assume the future random error is independent of current observations (and thus the estimates).\n\nTo get the standard error (estimated standard deviation), substitute \\(\\hat{\\sigma}^2\\) for \\(\\sigma^2\\) and take the square root."
+  },
+  {
+    "objectID": "slides/week8-prediction.html#computing-standard-errors",
+    "href": "slides/week8-prediction.html#computing-standard-errors",
+    "title": "Prediction",
+    "section": "Computing standard errors",
+    "text": "Computing standard errors\nThe .get_prediction() returns a prediction object with several attributes, including standard errors. This is recommended over .predict() for most purposes.\n\npred = slr.fit().get_prediction(newobs)\npred\n\n<statsmodels.regression._prediction.PredictionResults at 0x206f7c23b20>\n\n\n\nThe value of the prediction is stored as .predicted_mean:\n\npred.predicted_mean\n\narray([0.01929165])"
+  },
+  {
+    "objectID": "slides/week8-prediction.html#standard-errors-in-matrix-form",
+    "href": "slides/week8-prediction.html#standard-errors-in-matrix-form",
+    "title": "Prediction",
+    "section": "Standard errors, in matrix form",
+    "text": "Standard errors, in matrix form\nThe variance of the estimated mean at \\(\\mathbf{x}_{new}\\) is:\n\\[\n\\text{var}(\\widehat{\\mathbb{E}y_\\text{new}}) = \\mathbf{x}_\\text{new} \\;\n\\underbrace{\n    \\left[\\sigma^2 (\\mathbf{X'X})^{-1}\\right]\n    }_{\n    \\text{var}\\hat{\\beta}\n    }\\;\n\\mathbf{x}_\\text{new}'\n\\]\n\nSo the standard error is obtained by substituting \\(\\hat{\\sigma}\\) for \\(\\sigma\\):\n\\[\nSE\\left(\\widehat{\\mathbb{E}y_\\text{new}}\\right) = \\sqrt{\\hat{\\sigma}^2\\left(\\mathbf{x}_\\text{new}'(\\mathbf{X'X})^{-1}\\mathbf{x}_\\text{new}\\right)}\n\\]\n\n\nThis value is stored with predictions as the .se_mean attribute:\n\npred.se_mean\n\narray([0.00605441])"
+  },
+  {
+    "objectID": "slides/week8-prediction.html#standard-errors-in-matrix-form-1",
+    "href": "slides/week8-prediction.html#standard-errors-in-matrix-form-1",
+    "title": "Prediction",
+    "section": "Standard errors, in matrix form",
+    "text": "Standard errors, in matrix form\nThe variance of a predicted observation at \\(\\mathbf{x}_{new}\\) is:\n\\[\n\\text{var}(y_\\text{new}) = \\underbrace{\n    \\mathbf{x}_\\text{new}\n    \\left[\\hat{\\sigma}^2 (\\mathbf{X'X})^{-1}\\right] \\mathbf{x}_\\text{new}'\n}_{SE^2\\left(\\widehat{\\mathbb{E}y_\\text{new}}\\right)}\n+ \\hat{\\sigma}^2\n\\]\n\nSo the standard error is obtained by substituting \\(\\hat{\\sigma}\\) for \\(\\sigma\\):\n\\[\nSE\\left(y_\\text{new}\\right) = \\sqrt{\\hat{\\sigma}^2\\left(1 + \\mathbf{x}_\\text{new}'(\\mathbf{X'X})^{-1}\\mathbf{x}_\\text{new}\\right)}\n\\]\n\n\nThis value is stored with predictions as the .se_obs attribute:\n\npred.se_obs\n\narray([0.11492531])"
+  },
+  {
+    "objectID": "slides/week8-prediction.html#comparing-standard-errors",
+    "href": "slides/week8-prediction.html#comparing-standard-errors",
+    "title": "Prediction",
+    "section": "Comparing standard errors",
+    "text": "Comparing standard errors\nNote the substantial difference between the standard error for the mean and that for the observation:\n\nprint('standard error for mean: ', pred.se_mean)\nprint('standard error for observation: ', pred.se_obs)\n\nstandard error for mean:  [0.00605441]\nstandard error for observation:  [0.11492531]\n\n\nWhy is one so much larger??"
+  },
+  {
+    "objectID": "slides/week8-prediction.html#sources-of-variability",
+    "href": "slides/week8-prediction.html#sources-of-variability",
+    "title": "Prediction",
+    "section": "Sources of variability",
+    "text": "Sources of variability\nThere is only one source of variability for a predicted mean:\n\nvariability of the estimates \\(\\hat{\\beta}_j\\)\n\n\nThere are two sources of variability for a predicted observation:\n\nvariability of the estimates \\(\\hat{\\beta}_j\\)\nvariability of the random error \\(\\epsilon\\)"
+  },
+  {
+    "objectID": "slides/week8-prediction.html#interpreting-standard-errors",
+    "href": "slides/week8-prediction.html#interpreting-standard-errors",
+    "title": "Prediction",
+    "section": "Interpreting standard errors",
+    "text": "Interpreting standard errors\nThe standard error for the mean is smaller, because it’s easier to estimate the average value for a given \\(x\\) than the exact value:\n\n(less uncertainty) the typical achievement gap for a district with a given median income\n(more uncertainty) the precise achievement gap for such-and-such district\n\n\nThe two standard errors will differ substantially whenever there is a lot of unexplained variability (\\(low R^2\\))."
+  },
+  {
+    "objectID": "slides/week8-prediction.html#uncertainty-bands",
+    "href": "slides/week8-prediction.html#uncertainty-bands",
+    "title": "Prediction",
+    "section": "Uncertainty bands",
+    "text": "Uncertainty bands\nThe uncertainty bands from before were \\(\\hat{y} \\pm 2SE(\\hat{y})\\)\n\nTechnically, a confidence interval; usually shown for the mean (not the observation).\n\n\nCode\n# compute predictions at observed values\npreds = slr.fit().get_prediction(x)\n\n# append fitted values to observations\nregdata['fitted'] = preds.predicted_mean\n\n# add interval bounds\nregdata['lwr_mean'] = preds.predicted_mean - 2*preds.se_mean\nregdata['upr_mean'] = preds.predicted_mean + 2*preds.se_mean\n\nscatter = alt.Chart(regdata).mark_circle().encode(\n    x = alt.X('log_income', \n        scale = alt.Scale(zero = False),\n        title = 'log median income'),\n    y = alt.Y('gap', title = 'math achievement gap')\n)\n\ntrend = alt.Chart(regdata).mark_line(\n    color = 'black'\n).encode(\n    x = 'log_income',\n    y = 'fitted'\n)\n\nband = alt.Chart(regdata).mark_area(\n    opacity = 0.3, color = 'black'\n).encode(\n    x = 'log_income',\n    y = 'upr_mean',\n    y2 = 'lwr_mean'\n)\n\n(scatter + trend + band).configure_axis(\n    labelFontSize = 16,\n    titleFontSize = 18\n)"
+  },
+  {
+    "objectID": "slides/week8-prediction.html#prediction-bands",
+    "href": "slides/week8-prediction.html#prediction-bands",
+    "title": "Prediction",
+    "section": "Prediction bands",
+    "text": "Prediction bands\nThe same figure constructed using the standard error for observations is:\n\n\nCode\n# add interval bounds\nregdata['lwr_obs'] = preds.predicted_mean - 2*preds.se_obs\nregdata['upr_obs'] = preds.predicted_mean + 2*preds.se_obs\n\nscatter = alt.Chart(regdata).mark_circle().encode(\n    x = alt.X('log_income', \n        scale = alt.Scale(zero = False),\n        title = 'log median income'),\n    y = alt.Y('gap', title = 'math achievement gap')\n)\n\ntrend = alt.Chart(regdata).mark_line(\n    color = 'black'\n).encode(\n    x = 'log_income',\n    y = 'fitted'\n)\n\nband = alt.Chart(regdata).mark_area(\n    opacity = 0.3, color = 'black'\n).encode(\n    x = 'log_income',\n    y = 'upr_obs',\n    y2 = 'lwr_obs'\n)\n\n(scatter + trend + band).configure_axis(\n    labelFontSize = 16,\n    titleFontSize = 18\n)"
+  },
+  {
+    "objectID": "slides/week8-prediction.html#confidence-interval-for-the-mean",
+    "href": "slides/week8-prediction.html#confidence-interval-for-the-mean",
+    "title": "Prediction",
+    "section": "Confidence interval for the mean",
+    "text": "Confidence interval for the mean\nPrediction objects come equipped with a method .conf_int() for computing confidence intervals.\n\nBy default, these will return 95% intervals for the mean. For the prediction at median income of 86K:\n\npred.conf_int()\n\narray([[0.00740212, 0.03118118]])\n\n\n\n\nInterpretation:\n\nWith 95% confidence, the mean achievement gap for a district with median income of 86K is estimated to favor boys by between 0.0074 and 0.0312 standard deviations from the national average."
+  },
+  {
+    "objectID": "slides/week8-prediction.html#prediction-intervals",
+    "href": "slides/week8-prediction.html#prediction-intervals",
+    "title": "Prediction",
+    "section": "Prediction intervals",
+    "text": "Prediction intervals\nThe same method can return prediction intervals for observations. Set obs = True to use the standard error for observations:\n\npred.conf_int(obs = True)\n\narray([[-0.20639627,  0.24497957]])\n\n\n\nInterpretation:\n\nWith 95% confidence, the precise achievement gap for a district with median income of 86K is estimated to be between 0.206 standard deviations favoring girls and 0.245 standard deviations favoring boys."
+  },
+  {
+    "objectID": "slides/week8-prediction.html#confidence-level",
+    "href": "slides/week8-prediction.html#confidence-level",
+    "title": "Prediction",
+    "section": "Confidence level",
+    "text": "Confidence level\nThe multiplier 2 gives an approximate 95% interval.\n\nWe can change that multiplier to obtain an interval for a different confidence level.\n\nprint('95% prediction interval: ', \n    pred.conf_int(alpha = 0.05, obs = True))\nprint('90% prediction interval: ', \n    pred.conf_int(alpha = 0.1, obs = True))\n\n95% prediction interval:  [[-0.20639627  0.24497957]]\n90% prediction interval:  [[-0.17002517  0.20860847]]\n\n\n\n\nThe confidence level is simply the percentage of the time that the interval covers the true value.\n\nthe 95% interval contains the observation of interest for 95% of samples\nthe 90% interval contains the observation of interest for 90% of samples"
+  },
+  {
+    "objectID": "slides/week8-prediction.html#summary_frame",
+    "href": "slides/week8-prediction.html#summary_frame",
+    "title": "Prediction",
+    "section": ".summary_frame()",
+    "text": ".summary_frame()\nThe .summary_frame() method is handy for dealing with multiple predictions:\n\n# explanatory variable array for 4 new observations\nincome_new = np.linspace(10000, 100000, 4)\nx_new = sm.tools.add_constant(np.log(income_new))\n\n# compute predictions\npred = slr.fit().get_prediction(x_new)\n\n# generate point estimates and intervals\npred_df = pred.summary_frame(alpha = 0.1)\npred_df['log_income'] = np.log(income_new)\n\npred_df\n\n\n\n\n\n  \n    \n      \n      mean\n      mean_se\n      mean_ci_lower\n      mean_ci_upper\n      obs_ci_lower\n      obs_ci_upper\n      log_income\n    \n  \n  \n    \n      0\n      -0.241194\n      0.022020\n      -0.277468\n      -0.204920\n      -0.433697\n      -0.048692\n      9.210340\n    \n    \n      1\n      -0.073374\n      0.006875\n      -0.084699\n      -0.062048\n      -0.262766\n      0.116019\n      10.596635\n    \n    \n      2\n      -0.005628\n      0.004832\n      -0.013589\n      0.002332\n      -0.194850\n      0.183593\n      11.156251\n    \n    \n      3\n      0.037550\n      0.007345\n      0.025450\n      0.049649\n      -0.151891\n      0.226991\n      11.512925\n    \n  \n\n\n\n\nA summary dataframe computed on a prediction grid returns the raw materials needed to plot uncertainty bands of different levels/types."
+  },
+  {
+    "objectID": "slides/week8-prediction.html#comparing-examples",
+    "href": "slides/week8-prediction.html#comparing-examples",
+    "title": "Predictions",
+    "section": "Comparing examples",
+    "text": "Comparing examples\nWhich is the prediction band and which is the mean?\n\n\n\n\nCode\n# construct prediction grid\nincome_grid = np.logspace(start = 10, stop = 12.5, num = 200, base = np.e)\nx_grid = sm.tools.add_constant(np.log(income_grid))\n\n# compute predictions\npreds = slr.fit().get_prediction(x_grid)\npred_df = preds.summary_frame(alpha = 0.01)\npred_df['log_income'] = np.log(income_grid)\n\n# visualization\ntrend = alt.Chart(pred_df).mark_line(\n    color = 'black'\n    ).encode(\n        x = 'log_income',\n        y = 'mean'\n    )\n\nband = alt.Chart(pred_df).mark_area(\n    opacity = 0.3, color = 'black'\n    ).encode(\n    x = 'log_income',\n    y = 'mean_ci_lower',\n    y2 = 'mean_ci_upper'\n)\n\n(scatter + trend + band).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n)\n\n\n\n\n\n\n\n\n\n\nCode\n# construct prediction grid\nincome_grid = np.logspace(start = 10, stop = 12.5, num = 200, base = np.e)\nx_grid = sm.tools.add_constant(np.log(income_grid))\n\n# compute predictions\npreds = slr.fit().get_prediction(x_grid)\npred_df = preds.summary_frame(alpha = 0.2)\npred_df['log_income'] = np.log(income_grid)\n\n# visualization\ntrend = alt.Chart(pred_df).mark_line(\n    color = 'black'\n    ).encode(\n        x = 'log_income',\n        y = 'mean'\n    )\n\nband = alt.Chart(pred_df).mark_area(\n    opacity = 0.3, color = 'black'\n    ).encode(\n    x = 'log_income',\n    y = 'obs_ci_lower',\n    y2 = 'obs_ci_upper'\n)\n\n(scatter + trend + band).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n)"
+  },
+  {
+    "objectID": "slides/week8-prediction.html#comparing-examples-1",
+    "href": "slides/week8-prediction.html#comparing-examples-1",
+    "title": "Predictions",
+    "section": "Comparing examples",
+    "text": "Comparing examples\nWhich is the 99% band and which is the 85% band?\n\n\n\n\nCode\n# construct prediction grid\nincome_grid = np.logspace(start = 10, stop = 12.5, num = 200, base = np.e)\nx_grid = sm.tools.add_constant(np.log(income_grid))\n\n# compute predictions\npreds = slr.fit().get_prediction(x_grid)\npred_df = preds.summary_frame(alpha = 0.01)\npred_df['log_income'] = np.log(income_grid)\n\n# visualization\ntrend = alt.Chart(pred_df).mark_line(\n    color = 'black'\n    ).encode(\n        x = 'log_income',\n        y = 'mean'\n    )\n\nband = alt.Chart(pred_df).mark_area(\n    opacity = 0.3, color = 'black'\n    ).encode(\n    x = 'log_income',\n    y = 'mean_ci_lower',\n    y2 = 'mean_ci_upper'\n)\n\n(scatter + trend + band).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n)\n\n\n\n\n\n\n\n\n\n\nCode\n# construct prediction grid\nincome_grid = np.logspace(start = 10, stop = 12.5, num = 200, base = np.e)\nx_grid = sm.tools.add_constant(np.log(income_grid))\n\n# compute predictions\npreds = slr.fit().get_prediction(x_grid)\npred_df = preds.summary_frame(alpha = 0.15)\npred_df['log_income'] = np.log(income_grid)\n\n# visualization\ntrend = alt.Chart(pred_df).mark_line(\n    color = 'black'\n    ).encode(\n        x = 'log_income',\n        y = 'mean'\n    )\n\nband = alt.Chart(pred_df).mark_area(\n    opacity = 0.3, color = 'black'\n    ).encode(\n    x = 'log_income',\n    y = 'mean_ci_lower',\n    y2 = 'mean_ci_upper'\n)\n\n(scatter + trend + band).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n)"
+  },
+  {
+    "objectID": "slides/week8-prediction.html#check-your-understanding",
+    "href": "slides/week8-prediction.html#check-your-understanding",
+    "title": "Prediction",
+    "section": "Check your understanding",
+    "text": "Check your understanding\nWhich is the prediction band and which is the mean? Why?\n\n\n\n\nCode\n# construct prediction grid\nincome_grid = np.logspace(start = 10, stop = 12.5, num = 200, base = np.e)\nx_grid = sm.tools.add_constant(np.log(income_grid))\n\n# compute predictions\npreds = slr.fit().get_prediction(x_grid)\npred_df = preds.summary_frame(alpha = 0.01)\npred_df['log_income'] = np.log(income_grid)\n\n# visualization\ntrend = alt.Chart(pred_df).mark_line(\n    color = 'black'\n    ).encode(\n        x = 'log_income',\n        y = 'mean'\n    )\n\nband = alt.Chart(pred_df).mark_area(\n    opacity = 0.3, color = 'black'\n    ).encode(\n    x = 'log_income',\n    y = 'mean_ci_lower',\n    y2 = 'mean_ci_upper'\n)\n\n(scatter + trend + band).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n)\n\n\n\n\n\n\n\n\n\n\nCode\n# construct prediction grid\nincome_grid = np.logspace(start = 10, stop = 12.5, num = 200, base = np.e)\nx_grid = sm.tools.add_constant(np.log(income_grid))\n\n# compute predictions\npreds = slr.fit().get_prediction(x_grid)\npred_df = preds.summary_frame(alpha = 0.2)\npred_df['log_income'] = np.log(income_grid)\n\n# visualization\ntrend = alt.Chart(pred_df).mark_line(\n    color = 'black'\n    ).encode(\n        x = 'log_income',\n        y = 'mean'\n    )\n\nband = alt.Chart(pred_df).mark_area(\n    opacity = 0.3, color = 'black'\n    ).encode(\n    x = 'log_income',\n    y = 'obs_ci_lower',\n    y2 = 'obs_ci_upper'\n)\n\n(scatter + trend + band).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n)"
+  },
+  {
+    "objectID": "slides/week8-prediction.html#check-your-understanding-1",
+    "href": "slides/week8-prediction.html#check-your-understanding-1",
+    "title": "Prediction",
+    "section": "Check your understanding",
+    "text": "Check your understanding\nWhich is the 99% band and which is the 85% band? Why?\n\n\n\n\nCode\n# construct prediction grid\nincome_grid = np.logspace(start = 10, stop = 12.5, num = 200, base = np.e)\nx_grid = sm.tools.add_constant(np.log(income_grid))\n\n# compute predictions\npreds = slr.fit().get_prediction(x_grid)\npred_df = preds.summary_frame(alpha = 0.01)\npred_df['log_income'] = np.log(income_grid)\n\n# visualization\ntrend = alt.Chart(pred_df).mark_line(\n    color = 'black'\n    ).encode(\n        x = 'log_income',\n        y = 'mean'\n    )\n\nband = alt.Chart(pred_df).mark_area(\n    opacity = 0.3, color = 'black'\n    ).encode(\n    x = 'log_income',\n    y = 'mean_ci_lower',\n    y2 = 'mean_ci_upper'\n)\n\n(scatter + trend + band).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n)\n\n\n\n\n\n\n\n\n\n\nCode\n# construct prediction grid\nincome_grid = np.logspace(start = 10, stop = 12.5, num = 200, base = np.e)\nx_grid = sm.tools.add_constant(np.log(income_grid))\n\n# compute predictions\npreds = slr.fit().get_prediction(x_grid)\npred_df = preds.summary_frame(alpha = 0.15)\npred_df['log_income'] = np.log(income_grid)\n\n# visualization\ntrend = alt.Chart(pred_df).mark_line(\n    color = 'black'\n    ).encode(\n        x = 'log_income',\n        y = 'mean'\n    )\n\nband = alt.Chart(pred_df).mark_area(\n    opacity = 0.3, color = 'black'\n    ).encode(\n    x = 'log_income',\n    y = 'mean_ci_lower',\n    y2 = 'mean_ci_upper'\n)\n\n(scatter + trend + band).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n)"
+  },
+  {
+    "objectID": "slides/week8-prediction.html#predictive-accuracy",
+    "href": "slides/week8-prediction.html#predictive-accuracy",
+    "title": "Prediction",
+    "section": "Predictive accuracy",
+    "text": "Predictive accuracy\nHow good are the predictions?\nThe standard measure of accuracy is mean square error (MSE):\n\\[\nMSE(y, \\hat{y}) = \\frac{1}{n}\\sum_i (y_i - \\hat{y}_i)^2\n\\]\nSimilar to a variance, but measures the spread of observations about the predictions rather than their spread about the sample mean."
+  },
+  {
+    "objectID": "slides/week8-prediction.html#expected-squared-error",
+    "href": "slides/week8-prediction.html#expected-squared-error",
+    "title": "Prediction",
+    "section": "Expected squared error",
+    "text": "Expected squared error\nMSE is an estimate of \\(\\mathbb{E}(y - \\hat{y})^2\\).\n\nFor genuine predictions, \\(y_i\\) and \\(\\hat{y}_i\\) are uncorrelated, because:\n\nnew observations are independent of past observations\nthe prediction depends only on past observations (through \\(\\hat{\\beta}\\))\n\n\n\nAs a result one can show:\n\\[\n\\mathbb{E}(y_i - \\hat{y}_i)^2 = \\text{var}\\epsilon_i + \\text{var}\\hat{y}_i\n\\]\n\nThe expected squared error is the variance of the observation plus the variance of the prediction.\nLarger expected prediction errors come from high prediction variance or high observation variance or both."
+  },
+  {
+    "objectID": "slides/week8-prediction.html#data-partitioning",
+    "href": "slides/week8-prediction.html#data-partitioning",
+    "title": "Prediction",
+    "section": "Data partitioning",
+    "text": "Data partitioning\nIf fitted values are used to calculate MSE, \\(y_i\\) and \\(\\hat{y}_i\\) will be correlated, and MSE will be biased.\n\nAnother way of understanding: the model will have an advantage on the data that it was fit to.\n\n\nTo avoid this problem, it is common practice to partition data into nonoverlapping subsets:\n\none used to fit the model\nanother used to evaluate predictions"
+  },
+  {
+    "objectID": "slides/week8-prediction.html#fitting-to-training-partition",
+    "href": "slides/week8-prediction.html#fitting-to-training-partition",
+    "title": "Prediction",
+    "section": "Fitting to ‘training’ partition",
+    "text": "Fitting to ‘training’ partition\n\n# grab 100 rows at random\nnp.random.seed(51823)\nidx = np.random.choice(regdata.index.values, size = 100, replace = False).tolist()\n\n# partition dataset\ntest = regdata.loc[idx]\ntrain = regdata.drop(index = idx)\n\n# fit model to training subset\nx_train = sm.tools.add_constant(train.log_income)\ny_train = train.gap\nslr_part = sm.OLS(endog = y_train, exog = x_train)\n\n\nNote that the coefficient estimates are a little different:\n\n\nCode\nprint('fit to full data: ', slr.fit().params)\nprint('fit to training partition: ', slr_part.fit().params.values)\n\n\nfit to full data:  [-1.35616996  0.12105696]\nfit to training partition:  [-1.15627389  0.10319151]\n\n\nAs are the error variance estimates:\n\n\nCode\nprint('fit to full data: ', slr.fit().scale)\nprint('fit to training partition: ', slr_part.fit().scale)\n\n\nfit to full data:  0.013171170616137325\nfit to training partition:  0.011804122493311088"
+  },
+  {
+    "objectID": "slides/week8-prediction.html#predictions-on-test-partition",
+    "href": "slides/week8-prediction.html#predictions-on-test-partition",
+    "title": "Prediction",
+    "section": "Predictions on ‘test’ partition",
+    "text": "Predictions on ‘test’ partition\n\n# compute predictions\nx_test = sm.tools.add_constant(test.log_income)\npreds = slr_part.fit().get_prediction(x_test)\ny_hat = preds.predicted_mean\n\n# prediction errors\npred_errors = test.gap - y_hat\n\n# mean square error\nmse = (pred_errors**2).mean()\n\n# square root, for interpretability\nrmse = np.sqrt(mse)\nprint('root mean square error: ', rmse)\n\nroot mean square error:  0.14377667235816577\n\n\nInterpretation:\n\nThe model predictions vary about observed values with a standard deviation of 0.144 (SD of national average)."
+  },
+  {
+    "objectID": "slides/week8-prediction.html#remark",
+    "href": "slides/week8-prediction.html#remark",
+    "title": "Predictions",
+    "section": "Remark",
+    "text": "Remark\n‘Training MSE’ – MSE computed using the fitted values – is simply the estimate of the error variance, rescaled by \\(\\frac{n - 1}{n}\\).\n\nSince the model is fit by minimizing this quantity, out-of-sample predictions are absolutely necessary to get a good sense of the predictive reliability."
+  },
+  {
+    "objectID": "slides/week8-prediction.html#mse-on-training-partition",
+    "href": "slides/week8-prediction.html#mse-on-training-partition",
+    "title": "Prediction",
+    "section": "MSE on training partition",
+    "text": "MSE on training partition\nCompare with MSE computed using fitted values:\n\n\nCode\n# note, these are just model residuals\nfit_errors = train.gap - slr_part.fit().fittedvalues\n\n# training rmse\nprint('rmse on training partition: ',np.sqrt((fit_errors**2).mean()))\nprint('rmse on test partition: ', rmse)\n\n\nrmse on training partition:  0.10843963485562963\nrmse on test partition:  0.14377667235816577\n\n\n\nNote that ‘training MSE’ – MSE computed using the fitted values – is simply the estimate of the error variance, rescaled by \\(\\frac{n - 1}{n}\\).\n\n\nSince the model is fit by minimizing this quantity, out-of-sample predictions are absolutely necessary to get a good sense of the predictive reliability."
+  },
+  {
+    "objectID": "slides/week8-prediction.html#next-time",
+    "href": "slides/week8-prediction.html#next-time",
+    "title": "Prediction",
+    "section": "Next time",
+    "text": "Next time\nWe’ll extend the simple linear regression model to multiple explanatory variables."
+  },
+  {
+    "objectID": "content.html#week-8",
+    "href": "content.html#week-8",
+    "title": "Materials",
+    "section": "Week 8",
+    "text": "Week 8\nReadings:\n\nLDS 17.5 Basics of prediction intervals\nLDS 15.4 Multiple regression\n\nAssignments:\n\nHW4, Discrimination in disability benefit allocation, due Monday, June 5\n\nMonday: Prediction [slides]\nLab sections Fitting regression models [html] [notebook]"
   }
 ]

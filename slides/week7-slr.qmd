@@ -1,7 +1,7 @@
 ---
 title: "Simple linear regression"
 author: "PSTAT100 Spring 2023"
-date: "Week 7, Lecture 1"
+date: "Week 7, Lecture 2"
 format: 
     revealjs:
         smaller: true
@@ -515,7 +515,7 @@ slr.fit().cov_params()
 * the intercept estimate varies by an estimated $\sqrt{0.0171} = 0.131$ across datasets, with $x_i$ fixed
 * the slope estimate varies by an estimated $\sqrt{0.00014} = 0.0118$ across datasets, with $x_i$ fixed
 
-## Confidencne intervals
+## Confidence intervals
 
 About 95% of the time, the true values $\beta_0, \beta_1$ will be within 2SE of any particular estimates $\hat{\beta}_0, \hat{\beta}_1$.
 
@@ -555,174 +555,4 @@ It's fairly common practice to add a *band* around the plotted line to indicate 
 :::
 
 :::
-
-## Prediction
-
-Predictions for a district not in the dataset can be calculated by simply plugging in the explanatory variable for the new observation.
-
-. . .
-
-If for example, we'd like to predict the mean achievement gap in math for a district with a median income of 86K, we'd use:
-$$
-x_{new} = \log(86000)
-$$
-
-And compute:
-$$
-\hat{y}_{new} = \hat{\beta}_0 + \hat{\beta}_1\log(86000)
-$$
-
-. . .
-
-In `statsmodels`, there is a `.predict` method to perform this calculation:
-```{python}
-#| code-fold: false
-# prediction
-newobs = np.array([1, np.log(86000)])
-slr.fit().predict(newobs)
-```
-
-## Standard errors for predictions
-
-There are *two* kinds of variability about a prediction:
-
-1. variability of the mean (due to estimation error)
-2. variability of the observation (due to estimation error and random error)
-
-. . .
-
-The first is smaller, because it's easier to estimate the average value for a given $x$ than the exact value:
-
-* (less uncertainty) the *typical* achievement gap for a district with a given median income
-* (more uncertainty) the *precise* achievement gap for such-and-such district 
-
-## Uncertainty about the mean
-
-The variance of the estimated mean at $\mathbf{x}_{new}$ is:
-$$
-\text{var}(\widehat{\mathbb{E}y_{new}}) = \sigma^2\left(\mathbf{x}_{new}'(\mathbf{X'X})^{-1}\mathbf{x}_{new}\right)
-$$
-
-. . .
-
-So the estimated standard deviation $\mathbf{x}_{new}$ is:
-$$
-SE\left(\widehat{\mathbb{E}y_{new}}\right) = \sqrt{\hat{\sigma}^2\left(\mathbf{x}_{new}'(\mathbf{X'X})^{-1}\mathbf{x}_{new}\right)}
-$$
-
-. . .
-
-For derivations of these facts, see PSTAT126.
-
-## Uncertainty about the mean
-
-The value of the standard error is computed as an attribute of the results of `.get_prediction()`:
-```{python}
-#| code-fold: false
-pred_rslt = slr.fit().get_prediction(newobs) 
-pred_rslt.se_mean
-```
-
-. . .
-
-But a 95% confidence interval can also be returned (mean $\pm$ 2SE)
-```{python}
-#| code-fold: false
-pred_rslt.conf_int(obs = False)
-```
-
-. . .
-
-Interpretation:
-
-> With 95% confidence, the mean achievement gap for a district with median income of 86K is estimated to favor boys by between 0.0074 and 0.0312 standard deviations from the national average.
-
-## Uncertainty about predicted observations
-
-The variance of a predicted observation is given by:
-$$
-\text{var}(\hat{y}_{new}) = \sigma^2\left( 1 + \mathbf{x}_{new}'(\mathbf{X'X})^{-1}\mathbf{x}_{new}\right)
-$$
-
-. . .
-
-So the estimated standard deviation of the prediction is:
-$$
-SE\left(\hat{y}_{new}\right) = \sqrt{\hat{\sigma}^2\left( 1 + \mathbf{x}_{new}'(\mathbf{X'X})^{-1}\mathbf{x}_{new}\right)}
-$$
-
-. . .
-
-Note that this is equal to the estimated variance of the mean at $\mathbf{x}_{new}$ plus the residual variance -- it will be relatiely large whenever there is a lot of unexplained variability.
-
-## Uncertainty about predicted observations
-
-The computation is similar:
-```{python}
-#| code-fold: false
-pred_rslt.se_obs
-```
-
-. . .
-
-Ditto intervals:
-```{python}
-#| code-fold: false
-pred_rslt.conf_int(obs = True)
-```
-
-. . .
-
-Interpretation:
-
-> With 95% confidence, the precise achievement gap for a district with median income of 86K is estimated to be between 0.206 standard deviations favoring girls and 0.245 standard deviations favoring boys.
-
-## Two types of predictions
-
-Think of the difference as being between two types of predictions:
-
-1. Predicted means
-2. Predicted observations
-
-. . .
-
-The uncertainty associated with predicting observations is nearly 20x larger than the uncertainty associated with predicting the mean value:
-```{python}
-#| code-fold: false
-pred_rslt.se_obs/pred_rslt.se_mean
-```
-
-. . .
-
-This is attributable to the model capturing only 14% of variability in the raw data.
-
-## Prediction uncertainty
-
-The prediction uncertainty is considerable, but consistent with the variability we see in the data.
-
-![](figures/fig8-prediction.png)
-
-## Summary
-
-This was our first week on statistical models.
-
-* A statistical model is at its core a probability distribution representing a data-generating process.
-
-* The distributions you know and love from PSTAT120A are all simple models.
-
-. . .
-
-Our focus was on the **simple linear regression model**, according to which _**one variable of interest is a linear function of another variable and a random error**_.
-
-* Parameters are estimated by minimizing residual variance (least squares).
-
-* The model assumes normality, linearity, constant variance, and independence.
-
-* Useful for both prediction and inference.
-
-* Estimated variance allows for uncertainty quantification.
-
-. . .
-
-Next week we'll discuss extending this model to cases with *multiple* explanatory variables.
 
