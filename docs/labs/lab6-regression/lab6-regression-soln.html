@@ -233,7 +233,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         \end{array}\right]_{\;n \times p} \qquad
     \beta = \left[\begin{array}{c} \beta_0 \\ \beta_1 \\ \vdots \\ \beta_{p - 1} \end{array} \right]_{\;p \times 1} \qquad
     \epsilon = \left[\begin{array}{c} \epsilon_1 \\ \epsilon_2 \\ \vdots \\ \epsilon_n \end{array}\right]_{\;n \times 1}\]</span></p>
-<p><strong>Fitting</strong> a model of this form means <em><strong>estimating the parameters</strong></em> <span class="math inline">\(\beta_0, \beta_1, \dots, \beta_{p - 1}\)</span> and <span class="math inline">\(\sigma^2\)</span> from a set of data. * The ordinary least squares (OLS) estimates of <span class="math inline">\(\beta\)</span>, which are best under most circumstances, are</p>
+<p><strong>Fitting</strong> a model of this form means <em><strong>estimating the parameters</strong></em> <span class="math inline">\(\beta_0, \beta_1, \dots, \beta_{p - 1}\)</span> and <span class="math inline">\(\sigma^2\)</span> from a set of data.</p>
+<ul>
+<li>The ordinary least squares (OLS) estimates of <span class="math inline">\(\beta\)</span>, which are best under most circumstances, are</li>
+</ul>
 <p><span class="math display">\[\hat{\beta} = (\mathbf{X'X})^{-1}\mathbf{X'y}\]</span></p>
 <ul>
 <li>The error variance <span class="math inline">\(\sigma^2\)</span> can be estimated by</li>
@@ -241,7 +244,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><span class="math display">\[\hat{\sigma}^2 = \frac{1}{n - p - 1}\left(\mathbf{y} - \mathbf{X}\hat{\beta}\right)'\left(\mathbf{y} - \mathbf{X}\hat{\beta}\right)\]</span></p>
 <p>When fitting a linear model, it is also of interest to quantify uncertainty by estimating the variability of <span class="math inline">\(\hat{\beta}\)</span> and measure overall quality of fit. This lab illustrates that process and the computations involved.</p>
 <p><strong>Objectives</strong></p>
-<p>In this lab, you’ll learn how to: * compute OLS estimates; * calculate fitted values and residuals; * compute the error variance estimate; * compute the variance-covariance matrix of <span class="math inline">\(\hat{\beta}\)</span>, which quantifies the variability of model estimates; * compute standard errors for each model estimate; * compute the proportion of variation captured by a linear model.</p>
+<p>In this lab, you’ll learn how to:</p>
+<ul>
+<li>compute OLS estimates;</li>
+<li>calculate fitted values and residuals;</li>
+<li>compute the error variance estimate;</li>
+<li>compute the variance-covariance matrix of <span class="math inline">\(\hat{\beta}\)</span>, which quantifies the variability of model estimates;</li>
+<li>compute standard errors for each model estimate;</li>
+<li>compute the proportion of variation captured by a linear model.</li>
+</ul>
 <p>Throughout you’ll use simple visualizations to help make the connection between fitted models and the aspects of a dataset that model features describe.</p>
 </section>
 <section id="data-fertility-rates" class="level1">
@@ -538,7 +549,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   \underbrace{\left[\begin{array}{c} \beta_0 \\ \beta_1 \end{array}\right]}_\beta
   + \underbrace{\left[\begin{array}{c} \epsilon_1 \\ \vdots \\ \epsilon_n \end{array}\right]}_\epsilon$$
   </code></pre>
-<p>Notice that the explanatory variable matrix <span class="math inline">\(\mathbf{X}\)</span> includes a column of ones for the intercept. So the quantities needed are: * <span class="math inline">\(\mathbf{y}\)</span>, a one-dimensional array of the total fertility rates for each country; and * <span class="math inline">\(\mathbf{X}\)</span>, a two-dimensional array with a column of ones (intercept) and a column of the expected years of education for women (explanatory variable).</p>
+<p>Notice that the explanatory variable matrix <span class="math inline">\(\mathbf{X}\)</span> includes a column of ones for the intercept. So the quantities needed are:</p>
+<ul>
+<li><span class="math inline">\(\mathbf{y}\)</span>, a one-dimensional array of the total fertility rates for each country; and</li>
+<li><span class="math inline">\(\mathbf{X}\)</span>, a two-dimensional array with a column of ones (intercept) and a column of the expected years of education for women (explanatory variable).</li>
+</ul>
 <p>The cell below constructs these arrays as pandas objects.</p>
 <div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># retrieve response</span></span>
