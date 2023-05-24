@@ -150,3 +150,5 @@ _**NO lab sections this week**_
 **Monday**: Prediction [[slides](slides/week8-prediction.qmd)]
 
 **Lab sections** Fitting regression models [[html](labs/lab6-regression/lab6-regression.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Flab6-regression%2Flab6-regression.ipynb&branch=main)]
+
+**Wednesday**: Multiple regression [[slides](slides/week8-mlr.qmd)]
