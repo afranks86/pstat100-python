@@ -1,5 +1,5 @@
 ---
-title: "Multiple regression, categorical variables"
+title: "Multiple regression"
 author: "PSTAT100 Spring 2023"
 date: "Week 8, Lecture 1"
 format: 
@@ -64,6 +64,14 @@ trees = trees_raw.sample(n = 2000)
 # read in lab 6 data
 fertility = pd.read_csv('data/lab6-fertility-data.csv').set_index('Country')
 ```
+
+## Announcements
+
+No class Monday 5/29 due to Memorial Day.
+
+* Assignments due Tuesday instead.
+* Late deadline moved to Thursday.
+* Wednesday office hour cancelled on 5/31.
 
 ## Loose ends
 
@@ -729,6 +737,7 @@ $$
 ## Interpreting estimates
 
 ```{python}
+#| echo: false
 coef_tbl
 ```
 
@@ -744,14 +753,13 @@ Prediction works the same way, but we need to supply the indicator encoding rath
 #| code-line-numbers: '1'
 x_new = np.array([1, np.log(115000), 0, 1, 0])
 pred = rslt.get_prediction(x_new)
-
 np.exp(pred.summary_frame())
 ```
 
 Check your understanding and fill in the blanks:
 
-* the median tree cover for a census block with [...] is estimated to be between _______ and _______ percent
-* the tree cover for a census block with [...] is estimated to be between _______ and _______ percent
+* the median tree cover for a _______ density census block with mean income _______ is estimated to be between _______ and _______ percent
+* the tree cover for a _______ density census block with mean income _______ is estimated to be between _______ and _______ percent
 
 ## Comments on scope of inference
 
