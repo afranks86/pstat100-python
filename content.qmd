@@ -112,7 +112,7 @@ format: html
 
 *Assignments*:
 
-- HW3, Diatom paleoclimatology case study, due Monday, May 22 [[html](hw/hw3-diatom/hw3-diatom.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Fhw3-diatom%2Fhw3-diatom.ipynb&branch=main)]
+- HW3, Diatom paleoclimatology case study, due Monday, May 22 [[html](hw/hw3-diatom/hw3-diatom.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Fhw3-diatom%2Fhw3-diatom.ipynb&branch=main)] [[solutions](hw/hw3-diatom/hw3-diatom-soln.ipynb)]
 
 **Monday**: Covariance, correlation, and spectral decomposition [[slides](slides/week6-covariation.qmd)]
 
@@ -132,7 +132,7 @@ _**NO lab sections this week**_
 
 **Monday**: Modeling concepts; least squares [[slides](slides/week7-lse.qmd)]
 
-**Lab sections**: Principal components [[html](labs/lab5-pca/lab5-pca.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Flab5-pca%2Flab5-pca.ipynb&branch=main)]
+**Lab sections**: Principal components [[html](labs/lab5-pca/lab5-pca.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Flab5-pca%2Flab5-pca.ipynb&branch=main)] [[solutions](labs/lab5-pca/lab5-pca-soln.ipynb)]
 
 **Wednesday**: The simple linear regression model [[slides](slides/week7-slr.qmd)]
 
@@ -145,7 +145,8 @@ _**NO lab sections this week**_
 
 *Assignments*: 
 
-- HW4, Discrimination in disability benefit allocation, due Monday, June 5
+- HW4, Discrimination in disability benefit allocation, due Wednesday, June 7 [[html](hw/hw4-dds/hw4-dds.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Fhw4-dds%2Fhw4-dds.ipynb&branch=main)]
+
 
 **Monday**: Prediction [[slides](slides/week8-prediction.qmd)]
 

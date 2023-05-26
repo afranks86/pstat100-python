@@ -130,7 +130,7 @@
     "href": "content.html#week-6",
     "title": "Materials",
     "section": "Week 6",
-    "text": "Week 6\nReadings:\n\nLDS 10.2-10.5 Exploratory data analysis\nPDSH5.9 Principal component andalysis\n\nAssignments:\n\nHW3, Diatom paleoclimatology case study, due Monday, May 22 [html] [notebook]\n\nMonday: Covariance, correlation, and spectral decomposition [slides]\nNO lab sections this week\nWednesday: Principal components [slides]"
+    "text": "Week 6\nReadings:\n\nLDS 10.2-10.5 Exploratory data analysis\nPDSH5.9 Principal component andalysis\n\nAssignments:\n\nHW3, Diatom paleoclimatology case study, due Monday, May 22 [html] [notebook] [solutions]\n\nMonday: Covariance, correlation, and spectral decomposition [slides]\nNO lab sections this week\nWednesday: Principal components [slides]"
   },
   {
     "objectID": "hw/hw1-brfss/hw1-brfss-soln.html",
@@ -3672,7 +3672,7 @@
     "href": "content.html#week-7",
     "title": "Materials",
     "section": "Week 7",
-    "text": "Week 7\nReadings:\n\nLDS 15.1-15.3 Simple linear models\n\nAssignments:\n\nMini project 2, due Tuesday, May 30 [html] [notebook]\n\nMonday: Modeling concepts; least squares [slides]\nLab sections: Principal components [html] [notebook]\nWednesday: The simple linear regression model [slides]"
+    "text": "Week 7\nReadings:\n\nLDS 15.1-15.3 Simple linear models\n\nAssignments:\n\nMini project 2, due Tuesday, May 30 [html] [notebook]\n\nMonday: Modeling concepts; least squares [slides]\nLab sections: Principal components [html] [notebook] [solutions]\nWednesday: The simple linear regression model [slides]"
   },
   {
     "objectID": "labs/lab5-pca/lab5-pca-soln.html",
@@ -4981,7 +4981,7 @@
     "href": "content.html#week-8",
     "title": "Materials",
     "section": "Week 8",
-    "text": "Week 8\nReadings:\n\nLDS 17.5 Basics of prediction intervals\nLDS 15.4 Multiple regression\n\nAssignments:\n\nHW4, Discrimination in disability benefit allocation, due Monday, June 5\n\nMonday: Prediction [slides]\nLab sections Fitting regression models [html] [notebook]\nWednesday: Multiple regression [slides]"
+    "text": "Week 8\nReadings:\n\nLDS 17.5 Basics of prediction intervals\nLDS 15.4 Multiple regression\n\nAssignments:\n\nHW4, Discrimination in disability benefit allocation, due Wednesday, June 7 [html] [notebook]\n\nMonday: Prediction [slides]\nLab sections Fitting regression models [html] [notebook]\nWednesday: Multiple regression [slides]"
   },
   {
     "objectID": "labs/lab6-regression/data/data-preprocessing.html",
@@ -5318,5 +5318,40 @@
     "title": "Multiple regression",
     "section": "Announcements",
     "text": "Announcements\nNo class Monday 5/29 due to Memorial Day.\n\nAssignments due Tuesday instead.\nLate deadline moved to Thursday.\nWednesday office hour cancelled on 5/31."
+  },
+  {
+    "objectID": "hw/hw4-dds/data/california-dds-documentation.html",
+    "href": "hw/hw4-dds/data/california-dds-documentation.html",
+    "title": "PSTAT100",
+    "section": "",
+    "text": "NAME: Expenditure data for developmentally-disabled California residents TYPE: Sample SIZE: 1000 observations, 6 variables ARTICLE TITLE: Simpson’s paradox: A data set and discrimination case study exercise\n\n\nThe State of California Department of Developmental Services (DDS) is responsible for allocating funds that support over 250,000 developmentally-disabled residents (referred to as “consumers”). The data set represents a sample of 1,000 of these consumers. Biographical characteristics and expenditure data (i.e., the dollar amount the State spends on each consumer in supporting these individuals and their families) are included in the data set for each consumer.\n\n\n\nThe data set originates from DDS’s “Client Master File.” In order to remain in compliance with California State Legislation, the data have been altered to protect the rights and privacy of specific individual consumers.\n\n\n\nThe data reside in a csv file and are tab-delimited. A header line contains the name of the variables. There are no missing values.\nId: 5-digit, unique identification code for each consumer (similar to a social security number and used for identification purposes)\nAge Cohort: Binned age variable represented as six age cohorts (0-5, 6-12, 13-17, 18-21, 22-50, and 51+) Age: Unbinned age variable Gender: Male or Female Expenditures: Dollar amount of annual expenditures spent on each consumer Ethnicity: Eight ethnic groups (American Indian, Asian, Black, Hispanic, Multi-race, Native Hawaiian, Other, and White non-Hispanic)\n\n\n\nThese data are from a dataset used in an alleged case of discrimination privileging White non-Hispanics over Hispanics in the allocation of funds. Based on the initial analysis, it would appear that discrimination existed; however, a more in-depth analysis revealed that discrimination did not exist and that Simpson’s-paradox phenomenon had occurred.\n\n\n\nThis data set can be used to teach a range of statistical concepts including Simpson’s paradox. The importance of considering all variables in an analysis by conducting a bivariate (instead of just a univariate analysis) is highlighted in this data set.\n\n\n\nName: Stanley Taylor and Amy Mickel Affiliation: California State University, Sacramento Address: College of Business Administration, CSUS, Sacramento, CA 95819-6088, USA Email: sataylor@csus.edu, mickela@csus.edu"
+  },
+  {
+    "objectID": "hw/hw4-dds/hw4-dds-soln.html",
+    "href": "hw/hw4-dds/hw4-dds-soln.html",
+    "title": "PSTAT100",
+    "section": "",
+    "text": "# Initialize Otter\nimport otter\ngrader = otter.Notebook(\"hw4-dds.ipynb\")"
+  },
+  {
+    "objectID": "hw/hw4-dds/hw4-dds-soln.html#background-california-department-of-developmental-services",
+    "href": "hw/hw4-dds/hw4-dds-soln.html#background-california-department-of-developmental-services",
+    "title": "PSTAT100",
+    "section": "Background: California Department of Developmental Services",
+    "text": "Background: California Department of Developmental Services\nFrom Taylor, S. A., & Mickel, A. E. (2014). Simpson’s Paradox: A Data Set and Discrimination Case Study Exercise. Journal of Statistics Education, 22(1):\n\nMost states in the USA provide services and support to individuals with developmental disabilities (e.g., intellectual disability, cerebral palsy, autism, etc.) and their families. The agency through which the State of California serves the developmentally-disabled population is the California Department of Developmental Services (DDS) … One of the responsibilities of DDS is to allocate funds that support over 250,000 developmentally-disabled residents. A number of years ago, an allegation of discrimination was made and supported by a univariate analysis that examined average annual expenditures on consumers by ethnicity. The analysis revealed that the average annual expenditures on Hispanic consumers was approximately one-third of the average expenditures on White non-Hispanic consumers. This finding was the catalyst for further investigation; subsequently, state legislators and department managers sought consulting services from a statistician.\n\nIn this assignment, you’ll analyze the deidentified DDS data published with this article to answer the question: is there evidence of ethnic or gender discrimination in allocation of DDS funds? This will involve practicing the following:\n\nexploratory data visualization\nregression analysis\nmodel visualization\n\nAside: The JSE article focuses on what’s known as Simpson’s paradox, an arithmetic phenomenon in which aggregate trends across multiple groups show the opposite of within-group trends. We won’t emphasize this topic, though the data does provide a nice illustration."
+  },
+  {
+    "objectID": "hw/hw4-dds/hw4-dds.html",
+    "href": "hw/hw4-dds/hw4-dds.html",
+    "title": "PSTAT100",
+    "section": "",
+    "text": "# Initialize Otter\nimport otter\ngrader = otter.Notebook(\"hw4-dds.ipynb\")"
+  },
+  {
+    "objectID": "hw/hw4-dds/hw4-dds.html#background-california-department-of-developmental-services",
+    "href": "hw/hw4-dds/hw4-dds.html#background-california-department-of-developmental-services",
+    "title": "PSTAT100",
+    "section": "Background: California Department of Developmental Services",
+    "text": "Background: California Department of Developmental Services\nFrom Taylor, S. A., & Mickel, A. E. (2014). Simpson’s Paradox: A Data Set and Discrimination Case Study Exercise. Journal of Statistics Education, 22(1):\n\nMost states in the USA provide services and support to individuals with developmental disabilities (e.g., intellectual disability, cerebral palsy, autism, etc.) and their families. The agency through which the State of California serves the developmentally-disabled population is the California Department of Developmental Services (DDS) … One of the responsibilities of DDS is to allocate funds that support over 250,000 developmentally-disabled residents. A number of years ago, an allegation of discrimination was made and supported by a univariate analysis that examined average annual expenditures on consumers by ethnicity. The analysis revealed that the average annual expenditures on Hispanic consumers was approximately one-third of the average expenditures on White non-Hispanic consumers. This finding was the catalyst for further investigation; subsequently, state legislators and department managers sought consulting services from a statistician.\n\nIn this assignment, you’ll analyze the deidentified DDS data published with this article to answer the question: is there evidence of ethnic or gender discrimination in allocation of DDS funds? This will involve practicing the following:\n\nexploratory data visualization\nregression analysis\nmodel visualization\n\nAside: The JSE article focuses on what’s known as Simpson’s paradox, an arithmetic phenomenon in which aggregate trends across multiple groups show the opposite of within-group trends. We won’t emphasize this topic, though the data does provide a nice illustration."
   }
 ]

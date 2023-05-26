@@ -6,8 +6,9 @@ published-title: "Updated"
 
 ::: {.callout-note}
 ## Announcements
-* Lab 5 and HW3 due Monday, May 22, 11:59pm PST with late submissions until Wednesday, May 24, 11:59pm PST
-* **No class Monday 5/29** due to Memorial Day 
+* **No class or section Monday 5/29** due to Memorial Day 
+* MP2 deadline extended: due Wednesday 5/31 with late submissions through Friday 6/2
+* HW4 posted [here](content#week-8)
 * Data science capstone applications for 2023-2024 open at [https://pstat197.github.io/](https://pstat197.github.io/) and through summer; apply by May 15 for priority consideration
 :::
 
