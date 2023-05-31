@@ -1,7 +1,7 @@
 ---
 title: "Classification"
 author: "PSTAT100 Spring 2023"
-date: "Week 8, Lecture 1"
+date: "Week 9, Lecture 1"
 format: 
     revealjs:
         smaller: true
@@ -490,7 +490,7 @@ $$
 
 But what if we want to classify a person as diabetic or not diabetic? Should we declare a case when...
 
-* more probable than not ($\hat{p} > 0.5$)?
+* more probable than not: $\hat{p} > 0.5$?
 * highly probable, say $\hat{p} > 0.8$?
 * somewhat probable, say $\hat{p} > 0.2$?
 
@@ -615,9 +615,13 @@ alt.Chart(roc).mark_line().encode(
 ```
 :::
 
-::: {column width=40%}
+::: {.column width=40%}
+
+What to look for:
+
 * the closer the curve gets to the upper left side, the better the classifier
 * area under the curve often used as an accuracy metric
+
 :::
 
 :::
@@ -653,14 +657,17 @@ The logistic function has heavier tails.
 
 ```{python}
 from scipy.stats import norm
+# grid of values
 vals = pd.DataFrame({
     'x': np.linspace(-5, 5, 200)
 })
 
+# compute probit and logit
 vals['logit'] = 1/(1 + np.exp(-vals.x))
 vals['probit'] = norm.cdf(vals.x)
 vals = vals.melt(id_vars = 'x', var_name = 'model', value_name = 'pr')
 
+# plot
 alt.Chart(vals).mark_line().encode(
     x = alt.X('x', title = 'x*beta'),
     y = alt.Y('pr', title = 'Pr(Y = 1)'),
@@ -677,8 +684,8 @@ alt.Chart(vals).mark_line().encode(
 
 ## Probit fit to diabetes data
 
+Here are the estimates from the probit model:
 ```{python}
-#| code-fold: false
 #| code-line-numbers: '2-3'
 # fit model
 model_probit = sm.Probit(endog = y, exog = x)
@@ -693,5 +700,55 @@ coef_tbl_probit = pd.DataFrame({
 coef_tbl_probit
 ```
 
-* coefficients are a bit harder to interpret, but could center for a more direct interpretation
-* can still compute fitted probabilities, classifications, etc. the same as for the logit model
+* trickier to interpret coefficients directly, since $\Phi^{-1}(p)$ is not a natural quantity
+
+## Challenges of interpretation
+
+The effect of incremental changes in explanatory variables on predicted probabilities depends on your starting point.
+
+```{python}
+# means of explanatory variables
+x1 = x.mean()
+
+# increment bmi by 1
+x2 = x1 + np.array([0, 0, 0, 1])
+
+# increment again
+x3 = x2 + np.array([0, 0, 0, 1])
+
+# concatenate
+x_pred = pd.concat([x1, x2, x3], axis = 1).T
+x_pred['male'] = np.array([0, 0, 0])
+
+# compute predictions
+preds = fit_probit.predict(x_pred)
+
+# calculate differences
+preds.diff()
+```
+
+* a one-unit increase in BMI from 26.45 (sample mean) for a 37.6 year old woman is associated with an estimated change in probability of diabetes of 0.0036
+* a one-unit increase in BMI from 27.45 (sample mean plus one) for a 37.6 year old woman is associated with an estimated change in probability of diabetes of 0.0039
+
+## Centering for interpretability
+
+Centering the data helps a bit -- then the change in estimated probability associated with a 1-unit change from the mean is:
+
+$$
+\Phi\left(\hat{\beta}_j\right) - \underbrace{0.5}_{\Phi(0)}
+$$
+
+. . .
+
+```{python}
+# center explanatory variables
+x_vars_ctr = x_vars - x.mean()
+x_ctr = pd.concat([x.loc[:, ['const', 'male']], x_vars_ctr.loc[:, ['Age', 'BMI']]], axis = 1)
+
+# fit model
+model_probit_ctr = sm.Probit(endog = y, exog = x_ctr)
+fit_probit_ctr = model_probit_ctr.fit()
+
+# changes in estimated probabilities associated with one-unit change from mean, keeping other variables at mean/reference
+norm.cdf(fit_probit_ctr.params) - 0.5
+```

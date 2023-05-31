@@ -389,7 +389,7 @@
 <section id="title-slide" class="center">
   <h1 class="title">Classification</h1>
   <p class="author">PSTAT100 Spring 2023</p>
-  <p class="date">Week 8, Lecture 1</p>
+  <p class="date">Week 9, Lecture 1</p>
 </section>
 
 <section id="announcements" class="slide level2">
@@ -604,13 +604,13 @@ e^{\hat{\beta}_1\log(2)} = 1.549
 </details>
 <div class="cell-output cell-output-display" data-execution_count="4">
 
-<div id="altair-viz-3b3150bb2a6746cc8ab92e9592ec32da"></div>
+<div id="altair-viz-c913c8181737492db9dd47bb8972b151"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-3b3150bb2a6746cc8ab92e9592ec32da") {
-      outputDiv = document.getElementById("altair-viz-3b3150bb2a6746cc8ab92e9592ec32da");
+    if (outputDiv.id !== "altair-viz-c913c8181737492db9dd47bb8972b151") {
+      outputDiv = document.getElementById("altair-viz-c913c8181737492db9dd47bb8972b151");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
@@ -851,13 +851,13 @@ dtype: float64</code></pre>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="9">
 
-<div id="altair-viz-ba090ebd824d42dea782da5c0c931f5e"></div>
+<div id="altair-viz-b8081354aa6a4d9db75af6b7ee8d8166"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-ba090ebd824d42dea782da5c0c931f5e") {
-      outputDiv = document.getElementById("altair-viz-ba090ebd824d42dea782da5c0c931f5e");
+    if (outputDiv.id !== "altair-viz-b8081354aa6a4d9db75af6b7ee8d8166") {
+      outputDiv = document.getElementById("altair-viz-b8081354aa6a4d9db75af6b7ee8d8166");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
@@ -967,13 +967,13 @@ P(Y = 1) = \;??
 </details>
 <div class="cell-output cell-output-display" data-execution_count="10">
 
-<div id="altair-viz-fd378ac1cc6549bab1d62ad0695dce95"></div>
+<div id="altair-viz-df9ccb8e4841418cac7ea5df87154e58"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-fd378ac1cc6549bab1d62ad0695dce95") {
-      outputDiv = document.getElementById("altair-viz-fd378ac1cc6549bab1d62ad0695dce95");
+    if (outputDiv.id !== "altair-viz-df9ccb8e4841418cac7ea5df87154e58") {
+      outputDiv = document.getElementById("altair-viz-df9ccb8e4841418cac7ea5df87154e58");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
@@ -1210,7 +1210,7 @@ dtype: float64</code></pre>
 <div class="fragment">
 <p>But what if we want to classify a person as diabetic or not diabetic? Should we declare a case when…</p>
 <ul>
-<li class="fragment">more probable than not (<span class="math inline">\(\hat{p} &gt; 0.5\)</span>)?</li>
+<li class="fragment">more probable than not: <span class="math inline">\(\hat{p} &gt; 0.5\)</span>?</li>
 <li class="fragment">highly probable, say <span class="math inline">\(\hat{p} &gt; 0.8\)</span>?</li>
 <li class="fragment">somewhat probable, say <span class="math inline">\(\hat{p} &gt; 0.2\)</span>?</li>
 </ul>
@@ -1357,13 +1357,13 @@ dtype: float64</code></pre>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="22">
 
-<div id="altair-viz-646757d68a1a4b8695c284221e2e28b8"></div>
+<div id="altair-viz-cb5de3b22f7a42c28f8efcb3836386d5"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-646757d68a1a4b8695c284221e2e28b8") {
-      outputDiv = document.getElementById("altair-viz-646757d68a1a4b8695c284221e2e28b8");
+    if (outputDiv.id !== "altair-viz-cb5de3b22f7a42c28f8efcb3836386d5") {
+      outputDiv = document.getElementById("altair-viz-cb5de3b22f7a42c28f8efcb3836386d5");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
@@ -1413,9 +1413,14 @@ dtype: float64</code></pre>
 </script>
 </div>
 </div>
-</div><p>::: {column width=40%} * the closer the curve gets to the upper left side, the better the classifier * area under the curve often used as an accuracy metric</p>
+</div><div class="column" style="width:40%;">
+<p>What to look for:</p>
+<ul>
+<li class="fragment">the closer the curve gets to the upper left side, the better the classifier</li>
+<li class="fragment">area under the curve often used as an accuracy metric</li>
+</ul>
 </div>
-<p>:::</p>
+</div>
 </section>
 <section id="prediction-1" class="slide level2">
 <h2>Prediction</h2>
@@ -1449,36 +1454,39 @@ P(Y = 1) = \Phi\left(x'\beta\right)
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> norm</span>
-<span id="cb34-2"><a href="#cb34-2"></a>vals <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb34-3"><a href="#cb34-3"></a>    <span class="st">'x'</span>: np.linspace(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">200</span>)</span>
-<span id="cb34-4"><a href="#cb34-4"></a>})</span>
-<span id="cb34-5"><a href="#cb34-5"></a></span>
-<span id="cb34-6"><a href="#cb34-6"></a>vals[<span class="st">'logit'</span>] <span class="op">=</span> <span class="dv">1</span><span class="op">/</span>(<span class="dv">1</span> <span class="op">+</span> np.exp(<span class="op">-</span>vals.x))</span>
-<span id="cb34-7"><a href="#cb34-7"></a>vals[<span class="st">'probit'</span>] <span class="op">=</span> norm.cdf(vals.x)</span>
-<span id="cb34-8"><a href="#cb34-8"></a>vals <span class="op">=</span> vals.melt(id_vars <span class="op">=</span> <span class="st">'x'</span>, var_name <span class="op">=</span> <span class="st">'model'</span>, value_name <span class="op">=</span> <span class="st">'pr'</span>)</span>
-<span id="cb34-9"><a href="#cb34-9"></a></span>
-<span id="cb34-10"><a href="#cb34-10"></a>alt.Chart(vals).mark_line().encode(</span>
-<span id="cb34-11"><a href="#cb34-11"></a>    x <span class="op">=</span> alt.X(<span class="st">'x'</span>, title <span class="op">=</span> <span class="st">'x*beta'</span>),</span>
-<span id="cb34-12"><a href="#cb34-12"></a>    y <span class="op">=</span> alt.Y(<span class="st">'pr'</span>, title <span class="op">=</span> <span class="st">'Pr(Y = 1)'</span>),</span>
-<span id="cb34-13"><a href="#cb34-13"></a>    color <span class="op">=</span> <span class="st">'model'</span>,</span>
-<span id="cb34-14"><a href="#cb34-14"></a>    stroke <span class="op">=</span> <span class="st">'model'</span></span>
-<span id="cb34-15"><a href="#cb34-15"></a>).configure_axis(</span>
-<span id="cb34-16"><a href="#cb34-16"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
-<span id="cb34-17"><a href="#cb34-17"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb34-18"><a href="#cb34-18"></a>).configure_legend(</span>
+<span id="cb34-2"><a href="#cb34-2"></a><span class="co"># grid of values</span></span>
+<span id="cb34-3"><a href="#cb34-3"></a>vals <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb34-4"><a href="#cb34-4"></a>    <span class="st">'x'</span>: np.linspace(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">200</span>)</span>
+<span id="cb34-5"><a href="#cb34-5"></a>})</span>
+<span id="cb34-6"><a href="#cb34-6"></a></span>
+<span id="cb34-7"><a href="#cb34-7"></a><span class="co"># compute probit and logit</span></span>
+<span id="cb34-8"><a href="#cb34-8"></a>vals[<span class="st">'logit'</span>] <span class="op">=</span> <span class="dv">1</span><span class="op">/</span>(<span class="dv">1</span> <span class="op">+</span> np.exp(<span class="op">-</span>vals.x))</span>
+<span id="cb34-9"><a href="#cb34-9"></a>vals[<span class="st">'probit'</span>] <span class="op">=</span> norm.cdf(vals.x)</span>
+<span id="cb34-10"><a href="#cb34-10"></a>vals <span class="op">=</span> vals.melt(id_vars <span class="op">=</span> <span class="st">'x'</span>, var_name <span class="op">=</span> <span class="st">'model'</span>, value_name <span class="op">=</span> <span class="st">'pr'</span>)</span>
+<span id="cb34-11"><a href="#cb34-11"></a></span>
+<span id="cb34-12"><a href="#cb34-12"></a><span class="co"># plot</span></span>
+<span id="cb34-13"><a href="#cb34-13"></a>alt.Chart(vals).mark_line().encode(</span>
+<span id="cb34-14"><a href="#cb34-14"></a>    x <span class="op">=</span> alt.X(<span class="st">'x'</span>, title <span class="op">=</span> <span class="st">'x*beta'</span>),</span>
+<span id="cb34-15"><a href="#cb34-15"></a>    y <span class="op">=</span> alt.Y(<span class="st">'pr'</span>, title <span class="op">=</span> <span class="st">'Pr(Y = 1)'</span>),</span>
+<span id="cb34-16"><a href="#cb34-16"></a>    color <span class="op">=</span> <span class="st">'model'</span>,</span>
+<span id="cb34-17"><a href="#cb34-17"></a>    stroke <span class="op">=</span> <span class="st">'model'</span></span>
+<span id="cb34-18"><a href="#cb34-18"></a>).configure_axis(</span>
 <span id="cb34-19"><a href="#cb34-19"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
 <span id="cb34-20"><a href="#cb34-20"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb34-21"><a href="#cb34-21"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb34-21"><a href="#cb34-21"></a>).configure_legend(</span>
+<span id="cb34-22"><a href="#cb34-22"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
+<span id="cb34-23"><a href="#cb34-23"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb34-24"><a href="#cb34-24"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="23">
 
-<div id="altair-viz-02a2f04dc5e34b60a828a20a011434f4"></div>
+<div id="altair-viz-24c5f19a1ebb48eab58b5dcdd00aa44f"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-02a2f04dc5e34b60a828a20a011434f4") {
-      outputDiv = document.getElementById("altair-viz-02a2f04dc5e34b60a828a20a011434f4");
+    if (outputDiv.id !== "altair-viz-24c5f19a1ebb48eab58b5dcdd00aa44f") {
+      outputDiv = document.getElementById("altair-viz-24c5f19a1ebb48eab58b5dcdd00aa44f");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
@@ -1531,7 +1539,10 @@ P(Y = 1) = \Phi\left(x'\beta\right)
 </section>
 <section id="probit-fit-to-diabetes-data" class="slide level2">
 <h2>Probit fit to diabetes data</h2>
+<p>Here are the estimates from the probit model:</p>
 <div class="cell" data-execution_count="24">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb35" data-code-line-numbers="2-3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1"></a><span class="co"># fit model</span></span>
 <span id="cb35-2"><a href="#cb35-2"></a>model_probit <span class="op">=</span> sm.Probit(endog <span class="op">=</span> y, exog <span class="op">=</span> x)</span>
 <span id="cb35-3"><a href="#cb35-3"></a>fit_probit <span class="op">=</span> model_probit.fit()</span>
@@ -1543,6 +1554,7 @@ P(Y = 1) = \Phi\left(x'\beta\right)
 <span id="cb35-9"><a href="#cb35-9"></a>    index <span class="op">=</span> x.columns</span>
 <span id="cb35-10"><a href="#cb35-10"></a>)</span>
 <span id="cb35-11"><a href="#cb35-11"></a>coef_tbl_probit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Optimization terminated successfully.
          Current function value: 0.214265
@@ -1599,12 +1611,80 @@ P(Y = 1) = \Phi\left(x'\beta\right)
 </div>
 </div>
 <ul>
-<li class="fragment">coefficients are a bit harder to interpret, but could center for a more direct interpretation</li>
-<li class="fragment">can still compute fitted probabilities, classifications, etc. the same as for the logit model</li>
+<li class="fragment">trickier to interpret coefficients directly, since <span class="math inline">\(\Phi^{-1}(p)\)</span> is not a natural quantity</li>
 </ul>
+</section>
+<section id="challenges-of-interpretation" class="slide level2">
+<h2>Challenges of interpretation</h2>
+<p>The effect of incremental changes in explanatory variables on predicted probabilities depends on your starting point.</p>
+<div class="cell" data-execution_count="25">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1"></a><span class="co"># means of explanatory variables</span></span>
+<span id="cb37-2"><a href="#cb37-2"></a>x1 <span class="op">=</span> x.mean()</span>
+<span id="cb37-3"><a href="#cb37-3"></a></span>
+<span id="cb37-4"><a href="#cb37-4"></a><span class="co"># increment bmi by 1</span></span>
+<span id="cb37-5"><a href="#cb37-5"></a>x2 <span class="op">=</span> x1 <span class="op">+</span> np.array([<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>])</span>
+<span id="cb37-6"><a href="#cb37-6"></a></span>
+<span id="cb37-7"><a href="#cb37-7"></a><span class="co"># increment again</span></span>
+<span id="cb37-8"><a href="#cb37-8"></a>x3 <span class="op">=</span> x2 <span class="op">+</span> np.array([<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>])</span>
+<span id="cb37-9"><a href="#cb37-9"></a></span>
+<span id="cb37-10"><a href="#cb37-10"></a><span class="co"># concatenate</span></span>
+<span id="cb37-11"><a href="#cb37-11"></a>x_pred <span class="op">=</span> pd.concat([x1, x2, x3], axis <span class="op">=</span> <span class="dv">1</span>).T</span>
+<span id="cb37-12"><a href="#cb37-12"></a>x_pred[<span class="st">'male'</span>] <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>])</span>
+<span id="cb37-13"><a href="#cb37-13"></a></span>
+<span id="cb37-14"><a href="#cb37-14"></a><span class="co"># compute predictions</span></span>
+<span id="cb37-15"><a href="#cb37-15"></a>preds <span class="op">=</span> fit_probit.predict(x_pred)</span>
+<span id="cb37-16"><a href="#cb37-16"></a></span>
+<span id="cb37-17"><a href="#cb37-17"></a><span class="co"># calculate differences</span></span>
+<span id="cb37-18"><a href="#cb37-18"></a>preds.diff()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="25">
+<pre><code>0         NaN
+1    0.003587
+2    0.003941
+dtype: float64</code></pre>
+</div>
+</div>
+<ul>
+<li class="fragment">a one-unit increase in BMI from 26.45 (sample mean) for a 37.6 year old woman is associated with an estimated change in probability of diabetes of 0.0036</li>
+<li class="fragment">a one-unit increase in BMI from 27.45 (sample mean plus one) for a 37.6 year old woman is associated with an estimated change in probability of diabetes of 0.0039</li>
+</ul>
+</section>
+<section id="centering-for-interpretability" class="slide level2">
+<h2>Centering for interpretability</h2>
+<p>Centering the data helps a bit – then the change in estimated probability associated with a 1-unit change from the mean is:</p>
+<p><span class="math display">\[
+\Phi\left(\hat{\beta}_j\right) - \underbrace{0.5}_{\Phi(0)}
+\]</span></p>
+<div class="fragment">
+<div class="cell" data-execution_count="26">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1"></a><span class="co"># center explanatory variables</span></span>
+<span id="cb39-2"><a href="#cb39-2"></a>x_vars_ctr <span class="op">=</span> x_vars <span class="op">-</span> x.mean()</span>
+<span id="cb39-3"><a href="#cb39-3"></a>x_ctr <span class="op">=</span> pd.concat([x.loc[:, [<span class="st">'const'</span>, <span class="st">'male'</span>]], x_vars_ctr.loc[:, [<span class="st">'Age'</span>, <span class="st">'BMI'</span>]]], axis <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb39-4"><a href="#cb39-4"></a></span>
+<span id="cb39-5"><a href="#cb39-5"></a><span class="co"># fit model</span></span>
+<span id="cb39-6"><a href="#cb39-6"></a>model_probit_ctr <span class="op">=</span> sm.Probit(endog <span class="op">=</span> y, exog <span class="op">=</span> x_ctr)</span>
+<span id="cb39-7"><a href="#cb39-7"></a>fit_probit_ctr <span class="op">=</span> model_probit_ctr.fit()</span>
+<span id="cb39-8"><a href="#cb39-8"></a></span>
+<span id="cb39-9"><a href="#cb39-9"></a><span class="co"># changes in estimated probabilities associated with one-unit change from mean, keeping other variables at mean/reference</span></span>
+<span id="cb39-10"><a href="#cb39-10"></a>norm.cdf(fit_probit_ctr.params) <span class="op">-</span> <span class="fl">0.5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Optimization terminated successfully.
+         Current function value: 0.214265
+         Iterations 8</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="26">
+<pre><code>array([-0.47064393,  0.04623119,  0.01032169,  0.02039413])</code></pre>
+</div>
+</div>
 
 <div class="footer footer-default">
 
+</div>
 </div>
 </section>
     </div>
