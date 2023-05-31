@@ -5353,5 +5353,264 @@
     "title": "PSTAT100",
     "section": "Background: California Department of Developmental Services",
     "text": "Background: California Department of Developmental Services\nFrom Taylor, S. A., & Mickel, A. E. (2014). Simpson’s Paradox: A Data Set and Discrimination Case Study Exercise. Journal of Statistics Education, 22(1):\n\nMost states in the USA provide services and support to individuals with developmental disabilities (e.g., intellectual disability, cerebral palsy, autism, etc.) and their families. The agency through which the State of California serves the developmentally-disabled population is the California Department of Developmental Services (DDS) … One of the responsibilities of DDS is to allocate funds that support over 250,000 developmentally-disabled residents. A number of years ago, an allegation of discrimination was made and supported by a univariate analysis that examined average annual expenditures on consumers by ethnicity. The analysis revealed that the average annual expenditures on Hispanic consumers was approximately one-third of the average expenditures on White non-Hispanic consumers. This finding was the catalyst for further investigation; subsequently, state legislators and department managers sought consulting services from a statistician.\n\nIn this assignment, you’ll analyze the deidentified DDS data published with this article to answer the question: is there evidence of ethnic or gender discrimination in allocation of DDS funds? This will involve practicing the following:\n\nexploratory data visualization\nregression analysis\nmodel visualization\n\nAside: The JSE article focuses on what’s known as Simpson’s paradox, an arithmetic phenomenon in which aggregate trends across multiple groups show the opposite of within-group trends. We won’t emphasize this topic, though the data does provide a nice illustration."
+  },
+  {
+    "objectID": "slides/week9-classification.html#from-last-time",
+    "href": "slides/week9-classification.html#from-last-time",
+    "title": "Classification",
+    "section": "From last time",
+    "text": "From last time\nWe fit this model to the tree cover data:\n\\[\n\\log(\\text{cover}_i)\n    = \\beta_0 +\n        \\beta_1 \\log(\\text{income}_i) +\n        \\beta_2 \\text{low}_i +\n        \\beta_3 \\text{med}_i +\n        \\beta_4 \\text{high}_i +\n        \\epsilon_i\n\\]\n\nEach level of population density has its own intercept:\n\\[\n\\begin{align*}\n\\text{very low density:}\\quad &\\mathbb{E}\\log(\\text{cover}) = \\beta_0 + \\beta_1 \\log(\\text{income}) \\\\\n\\text{low density:}\\quad &\\mathbb{E}\\log(\\text{cover}) = (\\beta_0 + \\beta_2) + \\beta_1 \\log(\\text{income}) \\\\\n\\text{medium density:}\\quad &\\mathbb{E}\\log(\\text{cover}) = (\\beta_0 + \\beta_3) + \\beta_1 \\log(\\text{income}) \\\\\n\\text{high density:}\\quad &\\mathbb{E}\\log(\\text{cover}) = (\\beta_0 + \\beta_4) + \\beta_1 \\log(\\text{income})\n\\end{align*}\n\\]\n\n\n\\(\\beta_2, \\beta_3, \\beta_4\\) represent the difference in expected log cover between very low density and low, medium, high density after accounting for income"
+  },
+  {
+    "objectID": "slides/week9-classification.html#interpreting-estimates",
+    "href": "slides/week9-classification.html#interpreting-estimates",
+    "title": "Classification",
+    "section": "Interpreting estimates",
+    "text": "Interpreting estimates\n\n\n\n\n\n\n  \n    \n      \n      estimate\n      standard error\n    \n  \n  \n    \n      const\n      -4.751870\n      0.621673\n    \n    \n      log_income\n      0.631469\n      0.058290\n    \n    \n      low\n      -0.414486\n      0.070483\n    \n    \n      medium\n      -0.675626\n      0.079552\n    \n    \n      high\n      -0.606980\n      0.101708\n    \n    \n      error variance\n      1.552578\n      NaN\n    \n  \n\n\n\n\n\neach doubling of mean income is associated with an estimated 55% increase in median tree cover, after accounting for population density\ncensus blocks with higher population densities are estimated as having a median tree canopy up to 50% lower than census blocks with very low population densities, after accounting for mean income"
+  },
+  {
+    "objectID": "slides/week9-classification.html#on-log-transforming-the-response",
+    "href": "slides/week9-classification.html#on-log-transforming-the-response",
+    "title": "Classification",
+    "section": "On log-transforming the response",
+    "text": "On log-transforming the response\nThe model is \\(\\log (y) \\sim N(x\\beta, \\sigma^2)\\); so \\(y\\) is what’s known as a lognormal random variable.\n\nFrom the properties of the lognormal distribution:\n\\[\ne^{x\\beta} = \\text{median}(y)\n\\]\n\n\nSo when parameters are back-transformed, they should be interpreted in terms of the median response."
+  },
+  {
+    "objectID": "slides/week9-classification.html#interpretations-again",
+    "href": "slides/week9-classification.html#interpretations-again",
+    "title": "Classification",
+    "section": "Interpretations, again",
+    "text": "Interpretations, again\n\\[\n55\\% \\text{ increase in median tree cover}:\ne^{\\hat{\\beta}_1\\log(2)} = 1.549\n\\]\nMedian cover increases by a factor of 1.549, i.e., increases by 54.9%:\n\ndoubling income increments log income by \\(\\log(2)\\)\n\\(\\hat{\\beta}_1\\log(2)\\) gives the associated change in mean log cover\nexponentiating the change in mean log cover gives the multiplicative change in median cover"
+  },
+  {
+    "objectID": "slides/week9-classification.html#prediction",
+    "href": "slides/week9-classification.html#prediction",
+    "title": "Classification",
+    "section": "Prediction",
+    "text": "Prediction\n\nx_new = np.array([1, np.log(115000), 0, 1, 0])\npred = rslt.get_prediction(x_new)\nnp.exp(pred.summary_frame())\n\n\n\n\n\n  \n    \n      \n      mean\n      mean_se\n      mean_ci_lower\n      mean_ci_upper\n      obs_ci_lower\n      obs_ci_upper\n    \n  \n  \n    \n      0\n      6.895105\n      1.102304\n      5.696153\n      8.346419\n      0.594349\n      79.990893\n    \n  \n\n\n\n\nFill in the blanks:\n\nthe median tree cover for a _______ density census block with mean income _______ is estimated to be between _______ and _______ percent\nthe tree cover for a _______ density census block with mean income _______ is estimated to be between _______ and _______ percent"
+  },
+  {
+    "objectID": "slides/week9-classification.html#model-checking",
+    "href": "slides/week9-classification.html#model-checking",
+    "title": "Classification",
+    "section": "Model checking",
+    "text": "Model checking\nThe linearity and constant variance assumptions can be assessed by plotting residuals against fitted values:\n\n\n\n\nCode\nalt.Chart(pd.DataFrame({\n    'fitted': rslt.fittedvalues,\n    'resid': rslt.resid\n})).mark_circle().encode(\n    x = 'fitted',\n    y = 'resid'\n)\n\n\n\n\n\n\n\n\nShould see minimal pattern:\n\ncentered at zero\neven spread in either direction"
+  },
+  {
+    "objectID": "slides/week9-classification.html#diabetes-data",
+    "href": "slides/week9-classification.html#diabetes-data",
+    "title": "Classification",
+    "section": "Diabetes data",
+    "text": "Diabetes data\n4831 responses from the 2011-2012 National Health and Nutrition Examination Survey (NHANES):\n\n\n\n\n\n\n  \n    \n      \n      Gender\n      Age\n      BMI\n      Diabetes\n    \n  \n  \n    \n      0\n      male\n      14\n      17.3\n      No\n    \n    \n      1\n      female\n      43\n      33.3\n      No\n    \n    \n      2\n      male\n      80\n      33.9\n      No\n    \n    \n      3\n      male\n      80\n      33.9\n      No\n    \n  \n\n\n\n\n\nIs BMI a risk factor for diabetes after adjusting for age and sex?"
+  },
+  {
+    "objectID": "slides/week9-classification.html#model-sketch",
+    "href": "slides/week9-classification.html#model-sketch",
+    "title": "Classification",
+    "section": "Model sketch",
+    "text": "Model sketch\nBroadly, we can answer the question by estimating the dependence of diabetes status on age, sex, and BMI.\n\nAn additive model might look something like this:\n\\[\n\\text{diabetes}_i \\longleftarrow \\beta_1\\text{age}_i\\;+\\; \\beta_2\\text{male}_i\\;+\\;\\beta_3\\text{BMI}_i\n\\]\n\n\nTo answer the question, fit the model and examine \\(\\beta_3\\)."
+  },
+  {
+    "objectID": "slides/week9-classification.html#binary-response",
+    "href": "slides/week9-classification.html#binary-response",
+    "title": "Classification",
+    "section": "Binary response",
+    "text": "Binary response\nNote that the response variable – whether the respondent has diabetes – is categorical.\n\ndiabetes.Diabetes.unique()\n\narray(['No', 'Yes'], dtype=object)\n\n\n\nWe can encode this using an indicator variable, which results in a binary response:\n\ny = (diabetes.Diabetes == 'Yes').astype('int')\ny.unique()\n\narray([0, 1])\n\n\n\n\nRemember, a statistical model is a probability distribution, so we need to choose one that’s appropriate for binary outcomes. Ideas?"
+  },
+  {
+    "objectID": "slides/week9-classification.html#what-not-to-do",
+    "href": "slides/week9-classification.html#what-not-to-do",
+    "title": "Classification",
+    "section": "What not to do",
+    "text": "What not to do\nOne might think:\n\\[\n\\text{diabetes}_i = \\beta_0 + \\beta_1\\text{age}_i +  \\beta_2\\text{male}_i+\\beta_3\\text{BMI}_i + \\epsilon_i\n\\]\n\nBut \\(\\text{diabetes}_i \\not\\sim N(x\\beta, \\sigma^2)\\)\n\ndiscrete, not continuous\nnormal model doesn’t make sense for a binary response"
+  },
+  {
+    "objectID": "slides/week9-classification.html#what-not-to-do-1",
+    "href": "slides/week9-classification.html#what-not-to-do-1",
+    "title": "Classification",
+    "section": "What not to do",
+    "text": "What not to do\nNote that you can still fit this model.\n\n\nCode\n# explanatory variable matrix\ngender_indicator = pd.get_dummies(diabetes.Gender, drop_first = True)\nx_vars = pd.concat([gender_indicator, diabetes.loc[:, ['Age', 'BMI']]], axis = 1)\nx = sm.add_constant(x_vars)\ny = (diabetes.Diabetes == 'Yes').astype('int')\n\n# fit model\nmlr = sm.OLS(endog = y, exog = x)\nmlr.fit().params\n\n\nconst   -0.169002\nmale     0.010837\nAge      0.002425\nBMI      0.005602\ndtype: float64\n\n\nSo you have to discern that it isn’t appropriate. A few ways to tell:\n\nparameter interpretations won’t make sense – e.g. age is associated with a 0.0024 increase in diabetes presence\nmodel may yield predictions that are negative or greater than one\nplots will look odd"
+  },
+  {
+    "objectID": "slides/week9-classification.html#what-not-to-do-2",
+    "href": "slides/week9-classification.html#what-not-to-do-2",
+    "title": "Classification",
+    "section": "What not to do",
+    "text": "What not to do\nAttempts at model visualization will look something like this:\n\n\nCode\nage_grid = x.Age.median()\nmale_grid = np.array([1])\nbmi_grid = np.linspace(x.BMI.min(), x.BMI.max(), 100)\ncx, ax, mx, bx = np.meshgrid(np.array([1]), age_grid, male_grid, bmi_grid)\ngrid = np.array([cx.ravel(), ax.ravel(), mx.ravel(), bx.ravel()]).T\ngrid_df = pd.DataFrame(grid, columns = ['const', 'age', 'male', 'bmi'])\npred_df = mlr.fit().get_prediction(grid_df).summary_frame()\npred_df = pd.concat([grid_df, pred_df], axis = 1)\ndiabetes['diabetes_indicator'] = y\n\npoints = alt.Chart(diabetes).mark_circle().encode(\n    x = alt.X('BMI', title = 'body mass index'),\n    y = alt.Y('diabetes_indicator:Q', title = 'diabetes')\n)\n\nline = alt.Chart(pred_df).mark_line().encode(\n    x = 'bmi',\n    y = 'mean'\n)\n\n(points + line).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n)"
+  },
+  {
+    "objectID": "slides/week9-classification.html#regression-with-a-binary-response",
+    "href": "slides/week9-classification.html#regression-with-a-binary-response",
+    "title": "Classification",
+    "section": "Regression with a binary response",
+    "text": "Regression with a binary response\nFor a binary response \\(Y \\in \\{0, 1\\}\\), we model \\(P(Y = 1)\\) as a function of the explanatory variable(s) \\(x\\):\n\\[\nP(Y = 1) = f(x)\n\\]\n\nOf course, we don’t directly observe \\(P(Y = 1)\\) – but there are various ways around this."
+  },
+  {
+    "objectID": "slides/week9-classification.html#logistic-regression-model",
+    "href": "slides/week9-classification.html#logistic-regression-model",
+    "title": "Classification",
+    "section": "Logistic regression model",
+    "text": "Logistic regression model\nThe most common approach to modeling binary responses is logistic regression:\n\\[\n\\log\\left(\\frac{p}{1 - p}\\right) = x'\\beta\n\\]\n\n\\(p = P(Y = 1)\\)\n\\(x\\) is a vector of explanatory variable(s)\n\\(\\beta\\) is a vector of parameters\n\n\n\nThis model holds that the log odds of the outcome of interest is a linear function of the explanatory variable(s)"
+  },
+  {
+    "objectID": "slides/week9-classification.html#logistic-regression-model-1",
+    "href": "slides/week9-classification.html#logistic-regression-model-1",
+    "title": "Classification",
+    "section": "Logistic regression model",
+    "text": "Logistic regression model\nWhat does the model imply about the probability (rather than log-odds) of the outcome of interest?\n\\[\n\\log\\left(\\frac{p}{1 - p}\\right) = x'\\beta\n\\quad\\Longleftrightarrow\\quad\nP(Y = 1) = \\;??\n\\]"
+  },
+  {
+    "objectID": "slides/week9-classification.html#assumptions",
+    "href": "slides/week9-classification.html#assumptions",
+    "title": "Classification",
+    "section": "Assumptions",
+    "text": "Assumptions\nThe model makes two key assumptions:\n\nthe probability of the outcome changes monotonically with each explanatory variable\nobservations are independent (used to obtain a joint distribution)"
+  },
+  {
+    "objectID": "slides/week9-classification.html#estimation",
+    "href": "slides/week9-classification.html#estimation",
+    "title": "Classification",
+    "section": "Estimation",
+    "text": "Estimation\nThe model is fit by maximum likelihood: find the parameters for which the observed data are most likely. The likelihood (joint distribution) is constructed from the model and the Bernoulli distribution.\n\n# fit model\nmodel = sm.Logit(endog = y, exog = x)\nfit = model.fit()\n\n# parameter estimates\ncoef_tbl = pd.DataFrame({\n    'estimate': fit.params,\n    'standard error': np.sqrt(fit.cov_params().values.diagonal())},\n    index = x.columns\n)\ncoef_tbl\n\nOptimization terminated successfully.\n         Current function value: 0.213931\n         Iterations 8\n\n\n\n\n\n\n  \n    \n      \n      estimate\n      standard error\n    \n  \n  \n    \n      const\n      -8.199231\n      0.357565\n    \n    \n      male\n      0.270378\n      0.117799\n    \n    \n      Age\n      0.053200\n      0.003512\n    \n    \n      BMI\n      0.100607\n      0.007862"
+  },
+  {
+    "objectID": "slides/week9-classification.html#parameter-interpretations",
+    "href": "slides/week9-classification.html#parameter-interpretations",
+    "title": "Classification",
+    "section": "Parameter interpretations",
+    "text": "Parameter interpretations\nSimilar to linear regression, coefficients give the change in log-odds associated with incremental changes in the explanatory variables.\n\nOn the scale of the linear predictor:\n\nA one-unit increase in BMI is associated with an estimated 0.1 increase in log odds of diabetes after adjusting for age and sex\n\n\n\nOn the scale of the odds:\n\nA one-unit increase in BMI is associated with an estimated 10% increase in the odds of diabetes after adjusting for age and sex\n\n\n\nOn the probability scale, the increase depends on the starting value of BMI."
+  },
+  {
+    "objectID": "slides/week9-classification.html#confidence-intervals",
+    "href": "slides/week9-classification.html#confidence-intervals",
+    "title": "Classification",
+    "section": "Confidence intervals",
+    "text": "Confidence intervals\nOne can also give confidence intervals. These are based on large-sample approximations.\n\n# confidence intervals\nci = fit.conf_int().rename(columns = {0:'lower',1:'upper'})\nnp.exp(ci.loc['BMI'])\n\nlower    1.088933\nupper    1.123013\nName: BMI, dtype: float64\n\n\n\n\nWith 95% confidence, each 1-unit increase in BMI is associated with an estimated increase in odds of diabetes between 8.9% and 12.3% after adjusting for age and sex"
+  },
+  {
+    "objectID": "slides/week9-classification.html#fitted-values",
+    "href": "slides/week9-classification.html#fitted-values",
+    "title": "Classification",
+    "section": "Fitted values",
+    "text": "Fitted values\nThe fitted values for logistic regression are fitted probabilities (not outcomes).\n\\[\n\\hat{p}_i = \\frac{1}{1 + e^{-x_i'\\hat{\\beta}}}\n\\]\n\nstatsmodels returns estimated log odds instead of fitted probabilities.\n\n# log odds\nfit.fittedvalues\n\n0      -5.443558\n1      -2.561428\n2      -0.262283\n3      -0.262283\n4      -5.982723\n          ...   \n4826   -3.481417\n4827   -3.481417\n4828   -3.343464\n4829   -1.970167\n4830   -1.970167\nLength: 4831, dtype: float64"
+  },
+  {
+    "objectID": "slides/week9-classification.html#fitted-values-1",
+    "href": "slides/week9-classification.html#fitted-values-1",
+    "title": "Classification",
+    "section": "Fitted values",
+    "text": "Fitted values\nTo obtain probabilities, one could manually back-transform:\n\n# compute fitted probabilities 'by hand'\nfitted_probs = 1/(1 + np.exp(-fit.fittedvalues))\nfitted_probs.head(5)\n\n0    0.004305\n1    0.071663\n2    0.434803\n3    0.434803\n4    0.002516\ndtype: float64\n\n\n\nOr use the .predict() method:\n\n# fitted probabilities\nfit.predict(x).head(5)\n\n0    0.004305\n1    0.071663\n2    0.434803\n3    0.434803\n4    0.002516\ndtype: float64"
+  },
+  {
+    "objectID": "slides/week9-classification.html#classification",
+    "href": "slides/week9-classification.html#classification",
+    "title": "Classification",
+    "section": "Classification",
+    "text": "Classification\nFor each observation (or new observations), probabilities can be computed directly from the fitted model:\n\\[\n\\hat{p}_i = \\frac{1}{1 + e^{-x_i'\\hat{\\beta}}}\n\\]\n\nBut what if we want to classify a person as diabetic or not diabetic? Should we declare a case when…\n\nmore probable than not (\\(\\hat{p} > 0.5\\))?\nhighly probable, say \\(\\hat{p} > 0.8\\)?\nsomewhat probable, say \\(\\hat{p} > 0.2\\)?"
+  },
+  {
+    "objectID": "slides/week9-classification.html#sensitivity",
+    "href": "slides/week9-classification.html#sensitivity",
+    "title": "Classification",
+    "section": "Sensitivity",
+    "text": "Sensitivity\nIf we use a low threshold for classification, say:\n\\[\n\\hat{Y} = 1\n\\quad\\Longleftrightarrow\\quad\n\\hat{p} > 0.1\n\\]\n\nThen the classifications will be more sensitive to cases – most cases of diabetes will be correctly classified."
+  },
+  {
+    "objectID": "slides/week9-classification.html#specificity",
+    "href": "slides/week9-classification.html#specificity",
+    "title": "Classification",
+    "section": "Specificity",
+    "text": "Specificity\nIf we use a high threshold instead, say:\n\\[\n\\hat{Y} = 1\n\\quad\\Longleftrightarrow\\quad\n\\hat{p} > 0.9\n\\]\n\nThen the classification will not be very sensitive to cases, but they will be fairly specific – classifications will be correct for most people without diabetes."
+  },
+  {
+    "objectID": "slides/week9-classification.html#cross-tabulation",
+    "href": "slides/week9-classification.html#cross-tabulation",
+    "title": "Classification",
+    "section": "Cross-tabulation",
+    "text": "Cross-tabulation\nFor any given classification threshold, we can cross-tabulate the classifications with the observed outcomes:\n\n# confusion matrix\nfit.pred_table(0.5)\n\narray([[4446.,   19.],\n       [ 358.,    8.]])\n\n\n\nrows are observed outcomes\ncolumns are predicted outcomes\n\n\nUsing the more-likely-than-not criterion is very specific (high true negative rate) but not at all sensitive (low true positive rate)."
+  },
+  {
+    "objectID": "slides/week9-classification.html#overall-accuracy-is-misleading",
+    "href": "slides/week9-classification.html#overall-accuracy-is-misleading",
+    "title": "Classification",
+    "section": "Overall accuracy is misleading",
+    "text": "Overall accuracy is misleading\nThe proportion of correctly classified observations is:\n\n# proportion of correctly classified observations\nfit.pred_table().diagonal().sum()/len(y)\n\n0.9219623266404471\n\n\n\nThis looks really good, but any method that classifies all or most observations as non-diabetic will achieve high accuracy because of the case imbalance in the data.\n\n# proportion of non-diabetic respondents\nnp.mean(y == 0)\n\n0.9242392879321052"
+  },
+  {
+    "objectID": "slides/week9-classification.html#use-class-wise-error-rates",
+    "href": "slides/week9-classification.html#use-class-wise-error-rates",
+    "title": "Classification",
+    "section": "Use class-wise error rates",
+    "text": "Use class-wise error rates\nExamining class-wise error rates reveals how asymmetric the classifications are:\n\n\nCode\n(fit.pred_table(0.5).T/fit.pred_table(0.5).sum(axis = 1)).T\n\n\narray([[0.99574468, 0.00425532],\n       [0.97814208, 0.02185792]])\n\n\n\nsame layout as confusion matrix, but with entries divided by the total number of outcomes in each class\nnote 97.8% error rate among diabetes cases"
+  },
+  {
+    "objectID": "slides/week9-classification.html#a-better-classifier",
+    "href": "slides/week9-classification.html#a-better-classifier",
+    "title": "Classification",
+    "section": "A better classifier",
+    "text": "A better classifier\nIn this case we can do better by choosing a low classification threshold \\(\\hat{p} > 0.1\\):\n\n\nCode\nfit.pred_table(0.1)\n\n\narray([[3473.,  992.],\n       [ 105.,  261.]])\n\n\n\nhigher overall error rate \\(\\frac{1097}{4831} = 0.227\\)\nbut about 70% accurate within each class (diabetic and non-diabetic)\n\n\nClass-wise errors:\n\n\nCode\n(fit.pred_table(0.1).T/fit.pred_table(0.1).sum(axis = 1)).T\n\n\narray([[0.77782755, 0.22217245],\n       [0.28688525, 0.71311475]])"
+  },
+  {
+    "objectID": "slides/week9-classification.html#roc-curves",
+    "href": "slides/week9-classification.html#roc-curves",
+    "title": "Classification",
+    "section": "ROC Curves",
+    "text": "ROC Curves\nInstead of manually examining lots of confusion matrices, it is easier to plot sensitivity against specificity across all unique classification thresholds.\n\n\n\n\nCode\n# compute \nfrom sklearn import metrics\nfpr, tpr, thresh = metrics.roc_curve(y, fitted_probs)\n\nroc = pd.DataFrame({\n    'fpr': fpr,\n    'tpr': tpr,\n    'thresh': thresh\n})\n\nalt.Chart(roc).mark_line().encode(\n    x = alt.X('fpr', title = '1 - specificity'),\n    y = alt.Y('tpr', title = 'sensitivity')\n).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n)\n\n\n\n\n\n\n\n::: {column width=40%} * the closer the curve gets to the upper left side, the better the classifier * area under the curve often used as an accuracy metric\n\n:::"
+  },
+  {
+    "objectID": "slides/week9-classification.html#prediction-1",
+    "href": "slides/week9-classification.html#prediction-1",
+    "title": "Classification",
+    "section": "Prediction",
+    "text": "Prediction\nIn ML-speak, we’ve “trained a classifier to predict diabetes”.\n\nTo assess predictive accuracy, use data partitioning and compute accuracy metrics:\n\nsensitivity\nspecificity\noverall accuracy\narea under ROC curve\nlots of others!"
+  },
+  {
+    "objectID": "slides/week9-classification.html#probit-regression-model",
+    "href": "slides/week9-classification.html#probit-regression-model",
+    "title": "Classification",
+    "section": "Probit regression model",
+    "text": "Probit regression model\nAn alternative to logistic regression is probit regression, where:\n\\[\nP(Y = 1) = \\Phi\\left(x'\\beta\\right)\n\\]\n\n\\(\\Phi\\) is the standard normal CDF\nsimilar assumptions – independence and monotonicity"
+  },
+  {
+    "objectID": "slides/week9-classification.html#probit-v.-logit",
+    "href": "slides/week9-classification.html#probit-v.-logit",
+    "title": "Classification",
+    "section": "Probit v. logit",
+    "text": "Probit v. logit\nThe logistic function has heavier tails.\n\n\nCode\nfrom scipy.stats import norm\nvals = pd.DataFrame({\n    'x': np.linspace(-5, 5, 200)\n})\n\nvals['logit'] = 1/(1 + np.exp(-vals.x))\nvals['probit'] = norm.cdf(vals.x)\nvals = vals.melt(id_vars = 'x', var_name = 'model', value_name = 'pr')\n\nalt.Chart(vals).mark_line().encode(\n    x = alt.X('x', title = 'x*beta'),\n    y = alt.Y('pr', title = 'Pr(Y = 1)'),\n    color = 'model',\n    stroke = 'model'\n).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n).configure_legend(\n    labelFontSize = 14,\n    titleFontSize = 16\n)"
+  },
+  {
+    "objectID": "slides/week9-classification.html#probit-fit-to-diabetes-data",
+    "href": "slides/week9-classification.html#probit-fit-to-diabetes-data",
+    "title": "Classification",
+    "section": "Probit fit to diabetes data",
+    "text": "Probit fit to diabetes data\n\n# fit model\nmodel_probit = sm.Probit(endog = y, exog = x)\nfit_probit = model_probit.fit()\n\n# parameter estimates\ncoef_tbl_probit = pd.DataFrame({\n    'estimate': fit_probit.params,\n    'standard error': np.sqrt(fit_probit.cov_params().values.diagonal())},\n    index = x.columns\n)\ncoef_tbl_probit\n\nOptimization terminated successfully.\n         Current function value: 0.214265\n         Iterations 8\n\n\n\n\n\n\n  \n    \n      \n      estimate\n      standard error\n    \n  \n  \n    \n      const\n      -4.215812\n      0.172291\n    \n    \n      male\n      0.116145\n      0.061036\n    \n    \n      Age\n      0.025876\n      0.001733\n    \n    \n      BMI\n      0.051143\n      0.004201\n    \n  \n\n\n\n\n\ncoefficients are a bit harder to interpret, but could center for a more direct interpretation\ncan still compute fitted probabilities, classifications, etc. the same as for the logit model"
+  },
+  {
+    "objectID": "slides/week9-classification.html#logistic-regression-model-2",
+    "href": "slides/week9-classification.html#logistic-regression-model-2",
+    "title": "Classification",
+    "section": "Logistic regression model",
+    "text": "Logistic regression model\nThe logistic function looks like this:\n\n\nCode\nfrom scipy.stats import norm\nvals = pd.DataFrame({\n    'x': np.linspace(-5, 5, 200)\n})\n\nvals['pr'] = 1/(1 + np.exp(-vals.x))\n\nalt.Chart(vals).mark_line().encode(\n    x = alt.X('x', title = 'x*beta'),\n    y = alt.Y('pr', title = 'Pr(Y = 1)')\n).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n)"
+  },
+  {
+    "objectID": "slides/week9-classification.html#announcements",
+    "href": "slides/week9-classification.html#announcements",
+    "title": "Classification",
+    "section": "Announcements",
+    "text": "Announcements\n\nMP2 due today; late deadline is Friday\nHW4 due next Wednesday (not Monday); late deadline is Friday\nNo OH today\nlecture cancelled Monday 6/5 for data science event"
+  },
+  {
+    "objectID": "slides/week9-classification.html#data-science-event-65",
+    "href": "slides/week9-classification.html#data-science-event-65",
+    "title": "Classification",
+    "section": "Data science event 6/5",
+    "text": "Data science event 6/5\nLoma Pelona Center 1pm – 4pm\n\n1pm: Graduate school presentation and panel discussion with recent students\n2pm: capstone project showcase\n3pm: Careers in data science panel discussion"
+  },
+  {
+    "objectID": "content.html#week-9",
+    "href": "content.html#week-9",
+    "title": "Materials",
+    "section": "Week 9",
+    "text": "Week 9\nReadings:\n\nLDS 19.1 – 19.3 and 19.5 Classification\n\nNo class or lab sections Monday\nWednesday: Classification [slides]"
   }
 ]

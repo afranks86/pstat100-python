@@ -1,7 +1,7 @@
 ---
 title: "Multiple regression"
 author: "PSTAT100 Spring 2023"
-date: "Week 8, Lecture 1"
+date: "Week 8, Lecture 2"
 format: 
     revealjs:
         smaller: true
@@ -772,8 +772,3 @@ They are therefore representative of all census blocks in the San Diego urban ar
 . . .
 
 > The model approximates the *actual* associations between summer temperatures, tree cover, income, and population density in the region.
-
-## Next time
-
-* Model checking for regression
-* Classification concepts
