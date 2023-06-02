@@ -6,6 +6,7 @@ published-title: "Updated"
 
 ::: {.callout-note}
 ## Announcements
+* Course project posted [here](content.qmd#week-9)
 * MP2/Lab6 deadline extended: due Wednesday 5/31 with late submissions through Friday 6/2
 * **No class Monday 6/5** due to [Data Science event](https://pstat197.github.io/); consider attending!
 * HW4 deadline extended: due Wednesday 6/7 with late submissions through Friday 6/9

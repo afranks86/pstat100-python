@@ -160,6 +160,10 @@ _**NO lab sections this week**_
 
 - LDS 19.1 -- 19.3 and 19.5 [Classification](https://learningds.org/ch/19/class_intro.html)
 
+*Assignments*:
+
+- Course project due Friday, June 16 [[html](projects/cp/project-guidelines.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Fcp%2Fproject-guidelines.ipynb&branch=main)]
+
 **No class or lab sections Monday**
 
 **Wednesday**: Classification [[slides](slides/week9-classification.qmd)]
