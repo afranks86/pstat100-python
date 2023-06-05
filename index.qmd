@@ -7,9 +7,8 @@ published-title: "Updated"
 ::: {.callout-note}
 ## Announcements
 * Course project posted [here](content.qmd#week-9)
-* MP2/Lab6 deadline extended: due Wednesday 5/31 with late submissions through Friday 6/2
 * **No class Monday 6/5** due to [Data Science event](https://pstat197.github.io/); consider attending!
-* HW4 deadline extended: due Wednesday 6/7 with late submissions through Friday 6/9
+* HW4 due Wednesday 6/7 with late submissions through Friday 6/9
 :::
 
-This is the course website for UCSB's Data Science Concepts and Analysis class (PSTAT100). Content is directed towards currently enrolled students. Please ask permission before using course materials in any other capacity.
+This is the course website for UCSB's Data Science Concepts and Analysis class (PSTAT100). Content is directed towards currently enrolled students. Please ask permission before using course materials in any other capacity. Please *do not post any materials obtained or derived from this website on third-party websites*.
