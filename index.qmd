@@ -7,7 +7,6 @@ published-title: "Updated"
 ::: {.callout-note}
 ## Announcements
 * Course project posted [here](content.qmd#week-9)
-* **No class Monday 6/5** due to [Data Science event](https://pstat197.github.io/); consider attending!
 * HW4 due Wednesday 6/7 with late submissions through Friday 6/9
 :::
 

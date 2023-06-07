@@ -5940,7 +5940,7 @@
     "href": "content.html#week-10",
     "title": "Materials",
     "section": "Week 10",
-    "text": "Week 10\nNo readings or new assignments\nNo class Monday\nLab sections: Logistic regression (submission is optional) [html] [notebook]"
+    "text": "Week 10\nNo readings or new assignments\nNo class Monday\nLab sections: Logistic regression (submission is optional) [html] [notebook]\nWendesday: Clustering [slides]"
   },
   {
     "objectID": "labs/lab7-classification/lab7-classification-soln.html",
@@ -5997,5 +5997,180 @@
     "title": "PSTAT100",
     "section": "Classification",
     "text": "Classification\nNow we’ll consider the task of classifying new school districts by the predicted direction of their math achievement gap.\nA straightforward classification rule would be:\n\\[\n\\text{gap predicted to favor boys} \\quad\\Longleftrightarrow\\quad \\widehat{Pr}(\\text{gap favors boys}) > 0.5\n\\]\nWe can obtain the estimated probabilities using .predict(), and construct the classifier manually. To assess the accuracy, we’ll want to arrange the classifications side-by-side with the observed outcomes:\n\n# compute predicted probabilities on test set\npreds = fit.predict(sm.add_constant(test.log_income))\n\n# construct classifier\npred_df = pd.DataFrame({\n    'observation': test.favors_boys,\n    'prediction': preds > 0.5\n})\n\n# preview\npred_df.head()\n\nNote that the testing partition was used here – to get an unbiased estimate of the classification accuracy, we need data that were not used in fitting the model.\nCross-tabulating observed and predicted outcomes gives a detailed view of the accuracy and error:\n\n# cross-tabulate classifications with observed outcomes\npred_tbl = pred_df.groupby(['observation', 'prediction']).size()\npred_tbl\n\nThe entries where observation and prediction have the same value are counts of the number of districts correctly classified; those where they do not match are counts of errors.\n\nQuestion 4: overall classification accuracy\nCompute the overall classification accuracy – the proportion of districts that were correctly classified.\n\naccuracy = ...\n\n\ngrader.check(\"q4\")\n\nOften class-wise accuracy rates are more informative, because there are two possible types of error:\n\nA district that has a math gap favoring girls is classified as having a math gap favoring boys\nA district that has a math gap favoring boys is classified as having a math gap favoring girls\n\nYou may notice that there were more errors of one type than another in your result above. This is not conveyed by reporting the overall accuracy rate.\nFor a clearer picture, we can find the proportion of errors among by outcome:\n\npred_df['error'] = (pred_df.observation != pred_df.prediction)\nfnr = pred_df[pred_df.observation == True].error.mean()\nfpr = pred_df[pred_df.observation == False].error.mean()\ntpr = 1 - fpr\ntnr = 1 - fnr\n\nprint('false positive rate: ', fpr)\nprint('false negative rate: ', fnr)\nprint('true positive rate (sensitivity): ', tpr)\nprint('true negative rate (specificity): ', tnr)\n\n\n\nQuestion 5: make your own classifier\nDefine a new classifier by adjusting the probability threshold. Compute and print the false positive, false negative, true positive, and true negative rates. Experiment until you achieve a better balance between errors of each type.\n\n# construct classifier\nnew_pred_df = pd.DataFrame({\n    ...\n    ...\n})\n\n# compute error rates\nnew_pred_df['error'] = ...\nnew_fnr = ...\nnew_fpr = ...\nnew_tpr = ...\nnew_tnr = ...\n\n# print\nprint('false positive rate: ', new_fpr)\nprint('false negative rate: ', new_fnr)\nprint('true positive rate (sensitivity): ', new_tpr)\nprint('true negative rate (specificity): ', new_tnr)\n\n\ngrader.check(\"q5\")"
+  },
+  {
+    "objectID": "slides/week10-clustering.html#announcements",
+    "href": "slides/week10-clustering.html#announcements",
+    "title": "Clustering",
+    "section": "Announcements",
+    "text": "Announcements\n\nLab 7 optional, turn in by end of day Friday 6/9\nHW4 due Wednesday 6/7 with late submissions by Friday 6/9\nCourse project due Friday 6/16; groups preferred, max of 3\nExtra OH Tuesday 1-3pm (scheduled final time)?"
+  },
+  {
+    "objectID": "slides/week10-clustering.html#last-time",
+    "href": "slides/week10-clustering.html#last-time",
+    "title": "Clustering",
+    "section": "Last time",
+    "text": "Last time\nWe fit the logistic regression model:\n\\[\n\\log\\left(\\frac{Pr(\\text{diabetic}_i)}{1 - Pr(\\text{diabetic}_i)}\\right) = \\beta_0 + \\beta_1\\text{age}_i +  \\beta_2\\text{male}_i+\\beta_3\\text{BMI}_i\n\\]\nAnd discussed:\n\nmodel specification\nparameter estimation\nparameter interpretation"
+  },
+  {
+    "objectID": "slides/week10-clustering.html#last-time-1",
+    "href": "slides/week10-clustering.html#last-time-1",
+    "title": "Clustering",
+    "section": "Last time",
+    "text": "Last time\nThe logistic regression model can be employed as a classifier by articulating a rule:\n\\[\n\\text{classify as diabetic}\n\\quad\\Longleftrightarrow\\quad\n\\widehat{Pr}(\\text{diabetic}) > c\n\\]\nwhere \\(\\widehat{Pr}(\\text{diabetic})\\) is computed from the fitted logistic regression model.\n\nAny classifier has some:\n\nsensitivity (true positive rate)\nspecificity (true negative rate)\n\n\n\nThese rates vary depending on \\(c\\)."
+  },
+  {
+    "objectID": "slides/week10-clustering.html#roc-curves",
+    "href": "slides/week10-clustering.html#roc-curves",
+    "title": "Clustering",
+    "section": "ROC Curves",
+    "text": "ROC Curves\nA plot of sensitivity against specificity across all unique classification thresholds is known as a receiver operating characteristic (ROC) curve.\n\n\n\n\nCode\n# compute \nfrom sklearn import metrics\nfpr, tpr, thresh = metrics.roc_curve(y, fitted_probs)\n\nroc = pd.DataFrame({\n    'fpr': fpr,\n    'tpr': tpr,\n    'thresh': thresh\n})\n\nroc_opt_ix = [(roc.tpr - roc.fpr).argmax(), ((1 - roc.tpr)**2 + roc.fpr**2).argmin()]\nroc_opt = roc.loc[roc_opt_ix]\n\nroc_plot = alt.Chart(roc).mark_line().encode(\n    x = alt.X('fpr', title = '1 - specificity'),\n    y = alt.Y('tpr', title = 'sensitivity')\n)\n\nroc_pts = alt.Chart(roc_opt).mark_circle(\n    fill = 'red',\n    size = 100\n).encode(\n    x = 'fpr',\n    y = 'tpr'\n)\n\n(roc_plot + roc_pts).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n)\n\n\n\n\n\n\n\n\n\ncloser to the upper left corner \\(\\longrightarrow\\) less trade-off \\(\\longrightarrow\\) better classifier\narea under the curve often used as an accuracy metric\ntwo common choices for \\(c\\) highlighted:\n\nthe point closest to the upper left corner\nthe point that maximizes sensitivity + specificity (sometimes called Youden’s J statistic)"
+  },
+  {
+    "objectID": "slides/week10-clustering.html#probit-regression-model",
+    "href": "slides/week10-clustering.html#probit-regression-model",
+    "title": "Clustering",
+    "section": "Probit regression model",
+    "text": "Probit regression model\nLogistic regression is not the only regression model for binary data. One common alternative is probit regression, where:\n\\[\nP(Y = 1) = \\Phi\\left(x'\\beta\\right)\n\\]\n\n\\(\\Phi\\) is the standard normal CDF\nsimilar assumptions to logistic regression – independence and monotonicity"
+  },
+  {
+    "objectID": "slides/week10-clustering.html#probit-v.-logit",
+    "href": "slides/week10-clustering.html#probit-v.-logit",
+    "title": "Clustering",
+    "section": "Probit v. logit",
+    "text": "Probit v. logit\nThe logistic function has heavier tails.\n\n\nCode\nfrom scipy.stats import norm\n# grid of values\nvals = pd.DataFrame({\n    'x': np.linspace(-5, 5, 200)\n})\n\n# compute probit and logit\nvals['logit'] = 1/(1 + np.exp(-vals.x))\nvals['probit'] = norm.cdf(vals.x)\nvals = vals.melt(id_vars = 'x', var_name = 'model', value_name = 'pr')\n\n# plot\nalt.Chart(vals).mark_line().encode(\n    x = alt.X('x', title = 'x*beta'),\n    y = alt.Y('pr', title = 'Pr(Y = 1)'),\n    color = 'model',\n    stroke = 'model'\n).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n).configure_legend(\n    labelFontSize = 14,\n    titleFontSize = 16\n)"
+  },
+  {
+    "objectID": "slides/week10-clustering.html#probit-fit-to-diabetes-data",
+    "href": "slides/week10-clustering.html#probit-fit-to-diabetes-data",
+    "title": "Clustering",
+    "section": "Probit fit to diabetes data",
+    "text": "Probit fit to diabetes data\nHere are the estimates from the probit model:\n\n\nCode\n# fit model\nmodel_probit = sm.Probit(endog = y, exog = x)\nfit_probit = model_probit.fit()\n\n# parameter estimates\ncoef_tbl_probit = pd.DataFrame({\n    'estimate': fit_probit.params,\n    'standard error': np.sqrt(fit_probit.cov_params().values.diagonal())},\n    index = x.columns\n)\ncoef_tbl_probit\n\n\nOptimization terminated successfully.\n         Current function value: 0.214265\n         Iterations 8\n\n\n\n\n\n\n  \n    \n      \n      estimate\n      standard error\n    \n  \n  \n    \n      const\n      -4.215812\n      0.172291\n    \n    \n      male\n      0.116145\n      0.061036\n    \n    \n      Age\n      0.025876\n      0.001733\n    \n    \n      BMI\n      0.051143\n      0.004201\n    \n  \n\n\n\n\n\nTrickier to interpret coefficients directly, since \\(\\Phi^{-1}(p)\\) is not a natural quantity"
+  },
+  {
+    "objectID": "slides/week10-clustering.html#challenges-of-interpretation",
+    "href": "slides/week10-clustering.html#challenges-of-interpretation",
+    "title": "Clustering",
+    "section": "Challenges of interpretation",
+    "text": "Challenges of interpretation\nThe effect of incremental changes in explanatory variables on predicted probabilities depends on your starting point.\n\n# means of explanatory variables\nx1 = x.mean()\n\n# increment bmi twice\nx2 = x1 + np.array([0, 0, 0, 1])\nx3 = x2 + np.array([0, 0, 0, 1])\nx_pred = pd.concat([x1, x2, x3], axis = 1).T\nx_pred['male'] = np.array([0, 0, 0])\n\n# compute predictions and differences in probability\npreds = fit_probit.predict(x_pred)\npreds.diff()\n\n0         NaN\n1    0.003587\n2    0.003941\ndtype: float64\n\n\n\na one-unit increase in BMI from 26.45 (sample mean) for a 37.6 year old woman is associated with an estimated change in probability of diabetes of 0.0036\na one-unit increase in BMI from 27.45 (sample mean plus one) for a 37.6 year old woman is associated with an estimated change in probability of diabetes of 0.0039"
+  },
+  {
+    "objectID": "slides/week10-clustering.html#centering-for-interpretability",
+    "href": "slides/week10-clustering.html#centering-for-interpretability",
+    "title": "Clustering",
+    "section": "Centering for interpretability",
+    "text": "Centering for interpretability\nIf explanatory variables are centered, then the change in estimated probability associated with a 1-unit change from the mean (and reference level(s)) is:\n\\[\n\\Phi\\left(\\hat{\\beta}_0 + \\hat{\\beta}_j\\right) - \\Phi\\left(\\hat{\\beta}_0\\right)\n\\]\n\nRefitting the model after centering age and BMI and computing the above yields:\n\n\nCode\n# center explanatory variables\nx_vars_ctr = x_vars - x.mean()\nx_ctr = pd.concat([x.loc[:, ['const', 'male']], x_vars_ctr.loc[:, ['Age', 'BMI']]], axis = 1)\n\n# fit model\nmodel_probit_ctr = sm.Probit(endog = y, exog = x_ctr)\nfit_probit_ctr = model_probit_ctr.fit()\n\n# baseline\nprobit_baseline = norm.cdf(fit_probit_ctr.params[0])\n\n# changes in estimated probabilities associated with one-unit change from mean, keeping other variables at mean/reference\nprob_diffs = norm.cdf(fit_probit_ctr.params[1:4] + fit_probit_ctr.params[0]) - probit_baseline\n\n# print\npd.DataFrame({'change in probability': prob_diffs}, index = np.array(['male', 'age', 'BMI']))\n\n\nOptimization terminated successfully.\n         Current function value: 0.214265\n         Iterations 8\n\n\n\n\n\n\n  \n    \n      \n      change in probability\n    \n  \n  \n    \n      male\n      0.008659\n    \n    \n      age\n      0.001772\n    \n    \n      BMI\n      0.003587"
+  },
+  {
+    "objectID": "slides/week10-clustering.html#unsupervised-problems",
+    "href": "slides/week10-clustering.html#unsupervised-problems",
+    "title": "Clustering",
+    "section": "Un/Supervised problems",
+    "text": "Un/Supervised problems\nRegression and classification are known as ‘supervised’ problems:\n\nthe response variable/outcome is observed\nthe modeling of data is guided by observation\n\n\nBy contrast, in ‘unsupervised’ problems:\n\nthe response variable/outcome is not observed\nno ground truth to guide/supervise the modeling process"
+  },
+  {
+    "objectID": "slides/week10-clustering.html#clustering",
+    "href": "slides/week10-clustering.html#clustering",
+    "title": "Clustering",
+    "section": "Clustering",
+    "text": "Clustering\nClustering is the unsupervised version of classification:\n\nCan we classify observations into two or more groups based on \\(p\\) variables without knowing the true grouping structure?\n\n\ncan think of this as modeling an unobserved response\nhowever, not necessary that there exist subpopulations in the data – often a useful exploratory technique for exploring multimodal distributions"
+  },
+  {
+    "objectID": "slides/week10-clustering.html#voting-records-116th-house",
+    "href": "slides/week10-clustering.html#voting-records-116th-house",
+    "title": "Clustering",
+    "section": "Voting records, 116th House",
+    "text": "Voting records, 116th House\nRoll call votes of the 116th House of Representatives on bills and resolutions:\n\n\nCode\nmembers = pd.read_csv('data/members.csv').set_index('name_id')\nvotes = pd.read_csv('data/votes-clean.csv').set_index('name_id')\nvote_info = pd.read_csv('data/votes-info.csv').set_index('rollcall_id')\n\nvotes.head(3)\n\n\n\n\n\n\n  \n    \n      \n      2019:118\n      2019:217\n      2019:240\n      2019:134\n      2019:099\n      2019:184\n      2019:011\n      2019:067\n      2019:168\n      2019:557\n      ...\n      2019:610\n      2019:535\n      2019:627\n      2019:538\n      2019:569\n      2019:570\n      2019:583\n      2019:626\n      2019:592\n      2019:624\n    \n    \n      name_id\n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n      \n    \n  \n  \n    \n      A000374\n      -1\n      -1\n      -1\n      -1\n      -1\n      0\n      -1\n      1\n      0\n      1\n      ...\n      1\n      0\n      1\n      0\n      1\n      1\n      -1\n      1\n      -1\n      -1\n    \n    \n      A000370\n      1\n      1\n      1\n      1\n      1\n      0\n      1\n      1\n      1\n      1\n      ...\n      1\n      1\n      1\n      1\n      1\n      1\n      1\n      1\n      1\n      1\n    \n    \n      A000055\n      -1\n      -1\n      -1\n      -1\n      -1\n      -1\n      -1\n      1\n      1\n      1\n      ...\n      1\n      1\n      1\n      1\n      1\n      1\n      -1\n      1\n      1\n      -1\n    \n  \n\n3 rows × 144 columns\n\n\n\n\neach column is a roll call (\\(p = 144\\) total)\neach row is a representative (\\(n = 430\\) total)\n1 is a “yes” vote; 0 is an abstention; -1 is a “no” vote"
+  },
+  {
+    "objectID": "slides/week10-clustering.html#eda-with-pca",
+    "href": "slides/week10-clustering.html#eda-with-pca",
+    "title": "Clustering",
+    "section": "EDA with PCA",
+    "text": "EDA with PCA\nProjecting the data onto the first few principal components provides a way to visualize the data:\n\n\n\n\nCode\npca = sm.PCA(votes)\nalt.Chart(pca.scores).mark_circle(opacity = 0.5).encode(\n    x = alt.X('comp_000', title = 'PC1'),\n    y = alt.Y('comp_001', title = 'PC2')\n).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n).configure_legend(\n    labelFontSize = 14,\n    titleFontSize = 16\n)\n\n\n\n\n\n\n\n\n\ncan see at least two clusters"
+  },
+  {
+    "objectID": "slides/week10-clustering.html#clustering-with-k-means",
+    "href": "slides/week10-clustering.html#clustering-with-k-means",
+    "title": "Clustering",
+    "section": "Clustering with \\(K\\)-means",
+    "text": "Clustering with \\(K\\)-means\nThe most widely used clustering method is known as \\(K\\)-means.\n\n\n\n\n\ncluster labels are based on shortest Euclidean distance to one of \\(K\\) centers\ncenters are found by minimizing the variance within each cluster"
+  },
+  {
+    "objectID": "slides/week10-clustering.html#clustering-with-k-means-1",
+    "href": "slides/week10-clustering.html#clustering-with-k-means-1",
+    "title": "Clustering",
+    "section": "Clustering with \\(K\\)-means",
+    "text": "Clustering with \\(K\\)-means\nTechnically, given \\(n\\) observations of \\(p\\) variables \\(\\mathbf{X} = \\{x_{ij}\\}\\), the \\(k\\)-means problem is:\n\\[\n\\text{minimize}_{C_1, \\dots, C_K} \\left\\{\n    \\sum_{k = 1}^K |C_k|^{-1} \\sum_{i, i' \\in C_k} \\sum_{j = 1}^p (x_{ij} - x_{i'j})^2\n\\right\\}\n\\]\n\nA local solution is found by starting with random cluster assignments and then interatively:\n\nUpdate the cluster centers\nReassign the cluster labels"
+  },
+  {
+    "objectID": "slides/week10-clustering.html#clustering-voting-data",
+    "href": "slides/week10-clustering.html#clustering-voting-data",
+    "title": "Clustering",
+    "section": "Clustering voting data",
+    "text": "Clustering voting data\n\nQuestion: Can we identify groups of representatives that voted similarly?\n\n\nCan cluster the representatives according to roll call votes\nBut how many clusters to expect?"
+  },
+  {
+    "objectID": "slides/week10-clustering.html#clustering-voting-data-1",
+    "href": "slides/week10-clustering.html#clustering-voting-data-1",
+    "title": "Clustering",
+    "section": "Clustering voting data",
+    "text": "Clustering voting data\nThe method is very easy to implement:\n\nfrom sklearn.cluster import KMeans\nnp.random.seed(60623)\n\nclust = KMeans(n_clusters = 2)\nclust.fit(votes)\nclust_labels = clust.predict(votes)\n\n\nCluster labels will be returned in the same order as the rows input to .predict()\n\n\nInitialization is random, so solutions may differ from run to run (usually just permutes labels)."
+  },
+  {
+    "objectID": "slides/week10-clustering.html#vote-cluster-party-composition",
+    "href": "slides/week10-clustering.html#vote-cluster-party-composition",
+    "title": "Clustering",
+    "section": "Vote cluster party composition",
+    "text": "Vote cluster party composition\nWe could also cross-tabulate the cluster labels with party affiliations:\n\n\nCode\nlabel_df = pd.DataFrame({'cluster': clust_labels}, index = votes.index)\n\npd.merge(members, label_df, left_index = True, right_index = True).groupby(['current_party', 'cluster']).size().reset_index().pivot(columns = 'current_party', index = 'cluster')\n\n\n\n\n\n\n  \n    \n      \n      0\n    \n    \n      current_party\n      Democratic\n      Independent\n      Republican\n    \n    \n      cluster\n      \n      \n      \n    \n  \n  \n    \n      0\n      NaN\n      NaN\n      159.0\n    \n    \n      1\n      232.0\n      NaN\n      2.0\n    \n    \n      2\n      NaN\n      1.0\n      36.0"
+  },
+  {
+    "objectID": "slides/week10-clustering.html#a-different-k",
+    "href": "slides/week10-clustering.html#a-different-k",
+    "title": "Clustering",
+    "section": "A different \\(K\\)?",
+    "text": "A different \\(K\\)?\n\\(K\\)-means will find exactly as many clusters as you ask for. If we ask for one less cluster, here’s what the party composition looks like:\n\n\nCode\nnp.random.seed(60623)\nclust = KMeans(n_clusters = 2)\nclust.fit(votes)\nclust_labels = clust.predict(votes)\nlabel_df = pd.DataFrame({'cluster': clust_labels}, index = votes.index)\n\npd.merge(members, label_df, left_index = True, right_index = True).groupby(['current_party', 'cluster']).size().reset_index().pivot(columns = 'current_party', index = 'cluster')\n\n\n\n\n\n\n  \n    \n      \n      0\n    \n    \n      current_party\n      Democratic\n      Independent\n      Republican\n    \n    \n      cluster\n      \n      \n      \n    \n  \n  \n    \n      0\n      232.0\n      NaN\n      3.0\n    \n    \n      1\n      NaN\n      1.0\n      194.0\n    \n  \n\n\n\n\n\nWho are those three representatives that vote with the democrats?\n\n\nCode\nmembers_labeled = pd.merge(members, label_df, left_index = True, right_index = True)\n\nmembers_labeled[(members_labeled.cluster == 0) & (members_labeled.current_party == 'Republican')]\n\n\n\n\n\n\n  \n    \n      \n      name\n      state\n      url\n      chamber\n      current_party\n      committee_assignments\n      cluster\n    \n    \n      name_id\n      \n      \n      \n      \n      \n      \n      \n    \n  \n  \n    \n      F000466\n      brian-fitzpatrick\n      Pennsylvania\n      https://www.congress.gov/member/brian-fitzpatr...\n      House\n      Republican\n      ['Foreign Affairs', 'Transportation and Infras...\n      0\n    \n    \n      K000386\n      john-katko\n      New York\n      https://www.congress.gov/member/john-katko/K00...\n      House\n      Republican\n      ['Homeland Security', 'Transportation and Infr...\n      0\n    \n    \n      S000522\n      christopher-smith\n      New Jersey\n      https://www.congress.gov/member/christopher-sm...\n      House\n      Republican\n      ['Foreign Affairs']\n      0"
+  },
+  {
+    "objectID": "slides/week10-clustering.html#on-selecting-k",
+    "href": "slides/week10-clustering.html#on-selecting-k",
+    "title": "Clustering",
+    "section": "On selecting \\(K\\)",
+    "text": "On selecting \\(K\\)\nThere are various criteria for making data-driven choices of \\(K\\), many of which have easy-to-find implementations.\nPros to performing selection:\n\nmore fully automated method\nmay identify structure in the data\n\nCons to performing selection:\n\ndifferent choice of criterion may yield different results\nmay not indicate real structure and easy to over-interpret as an inference"
+  },
+  {
+    "objectID": "slides/week10-clustering.html#centering-for-interpretation",
+    "href": "slides/week10-clustering.html#centering-for-interpretation",
+    "title": "Clustering",
+    "section": "Centering for interpretation",
+    "text": "Centering for interpretation\nNow the coefficent interpretations are:\n\nthe estimated probability that a woman of average age and BMI has diabetes is 0.029\n\n\\(\\Phi(\\hat{\\beta}_0)\\)\n\namong people of average age and BMI, men are more likely than women to be diabetic with an estimated difference in probability of 0.009\n\n\\(0.008659 = \\Phi(\\hat{\\beta}_0 + \\hat{\\beta}_1) - \\Phi(\\hat{\\beta}_0)\\)\n\na one-year increase from the average age is associated with a change in the estimated probability that a woman of average BMI is diabetic of 0.002\n\n\\(0.001772 = \\Phi(\\hat{\\beta}_0 + \\hat{\\beta}_2) - \\Phi(\\hat{\\beta}_0)\\)\n\na one-unit increase in BMI from the average is associated with a change in the estimated probability that a woman of average age is diabetic of 0.004\n\n\\(0.003587 = \\Phi(\\hat{\\beta}_0 + \\hat{\\beta}_3) - \\Phi(\\hat{\\beta}_0)\\)"
+  },
+  {
+    "objectID": "slides/week10-clustering.html#clustering-voting-data-2",
+    "href": "slides/week10-clustering.html#clustering-voting-data-2",
+    "title": "Clustering",
+    "section": "Clustering voting data",
+    "text": "Clustering voting data\nWe could again visualize the clusters using PCA:\n\n\nCode\nplot_df = pca.scores.iloc[:, 0:2].copy()\nplot_df['cluster'] = clust_labels\n\nalt.Chart(plot_df).mark_circle(opacity = 0.5).encode(\n    x = alt.X('comp_000', title = 'PC1'),\n    y = alt.Y('comp_001', title = 'PC2'),\n    color = 'cluster:N'\n).configure_axis(\n    labelFontSize = 14,\n    titleFontSize = 16\n).configure_legend(\n    labelFontSize = 14,\n    titleFontSize = 16\n)"
+  },
+  {
+    "objectID": "slides/week10-clustering.html#cluster-composition-by-party",
+    "href": "slides/week10-clustering.html#cluster-composition-by-party",
+    "title": "Clustering",
+    "section": "Cluster composition by party",
+    "text": "Cluster composition by party\nWe could also cross-tabulate the cluster labels with party affiliations:\n\n\nCode\nlabel_df = pd.DataFrame({'cluster': clust_labels}, index = votes.index)\n\npd.merge(members, label_df, left_index = True, right_index = True).groupby(['current_party', 'cluster']).size().reset_index().pivot(columns = 'current_party', index = 'cluster')\n\n\n\n\n\n\n  \n    \n      \n      0\n    \n    \n      current_party\n      Democratic\n      Independent\n      Republican\n    \n    \n      cluster\n      \n      \n      \n    \n  \n  \n    \n      0\n      232.0\n      NaN\n      3.0\n    \n    \n      1\n      NaN\n      1.0\n      194.0"
+  },
+  {
+    "objectID": "slides/week10-clustering.html#cluster-composition-by-party-1",
+    "href": "slides/week10-clustering.html#cluster-composition-by-party-1",
+    "title": "Clustering",
+    "section": "Cluster composition by party",
+    "text": "Cluster composition by party\nWho are those three representatives that vote with the democrats?\n\n\nCode\nmembers_labeled = pd.merge(members, label_df, left_index = True, right_index = True)\n\nmembers_labeled[(members_labeled.cluster == 0) & (members_labeled.current_party == 'Republican')]\n\n\n\n\n\n\n  \n    \n      \n      name\n      state\n      url\n      chamber\n      current_party\n      committee_assignments\n      cluster\n    \n    \n      name_id\n      \n      \n      \n      \n      \n      \n      \n    \n  \n  \n    \n      F000466\n      brian-fitzpatrick\n      Pennsylvania\n      https://www.congress.gov/member/brian-fitzpatr...\n      House\n      Republican\n      ['Foreign Affairs', 'Transportation and Infras...\n      0\n    \n    \n      K000386\n      john-katko\n      New York\n      https://www.congress.gov/member/john-katko/K00...\n      House\n      Republican\n      ['Homeland Security', 'Transportation and Infr...\n      0\n    \n    \n      S000522\n      christopher-smith\n      New Jersey\n      https://www.congress.gov/member/christopher-sm...\n      House\n      Republican\n      ['Foreign Affairs']\n      0"
+  },
+  {
+    "objectID": "slides/week10-clustering.html#further-possible-questions",
+    "href": "slides/week10-clustering.html#further-possible-questions",
+    "title": "Clustering",
+    "section": "Further possible questions",
+    "text": "Further possible questions\nWe could use the same technique to explore a variety of additional questions:\n\nidentify voting blocs by issue or policy area (use a subset of columns)\nfind within-party voting blocs (increase \\(K\\))\nidentify representatives that don’t tend to vote together with others (assign a score based on how ‘quickly’ a representative is isolated)"
   }
 ]

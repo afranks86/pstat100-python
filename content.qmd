@@ -175,3 +175,5 @@ _**NO lab sections this week**_
 **No class Monday**
 
 **Lab sections**: Logistic regression (submission is optional) [[html](labs/lab7-classification/lab7-classification.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Flab7-classification%2Flab7-classification.ipynb&branch=main)]
+
+**Wendesday**: Clustering [[slides](slides/week10-clustering.qmd)]
