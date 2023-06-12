@@ -6,8 +6,8 @@ published-title: "Updated"
 
 ::: {.callout-note}
 ## Announcements
-* Course project posted [here](content.qmd#week-9)
-* HW4 due Wednesday 6/7 with late submissions through Friday 6/9
+* Extra office hour 1pm-3pm Tuesday 6/13 in Buchanan 1920
+* Course project due Friday 6/16 (no late submissions)
 :::
 
 This is the course website for UCSB's Data Science Concepts and Analysis class (PSTAT100). Content is directed towards currently enrolled students. Please ask permission before using course materials in any other capacity. Please *do not post any materials obtained or derived from this website on third-party websites*.
