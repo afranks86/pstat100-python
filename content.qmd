@@ -3,18 +3,6 @@ title: "Materials"
 format: html
 ---
 
-## Useful links
-
-- [Attendance form](https://forms.gle/y4CW7QPM4KSKexrq9) (fill out once per class meeting, including sections)
-- [Gradescope](https://www.gradescope.com/courses/527056) (for assignment submissions)
-- [LSIT server](https://pstat100.lsit.ucsb.edu) (for course computing)
-
-## Getting started checklist
-
-- Confirm access to all course pages
-- Read syllabus
-- Fill out [intake survey](https://forms.gle/Vb3XU5pCwcs6ieVw8)
-
 ## Week 1
 
 *Readings*: 
@@ -27,7 +15,7 @@ format: html
 
 **Monday**: Course introduction [[slides](slides/week1-intro.qmd)]
 
-**Lab sections**: Orientation to Jupyter notebooks [[html](labs/lab0-gettingstarted/lab0-gettingstarted.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Flab0-gettingstarted%2Flab0-gettingstarted.ipynb&branch=main)] [[solutions](labs/lab0-gettingstarted/lab0-gettingstarted-soln.ipynb)]
+**Lab sections**: Orientation to Jupyter notebooks [[html](labs/lab0-gettingstarted/lab0-gettingstarted.ipynb)]
 
 **Wednesday**: Data science lifecycle [[slides](slides/week1-lifecycle.qmd)]
 
@@ -43,11 +31,11 @@ format: html
 
 *Assignments*: 
 
-* HW1, BRFSS case study, due Monday, April 24 [[html](hw/hw1-brfss/hw1-brfss.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Fhw1-brfss%2Fhw1-brfss.ipynb&branch=main)] [[solutions](hw/hw1-brfss/hw1-brfss-soln.ipynb)]
+* HW1, BRFSS case study, due Monday, April 24 [[html](hw/hw1-brfss/hw1-brfss.ipynb)]
 
 **Monday**: Tidy data [[slides](slides/week2-tidy.qmd)]
 
-**Lab sections**: Pandas [[html](labs/lab1-pandas/lab1-pandas.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Flab1-pandas%2Flab1-pandas.ipynb&branch=main)] [[solutions](labs/lab1-pandas/lab1-pandas-soln.ipynb)]
+**Lab sections**: Pandas [[html](labs/lab1-pandas/lab1-pandas.ipynb)]
 
 **Wednesday**: Dataframe transformations [[slides](slides/week2-transform.qmd)]
 
@@ -62,13 +50,13 @@ format: html
 
 *Assignments*:
 
-- Mini project 1, due Monday, May 1 [[html](projects/mp1/mp1-airquality.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Fmp1-airquality%2Fmp1-airquality.ipynb&branch=main)] 
+- Mini project 1, due Monday, May 1 [[html](projects/mp1/mp1-airquality.ipynb)]
 
 **Monday**: Sampling, bias, and missingness [[slides](slides/week3-sampling.qmd)]
 
-**Lab sections**: Exploring sampling bias through simulation [[html](labs/lab2-sampling/lab2-sampling.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Flab2-sampling%2Flab2-sampling.ipynb&branch=main)] [[solutions](labs/lab2-sampling/lab2-sampling-soln.ipynb)]
+**Lab sections**: Exploring sampling bias through simulation [[html](labs/lab2-sampling/lab2-sampling.ipynb)]
 
-**Wednesday**: Voter fraud case study [[slides](slides/week3-casestudy.qmd)] [[activity html](activities/week3-activity-miller.ipynb)] [[activity notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Factivities%2Fweek3-activity-miller.ipynb&branch=main)]
+**Wednesday**: Voter fraud case study [[slides](slides/week3-casestudy.qmd)] [[activity html](activities/week3-activity-miller.ipynb)]
 
 ## Week 4
 
@@ -82,11 +70,11 @@ format: html
 
 *Assignments*: 
 
-- HW2, SEDA case study, due Monday, May 8 [[html](hw/hw2-seda/hw2-seda.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Fhw2-seda%2Fhw2-seda.ipynb&branch=main)] [[solutions](hw/hw2-seda/hw2-seda-soln.ipynb)]
+- HW2, SEDA case study, due Monday, May 8 [[html](hw/hw2-seda/hw2-seda.ipynb)]
 
 **Monday**: Statistical graphics [[slides](slides/week4-graphics.qmd)]
 
-**Lab sections**: Data visualization [[html](labs/lab3-visualization/lab3-visualization.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Flab3-visualization%2Flab3-visualization.ipynb&branch=main)] [[solutions](labs/lab3-visualization/lab3-visualization-soln.ipynb)]
+**Lab sections**: Data visualization [[html](labs/lab3-visualization/lab3-visualization.ipynb)]
 
 **Wednesday**: Principles of figure design [[slides](slides/week4-principles.qmd)]
 
@@ -99,9 +87,9 @@ format: html
 
 **Monday**: Exploratory analysis and density estimation [[slides](slides/week5-density.qmd)]
 
-**Lab sections**: Smoothing [[html](labs/lab4-smoothing/lab4-smoothing.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Flab4-smoothing%2Flab4-smoothing.ipynb&branch=main)] [[solutions](labs/lab4-smoothing/lab4-smoothing-soln.ipynb)]
+**Lab sections**: Smoothing [[html](labs/lab4-smoothing/lab4-smoothing.ipynb)]
 
-**Wednesday**: Multivariate KDE, mixture models, and scatterplot smoothing [[slides](slides/week5-smoothing.qmd)] [[activity html](activities/week5-activity-smoothing.ipynb)] [[activity notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Factivities%2Fweek5-activity-smoothing.ipynb&branch=main)]
+**Wednesday**: Multivariate KDE, mixture models, and scatterplot smoothing [[slides](slides/week5-smoothing.qmd)] [[activity html](activities/week5-activity-smoothing.ipynb)]
 
 ## Week 6
 
@@ -112,7 +100,7 @@ format: html
 
 *Assignments*:
 
-- HW3, Diatom paleoclimatology case study, due Monday, May 22 [[html](hw/hw3-diatom/hw3-diatom.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Fhw3-diatom%2Fhw3-diatom.ipynb&branch=main)] [[solutions](hw/hw3-diatom/hw3-diatom-soln.ipynb)]
+- HW3, Diatom paleoclimatology case study, due Monday, May 22 [[html](hw/hw3-diatom/hw3-diatom.ipynb)]
 
 **Monday**: Covariance, correlation, and spectral decomposition [[slides](slides/week6-covariation.qmd)]
 
@@ -128,11 +116,11 @@ _**NO lab sections this week**_
 
 *Assignments*:
 
-- Mini project 2, due Tuesday, May 30 [[html](projects/mp2/mp2-ncca.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Fmp2-ncca%2Fmp2-ncca.ipynb&branch=main)]
+- Mini project 2, due Tuesday, May 30 [[html](projects/mp2/mp2-ncca.ipynb)]
 
 **Monday**: Modeling concepts; least squares [[slides](slides/week7-lse.qmd)]
 
-**Lab sections**: Principal components [[html](labs/lab5-pca/lab5-pca.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Flab5-pca%2Flab5-pca.ipynb&branch=main)] [[solutions](labs/lab5-pca/lab5-pca-soln.ipynb)]
+**Lab sections**: Principal components [[html](labs/lab5-pca/lab5-pca.ipynb)]
 
 **Wednesday**: The simple linear regression model [[slides](slides/week7-slr.qmd)]
 
@@ -145,12 +133,11 @@ _**NO lab sections this week**_
 
 *Assignments*: 
 
-- HW4, Discrimination in disability benefit allocation, due Wednesday, June 7 [[html](hw/hw4-dds/hw4-dds.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Fhw4-dds%2Fhw4-dds.ipynb&branch=main)] [[solutions](hw/hw4-dds/hw4-dds-soln.ipynb)]
-
+- HW4, Discrimination in disability benefit allocation, due Wednesday, June 7 [[html](hw/hw4-dds/hw4-dds.ipynb)]
 
 **Monday**: Prediction [[slides](slides/week8-prediction.qmd)]
 
-**Lab sections** Fitting regression models [[html](labs/lab6-regression/lab6-regression.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Flab6-regression%2Flab6-regression.ipynb&branch=main)] [[solutions](labs/lab6-regression/lab6-regression-soln.ipynb)]
+**Lab sections** Fitting regression models [[html](labs/lab6-regression/lab6-regression.ipynb)]
 
 **Wednesday**: Multiple regression [[slides](slides/week8-mlr.qmd)]
 
@@ -162,7 +149,7 @@ _**NO lab sections this week**_
 
 *Assignments*:
 
-- Course project due Friday, June 16 [[html](projects/cp/project-guidelines.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Fcp%2Fproject-guidelines.ipynb&branch=main)]
+- Course project due Friday, June 16 [[html](projects/cp/project-guidelines.ipynb)]
 
 **No class or lab sections Monday**
 
@@ -174,6 +161,6 @@ _**NO lab sections this week**_
 
 **No class Monday**
 
-**Lab sections**: Logistic regression (submission is optional) [[html](labs/lab7-classification/lab7-classification.ipynb)] [[notebook](https://pstat100.lsit.ucsb.edu/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fruizt%2Fpstat100-content&urlpath=lab%2Ftree%2Fpstat100-content%2Flab7-classification%2Flab7-classification.ipynb&branch=main)] [[solutions](labs/lab7-classification/lab7-classification-soln.ipynb)]
+**Lab sections**: Logistic regression (submission is optional) [[html](labs/lab7-classification/lab7-classification.ipynb)]
 
 **Wendesday**: Clustering [[slides](slides/week10-clustering.qmd)]

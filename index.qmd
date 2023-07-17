@@ -1,13 +1,7 @@
 ---
 title: "Data Science Concepts and Analysis"
 date: today
-published-title: "Updated"
+published-title: "Archived"
 ---
 
-::: {.callout-note}
-## Announcements
-* Extra office hour 1pm-3pm Tuesday 6/13 in Buchanan 1920
-* Course project due Friday 6/16 (no late submissions)
-:::
-
-This is the course website for UCSB's Data Science Concepts and Analysis class (PSTAT100). Content is directed towards currently enrolled students. Please ask permission before using course materials in any other capacity. Please *do not post any materials obtained or derived from this website on third-party websites*.
+This website hosts archived materials for the course *Data Science Concepts and Analysis* (PSTAT100) offered at UCSB in Spring 2023. It is substantially a copy of the class website, but with posted solutions and links to launch notebooks on the course server removed. I'm happy to share solutions and source materials for instructional purposes; please request via [email](truiz01@calpoly.edu). Please *do not reproduce materials without permission*.

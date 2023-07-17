@@ -27,8 +27,8 @@ editor: visual
 
 **Office hours**:
 
-- Mengye M 9:00am -- 11:00am on [Zoom](https://ucsb.zoom.us/j/82799551322?pwd=SGlHRlNaVHovRmViMUtUeCtidjBEdz09)
-- Gabrielle Tu 7:00pm -- 8:00pm on [Zoom](https://ucsb.zoom.us/j/83407131759) 
+- Mengye M 9:00am -- 11:00am on Zoom
+- Gabrielle Tu 7:00pm -- 8:00pm on Zoom 
 - Harry W 2:00pm -- 4:00pm Building 434 Room 113
 - Trevor W 2:00pm -- 3:00pm ILP 2207
 
@@ -95,7 +95,7 @@ Week | Topic | Lab | Homework | Project
 
 ### Materials
 
-The course website [ruizt.github.io/pstat100](https://ruizt.github.io/pstat100) will link to all course content and resources. Readings for the course will draw on multiple sources, including:
+The course website will link to all course content and resources. Readings for the course will draw on multiple sources, including:
 
 - [Python Data Science Handbook](https://jakevdp.github.io/PythonDataScienceHandbook/) (PDSH);
 - [Learning Data Science](https://learningds.org/intro.html) (LDS);
