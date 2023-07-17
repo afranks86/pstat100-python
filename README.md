@@ -1,4 +1,4 @@
-# Data science concepts and analysis course website
+# Data science concepts and analysis (course website)
 
 (archived) course website for PSTAT100 at UCSB. materials are for instructional use only.
 
@@ -17,9 +17,9 @@ See the Quarto documentation on webiste publishing for more info: [https://quart
 
 ## Dependencies
 
-Python 3.11+
-Quarto 1.3+
-Python libraries:
+- Python 3.11+
+- Quarto 1.3+
+- Python libraries:
     - numpy 1.24.3
     - pandas 1.5.3
     - altair 5.0.1
