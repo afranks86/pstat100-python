@@ -15,6 +15,8 @@ The site will be published as: "https://[your-user-name].github.io/[fork-name]".
 
 See the Quarto documentation on webiste publishing for more info: [https://quarto.org/docs/publishing/github-pages.html](https://quarto.org/docs/publishing/github-pages.html).
 
+Solution notebooks have been included with this repository for easy posting but links to solutions have been removed from the website.
+
 ## Dependencies
 
 - Python 3.11+
