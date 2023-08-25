@@ -4,4 +4,4 @@ date: today
 published-title: "Archived"
 ---
 
-This website hosts archived materials for the course *Data Science Concepts and Analysis* (PSTAT100) offered at UCSB in Spring 2023. It is substantially a copy of the class website, but with posted solutions and links to launch notebooks on the course server removed. I'm happy to share solutions and source materials for instructional purposes; please request via [email](truiz01@calpoly.edu). Please *do not reproduce materials without permission*.
+This website hosts archived materials for the course *Data Science Concepts and Analysis* (PSTAT100) offered at UCSB in Spring 2023. It is substantially a copy of the class website, but with posted solutions and links to launch notebooks on the course server removed. I'm happy to share solutions and source materials for instructional purposes; please request via [email](mailto:truiz01@calpoly.edu). Please *do not reproduce materials without permission*.
