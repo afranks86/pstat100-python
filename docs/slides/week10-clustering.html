@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-html/tabby.min.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -8,7 +8,7 @@
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.433">
+  <meta name="generator" content="quarto-1.4.550">
 
   <meta name="author" content="PSTAT100 Spring 2023">
   <title>PSTAT100 - Clustering</title>
@@ -31,7 +31,7 @@
     }
     /* CSS for syntax highlighting */
     pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span { line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
     .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -230,7 +230,8 @@
   }
 
   .callout.callout-titled .callout-body > .callout-content > :last-child {
-    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0;
   }
 
   .callout.callout-titled .callout-icon::before {
@@ -395,7 +396,7 @@
     }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+  
   <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 </head>
 <body class="quarto-light">
@@ -462,60 +463,60 @@ PSTAT100 Spring 2023
 <p>A plot of sensitivity against specificity across all unique classification thresholds is known as a <em>receiver operating characteristic</em> (ROC) curve.</p>
 <div class="columns">
 <div class="column" style="width:50%;">
-<div class="cell" data-execution_count="2">
-<details>
+<div id="7cd62498" class="cell" data-execution_count="2">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># compute </span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="im">from</span> sklearn <span class="im">import</span> metrics</span>
-<span id="cb1-3"><a href="#cb1-3"></a>fpr, tpr, thresh <span class="op">=</span> metrics.roc_curve(y, fitted_probs)</span>
-<span id="cb1-4"><a href="#cb1-4"></a></span>
-<span id="cb1-5"><a href="#cb1-5"></a>roc <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb1-6"><a href="#cb1-6"></a>    <span class="st">'fpr'</span>: fpr,</span>
-<span id="cb1-7"><a href="#cb1-7"></a>    <span class="st">'tpr'</span>: tpr,</span>
-<span id="cb1-8"><a href="#cb1-8"></a>    <span class="st">'thresh'</span>: thresh</span>
-<span id="cb1-9"><a href="#cb1-9"></a>})</span>
-<span id="cb1-10"><a href="#cb1-10"></a></span>
-<span id="cb1-11"><a href="#cb1-11"></a>roc_opt_ix <span class="op">=</span> [(roc.tpr <span class="op">-</span> roc.fpr).argmax(), ((<span class="dv">1</span> <span class="op">-</span> roc.tpr)<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> roc.fpr<span class="op">**</span><span class="dv">2</span>).argmin()]</span>
-<span id="cb1-12"><a href="#cb1-12"></a>roc_opt <span class="op">=</span> roc.loc[roc_opt_ix]</span>
-<span id="cb1-13"><a href="#cb1-13"></a></span>
-<span id="cb1-14"><a href="#cb1-14"></a>roc_plot <span class="op">=</span> alt.Chart(roc).mark_line().encode(</span>
-<span id="cb1-15"><a href="#cb1-15"></a>    x <span class="op">=</span> alt.X(<span class="st">'fpr'</span>, title <span class="op">=</span> <span class="st">'1 - specificity'</span>),</span>
-<span id="cb1-16"><a href="#cb1-16"></a>    y <span class="op">=</span> alt.Y(<span class="st">'tpr'</span>, title <span class="op">=</span> <span class="st">'sensitivity'</span>)</span>
-<span id="cb1-17"><a href="#cb1-17"></a>)</span>
-<span id="cb1-18"><a href="#cb1-18"></a></span>
-<span id="cb1-19"><a href="#cb1-19"></a>roc_pts <span class="op">=</span> alt.Chart(roc_opt).mark_circle(</span>
-<span id="cb1-20"><a href="#cb1-20"></a>    fill <span class="op">=</span> <span class="st">'red'</span>,</span>
-<span id="cb1-21"><a href="#cb1-21"></a>    size <span class="op">=</span> <span class="dv">100</span></span>
-<span id="cb1-22"><a href="#cb1-22"></a>).encode(</span>
-<span id="cb1-23"><a href="#cb1-23"></a>    x <span class="op">=</span> <span class="st">'fpr'</span>,</span>
-<span id="cb1-24"><a href="#cb1-24"></a>    y <span class="op">=</span> <span class="st">'tpr'</span></span>
-<span id="cb1-25"><a href="#cb1-25"></a>)</span>
-<span id="cb1-26"><a href="#cb1-26"></a></span>
-<span id="cb1-27"><a href="#cb1-27"></a>(roc_plot <span class="op">+</span> roc_pts).configure_axis(</span>
-<span id="cb1-28"><a href="#cb1-28"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
-<span id="cb1-29"><a href="#cb1-29"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb1-30"><a href="#cb1-30"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="co"># compute </span></span>
+<span id="cb1-2"><a></a><span class="im">from</span> sklearn <span class="im">import</span> metrics</span>
+<span id="cb1-3"><a></a>fpr, tpr, thresh <span class="op">=</span> metrics.roc_curve(y, fitted_probs)</span>
+<span id="cb1-4"><a></a></span>
+<span id="cb1-5"><a></a>roc <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb1-6"><a></a>    <span class="st">'fpr'</span>: fpr,</span>
+<span id="cb1-7"><a></a>    <span class="st">'tpr'</span>: tpr,</span>
+<span id="cb1-8"><a></a>    <span class="st">'thresh'</span>: thresh</span>
+<span id="cb1-9"><a></a>})</span>
+<span id="cb1-10"><a></a></span>
+<span id="cb1-11"><a></a>roc_opt_ix <span class="op">=</span> [(roc.tpr <span class="op">-</span> roc.fpr).argmax(), ((<span class="dv">1</span> <span class="op">-</span> roc.tpr)<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> roc.fpr<span class="op">**</span><span class="dv">2</span>).argmin()]</span>
+<span id="cb1-12"><a></a>roc_opt <span class="op">=</span> roc.loc[roc_opt_ix]</span>
+<span id="cb1-13"><a></a></span>
+<span id="cb1-14"><a></a>roc_plot <span class="op">=</span> alt.Chart(roc).mark_line().encode(</span>
+<span id="cb1-15"><a></a>    x <span class="op">=</span> alt.X(<span class="st">'fpr'</span>, title <span class="op">=</span> <span class="st">'1 - specificity'</span>),</span>
+<span id="cb1-16"><a></a>    y <span class="op">=</span> alt.Y(<span class="st">'tpr'</span>, title <span class="op">=</span> <span class="st">'sensitivity'</span>)</span>
+<span id="cb1-17"><a></a>)</span>
+<span id="cb1-18"><a></a></span>
+<span id="cb1-19"><a></a>roc_pts <span class="op">=</span> alt.Chart(roc_opt).mark_circle(</span>
+<span id="cb1-20"><a></a>    fill <span class="op">=</span> <span class="st">'red'</span>,</span>
+<span id="cb1-21"><a></a>    size <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb1-22"><a></a>).encode(</span>
+<span id="cb1-23"><a></a>    x <span class="op">=</span> <span class="st">'fpr'</span>,</span>
+<span id="cb1-24"><a></a>    y <span class="op">=</span> <span class="st">'tpr'</span></span>
+<span id="cb1-25"><a></a>)</span>
+<span id="cb1-26"><a></a></span>
+<span id="cb1-27"><a></a>(roc_plot <span class="op">+</span> roc_pts).configure_axis(</span>
+<span id="cb1-28"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
+<span id="cb1-29"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb1-30"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="2">
 
 <style>
-  #altair-viz-2be09fdbf73841bbac4c3da54b36ec1c.vega-embed {
+  #altair-viz-f7e785b52f574906982adaeea69928a1.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-2be09fdbf73841bbac4c3da54b36ec1c.vega-embed details,
-  #altair-viz-2be09fdbf73841bbac4c3da54b36ec1c.vega-embed details summary {
+  #altair-viz-f7e785b52f574906982adaeea69928a1.vega-embed details,
+  #altair-viz-f7e785b52f574906982adaeea69928a1.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-2be09fdbf73841bbac4c3da54b36ec1c"></div>
+<div id="altair-viz-f7e785b52f574906982adaeea69928a1"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-2be09fdbf73841bbac4c3da54b36ec1c") {
-      outputDiv = document.getElementById("altair-viz-2be09fdbf73841bbac4c3da54b36ec1c");
+    if (outputDiv.id !== "altair-viz-f7e785b52f574906982adaeea69928a1") {
+      outputDiv = document.getElementById("altair-viz-f7e785b52f574906982adaeea69928a1");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -592,54 +593,54 @@ P(Y = 1) = \Phi\left(x'\beta\right)
 <section id="probit-v.-logit" class="slide level2">
 <h2>Probit v. logit</h2>
 <p>The logistic function has heavier tails.</p>
-<div class="cell" data-execution_count="3">
-<details>
+<div id="a5aa85d6" class="cell" data-execution_count="3">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> norm</span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="co"># grid of values</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a>vals <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb2-4"><a href="#cb2-4"></a>    <span class="st">'x'</span>: np.linspace(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">200</span>)</span>
-<span id="cb2-5"><a href="#cb2-5"></a>})</span>
-<span id="cb2-6"><a href="#cb2-6"></a></span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="co"># compute probit and logit</span></span>
-<span id="cb2-8"><a href="#cb2-8"></a>vals[<span class="st">'logit'</span>] <span class="op">=</span> <span class="dv">1</span><span class="op">/</span>(<span class="dv">1</span> <span class="op">+</span> np.exp(<span class="op">-</span>vals.x))</span>
-<span id="cb2-9"><a href="#cb2-9"></a>vals[<span class="st">'probit'</span>] <span class="op">=</span> norm.cdf(vals.x)</span>
-<span id="cb2-10"><a href="#cb2-10"></a>vals <span class="op">=</span> vals.melt(id_vars <span class="op">=</span> <span class="st">'x'</span>, var_name <span class="op">=</span> <span class="st">'model'</span>, value_name <span class="op">=</span> <span class="st">'pr'</span>)</span>
-<span id="cb2-11"><a href="#cb2-11"></a></span>
-<span id="cb2-12"><a href="#cb2-12"></a><span class="co"># plot</span></span>
-<span id="cb2-13"><a href="#cb2-13"></a>alt.Chart(vals).mark_line().encode(</span>
-<span id="cb2-14"><a href="#cb2-14"></a>    x <span class="op">=</span> alt.X(<span class="st">'x'</span>, title <span class="op">=</span> <span class="st">'x*beta'</span>),</span>
-<span id="cb2-15"><a href="#cb2-15"></a>    y <span class="op">=</span> alt.Y(<span class="st">'pr'</span>, title <span class="op">=</span> <span class="st">'Pr(Y = 1)'</span>),</span>
-<span id="cb2-16"><a href="#cb2-16"></a>    color <span class="op">=</span> <span class="st">'model'</span>,</span>
-<span id="cb2-17"><a href="#cb2-17"></a>    stroke <span class="op">=</span> <span class="st">'model'</span></span>
-<span id="cb2-18"><a href="#cb2-18"></a>).configure_axis(</span>
-<span id="cb2-19"><a href="#cb2-19"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
-<span id="cb2-20"><a href="#cb2-20"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb2-21"><a href="#cb2-21"></a>).configure_legend(</span>
-<span id="cb2-22"><a href="#cb2-22"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
-<span id="cb2-23"><a href="#cb2-23"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb2-24"><a href="#cb2-24"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a><span class="im">from</span> scipy.stats <span class="im">import</span> norm</span>
+<span id="cb2-2"><a></a><span class="co"># grid of values</span></span>
+<span id="cb2-3"><a></a>vals <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb2-4"><a></a>    <span class="st">'x'</span>: np.linspace(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">200</span>)</span>
+<span id="cb2-5"><a></a>})</span>
+<span id="cb2-6"><a></a></span>
+<span id="cb2-7"><a></a><span class="co"># compute probit and logit</span></span>
+<span id="cb2-8"><a></a>vals[<span class="st">'logit'</span>] <span class="op">=</span> <span class="dv">1</span><span class="op">/</span>(<span class="dv">1</span> <span class="op">+</span> np.exp(<span class="op">-</span>vals.x))</span>
+<span id="cb2-9"><a></a>vals[<span class="st">'probit'</span>] <span class="op">=</span> norm.cdf(vals.x)</span>
+<span id="cb2-10"><a></a>vals <span class="op">=</span> vals.melt(id_vars <span class="op">=</span> <span class="st">'x'</span>, var_name <span class="op">=</span> <span class="st">'model'</span>, value_name <span class="op">=</span> <span class="st">'pr'</span>)</span>
+<span id="cb2-11"><a></a></span>
+<span id="cb2-12"><a></a><span class="co"># plot</span></span>
+<span id="cb2-13"><a></a>alt.Chart(vals).mark_line().encode(</span>
+<span id="cb2-14"><a></a>    x <span class="op">=</span> alt.X(<span class="st">'x'</span>, title <span class="op">=</span> <span class="st">'x*beta'</span>),</span>
+<span id="cb2-15"><a></a>    y <span class="op">=</span> alt.Y(<span class="st">'pr'</span>, title <span class="op">=</span> <span class="st">'Pr(Y = 1)'</span>),</span>
+<span id="cb2-16"><a></a>    color <span class="op">=</span> <span class="st">'model'</span>,</span>
+<span id="cb2-17"><a></a>    stroke <span class="op">=</span> <span class="st">'model'</span></span>
+<span id="cb2-18"><a></a>).configure_axis(</span>
+<span id="cb2-19"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
+<span id="cb2-20"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb2-21"><a></a>).configure_legend(</span>
+<span id="cb2-22"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
+<span id="cb2-23"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb2-24"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="3">
 
 <style>
-  #altair-viz-2fbf0f9cb9e74cd7906aa7af351f556a.vega-embed {
+  #altair-viz-296c56e010d84fae8f93196c41b83480.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-2fbf0f9cb9e74cd7906aa7af351f556a.vega-embed details,
-  #altair-viz-2fbf0f9cb9e74cd7906aa7af351f556a.vega-embed details summary {
+  #altair-viz-296c56e010d84fae8f93196c41b83480.vega-embed details,
+  #altair-viz-296c56e010d84fae8f93196c41b83480.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-2fbf0f9cb9e74cd7906aa7af351f556a"></div>
+<div id="altair-viz-296c56e010d84fae8f93196c41b83480"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-2fbf0f9cb9e74cd7906aa7af351f556a") {
-      outputDiv = document.getElementById("altair-viz-2fbf0f9cb9e74cd7906aa7af351f556a");
+    if (outputDiv.id !== "altair-viz-296c56e010d84fae8f93196c41b83480") {
+      outputDiv = document.getElementById("altair-viz-296c56e010d84fae8f93196c41b83480");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -693,20 +694,20 @@ P(Y = 1) = \Phi\left(x'\beta\right)
 <section id="probit-fit-to-diabetes-data" class="slide level2">
 <h2>Probit fit to diabetes data</h2>
 <p>Here are the estimates from the probit model:</p>
-<div class="cell" data-execution_count="4">
-<details>
+<div id="c5b40764" class="cell" data-execution_count="4">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3" data-code-line-numbers="2-3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># fit model</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a>model_probit <span class="op">=</span> sm.Probit(endog <span class="op">=</span> y, exog <span class="op">=</span> x)</span>
-<span id="cb3-3"><a href="#cb3-3"></a>fit_probit <span class="op">=</span> model_probit.fit()</span>
-<span id="cb3-4"><a href="#cb3-4"></a></span>
-<span id="cb3-5"><a href="#cb3-5"></a><span class="co"># parameter estimates</span></span>
-<span id="cb3-6"><a href="#cb3-6"></a>coef_tbl_probit <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb3-7"><a href="#cb3-7"></a>    <span class="st">'estimate'</span>: fit_probit.params,</span>
-<span id="cb3-8"><a href="#cb3-8"></a>    <span class="st">'standard error'</span>: np.sqrt(fit_probit.cov_params().values.diagonal())},</span>
-<span id="cb3-9"><a href="#cb3-9"></a>    index <span class="op">=</span> x.columns</span>
-<span id="cb3-10"><a href="#cb3-10"></a>)</span>
-<span id="cb3-11"><a href="#cb3-11"></a>coef_tbl_probit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3" data-code-line-numbers="2-3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a><span class="co"># fit model</span></span>
+<span id="cb3-2"><a></a>model_probit <span class="op">=</span> sm.Probit(endog <span class="op">=</span> y, exog <span class="op">=</span> x)</span>
+<span id="cb3-3"><a></a>fit_probit <span class="op">=</span> model_probit.fit()</span>
+<span id="cb3-4"><a></a></span>
+<span id="cb3-5"><a></a><span class="co"># parameter estimates</span></span>
+<span id="cb3-6"><a></a>coef_tbl_probit <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb3-7"><a></a>    <span class="st">'estimate'</span>: fit_probit.params,</span>
+<span id="cb3-8"><a></a>    <span class="st">'standard error'</span>: np.sqrt(fit_probit.cov_params().values.diagonal())},</span>
+<span id="cb3-9"><a></a>    index <span class="op">=</span> x.columns</span>
+<span id="cb3-10"><a></a>)</span>
+<span id="cb3-11"><a></a>coef_tbl_probit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Optimization terminated successfully.
@@ -714,6 +715,7 @@ P(Y = 1) = \Phi\left(x'\beta\right)
          Iterations 8</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="4">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -764,6 +766,7 @@ P(Y = 1) = \Phi\left(x'\beta\right)
 </div>
 </div>
 </div>
+</div>
 <div class="fragment">
 <p>Trickier to interpret coefficients directly, since <span class="math inline">\(\Phi^{-1}(p)\)</span> is not a natural quantity</p>
 </div>
@@ -771,19 +774,19 @@ P(Y = 1) = \Phi\left(x'\beta\right)
 <section id="challenges-of-interpretation" class="slide level2">
 <h2>Challenges of interpretation</h2>
 <p>The effect of incremental changes in explanatory variables on predicted probabilities depends on your starting point.</p>
-<div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># means of explanatory variables</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a>x1 <span class="op">=</span> x.mean()</span>
-<span id="cb5-3"><a href="#cb5-3"></a></span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="co"># increment bmi twice</span></span>
-<span id="cb5-5"><a href="#cb5-5"></a>x2 <span class="op">=</span> x1 <span class="op">+</span> np.array([<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>])</span>
-<span id="cb5-6"><a href="#cb5-6"></a>x3 <span class="op">=</span> x2 <span class="op">+</span> np.array([<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>])</span>
-<span id="cb5-7"><a href="#cb5-7"></a>x_pred <span class="op">=</span> pd.concat([x1, x2, x3], axis <span class="op">=</span> <span class="dv">1</span>).T</span>
-<span id="cb5-8"><a href="#cb5-8"></a>x_pred[<span class="st">'male'</span>] <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>])</span>
-<span id="cb5-9"><a href="#cb5-9"></a></span>
-<span id="cb5-10"><a href="#cb5-10"></a><span class="co"># compute predictions and differences in probability</span></span>
-<span id="cb5-11"><a href="#cb5-11"></a>preds <span class="op">=</span> fit_probit.predict(x_pred)</span>
-<span id="cb5-12"><a href="#cb5-12"></a>preds.diff()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="6f67608d" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a></a><span class="co"># means of explanatory variables</span></span>
+<span id="cb5-2"><a></a>x1 <span class="op">=</span> x.mean()</span>
+<span id="cb5-3"><a></a></span>
+<span id="cb5-4"><a></a><span class="co"># increment bmi twice</span></span>
+<span id="cb5-5"><a></a>x2 <span class="op">=</span> x1 <span class="op">+</span> np.array([<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>])</span>
+<span id="cb5-6"><a></a>x3 <span class="op">=</span> x2 <span class="op">+</span> np.array([<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>])</span>
+<span id="cb5-7"><a></a>x_pred <span class="op">=</span> pd.concat([x1, x2, x3], axis <span class="op">=</span> <span class="dv">1</span>).T</span>
+<span id="cb5-8"><a></a>x_pred[<span class="st">'male'</span>] <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>])</span>
+<span id="cb5-9"><a></a></span>
+<span id="cb5-10"><a></a><span class="co"># compute predictions and differences in probability</span></span>
+<span id="cb5-11"><a></a>preds <span class="op">=</span> fit_probit.predict(x_pred)</span>
+<span id="cb5-12"><a></a>preds.diff()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>0         NaN
 1    0.003587
@@ -804,25 +807,25 @@ dtype: float64</code></pre>
 \]</span></p>
 <div class="fragment">
 <p>Refitting the model after centering age and BMI and computing the above yields:</p>
-<div class="cell" data-execution_count="6">
-<details>
+<div id="71b63dda" class="cell" data-execution_count="6">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># center explanatory variables</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a>x_vars_ctr <span class="op">=</span> x_vars <span class="op">-</span> x.mean()</span>
-<span id="cb7-3"><a href="#cb7-3"></a>x_ctr <span class="op">=</span> pd.concat([x.loc[:, [<span class="st">'const'</span>, <span class="st">'male'</span>]], x_vars_ctr.loc[:, [<span class="st">'Age'</span>, <span class="st">'BMI'</span>]]], axis <span class="op">=</span> <span class="dv">1</span>)</span>
-<span id="cb7-4"><a href="#cb7-4"></a></span>
-<span id="cb7-5"><a href="#cb7-5"></a><span class="co"># fit model</span></span>
-<span id="cb7-6"><a href="#cb7-6"></a>model_probit_ctr <span class="op">=</span> sm.Probit(endog <span class="op">=</span> y, exog <span class="op">=</span> x_ctr)</span>
-<span id="cb7-7"><a href="#cb7-7"></a>fit_probit_ctr <span class="op">=</span> model_probit_ctr.fit()</span>
-<span id="cb7-8"><a href="#cb7-8"></a></span>
-<span id="cb7-9"><a href="#cb7-9"></a><span class="co"># baseline</span></span>
-<span id="cb7-10"><a href="#cb7-10"></a>probit_baseline <span class="op">=</span> norm.cdf(fit_probit_ctr.params[<span class="dv">0</span>])</span>
-<span id="cb7-11"><a href="#cb7-11"></a></span>
-<span id="cb7-12"><a href="#cb7-12"></a><span class="co"># changes in estimated probabilities associated with one-unit change from mean, keeping other variables at mean/reference</span></span>
-<span id="cb7-13"><a href="#cb7-13"></a>prob_diffs <span class="op">=</span> norm.cdf(fit_probit_ctr.params[<span class="dv">1</span>:<span class="dv">4</span>] <span class="op">+</span> fit_probit_ctr.params[<span class="dv">0</span>]) <span class="op">-</span> probit_baseline</span>
-<span id="cb7-14"><a href="#cb7-14"></a></span>
-<span id="cb7-15"><a href="#cb7-15"></a><span class="co"># print</span></span>
-<span id="cb7-16"><a href="#cb7-16"></a>pd.DataFrame({<span class="st">'change in probability'</span>: prob_diffs}, index <span class="op">=</span> np.array([<span class="st">'male'</span>, <span class="st">'age'</span>, <span class="st">'BMI'</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a></a><span class="co"># center explanatory variables</span></span>
+<span id="cb7-2"><a></a>x_vars_ctr <span class="op">=</span> x_vars <span class="op">-</span> x.mean()</span>
+<span id="cb7-3"><a></a>x_ctr <span class="op">=</span> pd.concat([x.loc[:, [<span class="st">'const'</span>, <span class="st">'male'</span>]], x_vars_ctr.loc[:, [<span class="st">'Age'</span>, <span class="st">'BMI'</span>]]], axis <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb7-4"><a></a></span>
+<span id="cb7-5"><a></a><span class="co"># fit model</span></span>
+<span id="cb7-6"><a></a>model_probit_ctr <span class="op">=</span> sm.Probit(endog <span class="op">=</span> y, exog <span class="op">=</span> x_ctr)</span>
+<span id="cb7-7"><a></a>fit_probit_ctr <span class="op">=</span> model_probit_ctr.fit()</span>
+<span id="cb7-8"><a></a></span>
+<span id="cb7-9"><a></a><span class="co"># baseline</span></span>
+<span id="cb7-10"><a></a>probit_baseline <span class="op">=</span> norm.cdf(fit_probit_ctr.params[<span class="dv">0</span>])</span>
+<span id="cb7-11"><a></a></span>
+<span id="cb7-12"><a></a><span class="co"># changes in estimated probabilities associated with one-unit change from mean, keeping other variables at mean/reference</span></span>
+<span id="cb7-13"><a></a>prob_diffs <span class="op">=</span> norm.cdf(fit_probit_ctr.params[<span class="dv">1</span>:<span class="dv">4</span>] <span class="op">+</span> fit_probit_ctr.params[<span class="dv">0</span>]) <span class="op">-</span> probit_baseline</span>
+<span id="cb7-14"><a></a></span>
+<span id="cb7-15"><a></a><span class="co"># print</span></span>
+<span id="cb7-16"><a></a>pd.DataFrame({<span class="st">'change in probability'</span>: prob_diffs}, index <span class="op">=</span> np.array([<span class="st">'male'</span>, <span class="st">'age'</span>, <span class="st">'BMI'</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Optimization terminated successfully.
@@ -830,6 +833,7 @@ dtype: float64</code></pre>
          Iterations 8</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="6">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -868,6 +872,7 @@ dtype: float64</code></pre>
 </tbody>
 </table>
 
+</div>
 </div>
 </div>
 </div>
@@ -924,16 +929,17 @@ dtype: float64</code></pre>
 <section id="voting-records-116th-house" class="slide level2">
 <h2>Voting records, 116th House</h2>
 <p>Roll call votes of the 116th House of Representatives on bills and resolutions:</p>
-<div class="cell" data-execution_count="7">
-<details>
+<div id="b494941a" class="cell" data-execution_count="7">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a>members <span class="op">=</span> pd.read_csv(<span class="st">'data/members.csv'</span>).set_index(<span class="st">'name_id'</span>)</span>
-<span id="cb9-2"><a href="#cb9-2"></a>votes <span class="op">=</span> pd.read_csv(<span class="st">'data/votes-clean.csv'</span>).set_index(<span class="st">'name_id'</span>)</span>
-<span id="cb9-3"><a href="#cb9-3"></a>vote_info <span class="op">=</span> pd.read_csv(<span class="st">'data/votes-info.csv'</span>).set_index(<span class="st">'rollcall_id'</span>)</span>
-<span id="cb9-4"><a href="#cb9-4"></a></span>
-<span id="cb9-5"><a href="#cb9-5"></a>votes.head(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a></a>members <span class="op">=</span> pd.read_csv(<span class="st">'data/members.csv'</span>).set_index(<span class="st">'name_id'</span>)</span>
+<span id="cb9-2"><a></a>votes <span class="op">=</span> pd.read_csv(<span class="st">'data/votes-clean.csv'</span>).set_index(<span class="st">'name_id'</span>)</span>
+<span id="cb9-3"><a></a>vote_info <span class="op">=</span> pd.read_csv(<span class="st">'data/votes-info.csv'</span>).set_index(<span class="st">'rollcall_id'</span>)</span>
+<span id="cb9-4"><a></a></span>
+<span id="cb9-5"><a></a>votes.head(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="7">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1080,6 +1086,7 @@ dtype: float64</code></pre>
 </div>
 </div>
 </div>
+</div>
 <ul>
 <li class="fragment">each column is a roll call (<span class="math inline">\(p = 144\)</span> total)</li>
 <li class="fragment">each row is a representative (<span class="math inline">\(n = 430\)</span> total)</li>
@@ -1101,41 +1108,41 @@ dtype: float64</code></pre>
 <p>Projecting the data onto the first few principal components provides a way to visualize the data:</p>
 <div class="columns">
 <div class="column" style="width:60%;">
-<div class="cell" data-execution_count="8">
-<details>
+<div id="a49393b9" class="cell" data-execution_count="8">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a>pca <span class="op">=</span> sm.PCA(votes)</span>
-<span id="cb10-2"><a href="#cb10-2"></a>alt.Chart(pca.scores).mark_circle(opacity <span class="op">=</span> <span class="fl">0.5</span>).encode(</span>
-<span id="cb10-3"><a href="#cb10-3"></a>    x <span class="op">=</span> alt.X(<span class="st">'comp_000'</span>, title <span class="op">=</span> <span class="st">'PC1'</span>),</span>
-<span id="cb10-4"><a href="#cb10-4"></a>    y <span class="op">=</span> alt.Y(<span class="st">'comp_001'</span>, title <span class="op">=</span> <span class="st">'PC2'</span>)</span>
-<span id="cb10-5"><a href="#cb10-5"></a>).configure_axis(</span>
-<span id="cb10-6"><a href="#cb10-6"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
-<span id="cb10-7"><a href="#cb10-7"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb10-8"><a href="#cb10-8"></a>).configure_legend(</span>
-<span id="cb10-9"><a href="#cb10-9"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
-<span id="cb10-10"><a href="#cb10-10"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb10-11"><a href="#cb10-11"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a></a>pca <span class="op">=</span> sm.PCA(votes)</span>
+<span id="cb10-2"><a></a>alt.Chart(pca.scores).mark_circle(opacity <span class="op">=</span> <span class="fl">0.5</span>).encode(</span>
+<span id="cb10-3"><a></a>    x <span class="op">=</span> alt.X(<span class="st">'comp_000'</span>, title <span class="op">=</span> <span class="st">'PC1'</span>),</span>
+<span id="cb10-4"><a></a>    y <span class="op">=</span> alt.Y(<span class="st">'comp_001'</span>, title <span class="op">=</span> <span class="st">'PC2'</span>)</span>
+<span id="cb10-5"><a></a>).configure_axis(</span>
+<span id="cb10-6"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
+<span id="cb10-7"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb10-8"><a></a>).configure_legend(</span>
+<span id="cb10-9"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
+<span id="cb10-10"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb10-11"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="8">
 
 <style>
-  #altair-viz-c8ac3d413a0f4533966aa28a82ba21bb.vega-embed {
+  #altair-viz-53d1c951cca2474e89d83e26d6b2494a.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-c8ac3d413a0f4533966aa28a82ba21bb.vega-embed details,
-  #altair-viz-c8ac3d413a0f4533966aa28a82ba21bb.vega-embed details summary {
+  #altair-viz-53d1c951cca2474e89d83e26d6b2494a.vega-embed details,
+  #altair-viz-53d1c951cca2474e89d83e26d6b2494a.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-c8ac3d413a0f4533966aa28a82ba21bb"></div>
+<div id="altair-viz-53d1c951cca2474e89d83e26d6b2494a"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-c8ac3d413a0f4533966aa28a82ba21bb") {
-      outputDiv = document.getElementById("altair-viz-c8ac3d413a0f4533966aa28a82ba21bb");
+    if (outputDiv.id !== "altair-viz-53d1c951cca2474e89d83e26d6b2494a") {
+      outputDiv = document.getElementById("altair-viz-53d1c951cca2474e89d83e26d6b2494a");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -1206,7 +1213,7 @@ dtype: float64</code></pre>
 </div>
 </div>
 </section>
-<section id="clustering-with-k-means-1" class="slide level2">
+<section id="clustering-with-k-means-1" class="slide level2 scrollable">
 <h2>Clustering with <span class="math inline">\(K\)</span>-means</h2>
 <p>Technically, given <span class="math inline">\(n\)</span> observations of <span class="math inline">\(p\)</span> variables <span class="math inline">\(\mathbf{X} = \{x_{ij}\}\)</span>, the <span class="math inline">\(k\)</span>-means problem is:</p>
 <p><span class="math display">\[
@@ -1225,13 +1232,13 @@ dtype: float64</code></pre>
 <section id="clustering-voting-data-1" class="slide level2">
 <h2>Clustering voting data</h2>
 <p>The method is very easy to implement:</p>
-<div class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
-<span id="cb11-2"><a href="#cb11-2"></a>np.random.seed(<span class="dv">60623</span>)</span>
-<span id="cb11-3"><a href="#cb11-3"></a></span>
-<span id="cb11-4"><a href="#cb11-4"></a>clust <span class="op">=</span> KMeans(n_clusters <span class="op">=</span> <span class="dv">2</span>)</span>
-<span id="cb11-5"><a href="#cb11-5"></a>clust.fit(votes)</span>
-<span id="cb11-6"><a href="#cb11-6"></a>clust_labels <span class="op">=</span> clust.predict(votes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="fa6af7cb" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
+<span id="cb11-2"><a></a>np.random.seed(<span class="dv">60623</span>)</span>
+<span id="cb11-3"><a></a></span>
+<span id="cb11-4"><a></a>clust <span class="op">=</span> KMeans(n_clusters <span class="op">=</span> <span class="dv">2</span>)</span>
+<span id="cb11-5"><a></a>clust.fit(votes)</span>
+<span id="cb11-6"><a></a>clust_labels <span class="op">=</span> clust.predict(votes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
 <p>Cluster labels will be returned in the same order as the rows input to <code>.predict()</code></p>
@@ -1243,44 +1250,44 @@ dtype: float64</code></pre>
 <section id="clustering-voting-data-2" class="slide level2">
 <h2>Clustering voting data</h2>
 <p>We could again visualize the clusters using PCA:</p>
-<div class="cell" data-execution_count="10">
-<details>
+<div id="46a54428" class="cell" data-execution_count="10">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>plot_df <span class="op">=</span> pca.scores.iloc[:, <span class="dv">0</span>:<span class="dv">2</span>].copy()</span>
-<span id="cb12-2"><a href="#cb12-2"></a>plot_df[<span class="st">'cluster'</span>] <span class="op">=</span> clust_labels</span>
-<span id="cb12-3"><a href="#cb12-3"></a></span>
-<span id="cb12-4"><a href="#cb12-4"></a>alt.Chart(plot_df).mark_circle(opacity <span class="op">=</span> <span class="fl">0.5</span>).encode(</span>
-<span id="cb12-5"><a href="#cb12-5"></a>    x <span class="op">=</span> alt.X(<span class="st">'comp_000'</span>, title <span class="op">=</span> <span class="st">'PC1'</span>),</span>
-<span id="cb12-6"><a href="#cb12-6"></a>    y <span class="op">=</span> alt.Y(<span class="st">'comp_001'</span>, title <span class="op">=</span> <span class="st">'PC2'</span>),</span>
-<span id="cb12-7"><a href="#cb12-7"></a>    color <span class="op">=</span> <span class="st">'cluster:N'</span></span>
-<span id="cb12-8"><a href="#cb12-8"></a>).configure_axis(</span>
-<span id="cb12-9"><a href="#cb12-9"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
-<span id="cb12-10"><a href="#cb12-10"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb12-11"><a href="#cb12-11"></a>).configure_legend(</span>
-<span id="cb12-12"><a href="#cb12-12"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
-<span id="cb12-13"><a href="#cb12-13"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb12-14"><a href="#cb12-14"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a></a>plot_df <span class="op">=</span> pca.scores.iloc[:, <span class="dv">0</span>:<span class="dv">2</span>].copy()</span>
+<span id="cb12-2"><a></a>plot_df[<span class="st">'cluster'</span>] <span class="op">=</span> clust_labels</span>
+<span id="cb12-3"><a></a></span>
+<span id="cb12-4"><a></a>alt.Chart(plot_df).mark_circle(opacity <span class="op">=</span> <span class="fl">0.5</span>).encode(</span>
+<span id="cb12-5"><a></a>    x <span class="op">=</span> alt.X(<span class="st">'comp_000'</span>, title <span class="op">=</span> <span class="st">'PC1'</span>),</span>
+<span id="cb12-6"><a></a>    y <span class="op">=</span> alt.Y(<span class="st">'comp_001'</span>, title <span class="op">=</span> <span class="st">'PC2'</span>),</span>
+<span id="cb12-7"><a></a>    color <span class="op">=</span> <span class="st">'cluster:N'</span></span>
+<span id="cb12-8"><a></a>).configure_axis(</span>
+<span id="cb12-9"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
+<span id="cb12-10"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb12-11"><a></a>).configure_legend(</span>
+<span id="cb12-12"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
+<span id="cb12-13"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb12-14"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="10">
 
 <style>
-  #altair-viz-7a2f1bea904f4bbcbf351202db540a02.vega-embed {
+  #altair-viz-6aa2fc923c194ed9a6cb3ec40fba23df.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-7a2f1bea904f4bbcbf351202db540a02.vega-embed details,
-  #altair-viz-7a2f1bea904f4bbcbf351202db540a02.vega-embed details summary {
+  #altair-viz-6aa2fc923c194ed9a6cb3ec40fba23df.vega-embed details,
+  #altair-viz-6aa2fc923c194ed9a6cb3ec40fba23df.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-7a2f1bea904f4bbcbf351202db540a02"></div>
+<div id="altair-viz-6aa2fc923c194ed9a6cb3ec40fba23df"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-7a2f1bea904f4bbcbf351202db540a02") {
-      outputDiv = document.getElementById("altair-viz-7a2f1bea904f4bbcbf351202db540a02");
+    if (outputDiv.id !== "altair-viz-6aa2fc923c194ed9a6cb3ec40fba23df") {
+      outputDiv = document.getElementById("altair-viz-6aa2fc923c194ed9a6cb3ec40fba23df");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -1334,14 +1341,15 @@ dtype: float64</code></pre>
 <section id="cluster-composition-by-party" class="slide level2">
 <h2>Cluster composition by party</h2>
 <p>We could also cross-tabulate the cluster labels with party affiliations:</p>
-<div class="cell" data-execution_count="11">
-<details>
+<div id="f6f3bd81" class="cell" data-execution_count="11">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>label_df <span class="op">=</span> pd.DataFrame({<span class="st">'cluster'</span>: clust_labels}, index <span class="op">=</span> votes.index)</span>
-<span id="cb13-2"><a href="#cb13-2"></a></span>
-<span id="cb13-3"><a href="#cb13-3"></a>pd.merge(members, label_df, left_index <span class="op">=</span> <span class="va">True</span>, right_index <span class="op">=</span> <span class="va">True</span>).groupby([<span class="st">'current_party'</span>, <span class="st">'cluster'</span>]).size().reset_index().pivot(columns <span class="op">=</span> <span class="st">'current_party'</span>, index <span class="op">=</span> <span class="st">'cluster'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a></a>label_df <span class="op">=</span> pd.DataFrame({<span class="st">'cluster'</span>: clust_labels}, index <span class="op">=</span> votes.index)</span>
+<span id="cb13-2"><a></a></span>
+<span id="cb13-3"><a></a>pd.merge(members, label_df, left_index <span class="op">=</span> <span class="va">True</span>, right_index <span class="op">=</span> <span class="va">True</span>).groupby([<span class="st">'current_party'</span>, <span class="st">'cluster'</span>]).size().reset_index().pivot(columns <span class="op">=</span> <span class="st">'current_party'</span>, index <span class="op">=</span> <span class="st">'cluster'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="11">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1399,18 +1407,20 @@ dtype: float64</code></pre>
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="cluster-composition-by-party-1" class="slide level2">
 <h2>Cluster composition by party</h2>
 <p>Who are those three representatives that vote with the democrats?</p>
-<div class="cell" data-execution_count="12">
-<details>
+<div id="6b1a80a3" class="cell" data-execution_count="12">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>members_labeled <span class="op">=</span> pd.merge(members, label_df, left_index <span class="op">=</span> <span class="va">True</span>, right_index <span class="op">=</span> <span class="va">True</span>)</span>
-<span id="cb14-2"><a href="#cb14-2"></a></span>
-<span id="cb14-3"><a href="#cb14-3"></a>members_labeled[(members_labeled.cluster <span class="op">==</span> <span class="dv">0</span>) <span class="op">&amp;</span> (members_labeled.current_party <span class="op">==</span> <span class="st">'Republican'</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a></a>members_labeled <span class="op">=</span> pd.merge(members, label_df, left_index <span class="op">=</span> <span class="va">True</span>, right_index <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb14-2"><a></a></span>
+<span id="cb14-3"><a></a>members_labeled[(members_labeled.cluster <span class="op">==</span> <span class="dv">0</span>) <span class="op">&amp;</span> (members_labeled.current_party <span class="op">==</span> <span class="st">'Republican'</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="12">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1486,6 +1496,7 @@ dtype: float64</code></pre>
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="further-possible-questions" class="slide level2">
 <h2>Further possible questions</h2>
@@ -1496,8 +1507,10 @@ dtype: float64</code></pre>
 <li class="fragment">identify representatives that <em>don’t</em> tend to vote together with others (assign a score based on how ‘quickly’ a representative is isolated)</li>
 </ul>
 
+<div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 
+</div>
 </div>
 </section>
     </div>
@@ -1526,7 +1539,6 @@ dtype: float64</code></pre>
       Reveal.initialize({
 'controlsAuto': true,
 'previewLinksAuto': false,
-'smaller': true,
 'pdfSeparateFragments': false,
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
@@ -1787,10 +1799,9 @@ dtype: float64</code></pre>
         // clear code selection
         e.clearSelection();
       });
-      function tippyHover(el, contentFn) {
+      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
         const config = {
           allowHTML: true,
-          content: contentFn,
           maxWidth: 500,
           delay: 100,
           arrow: false,
@@ -1800,8 +1811,17 @@ dtype: float64</code></pre>
           interactive: true,
           interactiveBorder: 10,
           theme: 'light-border',
-          placement: 'bottom-start'
+          placement: 'bottom-start',
         };
+        if (contentFn) {
+          config.content = contentFn;
+        }
+        if (onTriggerFn) {
+          config.onTrigger = onTriggerFn;
+        }
+        if (onUntriggerFn) {
+          config.onUntrigger = onUntriggerFn;
+        }
           config['offset'] = [0,0];
           config['maxWidth'] = 700;
         window.tippy(el, config); 

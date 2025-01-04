@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-html/tabby.min.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -8,7 +8,7 @@
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.433">
+  <meta name="generator" content="quarto-1.4.550">
 
   <meta name="author" content="PSTAT100 Spring 2023">
   <title>PSTAT100 - Multiple regression</title>
@@ -31,7 +31,7 @@
     }
     /* CSS for syntax highlighting */
     pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span { line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
     .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -230,7 +230,8 @@
   }
 
   .callout.callout-titled .callout-body > .callout-content > :last-child {
-    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0;
   }
 
   .callout.callout-titled .callout-icon::before {
@@ -395,7 +396,7 @@
     }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+  
   <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 </head>
 <body class="quarto-light">
@@ -446,34 +447,34 @@ MSE(y, \hat{y}) = \frac{1}{n}\sum_i (y_i - \hat{y}_i)^2
 <section id="measuring-predictive-accuracy" class="slide level2">
 <h2>Measuring predictive accuracy</h2>
 <p>Partition the data:</p>
-<div class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># hold out 100 randomly selected rows</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a>np.random.seed(<span class="dv">51823</span>)</span>
-<span id="cb1-3"><a href="#cb1-3"></a>idx <span class="op">=</span> np.random.choice(regdata.index.values, size <span class="op">=</span> <span class="dv">100</span>, replace <span class="op">=</span> <span class="va">False</span>).tolist()</span>
-<span id="cb1-4"><a href="#cb1-4"></a>test <span class="op">=</span> regdata.loc[idx]</span>
-<span id="cb1-5"><a href="#cb1-5"></a>train <span class="op">=</span> regdata.drop(index <span class="op">=</span> idx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="709df8f8" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="co"># hold out 100 randomly selected rows</span></span>
+<span id="cb1-2"><a></a>np.random.seed(<span class="dv">51823</span>)</span>
+<span id="cb1-3"><a></a>idx <span class="op">=</span> np.random.choice(regdata.index.values, size <span class="op">=</span> <span class="dv">100</span>, replace <span class="op">=</span> <span class="va">False</span>).tolist()</span>
+<span id="cb1-4"><a></a>test <span class="op">=</span> regdata.loc[idx]</span>
+<span id="cb1-5"><a></a>train <span class="op">=</span> regdata.drop(index <span class="op">=</span> idx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
 <p>Fit to the training partition:</p>
-<div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># fit model to training subset</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>x_train <span class="op">=</span> sm.tools.add_constant(train.log_income)</span>
-<span id="cb2-3"><a href="#cb2-3"></a>y_train <span class="op">=</span> train.gap</span>
-<span id="cb2-4"><a href="#cb2-4"></a>slr <span class="op">=</span> sm.OLS(endog <span class="op">=</span> y_train, exog <span class="op">=</span> x_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="c78269ba" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a><span class="co"># fit model to training subset</span></span>
+<span id="cb2-2"><a></a>x_train <span class="op">=</span> sm.tools.add_constant(train.log_income)</span>
+<span id="cb2-3"><a></a>y_train <span class="op">=</span> train.gap</span>
+<span id="cb2-4"><a></a>slr <span class="op">=</span> sm.OLS(endog <span class="op">=</span> y_train, exog <span class="op">=</span> x_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div class="fragment">
 <p>Evaluate on the test/validation partition:</p>
-<div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># compute predictions</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a>x_test <span class="op">=</span> sm.tools.add_constant(test.log_income)</span>
-<span id="cb3-3"><a href="#cb3-3"></a>preds <span class="op">=</span> slr.fit().get_prediction(x_test)</span>
-<span id="cb3-4"><a href="#cb3-4"></a>y_hat <span class="op">=</span> preds.predicted_mean</span>
-<span id="cb3-5"><a href="#cb3-5"></a></span>
-<span id="cb3-6"><a href="#cb3-6"></a><span class="co"># mean square error</span></span>
-<span id="cb3-7"><a href="#cb3-7"></a>pred_errors <span class="op">=</span> test.gap <span class="op">-</span> y_hat</span>
-<span id="cb3-8"><a href="#cb3-8"></a>mse <span class="op">=</span> (pred_errors<span class="op">**</span><span class="dv">2</span>).mean()</span>
-<span id="cb3-9"><a href="#cb3-9"></a><span class="bu">print</span>(<span class="st">'root mean square error: '</span>, np.sqrt(mse))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="7f0519ae" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a><span class="co"># compute predictions</span></span>
+<span id="cb3-2"><a></a>x_test <span class="op">=</span> sm.tools.add_constant(test.log_income)</span>
+<span id="cb3-3"><a></a>preds <span class="op">=</span> slr.fit().get_prediction(x_test)</span>
+<span id="cb3-4"><a></a>y_hat <span class="op">=</span> preds.predicted_mean</span>
+<span id="cb3-5"><a></a></span>
+<span id="cb3-6"><a></a><span class="co"># mean square error</span></span>
+<span id="cb3-7"><a></a>pred_errors <span class="op">=</span> test.gap <span class="op">-</span> y_hat</span>
+<span id="cb3-8"><a></a>mse <span class="op">=</span> (pred_errors<span class="op">**</span><span class="dv">2</span>).mean()</span>
+<span id="cb3-9"><a></a><span class="bu">print</span>(<span class="st">'root mean square error: '</span>, np.sqrt(mse))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>root mean square error:  0.14377667235816582</code></pre>
 </div>
@@ -490,15 +491,15 @@ MSE(y, \hat{y}) = \frac{1}{n}\sum_i (y_i - \hat{y}_i)^2
 <section id="dont-use-training-mse" class="slide level2">
 <h2>(Don’t use) training MSE</h2>
 <p>Compare with MSE computed using fitted values:</p>
-<div class="cell" data-execution_count="5">
-<details>
+<div id="c2a4239a" class="cell" data-execution_count="5">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># note, these are just model residuals</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a>fit_errors <span class="op">=</span> train.gap <span class="op">-</span> slr.fit().fittedvalues</span>
-<span id="cb5-3"><a href="#cb5-3"></a></span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="co"># training rmse</span></span>
-<span id="cb5-5"><a href="#cb5-5"></a><span class="bu">print</span>(<span class="st">'rmse on training partition: '</span>,np.sqrt((fit_errors<span class="op">**</span><span class="dv">2</span>).mean()))</span>
-<span id="cb5-6"><a href="#cb5-6"></a><span class="bu">print</span>(<span class="st">'rmse on test partition: '</span>, np.sqrt(mse))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a></a><span class="co"># note, these are just model residuals</span></span>
+<span id="cb5-2"><a></a>fit_errors <span class="op">=</span> train.gap <span class="op">-</span> slr.fit().fittedvalues</span>
+<span id="cb5-3"><a></a></span>
+<span id="cb5-4"><a></a><span class="co"># training rmse</span></span>
+<span id="cb5-5"><a></a><span class="bu">print</span>(<span class="st">'rmse on training partition: '</span>,np.sqrt((fit_errors<span class="op">**</span><span class="dv">2</span>).mean()))</span>
+<span id="cb5-6"><a></a><span class="bu">print</span>(<span class="st">'rmse on test partition: '</span>, np.sqrt(mse))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>rmse on training partition:  0.10843963485562962
@@ -511,9 +512,9 @@ rmse on test partition:  0.14377667235816582</code></pre>
 </ul>
 <div class="fragment">
 <p>Note also that this is simply the estimate of the error variance, rescaled by <span class="math inline">\(\frac{n - 2}{n}\)</span>.</p>
-<div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>n, p <span class="op">=</span> train.shape</span>
-<span id="cb7-2"><a href="#cb7-2"></a>np.sqrt(slr.fit().scale<span class="op">*</span>(n <span class="op">-</span> <span class="dv">2</span>)<span class="op">/</span>n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="053575fc" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a></a>n, p <span class="op">=</span> train.shape</span>
+<span id="cb7-2"><a></a>np.sqrt(slr.fit().scale<span class="op">*</span>(n <span class="op">-</span> <span class="dv">2</span>)<span class="op">/</span>n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>0.10843963485562962</code></pre>
 </div>
@@ -580,12 +581,12 @@ y_i = \beta_0 + \beta_1 x_{i1} + \cdots + \beta_{p - 1} x_{i, p - 1} + \epsilon_
 <p><span class="math display">\[
 (\text{fertility rate})_i = \beta_0 + \beta_1 (\text{HDI})_i + \beta_2 (\text{education})_i + \epsilon_i
 \]</span></p>
-<div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a>x_vars <span class="op">=</span> fertility.loc[:, [<span class="st">'educ_expected_yrs_f'</span>, <span class="st">'hdi'</span>]]</span>
-<span id="cb9-2"><a href="#cb9-2"></a>x <span class="op">=</span> sm.tools.add_constant(x_vars)</span>
-<span id="cb9-3"><a href="#cb9-3"></a>y <span class="op">=</span> fertility.fertility_total</span>
-<span id="cb9-4"><a href="#cb9-4"></a></span>
-<span id="cb9-5"><a href="#cb9-5"></a>mlr <span class="op">=</span> sm.OLS(endog <span class="op">=</span> y, exog <span class="op">=</span> x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="d4be3253" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a></a>x_vars <span class="op">=</span> fertility.loc[:, [<span class="st">'educ_expected_yrs_f'</span>, <span class="st">'hdi'</span>]]</span>
+<span id="cb9-2"><a></a>x <span class="op">=</span> sm.tools.add_constant(x_vars)</span>
+<span id="cb9-3"><a></a>y <span class="op">=</span> fertility.fertility_total</span>
+<span id="cb9-4"><a></a></span>
+<span id="cb9-5"><a></a>mlr <span class="op">=</span> sm.OLS(endog <span class="op">=</span> y, exog <span class="op">=</span> x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="model-estimation" class="slide level2">
@@ -595,9 +596,9 @@ y_i = \beta_0 + \beta_1 x_{i1} + \cdots + \beta_{p - 1} x_{i, p - 1} + \epsilon_
 <p>The least squares estimates are: <span class="math display">\[
 \hat{\beta} = \left[\begin{array}{c}\hat{\beta}_0 \\ \vdots \\ \hat{\beta}_{p - 1} \end{array}\right] = \left(\mathbf{X'X}\right)^{-1}\mathbf{X'y}
 \]</span></p>
-<div class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># retrieve coefficient estimates</span></span>
-<span id="cb10-2"><a href="#cb10-2"></a>mlr.fit().params</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cca72b95" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a></a><span class="co"># retrieve coefficient estimates</span></span>
+<span id="cb10-2"><a></a>mlr.fit().params</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>const                  7.960371
 educ_expected_yrs_f   -0.201996
@@ -619,9 +620,9 @@ dtype: float64</code></pre>
 \hat{\sigma}^2
     = \frac{1}{n - p} \sum_{i = 1}^n \underbrace{\left(y_i - \hat{\beta}_0 - \hat{\beta}_1 x_{i1} - \cdots - \hat{\beta}_{p - 1}x_{i, p - 1}\right)^2}_{i\text{th squared model residual}}
 \]</span></p>
-<div class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a><span class="co"># retrieve error variance estimate</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a>mlr.fit().scale</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="9412ddc9" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a></a><span class="co"># retrieve error variance estimate</span></span>
+<span id="cb12-2"><a></a>mlr.fit().scale</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>0.34690893559915764</code></pre>
 </div>
@@ -668,10 +669,11 @@ dtype: float64</code></pre>
         \end{array}\right]
     = \color{red}{\hat{\sigma}^2}\left(\mathbf{X'X}\right)^{-1}
 \]</span></p>
-<div class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a><span class="co"># retrieve parameter variance-covariance estimate</span></span>
-<span id="cb14-2"><a href="#cb14-2"></a>mlr.fit().cov_params()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="e3d3adc4" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a></a><span class="co"># retrieve parameter variance-covariance estimate</span></span>
+<span id="cb14-2"><a></a>mlr.fit().cov_params()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -721,6 +723,7 @@ dtype: float64</code></pre>
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="standard-errors" class="slide level2">
 <h2>Standard errors</h2>
@@ -731,8 +734,8 @@ dtype: float64</code></pre>
     \;,\quad \cdots \quad
     \text{SE}(\hat{\beta}_{p - 1}) = \sqrt{\color{blue}{\hat{v}_{pp}}}
 \]</span></p>
-<div class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a>np.sqrt(mlr.fit().cov_params().values.diagonal())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="b95e8d1e" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a></a>np.sqrt(mlr.fit().cov_params().values.diagonal())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>array([0.24493942, 0.042194  , 0.68015545])</code></pre>
 </div>
@@ -741,18 +744,19 @@ dtype: float64</code></pre>
 <section id="model-fit-summary" class="slide level2">
 <h2>Model fit summary</h2>
 <p>Just as before, a table is helpful:</p>
-<div class="cell" data-execution_count="12">
-<details>
+<div id="bc5587bd" class="cell" data-execution_count="12">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a>rslt <span class="op">=</span> mlr.fit()</span>
-<span id="cb17-2"><a href="#cb17-2"></a>coef_tbl <span class="op">=</span> pd.DataFrame({<span class="st">'estimate'</span>: rslt.params.values,</span>
-<span id="cb17-3"><a href="#cb17-3"></a>              <span class="st">'standard error'</span>: np.sqrt(rslt.cov_params().values.diagonal())},</span>
-<span id="cb17-4"><a href="#cb17-4"></a>              index <span class="op">=</span> x.columns)</span>
-<span id="cb17-5"><a href="#cb17-5"></a>coef_tbl.loc[<span class="st">'error variance'</span>, <span class="st">'estimate'</span>] <span class="op">=</span> rslt.scale</span>
-<span id="cb17-6"><a href="#cb17-6"></a></span>
-<span id="cb17-7"><a href="#cb17-7"></a>coef_tbl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a></a>rslt <span class="op">=</span> mlr.fit()</span>
+<span id="cb17-2"><a></a>coef_tbl <span class="op">=</span> pd.DataFrame({<span class="st">'estimate'</span>: rslt.params.values,</span>
+<span id="cb17-3"><a></a>              <span class="st">'standard error'</span>: np.sqrt(rslt.cov_params().values.diagonal())},</span>
+<span id="cb17-4"><a></a>              index <span class="op">=</span> x.columns)</span>
+<span id="cb17-5"><a></a>coef_tbl.loc[<span class="st">'error variance'</span>, <span class="st">'estimate'</span>] <span class="op">=</span> rslt.scale</span>
+<span id="cb17-6"><a></a></span>
+<span id="cb17-7"><a></a>coef_tbl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="12">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -803,14 +807,15 @@ dtype: float64</code></pre>
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="variance-explained" class="slide level2">
 <h2>Variance explained</h2>
 <p>The <span class="math inline">\(R^2\)</span> statistic – proportion of variance explained – is computed the same as before: <span class="math display">\[
 \frac{\hat{\sigma}_\text{raw}^2 - \frac{n - 1}{n - p}\hat{\sigma}^2}{\hat{\sigma}_\text{raw}^2}
 \]</span></p>
-<div class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a>rslt.rsquared</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="c736806e" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a></a>rslt.rsquared</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
 <pre><code>0.7827796420988886</code></pre>
 </div>
@@ -838,9 +843,10 @@ dtype: float64</code></pre>
 \hat{\beta}_j \pm 2 SE(\hat{\beta}_j)
 \]</span></p>
 <div class="fragment">
-<div class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a>mlr.fit().conf_int().rename(columns <span class="op">=</span> {<span class="dv">0</span>: <span class="st">'lwr'</span>, <span class="dv">1</span>: <span class="st">'upr'</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="0d10e97f" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a></a>mlr.fit().conf_int().rename(columns <span class="op">=</span> {<span class="dv">0</span>: <span class="st">'lwr'</span>, <span class="dv">1</span>: <span class="st">'upr'</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="14">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -887,6 +893,7 @@ dtype: float64</code></pre>
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="prediction" class="slide level2">
 <h2>Prediction</h2>
@@ -897,10 +904,11 @@ dtype: float64</code></pre>
 <li class="fragment">95% interval for a predicted observation: <span class="math inline">\(\hat{y} \pm 2SE(\hat{y})\)</span></li>
 </ul>
 <div class="fragment">
-<div class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a>x_new <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">10</span>, <span class="fl">0.5</span>])</span>
-<span id="cb21-2"><a href="#cb21-2"></a>mlr.fit().get_prediction(x_new).summary_frame()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="048d6b94" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a></a>x_new <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">10</span>, <span class="fl">0.5</span>])</span>
+<span id="cb21-2"><a></a>mlr.fit().get_prediction(x_new).summary_frame()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -945,76 +953,77 @@ dtype: float64</code></pre>
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="model-visualizations" class="slide level2">
 <h2>Model visualizations</h2>
 <p>Visualization gets a bit trickier because of the presence of that second variable. Here I plotted the marginal relationship with HDI for three quantiles of education.</p>
-<div class="cell" data-execution_count="16">
-<details>
+<div id="e3e4512b" class="cell" data-execution_count="16">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a><span class="co"># set coordinates for grid mesh</span></span>
-<span id="cb22-2"><a href="#cb22-2"></a>educ_gridpts <span class="op">=</span> fertility.educ_expected_yrs_f.quantile([<span class="fl">0.2</span>, <span class="fl">0.5</span>, <span class="fl">0.8</span>]).values</span>
-<span id="cb22-3"><a href="#cb22-3"></a>hdi_gridpts <span class="op">=</span> np.linspace(fertility.hdi.<span class="bu">min</span>(), fertility.hdi.<span class="bu">max</span>(), num <span class="op">=</span> <span class="dv">100</span>)</span>
-<span id="cb22-4"><a href="#cb22-4"></a></span>
-<span id="cb22-5"><a href="#cb22-5"></a><span class="co"># create prediction grid</span></span>
-<span id="cb22-6"><a href="#cb22-6"></a>g1, g2 <span class="op">=</span> np.meshgrid(educ_gridpts, hdi_gridpts)</span>
-<span id="cb22-7"><a href="#cb22-7"></a>grid <span class="op">=</span> np.array([g1.ravel(), g2.ravel()]).T</span>
-<span id="cb22-8"><a href="#cb22-8"></a>grid_df <span class="op">=</span> pd.DataFrame(grid, columns <span class="op">=</span> [<span class="st">'educ'</span>, <span class="st">'hdi'</span>])</span>
-<span id="cb22-9"><a href="#cb22-9"></a></span>
-<span id="cb22-10"><a href="#cb22-10"></a><span class="co"># format for input to get_prediction()</span></span>
-<span id="cb22-11"><a href="#cb22-11"></a>x_pred <span class="op">=</span> sm.tools.add_constant(grid_df)</span>
-<span id="cb22-12"><a href="#cb22-12"></a></span>
-<span id="cb22-13"><a href="#cb22-13"></a><span class="co"># compute predictions</span></span>
-<span id="cb22-14"><a href="#cb22-14"></a>pred_df <span class="op">=</span> mlr.fit().get_prediction(x_pred).summary_frame()</span>
-<span id="cb22-15"><a href="#cb22-15"></a></span>
-<span id="cb22-16"><a href="#cb22-16"></a><span class="co"># append to grid</span></span>
-<span id="cb22-17"><a href="#cb22-17"></a>pred_df <span class="op">=</span> pd.concat([grid_df, pred_df], axis <span class="op">=</span> <span class="dv">1</span>)</span>
-<span id="cb22-18"><a href="#cb22-18"></a></span>
-<span id="cb22-19"><a href="#cb22-19"></a><span class="co"># plot</span></span>
-<span id="cb22-20"><a href="#cb22-20"></a>scatter <span class="op">=</span> alt.Chart(fertility).mark_circle(opacity <span class="op">=</span> <span class="fl">0.5</span>).encode(</span>
-<span id="cb22-21"><a href="#cb22-21"></a>    x <span class="op">=</span> alt.X(<span class="st">'hdi'</span>, </span>
-<span id="cb22-22"><a href="#cb22-22"></a>        scale <span class="op">=</span> alt.Scale(zero <span class="op">=</span> <span class="va">False</span>),</span>
-<span id="cb22-23"><a href="#cb22-23"></a>        title <span class="op">=</span> <span class="st">'Human development index'</span>),</span>
-<span id="cb22-24"><a href="#cb22-24"></a>    y <span class="op">=</span> alt.Y(<span class="st">'fertility_total'</span>,</span>
-<span id="cb22-25"><a href="#cb22-25"></a>        title <span class="op">=</span> <span class="st">'Fertility rate'</span>),</span>
-<span id="cb22-26"><a href="#cb22-26"></a>    color <span class="op">=</span> alt.Color(<span class="st">'educ_expected_yrs_f'</span>,</span>
-<span id="cb22-27"><a href="#cb22-27"></a>        title <span class="op">=</span> <span class="st">'Education'</span>)</span>
-<span id="cb22-28"><a href="#cb22-28"></a>)</span>
-<span id="cb22-29"><a href="#cb22-29"></a></span>
-<span id="cb22-30"><a href="#cb22-30"></a>model <span class="op">=</span> alt.Chart(pred_df).mark_line().encode(</span>
-<span id="cb22-31"><a href="#cb22-31"></a>    x <span class="op">=</span> <span class="st">'hdi'</span>,</span>
-<span id="cb22-32"><a href="#cb22-32"></a>    y <span class="op">=</span> <span class="st">'mean'</span>,</span>
-<span id="cb22-33"><a href="#cb22-33"></a>    color <span class="op">=</span> <span class="st">'educ'</span></span>
-<span id="cb22-34"><a href="#cb22-34"></a>)</span>
-<span id="cb22-35"><a href="#cb22-35"></a></span>
-<span id="cb22-36"><a href="#cb22-36"></a>(scatter <span class="op">+</span> model).configure_axis(</span>
-<span id="cb22-37"><a href="#cb22-37"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
-<span id="cb22-38"><a href="#cb22-38"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb22-39"><a href="#cb22-39"></a>).configure_legend(</span>
-<span id="cb22-40"><a href="#cb22-40"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
-<span id="cb22-41"><a href="#cb22-41"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb22-42"><a href="#cb22-42"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a></a><span class="co"># set coordinates for grid mesh</span></span>
+<span id="cb22-2"><a></a>educ_gridpts <span class="op">=</span> fertility.educ_expected_yrs_f.quantile([<span class="fl">0.2</span>, <span class="fl">0.5</span>, <span class="fl">0.8</span>]).values</span>
+<span id="cb22-3"><a></a>hdi_gridpts <span class="op">=</span> np.linspace(fertility.hdi.<span class="bu">min</span>(), fertility.hdi.<span class="bu">max</span>(), num <span class="op">=</span> <span class="dv">100</span>)</span>
+<span id="cb22-4"><a></a></span>
+<span id="cb22-5"><a></a><span class="co"># create prediction grid</span></span>
+<span id="cb22-6"><a></a>g1, g2 <span class="op">=</span> np.meshgrid(educ_gridpts, hdi_gridpts)</span>
+<span id="cb22-7"><a></a>grid <span class="op">=</span> np.array([g1.ravel(), g2.ravel()]).T</span>
+<span id="cb22-8"><a></a>grid_df <span class="op">=</span> pd.DataFrame(grid, columns <span class="op">=</span> [<span class="st">'educ'</span>, <span class="st">'hdi'</span>])</span>
+<span id="cb22-9"><a></a></span>
+<span id="cb22-10"><a></a><span class="co"># format for input to get_prediction()</span></span>
+<span id="cb22-11"><a></a>x_pred <span class="op">=</span> sm.tools.add_constant(grid_df)</span>
+<span id="cb22-12"><a></a></span>
+<span id="cb22-13"><a></a><span class="co"># compute predictions</span></span>
+<span id="cb22-14"><a></a>pred_df <span class="op">=</span> mlr.fit().get_prediction(x_pred).summary_frame()</span>
+<span id="cb22-15"><a></a></span>
+<span id="cb22-16"><a></a><span class="co"># append to grid</span></span>
+<span id="cb22-17"><a></a>pred_df <span class="op">=</span> pd.concat([grid_df, pred_df], axis <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb22-18"><a></a></span>
+<span id="cb22-19"><a></a><span class="co"># plot</span></span>
+<span id="cb22-20"><a></a>scatter <span class="op">=</span> alt.Chart(fertility).mark_circle(opacity <span class="op">=</span> <span class="fl">0.5</span>).encode(</span>
+<span id="cb22-21"><a></a>    x <span class="op">=</span> alt.X(<span class="st">'hdi'</span>, </span>
+<span id="cb22-22"><a></a>        scale <span class="op">=</span> alt.Scale(zero <span class="op">=</span> <span class="va">False</span>),</span>
+<span id="cb22-23"><a></a>        title <span class="op">=</span> <span class="st">'Human development index'</span>),</span>
+<span id="cb22-24"><a></a>    y <span class="op">=</span> alt.Y(<span class="st">'fertility_total'</span>,</span>
+<span id="cb22-25"><a></a>        title <span class="op">=</span> <span class="st">'Fertility rate'</span>),</span>
+<span id="cb22-26"><a></a>    color <span class="op">=</span> alt.Color(<span class="st">'educ_expected_yrs_f'</span>,</span>
+<span id="cb22-27"><a></a>        title <span class="op">=</span> <span class="st">'Education'</span>)</span>
+<span id="cb22-28"><a></a>)</span>
+<span id="cb22-29"><a></a></span>
+<span id="cb22-30"><a></a>model <span class="op">=</span> alt.Chart(pred_df).mark_line().encode(</span>
+<span id="cb22-31"><a></a>    x <span class="op">=</span> <span class="st">'hdi'</span>,</span>
+<span id="cb22-32"><a></a>    y <span class="op">=</span> <span class="st">'mean'</span>,</span>
+<span id="cb22-33"><a></a>    color <span class="op">=</span> <span class="st">'educ'</span></span>
+<span id="cb22-34"><a></a>)</span>
+<span id="cb22-35"><a></a></span>
+<span id="cb22-36"><a></a>(scatter <span class="op">+</span> model).configure_axis(</span>
+<span id="cb22-37"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
+<span id="cb22-38"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb22-39"><a></a>).configure_legend(</span>
+<span id="cb22-40"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
+<span id="cb22-41"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb22-42"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="16">
 
 <style>
-  #altair-viz-37f760dd271b4a0da4e077c38ae55d47.vega-embed {
+  #altair-viz-b6b3f3b72bd4471f8986020d52aad9be.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-37f760dd271b4a0da4e077c38ae55d47.vega-embed details,
-  #altair-viz-37f760dd271b4a0da4e077c38ae55d47.vega-embed details summary {
+  #altair-viz-b6b3f3b72bd4471f8986020d52aad9be.vega-embed details,
+  #altair-viz-b6b3f3b72bd4471f8986020d52aad9be.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-37f760dd271b4a0da4e077c38ae55d47"></div>
+<div id="altair-viz-b6b3f3b72bd4471f8986020d52aad9be"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-37f760dd271b4a0da4e077c38ae55d47") {
-      outputDiv = document.getElementById("altair-viz-37f760dd271b4a0da4e077c38ae55d47");
+    if (outputDiv.id !== "altair-viz-b6b3f3b72bd4471f8986020d52aad9be") {
+      outputDiv = document.getElementById("altair-viz-b6b3f3b72bd4471f8986020d52aad9be");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -1068,12 +1077,13 @@ dtype: float64</code></pre>
 <section id="urban-tree-cover-data" class="slide level2">
 <h2>Urban tree cover data</h2>
 <p>Tree canopy is thought to reduce summer temperatures in urban areas. Consider tree cover and a few other variables measured on a random sample of ~2K census blocks with some canpoy cover in San Diego:</p>
-<div class="cell" data-execution_count="17">
-<details>
+<div id="977cb1f7" class="cell" data-execution_count="17">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a>trees.head(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a></a>trees.head(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="17">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1131,6 +1141,7 @@ dtype: float64</code></pre>
 </div>
 </div>
 </div>
+</div>
 <div class="fragment">
 <blockquote>
 <p>McDonald RI, Biswas T, Sachar C, Housman I, Boucher TM, Balk D, et al.&nbsp;(2021) The tree cover and temperature disparity in US urbanized areas: Quantifying the association with income across 5,723 communities. PLoS ONE 16(4). <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0249715">doi:10.1371/journal.pone.0249715</a>.</p>
@@ -1142,40 +1153,40 @@ dtype: float64</code></pre>
 <p>Is higher tree cover associated with lower summer temperatures?</p>
 <div class="columns">
 <div class="column" style="width:60%;">
-<div class="cell" data-execution_count="18">
-<details>
+<div id="961a73ba" class="cell" data-execution_count="18">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a>alt.Chart(trees).mark_circle(opacity <span class="op">=</span> <span class="fl">0.3</span>).encode(</span>
-<span id="cb24-2"><a href="#cb24-2"></a>    x <span class="op">=</span> alt.X(<span class="st">'tree_cover'</span>, </span>
-<span id="cb24-3"><a href="#cb24-3"></a>        title <span class="op">=</span> <span class="st">'Tree canopy cover (percent)'</span>),</span>
-<span id="cb24-4"><a href="#cb24-4"></a>    y <span class="op">=</span> alt.Y(<span class="st">'mean_summer_temp'</span>, </span>
-<span id="cb24-5"><a href="#cb24-5"></a>        scale <span class="op">=</span> alt.Scale(zero <span class="op">=</span> <span class="va">False</span>),</span>
-<span id="cb24-6"><a href="#cb24-6"></a>        title <span class="op">=</span> <span class="st">'Average summer temperature (C)'</span>)</span>
-<span id="cb24-7"><a href="#cb24-7"></a>).configure_axis(</span>
-<span id="cb24-8"><a href="#cb24-8"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span>,</span>
-<span id="cb24-9"><a href="#cb24-9"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span></span>
-<span id="cb24-10"><a href="#cb24-10"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a></a>alt.Chart(trees).mark_circle(opacity <span class="op">=</span> <span class="fl">0.3</span>).encode(</span>
+<span id="cb24-2"><a></a>    x <span class="op">=</span> alt.X(<span class="st">'tree_cover'</span>, </span>
+<span id="cb24-3"><a></a>        title <span class="op">=</span> <span class="st">'Tree canopy cover (percent)'</span>),</span>
+<span id="cb24-4"><a></a>    y <span class="op">=</span> alt.Y(<span class="st">'mean_summer_temp'</span>, </span>
+<span id="cb24-5"><a></a>        scale <span class="op">=</span> alt.Scale(zero <span class="op">=</span> <span class="va">False</span>),</span>
+<span id="cb24-6"><a></a>        title <span class="op">=</span> <span class="st">'Average summer temperature (C)'</span>)</span>
+<span id="cb24-7"><a></a>).configure_axis(</span>
+<span id="cb24-8"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span>,</span>
+<span id="cb24-9"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span></span>
+<span id="cb24-10"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="18">
 
 <style>
-  #altair-viz-d032c143cc3e47d49ec3cc30a7b847af.vega-embed {
+  #altair-viz-a37949e6f64f467f96c1a4cb54fdb758.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-d032c143cc3e47d49ec3cc30a7b847af.vega-embed details,
-  #altair-viz-d032c143cc3e47d49ec3cc30a7b847af.vega-embed details summary {
+  #altair-viz-a37949e6f64f467f96c1a4cb54fdb758.vega-embed details,
+  #altair-viz-a37949e6f64f467f96c1a4cb54fdb758.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-d032c143cc3e47d49ec3cc30a7b847af"></div>
+<div id="altair-viz-a37949e6f64f467f96c1a4cb54fdb758"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-d032c143cc3e47d49ec3cc30a7b847af") {
-      outputDiv = document.getElementById("altair-viz-d032c143cc3e47d49ec3cc30a7b847af");
+    if (outputDiv.id !== "altair-viz-a37949e6f64f467f96c1a4cb54fdb758") {
+      outputDiv = document.getElementById("altair-viz-a37949e6f64f467f96c1a4cb54fdb758");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -1237,14 +1248,14 @@ dtype: float64</code></pre>
 <section id="simple-regression-analysis-1" class="slide level2">
 <h2>Simple regression analysis</h2>
 <p>We can use SLR to quantify the association:</p>
-<div class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a><span class="co"># explanatory and response variables</span></span>
-<span id="cb25-2"><a href="#cb25-2"></a>x <span class="op">=</span> sm.tools.add_constant(trees.tree_cover)</span>
-<span id="cb25-3"><a href="#cb25-3"></a>y <span class="op">=</span> trees.mean_summer_temp</span>
-<span id="cb25-4"><a href="#cb25-4"></a></span>
-<span id="cb25-5"><a href="#cb25-5"></a><span class="co"># fit temp ~ cover</span></span>
-<span id="cb25-6"><a href="#cb25-6"></a>slr <span class="op">=</span> sm.OLS(endog <span class="op">=</span> y, exog <span class="op">=</span> x)</span>
-<span id="cb25-7"><a href="#cb25-7"></a>slr.fit().params</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="b87fc87c" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a></a><span class="co"># explanatory and response variables</span></span>
+<span id="cb25-2"><a></a>x <span class="op">=</span> sm.tools.add_constant(trees.tree_cover)</span>
+<span id="cb25-3"><a></a>y <span class="op">=</span> trees.mean_summer_temp</span>
+<span id="cb25-4"><a></a></span>
+<span id="cb25-5"><a></a><span class="co"># fit temp ~ cover</span></span>
+<span id="cb25-6"><a></a>slr <span class="op">=</span> sm.OLS(endog <span class="op">=</span> y, exog <span class="op">=</span> x)</span>
+<span id="cb25-7"><a></a>slr.fit().params</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="19">
 <pre><code>const         34.994336
 tree_cover    -0.073114
@@ -1261,12 +1272,13 @@ dtype: float64</code></pre>
 <section id="simple-regression-analysis-2" class="slide level2">
 <h2>Simple regression analysis</h2>
 <p>Confidence intervals:</p>
-<div class="cell" data-execution_count="20">
-<details>
+<div id="389ab8de" class="cell" data-execution_count="20">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1"></a>slr.fit().conf_int().rename(columns <span class="op">=</span> {<span class="dv">0</span>: <span class="st">'lwr'</span>, <span class="dv">1</span>: <span class="st">'upr'</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a></a>slr.fit().conf_int().rename(columns <span class="op">=</span> {<span class="dv">0</span>: <span class="st">'lwr'</span>, <span class="dv">1</span>: <span class="st">'upr'</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="20">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1307,6 +1319,7 @@ dtype: float64</code></pre>
 </div>
 </div>
 </div>
+</div>
 <div class="fragment">
 <blockquote>
 <p>Interpretation: with 95% confidence, a 10% increase in tree cover is associated with an estimated decrease in mean summer surface temperatures between 0.6 and 0.8 degrees celsius.</p>
@@ -1318,41 +1331,41 @@ dtype: float64</code></pre>
 <p>Is tree cover associated with affluence and population density?</p>
 <div class="columns">
 <div class="column" style="width:60%;">
-<div class="cell" data-execution_count="21">
-<details>
+<div id="40c8938a" class="cell" data-execution_count="21">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a>alt.Chart(trees).mark_circle(opacity <span class="op">=</span> <span class="fl">0.3</span>).encode(</span>
-<span id="cb28-2"><a href="#cb28-2"></a>    x <span class="op">=</span> alt.X(<span class="st">'mean_income'</span>, </span>
-<span id="cb28-3"><a href="#cb28-3"></a>        scale <span class="op">=</span> alt.Scale(<span class="bu">type</span> <span class="op">=</span> <span class="st">'log'</span>),</span>
-<span id="cb28-4"><a href="#cb28-4"></a>        title <span class="op">=</span> <span class="st">'Mean income (USD)'</span>),</span>
-<span id="cb28-5"><a href="#cb28-5"></a>    y <span class="op">=</span> alt.Y(<span class="st">'tree_cover'</span>, </span>
-<span id="cb28-6"><a href="#cb28-6"></a>        scale <span class="op">=</span> alt.Scale(<span class="bu">type</span> <span class="op">=</span> <span class="st">'log'</span>),</span>
-<span id="cb28-7"><a href="#cb28-7"></a>        title <span class="op">=</span> <span class="st">'Tree cover (percent)'</span>)</span>
-<span id="cb28-8"><a href="#cb28-8"></a>).configure_axis(</span>
-<span id="cb28-9"><a href="#cb28-9"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span>,</span>
-<span id="cb28-10"><a href="#cb28-10"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span></span>
-<span id="cb28-11"><a href="#cb28-11"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a></a>alt.Chart(trees).mark_circle(opacity <span class="op">=</span> <span class="fl">0.3</span>).encode(</span>
+<span id="cb28-2"><a></a>    x <span class="op">=</span> alt.X(<span class="st">'mean_income'</span>, </span>
+<span id="cb28-3"><a></a>        scale <span class="op">=</span> alt.Scale(<span class="bu">type</span> <span class="op">=</span> <span class="st">'log'</span>),</span>
+<span id="cb28-4"><a></a>        title <span class="op">=</span> <span class="st">'Mean income (USD)'</span>),</span>
+<span id="cb28-5"><a></a>    y <span class="op">=</span> alt.Y(<span class="st">'tree_cover'</span>, </span>
+<span id="cb28-6"><a></a>        scale <span class="op">=</span> alt.Scale(<span class="bu">type</span> <span class="op">=</span> <span class="st">'log'</span>),</span>
+<span id="cb28-7"><a></a>        title <span class="op">=</span> <span class="st">'Tree cover (percent)'</span>)</span>
+<span id="cb28-8"><a></a>).configure_axis(</span>
+<span id="cb28-9"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span>,</span>
+<span id="cb28-10"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span></span>
+<span id="cb28-11"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="21">
 
 <style>
-  #altair-viz-aa5448a36204412ba1a4da119c89be06.vega-embed {
+  #altair-viz-5c23227c774e4165a6ca03c1a077016c.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-aa5448a36204412ba1a4da119c89be06.vega-embed details,
-  #altair-viz-aa5448a36204412ba1a4da119c89be06.vega-embed details summary {
+  #altair-viz-5c23227c774e4165a6ca03c1a077016c.vega-embed details,
+  #altair-viz-5c23227c774e4165a6ca03c1a077016c.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-aa5448a36204412ba1a4da119c89be06"></div>
+<div id="altair-viz-5c23227c774e4165a6ca03c1a077016c"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-aa5448a36204412ba1a4da119c89be06") {
-      outputDiv = document.getElementById("altair-viz-aa5448a36204412ba1a4da119c89be06");
+    if (outputDiv.id !== "altair-viz-5c23227c774e4165a6ca03c1a077016c") {
+      outputDiv = document.getElementById("altair-viz-5c23227c774e4165a6ca03c1a077016c");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -1413,16 +1426,17 @@ dtype: float64</code></pre>
 <section id="handling-categorical-variables" class="slide level2">
 <h2>Handling categorical variables</h2>
 <p>The population density is recorded as a categorical variable:</p>
-<div class="cell" data-execution_count="22">
-<details>
+<div id="5b12f199" class="cell" data-execution_count="22">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1"></a>regdata <span class="op">=</span> trees.loc[:, [<span class="st">'tree_cover'</span>, <span class="st">'mean_income'</span>, <span class="st">'pop_density'</span>]]</span>
-<span id="cb29-2"><a href="#cb29-2"></a>regdata[<span class="st">'log_cover'</span>] <span class="op">=</span> np.log(regdata.tree_cover)</span>
-<span id="cb29-3"><a href="#cb29-3"></a>regdata[<span class="st">'log_income'</span>] <span class="op">=</span> np.log(regdata.mean_income)</span>
-<span id="cb29-4"><a href="#cb29-4"></a>regdata.drop(columns <span class="op">=</span> {<span class="st">'tree_cover'</span>, <span class="st">'mean_income'</span>}, inplace <span class="op">=</span> <span class="va">True</span>)</span>
-<span id="cb29-5"><a href="#cb29-5"></a>regdata.head(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a></a>regdata <span class="op">=</span> trees.loc[:, [<span class="st">'tree_cover'</span>, <span class="st">'mean_income'</span>, <span class="st">'pop_density'</span>]]</span>
+<span id="cb29-2"><a></a>regdata[<span class="st">'log_cover'</span>] <span class="op">=</span> np.log(regdata.tree_cover)</span>
+<span id="cb29-3"><a></a>regdata[<span class="st">'log_income'</span>] <span class="op">=</span> np.log(regdata.mean_income)</span>
+<span id="cb29-4"><a></a>regdata.drop(columns <span class="op">=</span> {<span class="st">'tree_cover'</span>, <span class="st">'mean_income'</span>}, inplace <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb29-5"><a></a>regdata.head(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="22">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1478,6 +1492,7 @@ dtype: float64</code></pre>
 </div>
 </div>
 </div>
+</div>
 <div class="fragment">
 <p>On face value, it might seem we could simply fit this model: <span class="math display">\[
 \underbrace{\log(\text{cover}_i)}_{y_i}
@@ -1502,16 +1517,17 @@ I(\text{density $=$ low}) = \begin{cases} 1 \text{ if population density is low}
 </div>
 <div class="fragment">
 <p>We can encode the levels of <code>pop_density</code> using a collection of indicators:</p>
-<div class="cell" data-execution_count="23">
-<details>
+<div id="808a7e87" class="cell" data-execution_count="23">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb30" data-code-line-numbers="2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1"></a><span class="co"># create indicator variables</span></span>
-<span id="cb30-2"><a href="#cb30-2"></a>density_encoded <span class="op">=</span> pd.get_dummies(regdata.pop_density, drop_first <span class="op">=</span> <span class="va">True</span>)</span>
-<span id="cb30-3"><a href="#cb30-3"></a></span>
-<span id="cb30-4"><a href="#cb30-4"></a><span class="co"># display example values corresponding to categorical variable</span></span>
-<span id="cb30-5"><a href="#cb30-5"></a>pd.concat([regdata[[<span class="st">'pop_density'</span>]], density_encoded], axis <span class="op">=</span> <span class="dv">1</span>).groupby(<span class="st">'pop_density'</span>).head(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30" data-code-line-numbers="2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a></a><span class="co"># create indicator variables</span></span>
+<span id="cb30-2"><a></a>density_encoded <span class="op">=</span> pd.get_dummies(regdata.pop_density, drop_first <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb30-3"><a></a></span>
+<span id="cb30-4"><a></a><span class="co"># display example values corresponding to categorical variable</span></span>
+<span id="cb30-5"><a></a>pd.concat([regdata[[<span class="st">'pop_density'</span>]], density_encoded], axis <span class="op">=</span> <span class="dv">1</span>).groupby(<span class="st">'pop_density'</span>).head(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="23">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1601,6 +1617,7 @@ I(\text{density $=$ low}) = \begin{cases} 1 \text{ if population density is low}
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="the-mlr-model-with-indicators" class="slide level2">
 <h2>The MLR model with indicators</h2>
@@ -1650,15 +1667,16 @@ I(\text{density $=$ low}) = \begin{cases} 1 \text{ if population density is low}
     \end{array}\right]
 \]</span></p>
 <div class="fragment">
-<div class="cell" data-execution_count="24">
-<details>
+<div id="17ccc691" class="cell" data-execution_count="24">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1"></a><span class="co"># form explanatory variable matrix</span></span>
-<span id="cb31-2"><a href="#cb31-2"></a>x_vars <span class="op">=</span> pd.concat([regdata.log_income, density_encoded], axis <span class="op">=</span> <span class="dv">1</span>)</span>
-<span id="cb31-3"><a href="#cb31-3"></a>x <span class="op">=</span> sm.tools.add_constant(x_vars)</span>
-<span id="cb31-4"><a href="#cb31-4"></a>x.head(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a></a><span class="co"># form explanatory variable matrix</span></span>
+<span id="cb31-2"><a></a>x_vars <span class="op">=</span> pd.concat([regdata.log_income, density_encoded], axis <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb31-3"><a></a>x <span class="op">=</span> sm.tools.add_constant(x_vars)</span>
+<span id="cb31-4"><a></a>x.head(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="24">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1725,32 +1743,34 @@ I(\text{density $=$ low}) = \begin{cases} 1 \text{ if population density is low}
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="fit-summary" class="slide level2">
 <h2>Fit summary</h2>
 <p>The remaining calculations are all the same as before. Here is the model fit summary:</p>
-<div class="cell" data-execution_count="25">
-<details>
+<div id="74d1a71d" class="cell" data-execution_count="25">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1"></a><span class="co"># form explanatory variable matrix</span></span>
-<span id="cb32-2"><a href="#cb32-2"></a>x_vars <span class="op">=</span> pd.concat([regdata.log_income, density_encoded], axis <span class="op">=</span> <span class="dv">1</span>)</span>
-<span id="cb32-3"><a href="#cb32-3"></a>x <span class="op">=</span> sm.tools.add_constant(x_vars)</span>
-<span id="cb32-4"><a href="#cb32-4"></a>y <span class="op">=</span> regdata.log_cover</span>
-<span id="cb32-5"><a href="#cb32-5"></a></span>
-<span id="cb32-6"><a href="#cb32-6"></a><span class="co"># fit model</span></span>
-<span id="cb32-7"><a href="#cb32-7"></a>mlr <span class="op">=</span> sm.OLS(endog <span class="op">=</span> y, exog <span class="op">=</span> x)</span>
-<span id="cb32-8"><a href="#cb32-8"></a>rslt <span class="op">=</span> mlr.fit()</span>
-<span id="cb32-9"><a href="#cb32-9"></a></span>
-<span id="cb32-10"><a href="#cb32-10"></a><span class="co"># summarize fit</span></span>
-<span id="cb32-11"><a href="#cb32-11"></a>coef_tbl <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb32-12"><a href="#cb32-12"></a>    <span class="st">'estimate'</span>: rslt.params,</span>
-<span id="cb32-13"><a href="#cb32-13"></a>    <span class="st">'standard error'</span>: np.sqrt(rslt.cov_params().values.diagonal())</span>
-<span id="cb32-14"><a href="#cb32-14"></a>}, index <span class="op">=</span> x.columns.values)</span>
-<span id="cb32-15"><a href="#cb32-15"></a>coef_tbl.loc[<span class="st">'error variance'</span>, <span class="st">'estimate'</span>] <span class="op">=</span> rslt.scale</span>
-<span id="cb32-16"><a href="#cb32-16"></a></span>
-<span id="cb32-17"><a href="#cb32-17"></a>coef_tbl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a></a><span class="co"># form explanatory variable matrix</span></span>
+<span id="cb32-2"><a></a>x_vars <span class="op">=</span> pd.concat([regdata.log_income, density_encoded], axis <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb32-3"><a></a>x <span class="op">=</span> sm.tools.add_constant(x_vars)</span>
+<span id="cb32-4"><a></a>y <span class="op">=</span> regdata.log_cover</span>
+<span id="cb32-5"><a></a></span>
+<span id="cb32-6"><a></a><span class="co"># fit model</span></span>
+<span id="cb32-7"><a></a>mlr <span class="op">=</span> sm.OLS(endog <span class="op">=</span> y, exog <span class="op">=</span> x)</span>
+<span id="cb32-8"><a></a>rslt <span class="op">=</span> mlr.fit()</span>
+<span id="cb32-9"><a></a></span>
+<span id="cb32-10"><a></a><span class="co"># summarize fit</span></span>
+<span id="cb32-11"><a></a>coef_tbl <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb32-12"><a></a>    <span class="st">'estimate'</span>: rslt.params,</span>
+<span id="cb32-13"><a></a>    <span class="st">'standard error'</span>: np.sqrt(rslt.cov_params().values.diagonal())</span>
+<span id="cb32-14"><a></a>}, index <span class="op">=</span> x.columns.values)</span>
+<span id="cb32-15"><a></a>coef_tbl.loc[<span class="st">'error variance'</span>, <span class="st">'estimate'</span>] <span class="op">=</span> rslt.scale</span>
+<span id="cb32-16"><a></a></span>
+<span id="cb32-17"><a></a>coef_tbl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="25">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1808,6 +1828,7 @@ I(\text{density $=$ low}) = \begin{cases} 1 \text{ if population density is low}
 </tbody>
 </table>
 
+</div>
 </div>
 </div>
 </div>
@@ -1839,8 +1860,9 @@ I(\text{density $=$ low}) = \begin{cases} 1 \text{ if population density is low}
 </section>
 <section id="interpreting-estimates" class="slide level2">
 <h2>Interpreting estimates</h2>
-<div class="cell" data-execution_count="26">
+<div id="1a2cd7c9" class="cell" data-execution_count="26">
 <div class="cell-output cell-output-display" data-execution_count="26">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1901,6 +1923,7 @@ I(\text{density $=$ low}) = \begin{cases} 1 \text{ if population density is low}
 </div>
 </div>
 </div>
+</div>
 <ul>
 <li class="fragment">each doubling of mean income is associated with an estimated 55% increase in median tree cover, after accounting for population density</li>
 <li class="fragment">census blocks with higher population densities are estimated as having a median tree canopy up to 50% lower than census blocks with very low population densities, after accounting for mean income</li>
@@ -1909,11 +1932,12 @@ I(\text{density $=$ low}) = \begin{cases} 1 \text{ if population density is low}
 <section id="prediction-1" class="slide level2">
 <h2>Prediction</h2>
 <p>Prediction works the same way, but we need to supply the indicator encoding rather than the categorical variable level.</p>
-<div class="cell" data-execution_count="27">
-<div class="sourceCode cell-code" id="cb33" data-code-line-numbers="1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1"></a>x_new <span class="op">=</span> np.array([<span class="dv">1</span>, np.log(<span class="dv">115000</span>), <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>])</span>
-<span id="cb33-2"><a href="#cb33-2"></a>pred <span class="op">=</span> rslt.get_prediction(x_new)</span>
-<span id="cb33-3"><a href="#cb33-3"></a>np.exp(pred.summary_frame())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cb918b3a" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a></a>x_new <span class="op">=</span> np.array([<span class="dv">1</span>, np.log(<span class="dv">115000</span>), <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>])</span>
+<span id="cb33-2"><a></a>pred <span class="op">=</span> rslt.get_prediction(x_new)</span>
+<span id="cb33-3"><a></a>np.exp(pred.summary_frame())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="27">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1957,6 +1981,7 @@ I(\text{density $=$ low}) = \begin{cases} 1 \text{ if population density is low}
 </div>
 </div>
 </div>
+</div>
 <p>Check your understanding and fill in the blanks:</p>
 <ul>
 <li class="fragment">the median tree cover for a _______ density census block with mean income _______ is estimated to be between _______ and _______ percent</li>
@@ -1974,8 +1999,10 @@ I(\text{density $=$ low}) = \begin{cases} 1 \text{ if population density is low}
 <p>The model approximates the <em>actual</em> associations between summer temperatures, tree cover, income, and population density in the region.</p>
 </blockquote>
 
+<div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 
+</div>
 </div>
 </div>
 </section>
@@ -2005,7 +2032,6 @@ I(\text{density $=$ low}) = \begin{cases} 1 \text{ if population density is low}
       Reveal.initialize({
 'controlsAuto': true,
 'previewLinksAuto': false,
-'smaller': true,
 'pdfSeparateFragments': false,
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
@@ -2266,10 +2292,9 @@ I(\text{density $=$ low}) = \begin{cases} 1 \text{ if population density is low}
         // clear code selection
         e.clearSelection();
       });
-      function tippyHover(el, contentFn) {
+      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
         const config = {
           allowHTML: true,
-          content: contentFn,
           maxWidth: 500,
           delay: 100,
           arrow: false,
@@ -2279,8 +2304,17 @@ I(\text{density $=$ low}) = \begin{cases} 1 \text{ if population density is low}
           interactive: true,
           interactiveBorder: 10,
           theme: 'light-border',
-          placement: 'bottom-start'
+          placement: 'bottom-start',
         };
+        if (contentFn) {
+          config.content = contentFn;
+        }
+        if (onTriggerFn) {
+          config.onTrigger = onTriggerFn;
+        }
+        if (onUntriggerFn) {
+          config.onUntrigger = onUntriggerFn;
+        }
           config['offset'] = [0,0];
           config['maxWidth'] = 700;
         window.tippy(el, config); 

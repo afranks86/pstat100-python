@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-html/tabby.min.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -8,7 +8,7 @@
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.433">
+  <meta name="generator" content="quarto-1.4.550">
 
   <meta name="author" content="PSTAT100 Spring 2023">
   <title>PSTAT100 - Prediction</title>
@@ -31,7 +31,7 @@
     }
     /* CSS for syntax highlighting */
     pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span { line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
     .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -230,7 +230,8 @@
   }
 
   .callout.callout-titled .callout-body > .callout-content > :last-child {
-    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0;
   }
 
   .callout.callout-titled .callout-icon::before {
@@ -395,7 +396,7 @@
     }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+  
   <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 </head>
 <body class="quarto-light">
@@ -476,10 +477,10 @@ x \in [x_\text{min}, x_\text{max}]
 \]</span></p>
 <div class="fragment">
 <p>In <code>statsmodels</code>, there is a <code>.predict</code> method to perform this basic calculation:</p>
-<div class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># prediction</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a>newobs <span class="op">=</span> np.array([<span class="dv">1</span>, np.log(<span class="dv">86000</span>)])</span>
-<span id="cb1-3"><a href="#cb1-3"></a>slr.fit().predict(newobs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="92c18a22" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="co"># prediction</span></span>
+<span id="cb1-2"><a></a>newobs <span class="op">=</span> np.array([<span class="dv">1</span>, np.log(<span class="dv">86000</span>)])</span>
+<span id="cb1-3"><a></a>slr.fit().predict(newobs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>array([0.01929165])</code></pre>
 </div>
@@ -489,7 +490,7 @@ x \in [x_\text{min}, x_\text{max}]
 <p>Note that this returns a numpy array. The uncertainty bands are intervals constructed around such predictions for a fine grid of values on the interval <span class="math inline">\([x_\text{min}, x_\text{max}]\)</span>.</p>
 </div>
 </section>
-<section id="two-types-of-prediction" class="slide level2">
+<section id="two-types-of-prediction" class="slide level2 scrollable">
 <h2>Two types of prediction</h2>
 <p>The prediction <span class="math inline">\(\hat{y}\)</span> is an estimate, but what of?</p>
 <div class="fragment">
@@ -529,17 +530,17 @@ y = \beta_0 + \beta_1 x + \epsilon
 <section id="computing-standard-errors" class="slide level2">
 <h2>Computing standard errors</h2>
 <p>The <code>.get_prediction()</code> returns a prediction object with several attributes, including standard errors. This is recommended over <code>.predict()</code> for most purposes.</p>
-<div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>pred <span class="op">=</span> slr.fit().get_prediction(newobs)</span>
-<span id="cb3-2"><a href="#cb3-2"></a>pred</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="f9f0e24c" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a>pred <span class="op">=</span> slr.fit().get_prediction(newobs)</span>
+<span id="cb3-2"><a></a>pred</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>&lt;statsmodels.regression._prediction.PredictionResults at 0x280b5af90&gt;</code></pre>
+<pre><code>&lt;statsmodels.regression._prediction.PredictionResults at 0x1039a8390&gt;</code></pre>
 </div>
 </div>
 <div class="fragment">
 <p>The value of the prediction is stored as <code>.predicted_mean</code>:</p>
-<div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>pred.predicted_mean</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="5ef01683" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a></a>pred.predicted_mean</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>array([0.01929165])</code></pre>
 </div>
@@ -564,8 +565,8 @@ SE\left(\widehat{\mathbb{E}y_\text{new}}\right) = \sqrt{\hat{\sigma}^2\left(\mat
 </div>
 <div class="fragment">
 <p>This value is stored with predictions as the <code>.se_mean</code> attribute:</p>
-<div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>pred.se_mean</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cc04f3c6" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a></a>pred.se_mean</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>array([0.00605441])</code></pre>
 </div>
@@ -588,8 +589,8 @@ SE\left(y_\text{new}\right) = \sqrt{\hat{\sigma}^2\left(1 + \mathbf{x}_\text{new
 </div>
 <div class="fragment">
 <p>This value is stored with predictions as the <code>.se_obs</code> attribute:</p>
-<div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a>pred.se_obs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="74667e74" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a></a>pred.se_obs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>array([0.11492531])</code></pre>
 </div>
@@ -599,9 +600,9 @@ SE\left(y_\text{new}\right) = \sqrt{\hat{\sigma}^2\left(1 + \mathbf{x}_\text{new
 <section id="comparing-standard-errors" class="slide level2">
 <h2>Comparing standard errors</h2>
 <p>Note the substantial difference between the standard error for the mean and that for the observation:</p>
-<div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="bu">print</span>(<span class="st">'standard error for mean: '</span>, pred.se_mean)</span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="bu">print</span>(<span class="st">'standard error for observation: '</span>, pred.se_obs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="8042856c" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a></a><span class="bu">print</span>(<span class="st">'standard error for mean: '</span>, pred.se_mean)</span>
+<span id="cb11-2"><a></a><span class="bu">print</span>(<span class="st">'standard error for observation: '</span>, pred.se_obs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>standard error for mean:  [0.00605441]
 standard error for observation:  [0.11492531]</code></pre>
@@ -639,66 +640,66 @@ standard error for observation:  [0.11492531]</code></pre>
 <p>The uncertainty bands from before were <span class="math inline">\(\hat{y} \pm 2SE(\hat{y})\)</span></p>
 <div class="fragment">
 <p>Technically, a confidence interval; usually shown for the mean (not the observation).</p>
-<div class="cell" data-execution_count="8">
-<details>
+<div id="a44cb5f9" class="cell" data-execution_count="8">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a><span class="co"># compute predictions at observed values</span></span>
-<span id="cb13-2"><a href="#cb13-2"></a>preds <span class="op">=</span> slr.fit().get_prediction(x)</span>
-<span id="cb13-3"><a href="#cb13-3"></a></span>
-<span id="cb13-4"><a href="#cb13-4"></a><span class="co"># append fitted values to observations</span></span>
-<span id="cb13-5"><a href="#cb13-5"></a>regdata[<span class="st">'fitted'</span>] <span class="op">=</span> preds.predicted_mean</span>
-<span id="cb13-6"><a href="#cb13-6"></a></span>
-<span id="cb13-7"><a href="#cb13-7"></a><span class="co"># add interval bounds</span></span>
-<span id="cb13-8"><a href="#cb13-8"></a>regdata[<span class="st">'lwr_mean'</span>] <span class="op">=</span> preds.predicted_mean <span class="op">-</span> <span class="dv">2</span><span class="op">*</span>preds.se_mean</span>
-<span id="cb13-9"><a href="#cb13-9"></a>regdata[<span class="st">'upr_mean'</span>] <span class="op">=</span> preds.predicted_mean <span class="op">+</span> <span class="dv">2</span><span class="op">*</span>preds.se_mean</span>
-<span id="cb13-10"><a href="#cb13-10"></a></span>
-<span id="cb13-11"><a href="#cb13-11"></a>scatter <span class="op">=</span> alt.Chart(regdata).mark_circle().encode(</span>
-<span id="cb13-12"><a href="#cb13-12"></a>    x <span class="op">=</span> alt.X(<span class="st">'log_income'</span>, </span>
-<span id="cb13-13"><a href="#cb13-13"></a>        scale <span class="op">=</span> alt.Scale(zero <span class="op">=</span> <span class="va">False</span>),</span>
-<span id="cb13-14"><a href="#cb13-14"></a>        title <span class="op">=</span> <span class="st">'log median income'</span>),</span>
-<span id="cb13-15"><a href="#cb13-15"></a>    y <span class="op">=</span> alt.Y(<span class="st">'gap'</span>, title <span class="op">=</span> <span class="st">'math achievement gap'</span>)</span>
-<span id="cb13-16"><a href="#cb13-16"></a>)</span>
-<span id="cb13-17"><a href="#cb13-17"></a></span>
-<span id="cb13-18"><a href="#cb13-18"></a>trend <span class="op">=</span> alt.Chart(regdata).mark_line(</span>
-<span id="cb13-19"><a href="#cb13-19"></a>    color <span class="op">=</span> <span class="st">'black'</span></span>
-<span id="cb13-20"><a href="#cb13-20"></a>).encode(</span>
-<span id="cb13-21"><a href="#cb13-21"></a>    x <span class="op">=</span> <span class="st">'log_income'</span>,</span>
-<span id="cb13-22"><a href="#cb13-22"></a>    y <span class="op">=</span> <span class="st">'fitted'</span></span>
-<span id="cb13-23"><a href="#cb13-23"></a>)</span>
-<span id="cb13-24"><a href="#cb13-24"></a></span>
-<span id="cb13-25"><a href="#cb13-25"></a>band <span class="op">=</span> alt.Chart(regdata).mark_area(</span>
-<span id="cb13-26"><a href="#cb13-26"></a>    opacity <span class="op">=</span> <span class="fl">0.3</span>, color <span class="op">=</span> <span class="st">'black'</span></span>
-<span id="cb13-27"><a href="#cb13-27"></a>).encode(</span>
-<span id="cb13-28"><a href="#cb13-28"></a>    x <span class="op">=</span> <span class="st">'log_income'</span>,</span>
-<span id="cb13-29"><a href="#cb13-29"></a>    y <span class="op">=</span> <span class="st">'upr_mean'</span>,</span>
-<span id="cb13-30"><a href="#cb13-30"></a>    y2 <span class="op">=</span> <span class="st">'lwr_mean'</span></span>
-<span id="cb13-31"><a href="#cb13-31"></a>)</span>
-<span id="cb13-32"><a href="#cb13-32"></a></span>
-<span id="cb13-33"><a href="#cb13-33"></a>(scatter <span class="op">+</span> trend <span class="op">+</span> band).configure_axis(</span>
-<span id="cb13-34"><a href="#cb13-34"></a>    labelFontSize <span class="op">=</span> <span class="dv">16</span>,</span>
-<span id="cb13-35"><a href="#cb13-35"></a>    titleFontSize <span class="op">=</span> <span class="dv">18</span></span>
-<span id="cb13-36"><a href="#cb13-36"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a></a><span class="co"># compute predictions at observed values</span></span>
+<span id="cb13-2"><a></a>preds <span class="op">=</span> slr.fit().get_prediction(x)</span>
+<span id="cb13-3"><a></a></span>
+<span id="cb13-4"><a></a><span class="co"># append fitted values to observations</span></span>
+<span id="cb13-5"><a></a>regdata[<span class="st">'fitted'</span>] <span class="op">=</span> preds.predicted_mean</span>
+<span id="cb13-6"><a></a></span>
+<span id="cb13-7"><a></a><span class="co"># add interval bounds</span></span>
+<span id="cb13-8"><a></a>regdata[<span class="st">'lwr_mean'</span>] <span class="op">=</span> preds.predicted_mean <span class="op">-</span> <span class="dv">2</span><span class="op">*</span>preds.se_mean</span>
+<span id="cb13-9"><a></a>regdata[<span class="st">'upr_mean'</span>] <span class="op">=</span> preds.predicted_mean <span class="op">+</span> <span class="dv">2</span><span class="op">*</span>preds.se_mean</span>
+<span id="cb13-10"><a></a></span>
+<span id="cb13-11"><a></a>scatter <span class="op">=</span> alt.Chart(regdata).mark_circle().encode(</span>
+<span id="cb13-12"><a></a>    x <span class="op">=</span> alt.X(<span class="st">'log_income'</span>, </span>
+<span id="cb13-13"><a></a>        scale <span class="op">=</span> alt.Scale(zero <span class="op">=</span> <span class="va">False</span>),</span>
+<span id="cb13-14"><a></a>        title <span class="op">=</span> <span class="st">'log median income'</span>),</span>
+<span id="cb13-15"><a></a>    y <span class="op">=</span> alt.Y(<span class="st">'gap'</span>, title <span class="op">=</span> <span class="st">'math achievement gap'</span>)</span>
+<span id="cb13-16"><a></a>)</span>
+<span id="cb13-17"><a></a></span>
+<span id="cb13-18"><a></a>trend <span class="op">=</span> alt.Chart(regdata).mark_line(</span>
+<span id="cb13-19"><a></a>    color <span class="op">=</span> <span class="st">'black'</span></span>
+<span id="cb13-20"><a></a>).encode(</span>
+<span id="cb13-21"><a></a>    x <span class="op">=</span> <span class="st">'log_income'</span>,</span>
+<span id="cb13-22"><a></a>    y <span class="op">=</span> <span class="st">'fitted'</span></span>
+<span id="cb13-23"><a></a>)</span>
+<span id="cb13-24"><a></a></span>
+<span id="cb13-25"><a></a>band <span class="op">=</span> alt.Chart(regdata).mark_area(</span>
+<span id="cb13-26"><a></a>    opacity <span class="op">=</span> <span class="fl">0.3</span>, color <span class="op">=</span> <span class="st">'black'</span></span>
+<span id="cb13-27"><a></a>).encode(</span>
+<span id="cb13-28"><a></a>    x <span class="op">=</span> <span class="st">'log_income'</span>,</span>
+<span id="cb13-29"><a></a>    y <span class="op">=</span> <span class="st">'upr_mean'</span>,</span>
+<span id="cb13-30"><a></a>    y2 <span class="op">=</span> <span class="st">'lwr_mean'</span></span>
+<span id="cb13-31"><a></a>)</span>
+<span id="cb13-32"><a></a></span>
+<span id="cb13-33"><a></a>(scatter <span class="op">+</span> trend <span class="op">+</span> band).configure_axis(</span>
+<span id="cb13-34"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">16</span>,</span>
+<span id="cb13-35"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">18</span></span>
+<span id="cb13-36"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="8">
 
 <style>
-  #altair-viz-c4c03ef235b14b628aeff1a8091b56e6.vega-embed {
+  #altair-viz-76585806c3214b9f80028085b05783e3.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-c4c03ef235b14b628aeff1a8091b56e6.vega-embed details,
-  #altair-viz-c4c03ef235b14b628aeff1a8091b56e6.vega-embed details summary {
+  #altair-viz-76585806c3214b9f80028085b05783e3.vega-embed details,
+  #altair-viz-76585806c3214b9f80028085b05783e3.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-c4c03ef235b14b628aeff1a8091b56e6"></div>
+<div id="altair-viz-76585806c3214b9f80028085b05783e3"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-c4c03ef235b14b628aeff1a8091b56e6") {
-      outputDiv = document.getElementById("altair-viz-c4c03ef235b14b628aeff1a8091b56e6");
+    if (outputDiv.id !== "altair-viz-76585806c3214b9f80028085b05783e3") {
+      outputDiv = document.getElementById("altair-viz-76585806c3214b9f80028085b05783e3");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -753,60 +754,60 @@ standard error for observation:  [0.11492531]</code></pre>
 <section id="prediction-bands" class="slide level2">
 <h2>Prediction bands</h2>
 <p>The same figure constructed using the standard error for observations is:</p>
-<div class="cell" data-execution_count="9">
-<details>
+<div id="c9245a48" class="cell" data-execution_count="9">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a><span class="co"># add interval bounds</span></span>
-<span id="cb14-2"><a href="#cb14-2"></a>regdata[<span class="st">'lwr_obs'</span>] <span class="op">=</span> preds.predicted_mean <span class="op">-</span> <span class="dv">2</span><span class="op">*</span>preds.se_obs</span>
-<span id="cb14-3"><a href="#cb14-3"></a>regdata[<span class="st">'upr_obs'</span>] <span class="op">=</span> preds.predicted_mean <span class="op">+</span> <span class="dv">2</span><span class="op">*</span>preds.se_obs</span>
-<span id="cb14-4"><a href="#cb14-4"></a></span>
-<span id="cb14-5"><a href="#cb14-5"></a>scatter <span class="op">=</span> alt.Chart(regdata).mark_circle().encode(</span>
-<span id="cb14-6"><a href="#cb14-6"></a>    x <span class="op">=</span> alt.X(<span class="st">'log_income'</span>, </span>
-<span id="cb14-7"><a href="#cb14-7"></a>        scale <span class="op">=</span> alt.Scale(zero <span class="op">=</span> <span class="va">False</span>),</span>
-<span id="cb14-8"><a href="#cb14-8"></a>        title <span class="op">=</span> <span class="st">'log median income'</span>),</span>
-<span id="cb14-9"><a href="#cb14-9"></a>    y <span class="op">=</span> alt.Y(<span class="st">'gap'</span>, title <span class="op">=</span> <span class="st">'math achievement gap'</span>)</span>
-<span id="cb14-10"><a href="#cb14-10"></a>)</span>
-<span id="cb14-11"><a href="#cb14-11"></a></span>
-<span id="cb14-12"><a href="#cb14-12"></a>trend <span class="op">=</span> alt.Chart(regdata).mark_line(</span>
-<span id="cb14-13"><a href="#cb14-13"></a>    color <span class="op">=</span> <span class="st">'black'</span></span>
-<span id="cb14-14"><a href="#cb14-14"></a>).encode(</span>
-<span id="cb14-15"><a href="#cb14-15"></a>    x <span class="op">=</span> <span class="st">'log_income'</span>,</span>
-<span id="cb14-16"><a href="#cb14-16"></a>    y <span class="op">=</span> <span class="st">'fitted'</span></span>
-<span id="cb14-17"><a href="#cb14-17"></a>)</span>
-<span id="cb14-18"><a href="#cb14-18"></a></span>
-<span id="cb14-19"><a href="#cb14-19"></a>band <span class="op">=</span> alt.Chart(regdata).mark_area(</span>
-<span id="cb14-20"><a href="#cb14-20"></a>    opacity <span class="op">=</span> <span class="fl">0.3</span>, color <span class="op">=</span> <span class="st">'black'</span></span>
-<span id="cb14-21"><a href="#cb14-21"></a>).encode(</span>
-<span id="cb14-22"><a href="#cb14-22"></a>    x <span class="op">=</span> <span class="st">'log_income'</span>,</span>
-<span id="cb14-23"><a href="#cb14-23"></a>    y <span class="op">=</span> <span class="st">'upr_obs'</span>,</span>
-<span id="cb14-24"><a href="#cb14-24"></a>    y2 <span class="op">=</span> <span class="st">'lwr_obs'</span></span>
-<span id="cb14-25"><a href="#cb14-25"></a>)</span>
-<span id="cb14-26"><a href="#cb14-26"></a></span>
-<span id="cb14-27"><a href="#cb14-27"></a>(scatter <span class="op">+</span> trend <span class="op">+</span> band).configure_axis(</span>
-<span id="cb14-28"><a href="#cb14-28"></a>    labelFontSize <span class="op">=</span> <span class="dv">16</span>,</span>
-<span id="cb14-29"><a href="#cb14-29"></a>    titleFontSize <span class="op">=</span> <span class="dv">18</span></span>
-<span id="cb14-30"><a href="#cb14-30"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a></a><span class="co"># add interval bounds</span></span>
+<span id="cb14-2"><a></a>regdata[<span class="st">'lwr_obs'</span>] <span class="op">=</span> preds.predicted_mean <span class="op">-</span> <span class="dv">2</span><span class="op">*</span>preds.se_obs</span>
+<span id="cb14-3"><a></a>regdata[<span class="st">'upr_obs'</span>] <span class="op">=</span> preds.predicted_mean <span class="op">+</span> <span class="dv">2</span><span class="op">*</span>preds.se_obs</span>
+<span id="cb14-4"><a></a></span>
+<span id="cb14-5"><a></a>scatter <span class="op">=</span> alt.Chart(regdata).mark_circle().encode(</span>
+<span id="cb14-6"><a></a>    x <span class="op">=</span> alt.X(<span class="st">'log_income'</span>, </span>
+<span id="cb14-7"><a></a>        scale <span class="op">=</span> alt.Scale(zero <span class="op">=</span> <span class="va">False</span>),</span>
+<span id="cb14-8"><a></a>        title <span class="op">=</span> <span class="st">'log median income'</span>),</span>
+<span id="cb14-9"><a></a>    y <span class="op">=</span> alt.Y(<span class="st">'gap'</span>, title <span class="op">=</span> <span class="st">'math achievement gap'</span>)</span>
+<span id="cb14-10"><a></a>)</span>
+<span id="cb14-11"><a></a></span>
+<span id="cb14-12"><a></a>trend <span class="op">=</span> alt.Chart(regdata).mark_line(</span>
+<span id="cb14-13"><a></a>    color <span class="op">=</span> <span class="st">'black'</span></span>
+<span id="cb14-14"><a></a>).encode(</span>
+<span id="cb14-15"><a></a>    x <span class="op">=</span> <span class="st">'log_income'</span>,</span>
+<span id="cb14-16"><a></a>    y <span class="op">=</span> <span class="st">'fitted'</span></span>
+<span id="cb14-17"><a></a>)</span>
+<span id="cb14-18"><a></a></span>
+<span id="cb14-19"><a></a>band <span class="op">=</span> alt.Chart(regdata).mark_area(</span>
+<span id="cb14-20"><a></a>    opacity <span class="op">=</span> <span class="fl">0.3</span>, color <span class="op">=</span> <span class="st">'black'</span></span>
+<span id="cb14-21"><a></a>).encode(</span>
+<span id="cb14-22"><a></a>    x <span class="op">=</span> <span class="st">'log_income'</span>,</span>
+<span id="cb14-23"><a></a>    y <span class="op">=</span> <span class="st">'upr_obs'</span>,</span>
+<span id="cb14-24"><a></a>    y2 <span class="op">=</span> <span class="st">'lwr_obs'</span></span>
+<span id="cb14-25"><a></a>)</span>
+<span id="cb14-26"><a></a></span>
+<span id="cb14-27"><a></a>(scatter <span class="op">+</span> trend <span class="op">+</span> band).configure_axis(</span>
+<span id="cb14-28"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">16</span>,</span>
+<span id="cb14-29"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">18</span></span>
+<span id="cb14-30"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="9">
 
 <style>
-  #altair-viz-da690f1080fc4f91ba464b62b384773f.vega-embed {
+  #altair-viz-10a19305c98e494a8b81d0bc180988d8.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-da690f1080fc4f91ba464b62b384773f.vega-embed details,
-  #altair-viz-da690f1080fc4f91ba464b62b384773f.vega-embed details summary {
+  #altair-viz-10a19305c98e494a8b81d0bc180988d8.vega-embed details,
+  #altair-viz-10a19305c98e494a8b81d0bc180988d8.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-da690f1080fc4f91ba464b62b384773f"></div>
+<div id="altair-viz-10a19305c98e494a8b81d0bc180988d8"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-da690f1080fc4f91ba464b62b384773f") {
-      outputDiv = document.getElementById("altair-viz-da690f1080fc4f91ba464b62b384773f");
+    if (outputDiv.id !== "altair-viz-10a19305c98e494a8b81d0bc180988d8") {
+      outputDiv = document.getElementById("altair-viz-10a19305c98e494a8b81d0bc180988d8");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -862,8 +863,8 @@ standard error for observation:  [0.11492531]</code></pre>
 <p>Prediction objects come equipped with a method <code>.conf_int()</code> for computing confidence intervals.</p>
 <div class="fragment">
 <p>By default, these will return 95% intervals for the mean. For the prediction at median income of 86K:</p>
-<div class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a>pred.conf_int()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="ac97ed1b" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a></a>pred.conf_int()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>array([[0.00740212, 0.03118118]])</code></pre>
 </div>
@@ -879,8 +880,8 @@ standard error for observation:  [0.11492531]</code></pre>
 <section id="prediction-intervals" class="slide level2">
 <h2>Prediction intervals</h2>
 <p>The same method can return prediction intervals for observations. Set <code>obs = True</code> to use the standard error for observations:</p>
-<div class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a>pred.conf_int(obs <span class="op">=</span> <span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="feaa90be" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a></a>pred.conf_int(obs <span class="op">=</span> <span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>array([[-0.20639627,  0.24497957]])</code></pre>
 </div>
@@ -897,11 +898,11 @@ standard error for observation:  [0.11492531]</code></pre>
 <p>The multiplier 2 gives an approximate 95% interval.</p>
 <div class="fragment">
 <p>We can change that multiplier to obtain an interval for a different confidence level.</p>
-<div class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a><span class="bu">print</span>(<span class="st">'95% prediction interval: '</span>, </span>
-<span id="cb19-2"><a href="#cb19-2"></a>    pred.conf_int(alpha <span class="op">=</span> <span class="fl">0.05</span>, obs <span class="op">=</span> <span class="va">True</span>))</span>
-<span id="cb19-3"><a href="#cb19-3"></a><span class="bu">print</span>(<span class="st">'90% prediction interval: '</span>, </span>
-<span id="cb19-4"><a href="#cb19-4"></a>    pred.conf_int(alpha <span class="op">=</span> <span class="fl">0.1</span>, obs <span class="op">=</span> <span class="va">True</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="371e8dd3" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a></a><span class="bu">print</span>(<span class="st">'95% prediction interval: '</span>, </span>
+<span id="cb19-2"><a></a>    pred.conf_int(alpha <span class="op">=</span> <span class="fl">0.05</span>, obs <span class="op">=</span> <span class="va">True</span>))</span>
+<span id="cb19-3"><a></a><span class="bu">print</span>(<span class="st">'90% prediction interval: '</span>, </span>
+<span id="cb19-4"><a></a>    pred.conf_int(alpha <span class="op">=</span> <span class="fl">0.1</span>, obs <span class="op">=</span> <span class="va">True</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>95% prediction interval:  [[-0.20639627  0.24497957]]
 90% prediction interval:  [[-0.17002517  0.20860847]]</code></pre>
@@ -919,20 +920,21 @@ standard error for observation:  [0.11492531]</code></pre>
 <section id="summary_frame" class="slide level2">
 <h2><code>.summary_frame()</code></h2>
 <p>The <code>.summary_frame()</code> method is handy for dealing with multiple predictions:</p>
-<div class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb21" data-code-line-numbers="9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a><span class="co"># explanatory variable array for 4 new observations</span></span>
-<span id="cb21-2"><a href="#cb21-2"></a>income_new <span class="op">=</span> np.linspace(<span class="dv">10000</span>, <span class="dv">100000</span>, <span class="dv">4</span>)</span>
-<span id="cb21-3"><a href="#cb21-3"></a>x_new <span class="op">=</span> sm.tools.add_constant(np.log(income_new))</span>
-<span id="cb21-4"><a href="#cb21-4"></a></span>
-<span id="cb21-5"><a href="#cb21-5"></a><span class="co"># compute predictions</span></span>
-<span id="cb21-6"><a href="#cb21-6"></a>pred <span class="op">=</span> slr.fit().get_prediction(x_new)</span>
-<span id="cb21-7"><a href="#cb21-7"></a></span>
-<span id="cb21-8"><a href="#cb21-8"></a><span class="co"># generate point estimates and intervals</span></span>
-<span id="cb21-9"><a href="#cb21-9"></a>pred_df <span class="op">=</span> pred.summary_frame(alpha <span class="op">=</span> <span class="fl">0.1</span>)</span>
-<span id="cb21-10"><a href="#cb21-10"></a>pred_df[<span class="st">'log_income'</span>] <span class="op">=</span> np.log(income_new)</span>
-<span id="cb21-11"><a href="#cb21-11"></a></span>
-<span id="cb21-12"><a href="#cb21-12"></a>pred_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="214c08c8" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb21" data-code-line-numbers="9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a></a><span class="co"># explanatory variable array for 4 new observations</span></span>
+<span id="cb21-2"><a></a>income_new <span class="op">=</span> np.linspace(<span class="dv">10000</span>, <span class="dv">100000</span>, <span class="dv">4</span>)</span>
+<span id="cb21-3"><a></a>x_new <span class="op">=</span> sm.tools.add_constant(np.log(income_new))</span>
+<span id="cb21-4"><a></a></span>
+<span id="cb21-5"><a></a><span class="co"># compute predictions</span></span>
+<span id="cb21-6"><a></a>pred <span class="op">=</span> slr.fit().get_prediction(x_new)</span>
+<span id="cb21-7"><a></a></span>
+<span id="cb21-8"><a></a><span class="co"># generate point estimates and intervals</span></span>
+<span id="cb21-9"><a></a>pred_df <span class="op">=</span> pred.summary_frame(alpha <span class="op">=</span> <span class="fl">0.1</span>)</span>
+<span id="cb21-10"><a></a>pred_df[<span class="st">'log_income'</span>] <span class="op">=</span> np.log(income_new)</span>
+<span id="cb21-11"><a></a></span>
+<span id="cb21-12"><a></a>pred_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1008,6 +1010,7 @@ standard error for observation:  [0.11492531]</code></pre>
 </div>
 </div>
 </div>
+</div>
 <p>A summary dataframe computed on a prediction grid returns the raw materials needed to plot uncertainty bands of different levels/types.</p>
 </section>
 <section id="check-your-understanding" class="slide level2">
@@ -1015,59 +1018,59 @@ standard error for observation:  [0.11492531]</code></pre>
 <p>Which is the prediction band and which is the mean? Why?</p>
 <div class="columns">
 <div class="column" style="width:50%;">
-<div class="cell" data-execution_count="14">
-<details>
+<div id="d1a9193f" class="cell" data-execution_count="14">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb22" data-code-line-numbers="22-23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a><span class="co"># construct prediction grid</span></span>
-<span id="cb22-2"><a href="#cb22-2"></a>income_grid <span class="op">=</span> np.logspace(start <span class="op">=</span> <span class="dv">10</span>, stop <span class="op">=</span> <span class="fl">12.5</span>, num <span class="op">=</span> <span class="dv">200</span>, base <span class="op">=</span> np.e)</span>
-<span id="cb22-3"><a href="#cb22-3"></a>x_grid <span class="op">=</span> sm.tools.add_constant(np.log(income_grid))</span>
-<span id="cb22-4"><a href="#cb22-4"></a></span>
-<span id="cb22-5"><a href="#cb22-5"></a><span class="co"># compute predictions</span></span>
-<span id="cb22-6"><a href="#cb22-6"></a>preds <span class="op">=</span> slr.fit().get_prediction(x_grid)</span>
-<span id="cb22-7"><a href="#cb22-7"></a>pred_df <span class="op">=</span> preds.summary_frame(alpha <span class="op">=</span> <span class="fl">0.05</span>)</span>
-<span id="cb22-8"><a href="#cb22-8"></a>pred_df[<span class="st">'log_income'</span>] <span class="op">=</span> np.log(income_grid)</span>
-<span id="cb22-9"><a href="#cb22-9"></a></span>
-<span id="cb22-10"><a href="#cb22-10"></a><span class="co"># visualization</span></span>
-<span id="cb22-11"><a href="#cb22-11"></a>trend <span class="op">=</span> alt.Chart(pred_df).mark_line(</span>
-<span id="cb22-12"><a href="#cb22-12"></a>    color <span class="op">=</span> <span class="st">'black'</span></span>
-<span id="cb22-13"><a href="#cb22-13"></a>    ).encode(</span>
-<span id="cb22-14"><a href="#cb22-14"></a>        x <span class="op">=</span> <span class="st">'log_income'</span>,</span>
-<span id="cb22-15"><a href="#cb22-15"></a>        y <span class="op">=</span> <span class="st">'mean'</span></span>
-<span id="cb22-16"><a href="#cb22-16"></a>    )</span>
-<span id="cb22-17"><a href="#cb22-17"></a></span>
-<span id="cb22-18"><a href="#cb22-18"></a>band <span class="op">=</span> alt.Chart(pred_df).mark_area(</span>
-<span id="cb22-19"><a href="#cb22-19"></a>    opacity <span class="op">=</span> <span class="fl">0.3</span>, color <span class="op">=</span> <span class="st">'black'</span></span>
-<span id="cb22-20"><a href="#cb22-20"></a>    ).encode(</span>
-<span id="cb22-21"><a href="#cb22-21"></a>    x <span class="op">=</span> <span class="st">'log_income'</span>,</span>
-<span id="cb22-22"><a href="#cb22-22"></a>    y <span class="op">=</span> <span class="st">'mean_ci_lower'</span>,</span>
-<span id="cb22-23"><a href="#cb22-23"></a>    y2 <span class="op">=</span> <span class="st">'mean_ci_upper'</span></span>
-<span id="cb22-24"><a href="#cb22-24"></a>)</span>
-<span id="cb22-25"><a href="#cb22-25"></a></span>
-<span id="cb22-26"><a href="#cb22-26"></a>(scatter <span class="op">+</span> trend <span class="op">+</span> band).configure_axis(</span>
-<span id="cb22-27"><a href="#cb22-27"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
-<span id="cb22-28"><a href="#cb22-28"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb22-29"><a href="#cb22-29"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22" data-code-line-numbers="22-23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a></a><span class="co"># construct prediction grid</span></span>
+<span id="cb22-2"><a></a>income_grid <span class="op">=</span> np.logspace(start <span class="op">=</span> <span class="dv">10</span>, stop <span class="op">=</span> <span class="fl">12.5</span>, num <span class="op">=</span> <span class="dv">200</span>, base <span class="op">=</span> np.e)</span>
+<span id="cb22-3"><a></a>x_grid <span class="op">=</span> sm.tools.add_constant(np.log(income_grid))</span>
+<span id="cb22-4"><a></a></span>
+<span id="cb22-5"><a></a><span class="co"># compute predictions</span></span>
+<span id="cb22-6"><a></a>preds <span class="op">=</span> slr.fit().get_prediction(x_grid)</span>
+<span id="cb22-7"><a></a>pred_df <span class="op">=</span> preds.summary_frame(alpha <span class="op">=</span> <span class="fl">0.05</span>)</span>
+<span id="cb22-8"><a></a>pred_df[<span class="st">'log_income'</span>] <span class="op">=</span> np.log(income_grid)</span>
+<span id="cb22-9"><a></a></span>
+<span id="cb22-10"><a></a><span class="co"># visualization</span></span>
+<span id="cb22-11"><a></a>trend <span class="op">=</span> alt.Chart(pred_df).mark_line(</span>
+<span id="cb22-12"><a></a>    color <span class="op">=</span> <span class="st">'black'</span></span>
+<span id="cb22-13"><a></a>    ).encode(</span>
+<span id="cb22-14"><a></a>        x <span class="op">=</span> <span class="st">'log_income'</span>,</span>
+<span id="cb22-15"><a></a>        y <span class="op">=</span> <span class="st">'mean'</span></span>
+<span id="cb22-16"><a></a>    )</span>
+<span id="cb22-17"><a></a></span>
+<span id="cb22-18"><a></a>band <span class="op">=</span> alt.Chart(pred_df).mark_area(</span>
+<span id="cb22-19"><a></a>    opacity <span class="op">=</span> <span class="fl">0.3</span>, color <span class="op">=</span> <span class="st">'black'</span></span>
+<span id="cb22-20"><a></a>    ).encode(</span>
+<span id="cb22-21"><a></a>    x <span class="op">=</span> <span class="st">'log_income'</span>,</span>
+<span id="cb22-22"><a></a>    y <span class="op">=</span> <span class="st">'mean_ci_lower'</span>,</span>
+<span id="cb22-23"><a></a>    y2 <span class="op">=</span> <span class="st">'mean_ci_upper'</span></span>
+<span id="cb22-24"><a></a>)</span>
+<span id="cb22-25"><a></a></span>
+<span id="cb22-26"><a></a>(scatter <span class="op">+</span> trend <span class="op">+</span> band).configure_axis(</span>
+<span id="cb22-27"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
+<span id="cb22-28"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb22-29"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="14">
 
 <style>
-  #altair-viz-98194106b2c94a6788126456fac11132.vega-embed {
+  #altair-viz-bcd2c348802244b8b83eaef24a1eb6da.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-98194106b2c94a6788126456fac11132.vega-embed details,
-  #altair-viz-98194106b2c94a6788126456fac11132.vega-embed details summary {
+  #altair-viz-bcd2c348802244b8b83eaef24a1eb6da.vega-embed details,
+  #altair-viz-bcd2c348802244b8b83eaef24a1eb6da.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-98194106b2c94a6788126456fac11132"></div>
+<div id="altair-viz-bcd2c348802244b8b83eaef24a1eb6da"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-98194106b2c94a6788126456fac11132") {
-      outputDiv = document.getElementById("altair-viz-98194106b2c94a6788126456fac11132");
+    if (outputDiv.id !== "altair-viz-bcd2c348802244b8b83eaef24a1eb6da") {
+      outputDiv = document.getElementById("altair-viz-bcd2c348802244b8b83eaef24a1eb6da");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -1118,59 +1121,59 @@ standard error for observation:  [0.11492531]</code></pre>
 </div>
 </div>
 </div><div class="column" style="width:50%;">
-<div class="cell" data-execution_count="15">
-<details>
+<div id="695d709f" class="cell" data-execution_count="15">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb23" data-code-line-numbers="22-23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a><span class="co"># construct prediction grid</span></span>
-<span id="cb23-2"><a href="#cb23-2"></a>income_grid <span class="op">=</span> np.logspace(start <span class="op">=</span> <span class="dv">10</span>, stop <span class="op">=</span> <span class="fl">12.5</span>, num <span class="op">=</span> <span class="dv">200</span>, base <span class="op">=</span> np.e)</span>
-<span id="cb23-3"><a href="#cb23-3"></a>x_grid <span class="op">=</span> sm.tools.add_constant(np.log(income_grid))</span>
-<span id="cb23-4"><a href="#cb23-4"></a></span>
-<span id="cb23-5"><a href="#cb23-5"></a><span class="co"># compute predictions</span></span>
-<span id="cb23-6"><a href="#cb23-6"></a>preds <span class="op">=</span> slr.fit().get_prediction(x_grid)</span>
-<span id="cb23-7"><a href="#cb23-7"></a>pred_df <span class="op">=</span> preds.summary_frame(alpha <span class="op">=</span> <span class="fl">0.05</span>)</span>
-<span id="cb23-8"><a href="#cb23-8"></a>pred_df[<span class="st">'log_income'</span>] <span class="op">=</span> np.log(income_grid)</span>
-<span id="cb23-9"><a href="#cb23-9"></a></span>
-<span id="cb23-10"><a href="#cb23-10"></a><span class="co"># visualization</span></span>
-<span id="cb23-11"><a href="#cb23-11"></a>trend <span class="op">=</span> alt.Chart(pred_df).mark_line(</span>
-<span id="cb23-12"><a href="#cb23-12"></a>    color <span class="op">=</span> <span class="st">'black'</span></span>
-<span id="cb23-13"><a href="#cb23-13"></a>    ).encode(</span>
-<span id="cb23-14"><a href="#cb23-14"></a>        x <span class="op">=</span> <span class="st">'log_income'</span>,</span>
-<span id="cb23-15"><a href="#cb23-15"></a>        y <span class="op">=</span> <span class="st">'mean'</span></span>
-<span id="cb23-16"><a href="#cb23-16"></a>    )</span>
-<span id="cb23-17"><a href="#cb23-17"></a></span>
-<span id="cb23-18"><a href="#cb23-18"></a>band <span class="op">=</span> alt.Chart(pred_df).mark_area(</span>
-<span id="cb23-19"><a href="#cb23-19"></a>    opacity <span class="op">=</span> <span class="fl">0.3</span>, color <span class="op">=</span> <span class="st">'black'</span></span>
-<span id="cb23-20"><a href="#cb23-20"></a>    ).encode(</span>
-<span id="cb23-21"><a href="#cb23-21"></a>    x <span class="op">=</span> <span class="st">'log_income'</span>,</span>
-<span id="cb23-22"><a href="#cb23-22"></a>    y <span class="op">=</span> <span class="st">'obs_ci_lower'</span>,</span>
-<span id="cb23-23"><a href="#cb23-23"></a>    y2 <span class="op">=</span> <span class="st">'obs_ci_upper'</span></span>
-<span id="cb23-24"><a href="#cb23-24"></a>)</span>
-<span id="cb23-25"><a href="#cb23-25"></a></span>
-<span id="cb23-26"><a href="#cb23-26"></a>(scatter <span class="op">+</span> trend <span class="op">+</span> band).configure_axis(</span>
-<span id="cb23-27"><a href="#cb23-27"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
-<span id="cb23-28"><a href="#cb23-28"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb23-29"><a href="#cb23-29"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23" data-code-line-numbers="22-23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a></a><span class="co"># construct prediction grid</span></span>
+<span id="cb23-2"><a></a>income_grid <span class="op">=</span> np.logspace(start <span class="op">=</span> <span class="dv">10</span>, stop <span class="op">=</span> <span class="fl">12.5</span>, num <span class="op">=</span> <span class="dv">200</span>, base <span class="op">=</span> np.e)</span>
+<span id="cb23-3"><a></a>x_grid <span class="op">=</span> sm.tools.add_constant(np.log(income_grid))</span>
+<span id="cb23-4"><a></a></span>
+<span id="cb23-5"><a></a><span class="co"># compute predictions</span></span>
+<span id="cb23-6"><a></a>preds <span class="op">=</span> slr.fit().get_prediction(x_grid)</span>
+<span id="cb23-7"><a></a>pred_df <span class="op">=</span> preds.summary_frame(alpha <span class="op">=</span> <span class="fl">0.05</span>)</span>
+<span id="cb23-8"><a></a>pred_df[<span class="st">'log_income'</span>] <span class="op">=</span> np.log(income_grid)</span>
+<span id="cb23-9"><a></a></span>
+<span id="cb23-10"><a></a><span class="co"># visualization</span></span>
+<span id="cb23-11"><a></a>trend <span class="op">=</span> alt.Chart(pred_df).mark_line(</span>
+<span id="cb23-12"><a></a>    color <span class="op">=</span> <span class="st">'black'</span></span>
+<span id="cb23-13"><a></a>    ).encode(</span>
+<span id="cb23-14"><a></a>        x <span class="op">=</span> <span class="st">'log_income'</span>,</span>
+<span id="cb23-15"><a></a>        y <span class="op">=</span> <span class="st">'mean'</span></span>
+<span id="cb23-16"><a></a>    )</span>
+<span id="cb23-17"><a></a></span>
+<span id="cb23-18"><a></a>band <span class="op">=</span> alt.Chart(pred_df).mark_area(</span>
+<span id="cb23-19"><a></a>    opacity <span class="op">=</span> <span class="fl">0.3</span>, color <span class="op">=</span> <span class="st">'black'</span></span>
+<span id="cb23-20"><a></a>    ).encode(</span>
+<span id="cb23-21"><a></a>    x <span class="op">=</span> <span class="st">'log_income'</span>,</span>
+<span id="cb23-22"><a></a>    y <span class="op">=</span> <span class="st">'obs_ci_lower'</span>,</span>
+<span id="cb23-23"><a></a>    y2 <span class="op">=</span> <span class="st">'obs_ci_upper'</span></span>
+<span id="cb23-24"><a></a>)</span>
+<span id="cb23-25"><a></a></span>
+<span id="cb23-26"><a></a>(scatter <span class="op">+</span> trend <span class="op">+</span> band).configure_axis(</span>
+<span id="cb23-27"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
+<span id="cb23-28"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb23-29"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="15">
 
 <style>
-  #altair-viz-0388e60a412c49a3b230963715f4e468.vega-embed {
+  #altair-viz-43cb4601eff541d2aa7d8fbb7f492575.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-0388e60a412c49a3b230963715f4e468.vega-embed details,
-  #altair-viz-0388e60a412c49a3b230963715f4e468.vega-embed details summary {
+  #altair-viz-43cb4601eff541d2aa7d8fbb7f492575.vega-embed details,
+  #altair-viz-43cb4601eff541d2aa7d8fbb7f492575.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-0388e60a412c49a3b230963715f4e468"></div>
+<div id="altair-viz-43cb4601eff541d2aa7d8fbb7f492575"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-0388e60a412c49a3b230963715f4e468") {
-      outputDiv = document.getElementById("altair-viz-0388e60a412c49a3b230963715f4e468");
+    if (outputDiv.id !== "altair-viz-43cb4601eff541d2aa7d8fbb7f492575") {
+      outputDiv = document.getElementById("altair-viz-43cb4601eff541d2aa7d8fbb7f492575");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -1228,59 +1231,59 @@ standard error for observation:  [0.11492531]</code></pre>
 <p>Which is the 99% band and which is the 85% band? Why?</p>
 <div class="columns">
 <div class="column" style="width:50%;">
-<div class="cell" data-execution_count="16">
-<details>
+<div id="22c7b2ce" class="cell" data-execution_count="16">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb24" data-code-line-numbers="7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a><span class="co"># construct prediction grid</span></span>
-<span id="cb24-2"><a href="#cb24-2"></a>income_grid <span class="op">=</span> np.logspace(start <span class="op">=</span> <span class="dv">10</span>, stop <span class="op">=</span> <span class="fl">12.5</span>, num <span class="op">=</span> <span class="dv">200</span>, base <span class="op">=</span> np.e)</span>
-<span id="cb24-3"><a href="#cb24-3"></a>x_grid <span class="op">=</span> sm.tools.add_constant(np.log(income_grid))</span>
-<span id="cb24-4"><a href="#cb24-4"></a></span>
-<span id="cb24-5"><a href="#cb24-5"></a><span class="co"># compute predictions</span></span>
-<span id="cb24-6"><a href="#cb24-6"></a>preds <span class="op">=</span> slr.fit().get_prediction(x_grid)</span>
-<span id="cb24-7"><a href="#cb24-7"></a>pred_df <span class="op">=</span> preds.summary_frame(alpha <span class="op">=</span> <span class="fl">0.01</span>)</span>
-<span id="cb24-8"><a href="#cb24-8"></a>pred_df[<span class="st">'log_income'</span>] <span class="op">=</span> np.log(income_grid)</span>
-<span id="cb24-9"><a href="#cb24-9"></a></span>
-<span id="cb24-10"><a href="#cb24-10"></a><span class="co"># visualization</span></span>
-<span id="cb24-11"><a href="#cb24-11"></a>trend <span class="op">=</span> alt.Chart(pred_df).mark_line(</span>
-<span id="cb24-12"><a href="#cb24-12"></a>    color <span class="op">=</span> <span class="st">'black'</span></span>
-<span id="cb24-13"><a href="#cb24-13"></a>    ).encode(</span>
-<span id="cb24-14"><a href="#cb24-14"></a>        x <span class="op">=</span> <span class="st">'log_income'</span>,</span>
-<span id="cb24-15"><a href="#cb24-15"></a>        y <span class="op">=</span> <span class="st">'mean'</span></span>
-<span id="cb24-16"><a href="#cb24-16"></a>    )</span>
-<span id="cb24-17"><a href="#cb24-17"></a></span>
-<span id="cb24-18"><a href="#cb24-18"></a>band <span class="op">=</span> alt.Chart(pred_df).mark_area(</span>
-<span id="cb24-19"><a href="#cb24-19"></a>    opacity <span class="op">=</span> <span class="fl">0.3</span>, color <span class="op">=</span> <span class="st">'black'</span></span>
-<span id="cb24-20"><a href="#cb24-20"></a>    ).encode(</span>
-<span id="cb24-21"><a href="#cb24-21"></a>    x <span class="op">=</span> <span class="st">'log_income'</span>,</span>
-<span id="cb24-22"><a href="#cb24-22"></a>    y <span class="op">=</span> <span class="st">'mean_ci_lower'</span>,</span>
-<span id="cb24-23"><a href="#cb24-23"></a>    y2 <span class="op">=</span> <span class="st">'mean_ci_upper'</span></span>
-<span id="cb24-24"><a href="#cb24-24"></a>)</span>
-<span id="cb24-25"><a href="#cb24-25"></a></span>
-<span id="cb24-26"><a href="#cb24-26"></a>(scatter <span class="op">+</span> trend <span class="op">+</span> band).configure_axis(</span>
-<span id="cb24-27"><a href="#cb24-27"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
-<span id="cb24-28"><a href="#cb24-28"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb24-29"><a href="#cb24-29"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24" data-code-line-numbers="7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a></a><span class="co"># construct prediction grid</span></span>
+<span id="cb24-2"><a></a>income_grid <span class="op">=</span> np.logspace(start <span class="op">=</span> <span class="dv">10</span>, stop <span class="op">=</span> <span class="fl">12.5</span>, num <span class="op">=</span> <span class="dv">200</span>, base <span class="op">=</span> np.e)</span>
+<span id="cb24-3"><a></a>x_grid <span class="op">=</span> sm.tools.add_constant(np.log(income_grid))</span>
+<span id="cb24-4"><a></a></span>
+<span id="cb24-5"><a></a><span class="co"># compute predictions</span></span>
+<span id="cb24-6"><a></a>preds <span class="op">=</span> slr.fit().get_prediction(x_grid)</span>
+<span id="cb24-7"><a></a>pred_df <span class="op">=</span> preds.summary_frame(alpha <span class="op">=</span> <span class="fl">0.01</span>)</span>
+<span id="cb24-8"><a></a>pred_df[<span class="st">'log_income'</span>] <span class="op">=</span> np.log(income_grid)</span>
+<span id="cb24-9"><a></a></span>
+<span id="cb24-10"><a></a><span class="co"># visualization</span></span>
+<span id="cb24-11"><a></a>trend <span class="op">=</span> alt.Chart(pred_df).mark_line(</span>
+<span id="cb24-12"><a></a>    color <span class="op">=</span> <span class="st">'black'</span></span>
+<span id="cb24-13"><a></a>    ).encode(</span>
+<span id="cb24-14"><a></a>        x <span class="op">=</span> <span class="st">'log_income'</span>,</span>
+<span id="cb24-15"><a></a>        y <span class="op">=</span> <span class="st">'mean'</span></span>
+<span id="cb24-16"><a></a>    )</span>
+<span id="cb24-17"><a></a></span>
+<span id="cb24-18"><a></a>band <span class="op">=</span> alt.Chart(pred_df).mark_area(</span>
+<span id="cb24-19"><a></a>    opacity <span class="op">=</span> <span class="fl">0.3</span>, color <span class="op">=</span> <span class="st">'black'</span></span>
+<span id="cb24-20"><a></a>    ).encode(</span>
+<span id="cb24-21"><a></a>    x <span class="op">=</span> <span class="st">'log_income'</span>,</span>
+<span id="cb24-22"><a></a>    y <span class="op">=</span> <span class="st">'mean_ci_lower'</span>,</span>
+<span id="cb24-23"><a></a>    y2 <span class="op">=</span> <span class="st">'mean_ci_upper'</span></span>
+<span id="cb24-24"><a></a>)</span>
+<span id="cb24-25"><a></a></span>
+<span id="cb24-26"><a></a>(scatter <span class="op">+</span> trend <span class="op">+</span> band).configure_axis(</span>
+<span id="cb24-27"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
+<span id="cb24-28"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb24-29"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="16">
 
 <style>
-  #altair-viz-d7fb3d54309c4df994d36b7260a7de34.vega-embed {
+  #altair-viz-afa0b904d93642abb3c33f35b84e695c.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-d7fb3d54309c4df994d36b7260a7de34.vega-embed details,
-  #altair-viz-d7fb3d54309c4df994d36b7260a7de34.vega-embed details summary {
+  #altair-viz-afa0b904d93642abb3c33f35b84e695c.vega-embed details,
+  #altair-viz-afa0b904d93642abb3c33f35b84e695c.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-d7fb3d54309c4df994d36b7260a7de34"></div>
+<div id="altair-viz-afa0b904d93642abb3c33f35b84e695c"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-d7fb3d54309c4df994d36b7260a7de34") {
-      outputDiv = document.getElementById("altair-viz-d7fb3d54309c4df994d36b7260a7de34");
+    if (outputDiv.id !== "altair-viz-afa0b904d93642abb3c33f35b84e695c") {
+      outputDiv = document.getElementById("altair-viz-afa0b904d93642abb3c33f35b84e695c");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -1331,59 +1334,59 @@ standard error for observation:  [0.11492531]</code></pre>
 </div>
 </div>
 </div><div class="column" style="width:50%;">
-<div class="cell" data-execution_count="17">
-<details>
+<div id="7f921937" class="cell" data-execution_count="17">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb25" data-code-line-numbers="7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a><span class="co"># construct prediction grid</span></span>
-<span id="cb25-2"><a href="#cb25-2"></a>income_grid <span class="op">=</span> np.logspace(start <span class="op">=</span> <span class="dv">10</span>, stop <span class="op">=</span> <span class="fl">12.5</span>, num <span class="op">=</span> <span class="dv">200</span>, base <span class="op">=</span> np.e)</span>
-<span id="cb25-3"><a href="#cb25-3"></a>x_grid <span class="op">=</span> sm.tools.add_constant(np.log(income_grid))</span>
-<span id="cb25-4"><a href="#cb25-4"></a></span>
-<span id="cb25-5"><a href="#cb25-5"></a><span class="co"># compute predictions</span></span>
-<span id="cb25-6"><a href="#cb25-6"></a>preds <span class="op">=</span> slr.fit().get_prediction(x_grid)</span>
-<span id="cb25-7"><a href="#cb25-7"></a>pred_df <span class="op">=</span> preds.summary_frame(alpha <span class="op">=</span> <span class="fl">0.15</span>)</span>
-<span id="cb25-8"><a href="#cb25-8"></a>pred_df[<span class="st">'log_income'</span>] <span class="op">=</span> np.log(income_grid)</span>
-<span id="cb25-9"><a href="#cb25-9"></a></span>
-<span id="cb25-10"><a href="#cb25-10"></a><span class="co"># visualization</span></span>
-<span id="cb25-11"><a href="#cb25-11"></a>trend <span class="op">=</span> alt.Chart(pred_df).mark_line(</span>
-<span id="cb25-12"><a href="#cb25-12"></a>    color <span class="op">=</span> <span class="st">'black'</span></span>
-<span id="cb25-13"><a href="#cb25-13"></a>    ).encode(</span>
-<span id="cb25-14"><a href="#cb25-14"></a>        x <span class="op">=</span> <span class="st">'log_income'</span>,</span>
-<span id="cb25-15"><a href="#cb25-15"></a>        y <span class="op">=</span> <span class="st">'mean'</span></span>
-<span id="cb25-16"><a href="#cb25-16"></a>    )</span>
-<span id="cb25-17"><a href="#cb25-17"></a></span>
-<span id="cb25-18"><a href="#cb25-18"></a>band <span class="op">=</span> alt.Chart(pred_df).mark_area(</span>
-<span id="cb25-19"><a href="#cb25-19"></a>    opacity <span class="op">=</span> <span class="fl">0.3</span>, color <span class="op">=</span> <span class="st">'black'</span></span>
-<span id="cb25-20"><a href="#cb25-20"></a>    ).encode(</span>
-<span id="cb25-21"><a href="#cb25-21"></a>    x <span class="op">=</span> <span class="st">'log_income'</span>,</span>
-<span id="cb25-22"><a href="#cb25-22"></a>    y <span class="op">=</span> <span class="st">'mean_ci_lower'</span>,</span>
-<span id="cb25-23"><a href="#cb25-23"></a>    y2 <span class="op">=</span> <span class="st">'mean_ci_upper'</span></span>
-<span id="cb25-24"><a href="#cb25-24"></a>)</span>
-<span id="cb25-25"><a href="#cb25-25"></a></span>
-<span id="cb25-26"><a href="#cb25-26"></a>(scatter <span class="op">+</span> trend <span class="op">+</span> band).configure_axis(</span>
-<span id="cb25-27"><a href="#cb25-27"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
-<span id="cb25-28"><a href="#cb25-28"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb25-29"><a href="#cb25-29"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25" data-code-line-numbers="7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a></a><span class="co"># construct prediction grid</span></span>
+<span id="cb25-2"><a></a>income_grid <span class="op">=</span> np.logspace(start <span class="op">=</span> <span class="dv">10</span>, stop <span class="op">=</span> <span class="fl">12.5</span>, num <span class="op">=</span> <span class="dv">200</span>, base <span class="op">=</span> np.e)</span>
+<span id="cb25-3"><a></a>x_grid <span class="op">=</span> sm.tools.add_constant(np.log(income_grid))</span>
+<span id="cb25-4"><a></a></span>
+<span id="cb25-5"><a></a><span class="co"># compute predictions</span></span>
+<span id="cb25-6"><a></a>preds <span class="op">=</span> slr.fit().get_prediction(x_grid)</span>
+<span id="cb25-7"><a></a>pred_df <span class="op">=</span> preds.summary_frame(alpha <span class="op">=</span> <span class="fl">0.15</span>)</span>
+<span id="cb25-8"><a></a>pred_df[<span class="st">'log_income'</span>] <span class="op">=</span> np.log(income_grid)</span>
+<span id="cb25-9"><a></a></span>
+<span id="cb25-10"><a></a><span class="co"># visualization</span></span>
+<span id="cb25-11"><a></a>trend <span class="op">=</span> alt.Chart(pred_df).mark_line(</span>
+<span id="cb25-12"><a></a>    color <span class="op">=</span> <span class="st">'black'</span></span>
+<span id="cb25-13"><a></a>    ).encode(</span>
+<span id="cb25-14"><a></a>        x <span class="op">=</span> <span class="st">'log_income'</span>,</span>
+<span id="cb25-15"><a></a>        y <span class="op">=</span> <span class="st">'mean'</span></span>
+<span id="cb25-16"><a></a>    )</span>
+<span id="cb25-17"><a></a></span>
+<span id="cb25-18"><a></a>band <span class="op">=</span> alt.Chart(pred_df).mark_area(</span>
+<span id="cb25-19"><a></a>    opacity <span class="op">=</span> <span class="fl">0.3</span>, color <span class="op">=</span> <span class="st">'black'</span></span>
+<span id="cb25-20"><a></a>    ).encode(</span>
+<span id="cb25-21"><a></a>    x <span class="op">=</span> <span class="st">'log_income'</span>,</span>
+<span id="cb25-22"><a></a>    y <span class="op">=</span> <span class="st">'mean_ci_lower'</span>,</span>
+<span id="cb25-23"><a></a>    y2 <span class="op">=</span> <span class="st">'mean_ci_upper'</span></span>
+<span id="cb25-24"><a></a>)</span>
+<span id="cb25-25"><a></a></span>
+<span id="cb25-26"><a></a>(scatter <span class="op">+</span> trend <span class="op">+</span> band).configure_axis(</span>
+<span id="cb25-27"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
+<span id="cb25-28"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb25-29"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="17">
 
 <style>
-  #altair-viz-030d01a8ff4e40d8ab8e5cc989c973e6.vega-embed {
+  #altair-viz-e82f4573d0074fdb98615ca1b1cadc2b.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-030d01a8ff4e40d8ab8e5cc989c973e6.vega-embed details,
-  #altair-viz-030d01a8ff4e40d8ab8e5cc989c973e6.vega-embed details summary {
+  #altair-viz-e82f4573d0074fdb98615ca1b1cadc2b.vega-embed details,
+  #altair-viz-e82f4573d0074fdb98615ca1b1cadc2b.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-030d01a8ff4e40d8ab8e5cc989c973e6"></div>
+<div id="altair-viz-e82f4573d0074fdb98615ca1b1cadc2b"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-030d01a8ff4e40d8ab8e5cc989c973e6") {
-      outputDiv = document.getElementById("altair-viz-030d01a8ff4e40d8ab8e5cc989c973e6");
+    if (outputDiv.id !== "altair-viz-e82f4573d0074fdb98615ca1b1cadc2b") {
+      outputDiv = document.getElementById("altair-viz-e82f4573d0074fdb98615ca1b1cadc2b");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -1478,8 +1481,10 @@ MSE(y, \hat{y}) = \frac{1}{n}\sum_i (y_i - \hat{y}_i)^2
 <li class="fragment">another used to evaluate predictions</li>
 </ul>
 
+<div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 
+</div>
 </div>
 </div>
 </section>
@@ -1509,7 +1514,6 @@ MSE(y, \hat{y}) = \frac{1}{n}\sum_i (y_i - \hat{y}_i)^2
       Reveal.initialize({
 'controlsAuto': true,
 'previewLinksAuto': false,
-'smaller': true,
 'pdfSeparateFragments': false,
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
@@ -1770,10 +1774,9 @@ MSE(y, \hat{y}) = \frac{1}{n}\sum_i (y_i - \hat{y}_i)^2
         // clear code selection
         e.clearSelection();
       });
-      function tippyHover(el, contentFn) {
+      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
         const config = {
           allowHTML: true,
-          content: contentFn,
           maxWidth: 500,
           delay: 100,
           arrow: false,
@@ -1783,8 +1786,17 @@ MSE(y, \hat{y}) = \frac{1}{n}\sum_i (y_i - \hat{y}_i)^2
           interactive: true,
           interactiveBorder: 10,
           theme: 'light-border',
-          placement: 'bottom-start'
+          placement: 'bottom-start',
         };
+        if (contentFn) {
+          config.content = contentFn;
+        }
+        if (onTriggerFn) {
+          config.onTrigger = onTriggerFn;
+        }
+        if (onUntriggerFn) {
+          config.onUntrigger = onUntriggerFn;
+        }
           config['offset'] = [0,0];
           config['maxWidth'] = 700;
         window.tippy(el, config); 

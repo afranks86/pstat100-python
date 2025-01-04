@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-html/tabby.min.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -8,7 +8,7 @@
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.433">
+  <meta name="generator" content="quarto-1.4.550">
 
   <meta name="author" content="PSTAT100 Spring 2023">
   <title>PSTAT100 - Modeling concepts; least squares</title>
@@ -31,7 +31,7 @@
     }
     /* CSS for syntax highlighting */
     pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span { line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
     .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -230,7 +230,8 @@
   }
 
   .callout.callout-titled .callout-body > .callout-content > :last-child {
-    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0;
   }
 
   .callout.callout-titled .callout-icon::before {
@@ -395,7 +396,7 @@
     }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+  
   <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 </head>
 <body class="quarto-light">
@@ -489,7 +490,7 @@ PSTAT100 Spring 2023
 <li class="fragment">perhaps not surprising, considering it has <em>two</em> parameters</li>
 </ul>
 </section>
-<section id="why-model-the-data-generating-process" class="slide level2">
+<section id="why-model-the-data-generating-process" class="slide level2 scrollable">
 <h2>Why model the data-generating process?</h2>
 <p>A good description of a data-generating process usually captures two aspects of a system:</p>
 <ol type="1">
@@ -654,22 +655,23 @@ PSTAT100 Spring 2023
 <section id="data-setting-2" class="slide level2">
 <h2>Data setting</h2>
 <p>The example SEDA data in tabular form are:</p>
-<div class="cell" data-execution_count="2">
-<details>
+<div id="cc8d4e32" class="cell" data-execution_count="2">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># import grade-aggregated seda data from hw2</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a>seda <span class="op">=</span> pd.read_csv(<span class="st">'data/seda.csv'</span>)</span>
-<span id="cb1-3"><a href="#cb1-3"></a></span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="co"># filter to math and remove NaNs</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a>regdata <span class="op">=</span> seda[seda.subject <span class="op">==</span> <span class="st">'math'</span>].dropna().drop(columns <span class="op">=</span> <span class="st">'subject'</span>).set_index(<span class="st">'id'</span>)</span>
-<span id="cb1-6"><a href="#cb1-6"></a></span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="co"># dimensions</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a>n, p <span class="op">=</span> regdata.shape</span>
-<span id="cb1-9"><a href="#cb1-9"></a></span>
-<span id="cb1-10"><a href="#cb1-10"></a><span class="co"># print</span></span>
-<span id="cb1-11"><a href="#cb1-11"></a>regdata.head(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="co"># import grade-aggregated seda data from hw2</span></span>
+<span id="cb1-2"><a></a>seda <span class="op">=</span> pd.read_csv(<span class="st">'data/seda.csv'</span>)</span>
+<span id="cb1-3"><a></a></span>
+<span id="cb1-4"><a></a><span class="co"># filter to math and remove NaNs</span></span>
+<span id="cb1-5"><a></a>regdata <span class="op">=</span> seda[seda.subject <span class="op">==</span> <span class="st">'math'</span>].dropna().drop(columns <span class="op">=</span> <span class="st">'subject'</span>).set_index(<span class="st">'id'</span>)</span>
+<span id="cb1-6"><a></a></span>
+<span id="cb1-7"><a></a><span class="co"># dimensions</span></span>
+<span id="cb1-8"><a></a>n, p <span class="op">=</span> regdata.shape</span>
+<span id="cb1-9"><a></a></span>
+<span id="cb1-10"><a></a><span class="co"># print</span></span>
+<span id="cb1-11"><a></a>regdata.head(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="2">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -717,6 +719,7 @@ PSTAT100 Spring 2023
 </tbody>
 </table>
 
+</div>
 </div>
 </div>
 </div>
@@ -826,18 +829,18 @@ y_i = a x_i + b + e_i
 <h2>Calculating the least squares line</h2>
 <p>The solution <span class="math inline">\(\mathbf{a} = (\mathbf{X'X})^{-1}\mathbf{X'y}\)</span> is known as the <strong>ordinarly least squares</strong> (OLS) estimate.</p>
 <p>The <code>sklearn</code> implementation looks like this:</p>
-<div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># save explanatory variable and response variable separately as arrays</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>x <span class="op">=</span> regdata.log_income.values[:, np.newaxis]</span>
-<span id="cb2-3"><a href="#cb2-3"></a>y <span class="op">=</span> regdata.gap.values</span>
-<span id="cb2-4"><a href="#cb2-4"></a></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="co"># configure regression module and fit model</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a>slr <span class="op">=</span> LinearRegression()</span>
-<span id="cb2-7"><a href="#cb2-7"></a>slr.fit(x, y)</span>
-<span id="cb2-8"><a href="#cb2-8"></a></span>
-<span id="cb2-9"><a href="#cb2-9"></a><span class="co"># store estimates</span></span>
-<span id="cb2-10"><a href="#cb2-10"></a><span class="bu">print</span>(<span class="st">'slope: '</span>, slr.coef_[<span class="dv">0</span>])</span>
-<span id="cb2-11"><a href="#cb2-11"></a><span class="bu">print</span>(<span class="st">'intercept: '</span>, slr.intercept_)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="7e5de903" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a><span class="co"># save explanatory variable and response variable separately as arrays</span></span>
+<span id="cb2-2"><a></a>x <span class="op">=</span> regdata.log_income.values[:, np.newaxis]</span>
+<span id="cb2-3"><a></a>y <span class="op">=</span> regdata.gap.values</span>
+<span id="cb2-4"><a></a></span>
+<span id="cb2-5"><a></a><span class="co"># configure regression module and fit model</span></span>
+<span id="cb2-6"><a></a>slr <span class="op">=</span> LinearRegression()</span>
+<span id="cb2-7"><a></a>slr.fit(x, y)</span>
+<span id="cb2-8"><a></a></span>
+<span id="cb2-9"><a></a><span class="co"># store estimates</span></span>
+<span id="cb2-10"><a></a><span class="bu">print</span>(<span class="st">'slope: '</span>, slr.coef_[<span class="dv">0</span>])</span>
+<span id="cb2-11"><a></a><span class="bu">print</span>(<span class="st">'intercept: '</span>, slr.intercept_)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>slope:  0.12105696076155249
 intercept:  -1.3561699570330037</code></pre>
@@ -848,16 +851,16 @@ intercept:  -1.3561699570330037</code></pre>
 <h2>Calculating the least squares line</h2>
 <p>The solution <span class="math inline">\(\mathbf{a} = (\mathbf{X'X})^{-1}\mathbf{X'y}\)</span> is known as the <strong>ordinarly least squares</strong> (OLS) estimate.</p>
 <p>The <code>statsmodels</code> implementation looks like this:</p>
-<div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># add a column of ones (intercept)</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>x_aug <span class="op">=</span> sm.tools.add_constant(x)</span>
-<span id="cb4-3"><a href="#cb4-3"></a></span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="co"># fit model</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a>slr <span class="op">=</span> sm.OLS(endog <span class="op">=</span> y, exog <span class="op">=</span> x_aug)</span>
-<span id="cb4-6"><a href="#cb4-6"></a>slr_fit <span class="op">=</span> slr.fit()</span>
-<span id="cb4-7"><a href="#cb4-7"></a></span>
-<span id="cb4-8"><a href="#cb4-8"></a><span class="co"># return estimates</span></span>
-<span id="cb4-9"><a href="#cb4-9"></a><span class="bu">print</span>(<span class="st">'estimates: '</span>, slr_fit.params)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="6e8a0a69" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a><span class="co"># add a column of ones (intercept)</span></span>
+<span id="cb4-2"><a></a>x_aug <span class="op">=</span> sm.tools.add_constant(x)</span>
+<span id="cb4-3"><a></a></span>
+<span id="cb4-4"><a></a><span class="co"># fit model</span></span>
+<span id="cb4-5"><a></a>slr <span class="op">=</span> sm.OLS(endog <span class="op">=</span> y, exog <span class="op">=</span> x_aug)</span>
+<span id="cb4-6"><a></a>slr_fit <span class="op">=</span> slr.fit()</span>
+<span id="cb4-7"><a></a></span>
+<span id="cb4-8"><a></a><span class="co"># return estimates</span></span>
+<span id="cb4-9"><a></a><span class="bu">print</span>(<span class="st">'estimates: '</span>, slr_fit.params)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>estimates:  [-1.35616996  0.12105696]</code></pre>
 </div>
@@ -869,15 +872,15 @@ intercept:  -1.3561699570330037</code></pre>
 <section id="calculating-the-least-squares-line-2" class="slide level2">
 <h2>Calculating the least squares line</h2>
 <p>Alternatively, <code>statsmodels</code> also has a wrapper around <code>sm.OLS</code> that allows models to be fit based on a dataframe and column names (much like <code>lm()</code> in R):</p>
-<div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
-<span id="cb6-2"><a href="#cb6-2"></a></span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="co"># fit model based on dataframe and formula</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a>slr <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'gap ~ log_income'</span>, data <span class="op">=</span> regdata)</span>
-<span id="cb6-5"><a href="#cb6-5"></a>slr_fit <span class="op">=</span> slr.fit()</span>
-<span id="cb6-6"><a href="#cb6-6"></a></span>
-<span id="cb6-7"><a href="#cb6-7"></a><span class="co"># return estimates</span></span>
-<span id="cb6-8"><a href="#cb6-8"></a>slr_fit.params</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="7d6b0843" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb6-2"><a></a></span>
+<span id="cb6-3"><a></a><span class="co"># fit model based on dataframe and formula</span></span>
+<span id="cb6-4"><a></a>slr <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'gap ~ log_income'</span>, data <span class="op">=</span> regdata)</span>
+<span id="cb6-5"><a></a>slr_fit <span class="op">=</span> slr.fit()</span>
+<span id="cb6-6"><a></a></span>
+<span id="cb6-7"><a></a><span class="co"># return estimates</span></span>
+<span id="cb6-8"><a></a>slr_fit.params</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>Intercept    -1.356170
 log_income    0.121057
@@ -888,19 +891,21 @@ dtype: float64</code></pre>
 <section id="calculating-the-least-squares-line-3" class="slide level2">
 <h2>Calculating the least squares line</h2>
 <p>We can check the calculations by computing the closed-form expression:</p>
-<div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># ols solution, by hand</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a>x_mx <span class="op">=</span> np.vstack([np.repeat(<span class="dv">1</span>, <span class="bu">len</span>(x)), x[:, <span class="dv">0</span>]]).transpose() <span class="co"># X</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a>xtx <span class="op">=</span> x_mx.transpose().dot(x_mx) <span class="co"># X'X</span></span>
-<span id="cb8-4"><a href="#cb8-4"></a>xtx_inv <span class="op">=</span> np.linalg.inv(xtx) <span class="co"># (X'X)^{-1}</span></span>
-<span id="cb8-5"><a href="#cb8-5"></a>xtx_inv.dot(x_mx.transpose()).dot(y) <span class="co"># (X'X)^{-1} X'y</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="a4f5eaf6" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a></a><span class="co"># ols solution, by hand</span></span>
+<span id="cb8-2"><a></a>x_mx <span class="op">=</span> np.vstack([np.repeat(<span class="dv">1</span>, <span class="bu">len</span>(x)), x[:, <span class="dv">0</span>]]).transpose() <span class="co"># X</span></span>
+<span id="cb8-3"><a></a>xtx <span class="op">=</span> x_mx.transpose().dot(x_mx) <span class="co"># X'X</span></span>
+<span id="cb8-4"><a></a>xtx_inv <span class="op">=</span> np.linalg.inv(xtx) <span class="co"># (X'X)^{-1}</span></span>
+<span id="cb8-5"><a></a>xtx_inv.dot(x_mx.transpose()).dot(y) <span class="co"># (X'X)^{-1} X'y</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>array([-1.35616996,  0.12105696])</code></pre>
 </div>
 </div>
 
+<div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 
+</div>
 </div>
 </section>
     </div>
@@ -929,7 +934,6 @@ dtype: float64</code></pre>
       Reveal.initialize({
 'controlsAuto': true,
 'previewLinksAuto': false,
-'smaller': true,
 'pdfSeparateFragments': false,
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
@@ -1190,10 +1194,9 @@ dtype: float64</code></pre>
         // clear code selection
         e.clearSelection();
       });
-      function tippyHover(el, contentFn) {
+      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
         const config = {
           allowHTML: true,
-          content: contentFn,
           maxWidth: 500,
           delay: 100,
           arrow: false,
@@ -1203,8 +1206,17 @@ dtype: float64</code></pre>
           interactive: true,
           interactiveBorder: 10,
           theme: 'light-border',
-          placement: 'bottom-start'
+          placement: 'bottom-start',
         };
+        if (contentFn) {
+          config.content = contentFn;
+        }
+        if (onTriggerFn) {
+          config.onTrigger = onTriggerFn;
+        }
+        if (onUntriggerFn) {
+          config.onUntrigger = onUntriggerFn;
+        }
           config['offset'] = [0,0];
           config['maxWidth'] = 700;
         window.tippy(el, config); 

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-html/tabby.min.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -8,7 +8,7 @@
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.433">
+  <meta name="generator" content="quarto-1.4.550">
 
   <meta name="author" content="PSTAT100 Spring 2023">
   <title>PSTAT100 - Tidy data</title>
@@ -31,7 +31,7 @@
     }
     /* CSS for syntax highlighting */
     pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span { line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
     .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -230,7 +230,8 @@
   }
 
   .callout.callout-titled .callout-body > .callout-content > :last-child {
-    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0;
   }
 
   .callout.callout-titled .callout-icon::before {
@@ -394,7 +395,7 @@
     }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+  
   <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 </head>
 <body class="quarto-light">
@@ -463,8 +464,9 @@ PSTAT100 Spring 2023
 <h2>Mammal data: long layouts</h2>
 <p>Below is the Allison 1976 mammal brain-body weight dataset from last time shown in two ‘long’ layouts:</p>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="3">
+<div id="7e177b92" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="3">
 <div class="cell-output cell-output-display" data-execution_count="3">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -511,9 +513,11 @@ PSTAT100 Spring 2023
 </div>
 </div>
 </div>
+</div>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="4">
+<div id="722f5c68" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="4">
 <div class="cell-output cell-output-display" data-execution_count="4">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -570,13 +574,15 @@ PSTAT100 Spring 2023
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="mammal-data-wide-layout" class="slide level2">
 <h2>Mammal data: wide layout</h2>
 <p>Here’s a third possible layout for the mammal brain-body weight data:</p>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="5">
+<div id="1252f4b4" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="5">
 <div class="cell-output cell-output-display" data-execution_count="5">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -631,13 +637,15 @@ PSTAT100 Spring 2023
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="gdp-growth-data-wide-layout" class="slide level2">
 <h2>GDP growth data: wide layout</h2>
 <p>Here’s another example: World Bank data on annual GDP growth for 264 countries from 1961 – 2019.</p>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="6">
+<div id="fe327e0f" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="6">
 <div class="cell-output cell-output-display" data-execution_count="6">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -712,12 +720,14 @@ PSTAT100 Spring 2023
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="gdp-growth-data-long-layout" class="slide level2">
 <h2>GDP growth data: long layout</h2>
 <p>Here’s an alternative layout for the annual GDP growth data:</p>
-<div class="cell" data-tags="[]" data-execution_count="7">
+<div id="5735b297" class="cell" data-tags="[]" data-execution_count="7">
 <div class="cell-output cell-output-display" data-execution_count="7">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -783,13 +793,15 @@ PSTAT100 Spring 2023
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="sb-weather-data-long-layouts" class="slide level2">
 <h2>SB weather data: long layouts</h2>
 <p>A third example: daily minimum and maximum temperatures recorded at Santa Barbara Municipal Airport from January 2021 through March 2021.</p>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="9">
+<div id="6a5aba2e" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="9">
 <div class="cell-output cell-output-display" data-execution_count="9">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -852,13 +864,15 @@ PSTAT100 Spring 2023
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="sb-weather-data-wide-layout" class="slide level2">
 <h2>SB weather data: wide layout</h2>
 <p>Here’s a wide layout for the SB weather data:</p>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="10">
+<div id="a6763643" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="10">
 <div class="cell-output cell-output-display" data-execution_count="10">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -939,14 +953,16 @@ PSTAT100 Spring 2023
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="un-development-data-multiple-tables" class="slide level2">
 <h2>UN development data: multiple tables</h2>
 <p>A final example: United Nations country development data organized into different tables according to variable type.</p>
 <p>Here is a table of population measurements:</p>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="12">
+<div id="333f4f09" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="12">
 <div class="cell-output cell-output-display" data-execution_count="12">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1004,11 +1020,13 @@ PSTAT100 Spring 2023
 </div>
 </div>
 </div>
+</div>
 <p>And here is a table of a few gender-related variables:</p>
 </div>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="13">
+<div id="58b067e1" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="13">
 <div class="cell-output cell-output-display" data-execution_count="13">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1063,12 +1081,14 @@ PSTAT100 Spring 2023
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="un-development-data-one-table" class="slide level2">
 <h2>UN development data: one table</h2>
 <p>Here are both tables merged by country:</p>
-<div class="cell" data-execution_count="15">
+<div id="709cf041" class="cell" data-execution_count="15">
 <div class="cell-output cell-output-display" data-execution_count="15">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1154,12 +1174,14 @@ PSTAT100 Spring 2023
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="un-development-data-one-longer-table" class="slide level2">
 <h2>UN development data: one (longer) table</h2>
 <p>And here is another arrangement of the merged table:</p>
-<div class="cell" data-execution_count="17">
+<div id="81e4baed" class="cell" data-execution_count="17">
 <div class="cell-output cell-output-display" data-execution_count="17">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1231,6 +1253,7 @@ PSTAT100 Spring 2023
 </tbody>
 </table>
 
+</div>
 </div>
 </div>
 </div>
@@ -1320,8 +1343,9 @@ PSTAT100 Spring 2023
 </section>
 <section id="units-variables-and-observations" class="slide level2">
 <h2>Units, variables, and observations</h2>
-<div class="cell" data-execution_count="18">
+<div id="f4212008" class="cell" data-execution_count="18">
 <div class="cell-output cell-output-display" data-execution_count="18">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1367,6 +1391,7 @@ PSTAT100 Spring 2023
 </div>
 </div>
 </div>
+</div>
 <ul>
 <li class="fragment">An <strong>observational unit</strong> is the entity measured.
 <ul>
@@ -1386,8 +1411,9 @@ PSTAT100 Spring 2023
 <h2>Identifying units, variables, and observations</h2>
 <p>Let’s do an example. Here’s one record from the GDP growth data:</p>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="19">
+<div id="7c81e6a8" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="19">
 <div class="cell-output cell-output-display" data-execution_count="19">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1429,6 +1455,7 @@ PSTAT100 Spring 2023
 </div>
 </div>
 </div>
+</div>
 <div class="fragment">
 <p>Above, the <em>values</em> -13.605441 and 1961 are observations of the <em>variables</em> GDP growth and year recorded for the <em>observational unit</em> Algeria.</p>
 </div>
@@ -1437,8 +1464,9 @@ PSTAT100 Spring 2023
 <h2>Your turn</h2>
 <p>What are the units, variables and observations?</p>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="20">
+<div id="f8c8bef2" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="20">
 <div class="cell-output cell-output-display" data-execution_count="20">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1511,6 +1539,7 @@ PSTAT100 Spring 2023
 </div>
 </div>
 </div>
+</div>
 <div class="fragment">
 <p>Think about it, then confer with your neighbor.</p>
 </div>
@@ -1539,8 +1568,9 @@ PSTAT100 Spring 2023
 <h2>Tidy or messy?</h2>
 <p>Let’s revisit some of our examples of multiple layouts.</p>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="21">
+<div id="b53e5b30" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="21">
 <div class="cell-output cell-output-display" data-execution_count="21">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1599,6 +1629,7 @@ PSTAT100 Spring 2023
 </div>
 </div>
 </div>
+</div>
 <div class="fragment">
 <p>We can compare the semantics and structure for alignment:</p>
 <table>
@@ -1639,8 +1670,9 @@ PSTAT100 Spring 2023
 <section id="tidy-or-messy-1" class="slide level2">
 <h2>Tidy or messy?</h2>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="22">
+<div id="54c7b0ea" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="22">
 <div class="cell-output cell-output-display" data-execution_count="22">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1697,6 +1729,7 @@ PSTAT100 Spring 2023
 </div>
 </div>
 </div>
+</div>
 <div class="fragment">
 <p>Comparison of semantics and structure:</p>
 <table>
@@ -1737,8 +1770,9 @@ PSTAT100 Spring 2023
 <section id="tidy-or-messy-2" class="slide level2">
 <h2>Tidy or messy?</h2>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="23">
+<div id="fcf645c2" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="23">
 <div class="cell-output cell-output-display" data-execution_count="23">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1800,6 +1834,7 @@ PSTAT100 Spring 2023
 </div>
 </div>
 </div>
+</div>
 <p>Try this one on your own. Then compare with your neighbor.</p>
 <ol type="1">
 <li class="fragment">Identify the observations and variables</li>
@@ -1811,8 +1846,9 @@ PSTAT100 Spring 2023
 <h2>Tidy or messy?</h2>
 <p>In <code>undev1</code> and <code>undev2</code>:</p>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="24">
+<div id="a4fd11dc" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="24">
 <div class="cell-output cell-output-display" data-execution_count="24">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1871,9 +1907,11 @@ PSTAT100 Spring 2023
 </div>
 </div>
 </div>
+</div>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="25">
+<div id="d5895798" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="25">
 <div class="cell-output cell-output-display" data-execution_count="25">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1924,6 +1962,7 @@ PSTAT100 Spring 2023
 </tbody>
 </table>
 
+</div>
 </div>
 </div>
 </div>
@@ -1986,8 +2025,9 @@ PSTAT100 Spring 2023
 <img data-src="figures/tidy-melt.png" class="r-stretch"></section>
 <section id="melt-1" class="slide level2">
 <h2>Melt</h2>
-<div class="cell" data-tags="[]" data-execution_count="26">
+<div id="f5840780" class="cell" data-tags="[]" data-execution_count="26">
 <div class="cell-output cell-output-display" data-execution_count="26">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -2086,15 +2126,17 @@ PSTAT100 Spring 2023
 </div>
 </div>
 </div>
+</div>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="27">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># in pandas</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a>gdp1.melt(</span>
-<span id="cb1-3"><a href="#cb1-3"></a>    id_vars <span class="op">=</span> [<span class="st">'Country Name'</span>, <span class="st">'Country Code'</span>], <span class="co"># which variables do you want to retain for each row? .</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a>    var_name <span class="op">=</span> <span class="st">'Year'</span>, <span class="co"># what do you want to name the variable that will contain the column names?</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a>    value_name <span class="op">=</span> <span class="st">'GDP Growth'</span>, <span class="co"># what do you want to name the variable that will contain the values?</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a>).head(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cd44c455" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="co"># in pandas</span></span>
+<span id="cb1-2"><a></a>gdp1.melt(</span>
+<span id="cb1-3"><a></a>    id_vars <span class="op">=</span> [<span class="st">'Country Name'</span>, <span class="st">'Country Code'</span>], <span class="co"># which variables do you want to retain for each row? .</span></span>
+<span id="cb1-4"><a></a>    var_name <span class="op">=</span> <span class="st">'Year'</span>, <span class="co"># what do you want to name the variable that will contain the column names?</span></span>
+<span id="cb1-5"><a></a>    value_name <span class="op">=</span> <span class="st">'GDP Growth'</span>, <span class="co"># what do you want to name the variable that will contain the values?</span></span>
+<span id="cb1-6"><a></a>).head(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="27">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -2142,6 +2184,7 @@ PSTAT100 Spring 2023
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="pivot" class="slide level2">
 <h2>Pivot</h2>
@@ -2150,8 +2193,9 @@ PSTAT100 Spring 2023
 <img data-src="figures/tidy-pivot.png" class="r-stretch"></section>
 <section id="pivot-1" class="slide level2">
 <h2>Pivot</h2>
-<div class="cell" data-execution_count="28">
+<div id="568b5ce2" class="cell" data-execution_count="28">
 <div class="cell-output cell-output-display" data-execution_count="28">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -2207,13 +2251,15 @@ PSTAT100 Spring 2023
 </div>
 </div>
 </div>
-<div class="cell" data-execution_count="29">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># in pandas</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>mammal2.pivot(</span>
-<span id="cb2-3"><a href="#cb2-3"></a>    columns <span class="op">=</span> <span class="st">'measurement'</span>, <span class="co"># which variable(s) do you want to send to new column names?</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a>    values <span class="op">=</span> <span class="st">'weight'</span> <span class="co"># which variable(s) do you want to use to populate the new columns?</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a>).head(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="0a84ceb1" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a><span class="co"># in pandas</span></span>
+<span id="cb2-2"><a></a>mammal2.pivot(</span>
+<span id="cb2-3"><a></a>    columns <span class="op">=</span> <span class="st">'measurement'</span>, <span class="co"># which variable(s) do you want to send to new column names?</span></span>
+<span id="cb2-4"><a></a>    values <span class="op">=</span> <span class="st">'weight'</span> <span class="co"># which variable(s) do you want to use to populate the new columns?</span></span>
+<span id="cb2-5"><a></a>).head(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="29">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -2259,13 +2305,15 @@ PSTAT100 Spring 2023
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="pivot-and-melt" class="slide level2">
 <h2>Pivot and melt</h2>
 <p>Common mess 3 is a combination of messes 1 and 2: values or variables are stored in both rows and columns. Pivoting and melting in sequence can usually fix this.</p>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="30">
+<div id="e2d2a79c" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="30">
 <div class="cell-output cell-output-display" data-execution_count="30">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -2490,6 +2538,7 @@ PSTAT100 Spring 2023
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="pivot-and-melt-1" class="slide level2">
 <h2>Pivot and melt</h2>
@@ -2497,13 +2546,14 @@ PSTAT100 Spring 2023
 <ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">First, melt</a></li><li><a href="#tabset-1-2">Then, pivot</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1">
-<div class="cell" data-execution_count="31">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>weather3.melt(</span>
-<span id="cb3-2"><a href="#cb3-2"></a>    ignore_index <span class="op">=</span> <span class="va">False</span>,</span>
-<span id="cb3-3"><a href="#cb3-3"></a>    var_name <span class="op">=</span> <span class="st">'day'</span>,</span>
-<span id="cb3-4"><a href="#cb3-4"></a>    value_name <span class="op">=</span> <span class="st">'temp'</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a>).head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="edc10f5b" class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a>weather3.melt(</span>
+<span id="cb3-2"><a></a>    ignore_index <span class="op">=</span> <span class="va">False</span>,</span>
+<span id="cb3-3"><a></a>    var_name <span class="op">=</span> <span class="st">'day'</span>,</span>
+<span id="cb3-4"><a></a>    value_name <span class="op">=</span> <span class="st">'temp'</span></span>
+<span id="cb3-5"><a></a>).head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="31">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -2570,18 +2620,20 @@ PSTAT100 Spring 2023
 </div>
 </div>
 </div>
+</div>
 <div id="tabset-1-2">
-<div class="cell" data-execution_count="32">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>weather3.melt(</span>
-<span id="cb4-2"><a href="#cb4-2"></a>    ignore_index <span class="op">=</span> <span class="va">False</span>,</span>
-<span id="cb4-3"><a href="#cb4-3"></a>    var_name <span class="op">=</span> <span class="st">'day'</span>,</span>
-<span id="cb4-4"><a href="#cb4-4"></a>    value_name <span class="op">=</span> <span class="st">'temp'</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a>).reset_index().pivot(</span>
-<span id="cb4-6"><a href="#cb4-6"></a>    index <span class="op">=</span> [<span class="st">'MONTH'</span>, <span class="st">'day'</span>],</span>
-<span id="cb4-7"><a href="#cb4-7"></a>    columns <span class="op">=</span> <span class="st">'type'</span>,</span>
-<span id="cb4-8"><a href="#cb4-8"></a>    values <span class="op">=</span> <span class="st">'temp'</span></span>
-<span id="cb4-9"><a href="#cb4-9"></a>).reset_index().rename_axis(columns <span class="op">=</span> {<span class="st">'type'</span>: <span class="st">''</span>}).head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="8c9bc54a" class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a>weather3.melt(</span>
+<span id="cb4-2"><a></a>    ignore_index <span class="op">=</span> <span class="va">False</span>,</span>
+<span id="cb4-3"><a></a>    var_name <span class="op">=</span> <span class="st">'day'</span>,</span>
+<span id="cb4-4"><a></a>    value_name <span class="op">=</span> <span class="st">'temp'</span></span>
+<span id="cb4-5"><a></a>).reset_index().pivot(</span>
+<span id="cb4-6"><a></a>    index <span class="op">=</span> [<span class="st">'MONTH'</span>, <span class="st">'day'</span>],</span>
+<span id="cb4-7"><a></a>    columns <span class="op">=</span> <span class="st">'type'</span>,</span>
+<span id="cb4-8"><a></a>    values <span class="op">=</span> <span class="st">'temp'</span></span>
+<span id="cb4-9"><a></a>).reset_index().rename_axis(columns <span class="op">=</span> {<span class="st">'type'</span>: <span class="st">''</span>}).head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="32">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -2652,6 +2704,7 @@ PSTAT100 Spring 2023
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="merge" class="slide level2">
 <h2>Merge</h2>
@@ -2661,9 +2714,10 @@ PSTAT100 Spring 2023
 <section id="merge-1" class="slide level2">
 <h2>Merge</h2>
 <p>The code below combines columns in each table by matching rows based on country.</p>
-<div class="cell" data-execution_count="33">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>pd.merge(undev1, undev2, on <span class="op">=</span> <span class="st">'country'</span>).head(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="e0287d1f" class="cell" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a></a>pd.merge(undev1, undev2, on <span class="op">=</span> <span class="st">'country'</span>).head(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="33">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -2761,6 +2815,7 @@ PSTAT100 Spring 2023
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="merge-2" class="slide level2">
 <h2>Merge</h2>
@@ -2790,8 +2845,10 @@ PSTAT100 Spring 2023
 <li class="fragment">Aggregation and grouping</li>
 </ul>
 
+<div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 
+</div>
 </div>
 </section>
     </div>
@@ -2820,7 +2877,6 @@ PSTAT100 Spring 2023
       Reveal.initialize({
 'controlsAuto': true,
 'previewLinksAuto': false,
-'smaller': true,
 'pdfSeparateFragments': false,
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
@@ -3081,10 +3137,9 @@ PSTAT100 Spring 2023
         // clear code selection
         e.clearSelection();
       });
-      function tippyHover(el, contentFn) {
+      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
         const config = {
           allowHTML: true,
-          content: contentFn,
           maxWidth: 500,
           delay: 100,
           arrow: false,
@@ -3094,8 +3149,17 @@ PSTAT100 Spring 2023
           interactive: true,
           interactiveBorder: 10,
           theme: 'light-border',
-          placement: 'bottom-start'
+          placement: 'bottom-start',
         };
+        if (contentFn) {
+          config.content = contentFn;
+        }
+        if (onTriggerFn) {
+          config.onTrigger = onTriggerFn;
+        }
+        if (onUntriggerFn) {
+          config.onUntrigger = onUntriggerFn;
+        }
           config['offset'] = [0,0];
           config['maxWidth'] = 700;
         window.tippy(el, config); 

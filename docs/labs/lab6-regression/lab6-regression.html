@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.433">
+<meta name="generator" content="quarto-1.4.550">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -79,7 +79,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -88,6 +94,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -106,6 +113,33 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
@@ -113,9 +147,9 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">PSTAT100</span>
     </a>
@@ -127,17 +161,17 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html" rel="" target="">
- <span class="menu-text">Course syllabus</span></a>
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">Course syllabus</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../content.html" rel="" target="">
- <span class="menu-text">Materials</span></a>
+    <a class="nav-link" href="../../content.html"> 
+<span class="menu-text">Materials</span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools ms-auto">
-</div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -150,7 +184,8 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#data-fertility-rates" id="toc-data-fertility-rates" class="nav-link active" data-scroll-target="#data-fertility-rates">Data: fertility rates</a></li>
+  <li><a href="#lab-6-regression" id="toc-lab-6-regression" class="nav-link active" data-scroll-target="#lab-6-regression">Lab 6: Regression</a></li>
+  <li><a href="#data-fertility-rates" id="toc-data-fertility-rates" class="nav-link" data-scroll-target="#data-fertility-rates">Data: fertility rates</a></li>
   <li><a href="#exploratory-analysis" id="toc-exploratory-analysis" class="nav-link" data-scroll-target="#exploratory-analysis">Exploratory analysis</a>
   <ul class="collapse">
   <li><a href="#question-1-education-and-fertility-rate" id="toc-question-1-education-and-fertility-rate" class="nav-link" data-scroll-target="#question-1-education-and-fertility-rate">Question 1: Education and fertility rate</a></li>
@@ -195,14 +230,16 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
   </div>
   
 
+
 </header>
 
-<div class="cell">
+
+<div id="cell-0" class="cell" data-editable="false">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize Otter</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> otter</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>grader <span class="op">=</span> otter.Notebook(<span class="st">"lab6-regression.ipynb"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="cell-1" class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> altair <span class="im">as</span> alt</span>
@@ -213,6 +250,8 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># uncomment to ensure graphics display with pdf export</span></span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># alt.renderers.enable('mimetype')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<section id="lab-6-regression" class="level1">
+<h1>Lab 6: Regression</h1>
 <p>This lab covers the nuts and bolts of fitting linear models. The linear model expresses a response variable, <span class="math inline">\(y\)</span>, as a linear function of <span class="math inline">\(p - 1\)</span> explanatory variables <span class="math inline">\(x_1, \dots, x_{p - 1}\)</span> and a random error <span class="math inline">\(\epsilon\)</span>. Its general form is:</p>
 <p><span class="math display">\[y = \beta_0 + \beta_1 x_1 + \cdots + \beta_{p - 1} x_{p - 1} + \epsilon \qquad \epsilon \sim N(0, \sigma^2)\]</span></p>
 <p>Usually, the response and explanatory variables and error term are indexed by observation <span class="math inline">\(i = 1, \dots, n\)</span> so that the model describes a dataset comprising <span class="math inline">\(n\)</span> values of each variable:</p>
@@ -246,11 +285,12 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <li>compute the proportion of variation captured by a linear model.</li>
 </ul>
 <p>Throughout you’ll use simple visualizations to help make the connection between fitted models and the aspects of a dataset that model features describe.</p>
+</section>
 <section id="data-fertility-rates" class="level1">
 <h1>Data: fertility rates</h1>
 <p>By way of data, you’ll work with country indicators, total fertility rates, and gender indicators for a selection of countries in 2018, and explore the decline in fertility rates associated with developed nations. Data from the U.S. 2020 census indicated significant <a href="https://www.washingtonpost.com/dc-md-va/interactive/2021/2020-census-us-population-results/">population growth decline in the United States</a>. If the topic interests you, you can read more about perspectives and existing data in this <a href="https://ourworldindata.org/fertility-rate">Our World in Data article</a>.</p>
 <p>The data are stored in separate <code>.csv</code> files imported below:</p>
-<div class="cell">
+<div id="cell-4" class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fertility <span class="op">=</span> pd.read_csv(<span class="st">'data/fertility.csv'</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>country <span class="op">=</span> pd.read_csv(<span class="st">'data/country-indicators.csv'</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>gender <span class="op">=</span> pd.read_csv(<span class="st">'data/gender-data.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -293,7 +333,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 </tbody>
 </table>
 <p>Because the variables of interest are stored in three separate dataframes, you’ll first need to extract them and merge by country.</p>
-<div class="cell">
+<div id="cell-7" class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># slice variables of interest</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>fertility_sub <span class="op">=</span> fertility.loc[:, [<span class="st">'Country'</span>, <span class="st">'fertility_total'</span>]]</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>gender_sub <span class="op">=</span> gender.loc[:, [<span class="st">'educ_expected_yrs_f'</span>, <span class="st">'Country'</span>]]</span>
@@ -324,7 +364,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <h3 class="anchored" data-anchor-id="question-1-education-and-fertility-rate">Question 1: Education and fertility rate</h3>
 <p>Construct a scatterplot of total fertility against expected years of education for women. Label the axes ‘Fertility rate’ and ‘Expected years of education for women’. Store this plot as <code>scatter_educ</code> and display the graphic.</p>
 <p>(<em>Remark</em>: be sure to include <code>scale = alt.Scale(zero = False)</code> in the axis specification so that your plot does not have extra whitespace.)</p>
-<div class="cell" data-tags="[]">
+<div id="cell-11" class="cell" data-tags="[]">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <!-- END QUESTION -->
@@ -334,7 +374,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <section id="question-2-hdi-and-fertility-rate" class="level3">
 <h3 class="anchored" data-anchor-id="question-2-hdi-and-fertility-rate">Question 2: HDI and fertility rate</h3>
 <p>Now construct a scatterplot comparing fertility rate with HDI. Make sure you choose appropriate labels for your axes and plot. Store this plot as <code>scatter_hdi</code> and display the graphic.</p>
-<div class="cell" data-tags="[]">
+<div id="cell-14" class="cell" data-tags="[]">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <!-- END QUESTION -->
@@ -357,7 +397,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <li><span class="math inline">\(\mathbf{X}\)</span>, a two-dimensional array with a column of ones (intercept) and a column of the expected years of education for women (explanatory variable).</li>
 </ul>
 <p>The cell below constructs these arrays as pandas objects.</p>
-<div class="cell">
+<div id="cell-17" class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># retrieve response</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> reg_data.fertility_total</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -370,32 +410,32 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <section id="estimation" class="level2">
 <h2 class="anchored" data-anchor-id="estimation">Estimation</h2>
 <p>‘Fitting’ a model refers to computing estimates; <code>statsmodels.OLS()</code> will fit a linear regression model based on the response vector and explanatory variable matrix. Note that the model structure is implicit – <code>OLS</code> will fit <span class="math inline">\(y = X\beta + \epsilon\)</span> no matter what, so you need to be sure you have arranged <span class="math inline">\(X\)</span> and <span class="math inline">\(y\)</span> correctly to fit the model that you intend.</p>
-<div class="cell">
+<div id="cell-19" class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fit model</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>slr <span class="op">=</span> sm.OLS(endog <span class="op">=</span> y, exog <span class="op">=</span> x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This returns an object of a distinct model class specific to <code>OLS</code>:</p>
-<div class="cell">
+<div id="cell-21" class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(slr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Associated with the class are various attributes and methods. From the model instance, <code>.fit()</code> retrieves the model results:</p>
-<div class="cell">
+<div id="cell-23" class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(slr.fit())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Note, however, that <code>slr.fit()</code> will not produce any interesting output:</p>
-<div class="cell">
+<div id="cell-25" class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>slr.fit()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>What the <code>.fit()</code> method does is create a results object that contains parameter estimates and other quantities we might want to retrieve.</p>
-<div class="cell">
+<div id="cell-27" class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>rslt <span class="op">=</span> slr.fit()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The coeffient estimates <span class="math inline">\(\hat{\beta}_0, \hat{\beta}_1\)</span> are:</p>
-<div class="cell">
+<div id="cell-29" class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>rslt.params</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The error variance estimate <span class="math inline">\(\hat{\sigma}^2\)</span> is:</p>
-<div class="cell">
+<div id="cell-31" class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>rslt.scale</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>It was noted in lecture that the variances and covariances of <span class="math inline">\(\hat{\beta}_0, \hat{\beta}_1\)</span> are given by the matrix:</p>
@@ -405,11 +445,11 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
         \text{cov}\left(\hat{\beta}_1, \hat{\beta}_0\right) &amp; \text{var}\hat{\beta}_1
         \end{array}\right]\]</span></p>
 <p>So we can <em>estimate</em> these quantities, which quantify the variation and covariation of the estimated coefficients, by plugging in the estimated error variance and computing <span class="math inline">\(\hat{\sigma}^2 (\mathbf{X}'\mathbf{X})^{-1}\)</span>. This estimate is:</p>
-<div class="cell">
+<div id="cell-33" class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>rslt.cov_params()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Standard errors for the coefficient estimates are obtained from the diagonal entries. We might create a nice summary of all the estimates as follows:</p>
-<div class="cell">
+<div id="cell-35" class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>coef_tbl <span class="op">=</span> pd.DataFrame({<span class="st">'estimate'</span>: rslt.params.values,</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>              <span class="st">'standard error'</span>: np.sqrt(rslt.cov_params().values.diagonal())},</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>              index <span class="op">=</span> x.columns)</span>
@@ -418,7 +458,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>coef_tbl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Lastly, a standard metric often reported with linear models is the <span class="math inline">\(R^2\)</span> score, which is interpreted as the proportion of variation in the response captured by the model.</p>
-<div class="cell">
+<div id="cell-37" class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compute R-squared</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>rslt.rsquared</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -431,7 +471,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <section id="question-3-center-the-explanatory-variable" class="level3">
 <h3 class="anchored" data-anchor-id="question-3-center-the-explanatory-variable">Question 3: center the explanatory variable</h3>
 <p>Note that <em>no</em> countries report an expected zero years of education for women, so the meaning of the intercept is artificial. As we saw in lecture, centering the explanatory variable can improve interpretability of the intercept. Center the expected years of education for women and refit the model by following the steps outlined below. Display the coefficient estimates and standard errors.</p>
-<div class="cell" data-tags="[]">
+<div id="cell-40" class="cell" data-tags="[]">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># center the education column by subtracting its mean from each value</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>educ_ctr <span class="op">=</span> ...</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -445,7 +485,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="co"># arrange estimates and se's in a dataframe and display</span></span>
 <span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="cell-41" class="cell" data-editable="false">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>grader.check(<span class="st">"q3"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -455,18 +495,18 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <p>The <strong>fitted value</strong> for <span class="math inline">\(y_i\)</span> is the value along the line specified by the model that corresponds to the matching explanatory variable <span class="math inline">\(x_i\)</span>. In other words:</p>
 <p><span class="math display">\[\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 x_i\]</span></p>
 <p>These can be obtained directly from <code>rslt</code>:</p>
-<div class="cell">
+<div id="cell-43" class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fitted values</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>rslt.fittedvalues</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The result is an array with length matching the number of rows in <code>x</code>; note the index for the pandas series – the fitted values are returned in the same order as the observations used to fit the model.</p>
-<div class="cell">
+<div id="cell-45" class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>(rslt.fittedvalues.index <span class="op">==</span> x.index).<span class="bu">all</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Recall that model <strong>residuals</strong> are the difference between observed and fitted values:</p>
 <p><span class="math display">\[e_i = y_i - \hat{y}_i\]</span></p>
 <p>These are similarly retrievable as an attribute of the regression results:</p>
-<div class="cell">
+<div id="cell-47" class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># residuals</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>rslt.resid</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -475,15 +515,15 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <h3 class="anchored" data-anchor-id="question-4-calculations-by-hand">Question 4: calculations ‘by hand’</h3>
 <p>Calculate the fitted values and residuals manually. Store the results as arrays <code>fitted_manual</code> and <code>resid_manual</code>, respectively.</p>
 <p><em>Hint</em>: use matrix-vector multiplication.</p>
-<div class="cell" data-tags="[]">
+<div id="cell-50" class="cell" data-tags="[]">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>fitted_manual <span class="op">=</span> ...</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>resid_manual <span class="op">=</span> ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="cell-51" class="cell" data-editable="false">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>grader.check(<span class="st">"q4"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>It is often convenient to add the fitted values and residuals as new columns in <code>reg_data</code>:</p>
-<div class="cell">
+<div id="cell-53" class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># append fitted values and residuals</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>reg_data[<span class="st">'fitted_slr'</span>] <span class="op">=</span> rslt.fittedvalues</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>reg_data[<span class="st">'resid_slr'</span>] <span class="op">=</span> rslt.resid</span>
@@ -491,7 +531,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>reg_data.head(<span class="dv">3</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can use this augmented dataframe to visualize the deterministic part of the model:</p>
-<div class="cell">
+<div id="cell-55" class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># construct line plot</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>slr_line <span class="op">=</span> alt.Chart(reg_data).mark_line().encode(</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> <span class="st">'educ_expected_yrs_f'</span>,</span>
@@ -502,22 +542,22 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>scatter_educ <span class="op">+</span> slr_line</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>To obtain uncertainty bands about the estimated mean, we’ll compute predictions at each observed value using <code>.get_prediction()</code> – this method by default returns standard errors associated with each prediction.</p>
-<div class="cell">
+<div id="cell-57" class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>preds <span class="op">=</span> rslt.get_prediction(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The predictions are stored as <code>.predicted_mean</code>. Since we computed predictions at the observed values, the predictions should match the fitted values:</p>
-<div class="cell">
+<div id="cell-59" class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>(preds.predicted_mean <span class="op">==</span> rslt.fittedvalues).<span class="bu">all</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Standard errors are stored as <code>.se_mean</code>. Uncertainty bands are typically drawn <span class="math inline">\(2SE\)</span> in either direction from the fitted values; so we’ll append those values to the original data.</p>
-<div class="cell">
+<div id="cell-61" class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>reg_data[<span class="st">'lwr_mean'</span>] <span class="op">=</span> preds.predicted_mean <span class="op">-</span> <span class="dv">2</span><span class="op">*</span>preds.se_mean</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>reg_data[<span class="st">'upr_mean'</span>] <span class="op">=</span> preds.predicted_mean <span class="op">+</span> <span class="dv">2</span><span class="op">*</span>preds.se_mean</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>reg_data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can use these to shade in the area between the lower and upper limits.</p>
-<div class="cell">
+<div id="cell-63" class="cell">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>band <span class="op">=</span> alt.Chart(reg_data).mark_area(opacity <span class="op">=</span> <span class="fl">0.2</span>).encode(</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> <span class="st">'educ_expected_yrs_f'</span>,</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> <span class="st">'lwr_mean'</span>,</span>
@@ -532,7 +572,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <section id="question-5-prediction-intervals" class="level3">
 <h3 class="anchored" data-anchor-id="question-5-prediction-intervals">Question 5: prediction intervals</h3>
 <p>The standard error for <em>predictions</em> is stored with the output of <code>.get_prediction()</code> as the attribute <code>.se_obs</code> – standard error for observations. Use this and follow the example above to compute 95% uncertainty bounds for the observations. Add the lower and upper bounds as new columns of <code>reg_data</code> named <code>lwr_obs</code> and <code>upr_obs</code>, respectively. Construct a plot showing data scatter, the model predictions, and prediction uncertainty bands.</p>
-<div class="cell" data-tags="[]">
+<div id="cell-66" class="cell" data-tags="[]">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compute prediction uncertainty bounds</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>reg_data[<span class="st">'lwr_obs'</span>] <span class="op">=</span> ...</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>reg_data[<span class="st">'upr_obs'</span>] <span class="op">=</span> ...</span>
@@ -540,7 +580,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co"># construct plot showing prediction uncertainty</span></span>
 <span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="cell-67" class="cell" data-editable="false">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>grader.check(<span class="st">"q5"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Recall that the interpretation of the prediction band is that 95% of the time, the band will cover the observed values.</p>
@@ -548,10 +588,10 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <section id="question-6-coverage" class="level3">
 <h3 class="anchored" data-anchor-id="question-6-coverage">Question 6: coverage</h3>
 <p>What proportion of observed values are within the prediction bands? Compute and store this value as <code>coverage_prop</code>.</p>
-<div class="cell" data-tags="[]">
+<div id="cell-70" class="cell" data-tags="[]">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>coverage_prop <span class="op">=</span> ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="cell-71" class="cell" data-editable="false">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>grader.check(<span class="st">"q6"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -561,7 +601,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <h1>Multiple linear regression</h1>
 <p>Now let’s consider adding the human development factor to the model. First let’s investigate the <em>univariate</em> relationship between HDI and fertility rate.</p>
 <p>A scatterplot is shown below with a regression line overlaid. The relationship perhaps isn’t perfectly linear, but a line should provide a decent approximation.</p>
-<div class="cell">
+<div id="cell-73" class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>base <span class="op">=</span> alt.Chart(reg_data).mark_circle().encode(</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> alt.X(<span class="st">'hdi'</span>, title <span class="op">=</span> <span class="st">'Human development index'</span>, scale <span class="op">=</span> alt.Scale(zero <span class="op">=</span> <span class="va">False</span>)),</span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> alt.Y(<span class="st">'fertility_total'</span>, title <span class="op">=</span> <span class="st">'Fertility rate'</span>, scale <span class="op">=</span> alt.Scale(zero <span class="op">=</span> <span class="va">False</span>))</span>
@@ -573,7 +613,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <section id="question-7-fit-a-model-with-hdi-only" class="level3">
 <h3 class="anchored" data-anchor-id="question-7-fit-a-model-with-hdi-only">Question 7: fit a model with HDI only</h3>
 <p>Fit the model plotted above. Display the coefficient estimates, standard errors, and <span class="math inline">\(R^2\)</span> statistic.</p>
-<div class="cell" data-tags="[]">
+<div id="cell-75" class="cell" data-tags="[]">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fit model</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> ...</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>slr <span class="op">=</span> ...</span>
@@ -594,12 +634,12 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 </div>
 <!-- END QUESTION -->
 <p>You should have observed that this model <em>also</em> explains about 70% of variance in fertility rates. So it seems like an equally good predictor of fertility rates. However, HDI is highly correlated with women’s education:</p>
-<div class="cell">
+<div id="cell-77" class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>reg_data.corr().loc[<span class="st">'hdi'</span>, <span class="st">'educ_expected_yrs_f'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>So what do you think will happen if we fit a model with both explanatory variables? Will fertility rate have a stronger association with one or the other? Will the coefficient estimates also be highly correlated? Take a moment to consider this and come up with a hypothesis.</p>
 <p>The model is fit <em>exactly</em> the same way as the SLR models – all we need change is the explanatory variable matrix. Instead of grabbing one column from the data, we now grab two:</p>
-<div class="cell">
+<div id="cell-79" class="cell">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># construct explanatory variable matrix</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> sm.tools.add_constant(reg_data.loc[:, [<span class="st">'hdi'</span>, <span class="st">'educ_expected_yrs_f'</span>]])</span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -610,7 +650,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>rslt <span class="op">=</span> mlr.fit() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The coefficient table is shown below:</p>
-<div class="cell">
+<div id="cell-81" class="cell">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>coef_tbl <span class="op">=</span> pd.DataFrame({</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'estimate'</span>: rslt.params.values,</span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'standard error'</span>: np.sqrt(rslt.cov_params().values.diagonal()) </span>
@@ -625,7 +665,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <p>The association with HDI is not as strong as in the simple linear model – note the coefficient estimate here is about -4.1, compared with about -7.0 if education is not included.</p>
 <p>Similarly, the association with education is not as strong as in the simple linear model with only education – if HDI is not included in the model, the coefficient estimate is about -0.43, whereas with both variables the estimate is about -0.20.</p>
 <p>So both associations are weaker when both terms are included in the model. Further, the estimates are strongly correlated:</p>
-<div class="cell">
+<div id="cell-83" class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>vcov <span class="op">=</span> rslt.cov_params()</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>stderr <span class="op">=</span> np.sqrt(vcov.values.diagonal())</span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>corr_mx <span class="op">=</span> np.diag(<span class="dv">1</span><span class="op">/</span>stderr).dot(vcov).dot(np.diag(<span class="dv">1</span><span class="op">/</span>stderr))</span>
@@ -633,7 +673,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'correlation of hdi and educ coefficient estimates: '</span>, corr_mx[<span class="dv">1</span>, <span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The multiple linear regression model captures a little bit more variance than either simple linear regression model individually:</p>
-<div class="cell">
+<div id="cell-85" class="cell">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>rslt.rsquared</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The MLR model doesn’t add much value in terms of fit, so if that is our only concern we might prefer one of the SLR models. However, the presence of additional predictors changes the parameter interpretation – in the MLR model, the coefficients give the estimated changes in mean fertility rate associated with changes in each explanatory variable <em>after accounting for the other explanatory variable</em>. This is one way of understanding why the estimates change so much in the presence of additional explanatory variables – the association between, <em>e.g.</em>, HDI and fertility, is different than the association between HDI and fertility after adjusting for women’s expected education.</p>
@@ -652,7 +692,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 </ol>
 <hr>
 <p>To double-check your work, the cell below will rerun all of the autograder tests.</p>
-<div class="cell">
+<div id="cell-89" class="cell" data-editable="false">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>grader.check_all()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
@@ -739,10 +779,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -752,8 +791,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -766,6 +814,125 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -809,6 +976,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -834,6 +1002,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -894,6 +1088,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 

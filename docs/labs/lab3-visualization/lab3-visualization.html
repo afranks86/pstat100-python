@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.433">
+<meta name="generator" content="quarto-1.4.550">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -79,7 +79,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -88,6 +94,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -106,6 +113,33 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
@@ -113,9 +147,9 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">PSTAT100</span>
     </a>
@@ -127,17 +161,17 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html" rel="" target="">
- <span class="menu-text">Course syllabus</span></a>
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">Course syllabus</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../content.html" rel="" target="">
- <span class="menu-text">Materials</span></a>
+    <a class="nav-link" href="../../content.html"> 
+<span class="menu-text">Materials</span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools ms-auto">
-</div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -150,7 +184,8 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#background-elements-of-graphics" id="toc-background-elements-of-graphics" class="nav-link active" data-scroll-target="#background-elements-of-graphics">Background: elements of graphics</a>
+  <li><a href="#lab-3-data-visualization" id="toc-lab-3-data-visualization" class="nav-link active" data-scroll-target="#lab-3-data-visualization">Lab 3: Data visualization</a></li>
+  <li><a href="#background-elements-of-graphics" id="toc-background-elements-of-graphics" class="nav-link" data-scroll-target="#background-elements-of-graphics">Background: elements of graphics</a>
   <ul class="collapse">
   <li><a href="#axes" id="toc-axes" class="nav-link" data-scroll-target="#axes">Axes</a></li>
   <li><a href="#geometric-objects" id="toc-geometric-objects" class="nav-link" data-scroll-target="#geometric-objects">Geometric objects</a></li>
@@ -205,14 +240,16 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
   </div>
   
 
+
 </header>
 
-<div class="cell">
+
+<div id="cell-0" class="cell" data-editable="false">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize Otter</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> otter</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>grader <span class="op">=</span> otter.Notebook(<span class="st">"lab3-visualization.ipynb"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="cell-1" class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> altair <span class="im">as</span> alt</span>
@@ -221,6 +258,8 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># uncomment to ensure graphics display with pdf export</span></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># alt.renderers.enable('mimetype')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<section id="lab-3-data-visualization" class="level1">
+<h1>Lab 3: Data visualization</h1>
 <p>Data visualizations are graphics that represent quantitative or qualitative data. In PSTAT100 you’ll be using the python visualization library Altair, which is built around the pandas dataframe. Altair creates visualizations by mapping columns of a dataframe to the various elements of a graphic: axes, geometric objects, and aesthetics.</p>
 <p>Visualizations are essential tools in exploratory analysis as well as presentation. They can help an analyst identify and understand structure and patterns in a dataset at a high level and provide guidance for model development. They can be used to check assumptions and visualize model outputs. And they can be an effective means for conveying results to a general audience.</p>
 <p>Constructing effective visualization is usually an iterative process: plot-think-revise-repeat. In exploratory visualization often it is useful to produce a large quantity of plots in order to look at data from multiple angles; in this context, speed is helpful and details can be overlooked. By contrast, presentation graphics are typically highly refined versions of one or two exploratory plots that serve as communication tools; developing them involves attention to fine detail.</p>
@@ -229,6 +268,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <p>In Altair, plots are constructed by: 1. creating a <em>chart</em> 2. specifying <em>marks and encodings</em> 3. adding various <em>aesthetics</em>, and 4. resolving display issues through <em>customization</em>.</p>
 <p><strong>Technical tutorial</strong>. You’ll get an introduction to each of these steps: * Creating a chart object from a dataframe * Encodings: mapping columns to graphical elements * Marks: geometric objects displayed on a plot (<em>e.g.</em>, points, lines, polygons) * Aesthetics: display attributes of geometric objects (<em>e.g.</em>, color, shape, transparency) * Customization: adjusting axes, labels, scales.</p>
 <p><strong>Visualization process</strong>. In addition, our goal is to model for you the process of constructing a good visualization through iterative revisions. * Identifying and fixing display problems * Discerning informative from non-informative graphical elements * Designing efficient displays</p>
+</section>
 <section id="background-elements-of-graphics" class="level1">
 <h1>Background: elements of graphics</h1>
 <p>To understand why Altair (and other common visualization libraries like ggplot in R) works the way it does, it is helpful to have a framework for characterizing the elements of a graphic. Broadly speaking, graphics consist of sets of <strong>axes</strong>, <strong>geometric objects</strong> plotted on those axes, <strong>aesthetic attributes</strong> of geometric objects, and <strong>text</strong> used to label axes, objects, or aesthetics.</p>
@@ -263,7 +303,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 </ul>
 <p>The data come from merging several smaller datasets, mostly collected from <a href="https://data.worldbank.org/">World Bank Open Data</a>. The result is essentially a convenience sample, but descriptive analyses without inference are nonetheless interesting and suggestive.</p>
 <p>Your focus won’t be on acquainting yourself with the data carefully or on tidying. The cell below imports and merges component datasets.</p>
-<div class="cell">
+<div id="cell-4" class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import and format country regional information</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>countryinfo <span class="op">=</span> pd.read_csv(</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'data/country-info.csv'</span></span>
@@ -315,7 +355,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <section id="basic-scatterplots" class="level2">
 <h2 class="anchored" data-anchor-id="basic-scatterplots">Basic scatterplots</h2>
 <p>The following cell constructs a scatterplot of life expectancy at birth against GDP per capita; each point corresponds to one country in one year. The syntax works as follows: * <code>alt.Chart()</code> begins by constructing a ‘chart’ object constructed from the dataframe; * the result is passed to <code>.mark_circle()</code>, which specifies a geometric object (circles) to add to the chart; * the result is passed to <code>.encode()</code>, which specifies which columns should be used to determine the coordinates of the circles.</p>
-<div class="cell">
+<div id="cell-6" class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># basic scatterplot</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>alt.Chart(data).mark_circle().encode(</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> <span class="st">'GDP per capita'</span>,</span>
@@ -326,7 +366,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <section id="question-1-different-marks" class="level3">
 <h3 class="anchored" data-anchor-id="question-1-different-marks">Question 1: Different marks</h3>
 <p>The cell below is a copy of the previous cell. Have a look at the <a href="https://altair-viz.github.io/user_guide/marks.html">documentation on marks</a> for a list of the possible mark types. Try out a few alternatives to see what they look like. Once you’re satisfied, change the mark to points.</p>
-<div class="cell" data-tags="[]">
+<div id="cell-8" class="cell" data-tags="[]">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># basic scatterplot</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>alt.Chart(data).mark_circle().encode( <span class="co"># tinker here with different marks</span></span>
@@ -347,7 +387,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <section id="axis-adjustments-with-alt.x-and-alt.y" class="level2">
 <h2 class="anchored" data-anchor-id="axis-adjustments-with-alt.x-and-alt.y">Axis adjustments with <code>alt.X()</code> and <code>alt.Y()</code></h2>
 <p>An initial problem that would be good to resolve before continuing is that the y axis label isn’t informative. Let’s change that by wrapping the column to encode in <code>alt.Y()</code> and specifying the title manually.</p>
-<div class="cell">
+<div id="cell-12" class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># change axis label</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>alt.Chart(data).mark_circle().encode(</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> <span class="st">'GDP per capita'</span>,</span>
@@ -355,7 +395,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><code>alt.Y()</code> and <code>alt.X()</code> are helper functions that modify encoding specifications. The cell below adjusts the scale of the y axis as well; since above there are no life expectancies below 30, starting the y axis at 0 adds whitespace.</p>
-<div class="cell">
+<div id="cell-14" class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># don't start y axis at zero</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>alt.Chart(data).mark_circle().encode(</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> <span class="st">'GDP per capita'</span>,</span>
@@ -363,7 +403,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In the plot above, there are a lot of points squished together near <span class="math inline">\(x = 0\)</span>. It will make it easier to see the pattern of scatter in that region to adjust the x axis so that values are not displayed on a linear scale. Using <code>alt.Scale()</code> allows for efficient axis rescaling; the cell below puts GDP per capita on a log scale.</p>
-<div class="cell">
+<div id="cell-16" class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># log scale for x axis</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>alt.Chart(data).mark_circle().encode(</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> alt.X(<span class="st">'GDP per capita'</span>, scale <span class="op">=</span> alt.Scale(<span class="bu">type</span> <span class="op">=</span> <span class="st">'log'</span>)),</span>
@@ -374,7 +414,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <section id="question-3-changing-axis-scale" class="level3">
 <h3 class="anchored" data-anchor-id="question-3-changing-axis-scale">Question 3: Changing axis scale</h3>
 <p>Try a different scale by modifying the <code>type = ...</code> argument of <code>alt.Scale</code> in the cell below. Look at the <a href="https://altair-viz.github.io/user_guide/generated/core/altair.Scale.html">altair documentation</a> for a list of the possible types.</p>
-<div class="cell" data-tags="[]">
+<div id="cell-18" class="cell" data-tags="[]">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># try another axis scale</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>alt.Chart(data).mark_circle().encode(</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> ...</span>
@@ -389,7 +429,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <h1>Using aesthetic attributes to display other variables</h1>
 <p>Now that you have a basic plot, you can start experimenting with aesthetic attributes. Here you’ll see examples of how to add aesthetics, and how to use them effectively to display information from other variables in the dataset.</p>
 <p>Let’s start simple. The points are a little too on top of one another. Opacity (or transparency) can be added as an aesthetic to the mark to help visually identify tightly clustered points better. The cell below does this by <em>specifying a global value for the aesthetic at the mark level</em>.</p>
-<div class="cell" data-tags="[]">
+<div id="cell-20" class="cell" data-tags="[]">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># change opacity globally to fixed value</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>alt.Chart(data).mark_circle(opacity <span class="op">=</span> <span class="fl">0.5</span>).encode(</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> alt.X(<span class="st">'GDP per capita'</span>, scale <span class="op">=</span> alt.Scale(<span class="bu">type</span> <span class="op">=</span> <span class="st">'log'</span>)),</span>
@@ -397,7 +437,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>If instead of simply modifying an aesthetic, we want to use it to display variable information, we could instead specify the attribute <em>through an encoding</em>, as below:</p>
-<div class="cell" data-tags="[]">
+<div id="cell-22" class="cell" data-tags="[]">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># use opacity as an encoding channel</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>alt.Chart(data).mark_circle().encode(</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> alt.X(<span class="st">'GDP per capita'</span>, scale <span class="op">=</span> alt.Scale(<span class="bu">type</span> <span class="op">=</span> <span class="st">'log'</span>)),</span>
@@ -410,7 +450,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <section id="question-4-coercing-data-types" class="level3">
 <h3 class="anchored" data-anchor-id="question-4-coercing-data-types">Question 4: Coercing data types</h3>
 <p>Map the <code>Year</code> column into a nominal data type by putting an <code>:N</code> (for nominal) after the column name.</p>
-<div class="cell" data-tags="[]">
+<div id="cell-25" class="cell" data-tags="[]">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># use opacity as an encoding channel</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>alt.Chart(data).mark_circle().encode(</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> alt.X(<span class="st">'GDP per capita'</span>, scale <span class="op">=</span> alt.Scale(<span class="bu">type</span> <span class="op">=</span> <span class="st">'log'</span>)),</span>
@@ -425,14 +465,14 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <section id="question-5-color-encoding" class="level3">
 <h3 class="anchored" data-anchor-id="question-5-color-encoding">Question 5: Color encoding</h3>
 <p>Map <code>Year</code> to color and treat it as a nominal variable.</p>
-<div class="cell" data-tags="[]">
+<div id="cell-28" class="cell" data-tags="[]">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># map year to color</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <!-- END QUESTION -->
 <p>Pretty, but there’s not a clear pattern, so the color aesthetic for year doesn’t make the plot any more informative than it was without color. This <strong>doesn’t</strong> mean that year is unimportant; just that color probably isn’t the best choice to show year.</p>
 <p>Let’s try to find a color variable that does add information to the plot. When region is mapped to color, there is still substantial mixing but some apparent clustering. This communicates visually that there’s some similarity in the relationship between GDP and life-expectancy among countries in the same region.</p>
-<div class="cell" data-tags="[]">
+<div id="cell-30" class="cell" data-tags="[]">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># map region to color</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>alt.Chart(data).mark_circle(opacity <span class="op">=</span> <span class="fl">0.5</span>).encode(</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> alt.X(<span class="st">'GDP per capita'</span>, scale <span class="op">=</span> alt.Scale(<span class="bu">type</span> <span class="op">=</span> <span class="st">'log'</span>)),</span>
@@ -441,7 +481,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>That’s a little more interesting. Let’s add another variable: map population to size, so that points are displayed in proportion to the country’s total population.</p>
-<div class="cell" data-tags="[]">
+<div id="cell-32" class="cell" data-tags="[]">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># map population to size</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>alt.Chart(data).mark_circle(opacity <span class="op">=</span> <span class="fl">0.5</span>).encode(</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> alt.X(<span class="st">'GDP per capita'</span>, scale <span class="op">=</span> alt.Scale(<span class="bu">type</span> <span class="op">=</span> <span class="st">'log'</span>)),</span>
@@ -451,7 +491,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Great, but highly populous countries in Asia are so much larger than countries in other regions that, when size is displayed on a linear scale, too many data points are hardly visible. Just like the axes were rescaled using <code>alt.X()</code> and <code>alt.Scale()</code>, other encoding channels can be rescaled, too. Below, size is put on a square root scale.</p>
-<div class="cell" data-tags="[]">
+<div id="cell-34" class="cell" data-tags="[]">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># rescale size</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>alt.Chart(data).mark_circle(opacity <span class="op">=</span> <span class="fl">0.5</span>).encode(</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> alt.X(<span class="st">'GDP per capita'</span>, scale <span class="op">=</span> alt.Scale(<span class="bu">type</span> <span class="op">=</span> <span class="st">'log'</span>)),</span>
@@ -467,7 +507,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <h1>Faceting</h1>
 <p>Your previous graphic looks pretty good, and is nearly presentation-quality. However, it still doesn’t display year information. As a result, each country appears multiple times in the same plot, which is potentially misleading. Here we’ll address that using faceting.</p>
 <p><em>Faceting</em> is another term for making a panel of plots. This can be used to make separate plots for each year, so that every obeservational unit (country) only appears once on each plot, and possibly an effect of year will be evident.</p>
-<div class="cell" data-tags="[]">
+<div id="cell-37" class="cell" data-tags="[]">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># facet by year</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>alt.Chart(data).mark_circle(opacity <span class="op">=</span> <span class="fl">0.5</span>).encode(</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> alt.X(<span class="st">'GDP per capita'</span>, scale <span class="op">=</span> alt.Scale(<span class="bu">type</span> <span class="op">=</span> <span class="st">'log'</span>)),</span>
@@ -482,7 +522,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <section id="question-6-panel-resizing" class="level3">
 <h3 class="anchored" data-anchor-id="question-6-panel-resizing">Question 6: Panel resizing</h3>
 <p>Resize the individual facets using <code>.properties(width = ..., height = ...)</code>. This has to be done <em>before</em> faceting. Try a few values before settling on a size that you like.</p>
-<div class="cell" data-tags="[]">
+<div id="cell-39" class="cell" data-tags="[]">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># resize facets</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>alt.Chart(data).mark_circle(opacity <span class="op">=</span> <span class="fl">0.5</span>).encode(</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> alt.X(<span class="st">'GDP per capita'</span>, scale <span class="op">=</span> alt.Scale(<span class="bu">type</span> <span class="op">=</span> <span class="st">'log'</span>)),</span>
@@ -505,25 +545,25 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <p>Drop the <code>Life Expectancy</code> column and melt the <code>Male Life Expectancy</code>, and <code>Female Life Expectancy</code> columns of <code>data</code> so that: * the values appear in a column called <code>Life Expectancy at Birth</code>; * the variable names appear in a column called <code>Group</code>.</p>
 <p>Store the result as <code>plot_df</code> and print the first few rows. It may be helpful to check the <a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.melt.html?highlight=melt#pandas.DataFrame.melt">pandas documentation on melt</a>.</p>
 <p>This is a pretty common operation for plotting purposes.</p>
-<div class="cell" data-tags="[]">
+<div id="cell-42" class="cell" data-tags="[]">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># melt</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># print first few rows</span></span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>plot_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="cell-43" class="cell" data-editable="false">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>grader.check(<span class="st">"q7"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>You will need to complete the part above correctly before moving on. Check the result of the following cell (first few rows for each group) against the reference dataframe below – they should match exactly.</p>
-<div class="cell">
+<div id="cell-45" class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>plot_df.groupby(<span class="st">'Group'</span>).head(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="cell-46" class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># check result</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>pd.read_csv(<span class="st">'data/plotdf-check.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now you can use the <code>Group</code> variable you defined to facet by both year and sex. This is shown below:</p>
-<div class="cell" data-tags="[]">
+<div id="cell-48" class="cell" data-tags="[]">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># facet by both year and sex</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>alt.Chart(plot_df[plot_df[<span class="st">'Group'</span>] <span class="op">!=</span> <span class="st">'Life Expectancy'</span>]).mark_circle(opacity <span class="op">=</span> <span class="fl">0.5</span>).encode(</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> alt.X(<span class="st">'GDP per capita'</span>, scale <span class="op">=</span> alt.Scale(<span class="bu">type</span> <span class="op">=</span> <span class="st">'log'</span>)),</span>
@@ -543,7 +583,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <section id="question-8-adjusting-facet-layout" class="level3">
 <h3 class="anchored" data-anchor-id="question-8-adjusting-facet-layout">Question 8: Adjusting facet layout</h3>
 <p>It’s a little hard to line up the patterns visually between sexes because they are aligned on GDP per capita, not life expectancy – so we can’t really tell without moving our eyes back and forth and checking the axis ticks whether there’s much difference in life expectancy rates by sex. Switching the row/column layout gives a better result. Modify the cell below so that facet columns correspond to sex and facet rows correspond to years.</p>
-<div class="cell" data-tags="[]">
+<div id="cell-50" class="cell" data-tags="[]">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># facet by both year and sex</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>alt.Chart(plot_df[plot_df[<span class="st">'Group'</span>] <span class="op">!=</span> <span class="st">'Life Expectancy'</span>]).mark_circle(opacity <span class="op">=</span> <span class="fl">0.5</span>).encode(</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> alt.X(<span class="st">'GDP per capita'</span>, scale <span class="op">=</span> alt.Scale(<span class="bu">type</span> <span class="op">=</span> <span class="st">'log'</span>)),</span>
@@ -561,7 +601,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <!-- END QUESTION -->
 <p>So life expectancy is a bit lower for men on average. But from the plot it’s hard to tell if some countries reverse this pattern, since you can’t really tell which country is which. Also, the panel is a bit cumbersome. Take a moment to consider how you might improve these issues, and then move on to our suggestion below.</p>
 <p>The next parts will modify the dataframe <code>data</code> by adding a column. We’ll create a copy <code>data_mod1</code> of the original dataframe <code>data</code> to modify as to not lose track of our previous work:</p>
-<div class="cell">
+<div id="cell-53" class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>data_mod1 <span class="op">=</span> data.copy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <!-- BEGIN QUESTION -->
@@ -570,7 +610,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <h3 class="anchored" data-anchor-id="question-9-data-transformation-and-re-plotting">Question 9: Data transformation and re-plotting</h3>
 <p>A simple data transformation can help give a clearer and more concise picture of how life expectancy differs by sex. Perform the following steps: * append a new variable <code>Difference</code> to <code>data_mod1</code> that gives the difference between female and male (F - M) life expectancies in each country and year; * modify the your plot of general life expectancy against GDP per capita by year to instead plot the difference in life expectancies at birth against GDP per capita by year.</p>
 <p>When modifying the example, be sure to change the axis label appropriately.</p>
-<div class="cell" data-tags="[]">
+<div id="cell-55" class="cell" data-tags="[]">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># define new variable for difference</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>data_mod1[<span class="st">'Difference'</span>] <span class="op">=</span> ...</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -679,10 +719,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -692,8 +731,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -706,6 +754,125 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -749,6 +916,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -774,6 +942,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -834,6 +1028,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 

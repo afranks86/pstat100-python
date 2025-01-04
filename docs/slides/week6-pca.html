@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-html/tabby.min.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -8,7 +8,7 @@
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.433">
+  <meta name="generator" content="quarto-1.4.550">
 
   <meta name="author" content="PSTAT100 Spring 2023">
   <title>PSTAT100 - Principal components</title>
@@ -31,7 +31,7 @@
     }
     /* CSS for syntax highlighting */
     pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span { line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
     .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -230,7 +230,8 @@
   }
 
   .callout.callout-titled .callout-body > .callout-content > :last-child {
-    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0;
   }
 
   .callout.callout-titled .callout-icon::before {
@@ -395,7 +396,7 @@
     }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+  
   <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 </head>
 <body class="quarto-light">
@@ -461,75 +462,75 @@ PSTAT100 Spring 2023
 <p>To get the correlation matrix, first compute <span class="math inline">\(\mathbf{Z} = \left\{\frac{x_i - \bar{x}}{s_x}\right\}\)</span>.</p>
 </div>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="2">
-<details>
+<div id="b0eed17a" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="2">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># scatterplot of unscaled data</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a>raw <span class="op">=</span> alt.Chart(x_mx).mark_point(opacity <span class="op">=</span> <span class="fl">0.1</span>, color <span class="op">=</span> <span class="st">'black'</span>).encode(</span>
-<span id="cb1-3"><a href="#cb1-3"></a>    x <span class="op">=</span> alt.X(<span class="st">'Social_Domain'</span>, scale <span class="op">=</span> alt.Scale(domain <span class="op">=</span> [<span class="fl">0.1</span>, <span class="fl">0.8</span>])),</span>
-<span id="cb1-4"><a href="#cb1-4"></a>    y <span class="op">=</span> alt.Y(<span class="st">'Econ_Domain'</span>, scale <span class="op">=</span> alt.Scale(domain <span class="op">=</span> [<span class="fl">0.1</span>, <span class="fl">0.8</span>]))</span>
-<span id="cb1-5"><a href="#cb1-5"></a>).properties(width <span class="op">=</span> <span class="dv">200</span>, height <span class="op">=</span> <span class="dv">200</span>, title <span class="op">=</span> <span class="st">'original data (X)'</span>)</span>
-<span id="cb1-6"><a href="#cb1-6"></a></span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="co"># mean vector</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a>mean <span class="op">=</span> alt.Chart(</span>
-<span id="cb1-9"><a href="#cb1-9"></a>    pd.DataFrame(x_mx.mean()).transpose()</span>
-<span id="cb1-10"><a href="#cb1-10"></a>).mark_circle(color <span class="op">=</span> <span class="st">'red'</span>, size <span class="op">=</span> <span class="dv">100</span>).encode(</span>
-<span id="cb1-11"><a href="#cb1-11"></a>    x <span class="op">=</span> alt.X(<span class="st">'Social_Domain'</span>),</span>
-<span id="cb1-12"><a href="#cb1-12"></a>    y <span class="op">=</span> alt.Y(<span class="st">'Econ_Domain'</span>)</span>
-<span id="cb1-13"><a href="#cb1-13"></a>)</span>
-<span id="cb1-14"><a href="#cb1-14"></a></span>
-<span id="cb1-15"><a href="#cb1-15"></a><span class="co"># scatterplot of centered and scaled data</span></span>
-<span id="cb1-16"><a href="#cb1-16"></a>centered <span class="op">=</span> alt.Chart(z_mx).mark_point(opacity <span class="op">=</span> <span class="fl">0.1</span>, color <span class="op">=</span> <span class="st">'black'</span>).encode(</span>
-<span id="cb1-17"><a href="#cb1-17"></a>    x <span class="op">=</span> alt.X(<span class="st">'Social_Domain'</span>),</span>
-<span id="cb1-18"><a href="#cb1-18"></a>    y <span class="op">=</span> alt.Y(<span class="st">'Econ_Domain'</span>)</span>
-<span id="cb1-19"><a href="#cb1-19"></a>).properties(width <span class="op">=</span> <span class="dv">200</span>, height <span class="op">=</span> <span class="dv">200</span>, title <span class="op">=</span> <span class="st">'centered and scaled (Z)'</span>)</span>
-<span id="cb1-20"><a href="#cb1-20"></a></span>
-<span id="cb1-21"><a href="#cb1-21"></a><span class="co"># mean vector</span></span>
-<span id="cb1-22"><a href="#cb1-22"></a>mean_ctr <span class="op">=</span> alt.Chart(</span>
-<span id="cb1-23"><a href="#cb1-23"></a>    pd.DataFrame(z_mx.mean()).transpose()</span>
-<span id="cb1-24"><a href="#cb1-24"></a>).mark_circle(color <span class="op">=</span> <span class="st">'red'</span>, size <span class="op">=</span> <span class="dv">100</span>).encode(</span>
-<span id="cb1-25"><a href="#cb1-25"></a>    x <span class="op">=</span> alt.X(<span class="st">'Social_Domain'</span>),</span>
-<span id="cb1-26"><a href="#cb1-26"></a>    y <span class="op">=</span> alt.Y(<span class="st">'Econ_Domain'</span>)</span>
-<span id="cb1-27"><a href="#cb1-27"></a>)</span>
-<span id="cb1-28"><a href="#cb1-28"></a></span>
-<span id="cb1-29"><a href="#cb1-29"></a><span class="co"># lines at zero</span></span>
-<span id="cb1-30"><a href="#cb1-30"></a>axbase <span class="op">=</span> alt.Chart(</span>
-<span id="cb1-31"><a href="#cb1-31"></a>    pd.DataFrame({<span class="st">'Social_Domain'</span>: <span class="dv">0</span>, <span class="st">'Econ_Domain'</span>: <span class="dv">0</span>}, index <span class="op">=</span> [<span class="dv">0</span>])</span>
-<span id="cb1-32"><a href="#cb1-32"></a>)</span>
-<span id="cb1-33"><a href="#cb1-33"></a>ax1 <span class="op">=</span> axbase.mark_rule().encode(x <span class="op">=</span> <span class="st">'Social_Domain'</span>)</span>
-<span id="cb1-34"><a href="#cb1-34"></a>ax2 <span class="op">=</span> axbase.mark_rule().encode(y <span class="op">=</span> <span class="st">'Econ_Domain'</span>)</span>
-<span id="cb1-35"><a href="#cb1-35"></a></span>
-<span id="cb1-36"><a href="#cb1-36"></a><span class="co">#layer</span></span>
-<span id="cb1-37"><a href="#cb1-37"></a>fig1 <span class="op">=</span> (raw <span class="op">+</span> mean) <span class="op">|</span> (centered <span class="op">+</span> mean_ctr <span class="op">+</span> ax1 <span class="op">+</span> ax2)</span>
-<span id="cb1-38"><a href="#cb1-38"></a></span>
-<span id="cb1-39"><a href="#cb1-39"></a>fig1.configure_axis(</span>
-<span id="cb1-40"><a href="#cb1-40"></a>    domain <span class="op">=</span> <span class="va">False</span>,</span>
-<span id="cb1-41"><a href="#cb1-41"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
-<span id="cb1-42"><a href="#cb1-42"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb1-43"><a href="#cb1-43"></a>    ).configure_title(</span>
-<span id="cb1-44"><a href="#cb1-44"></a>        fontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb1-45"><a href="#cb1-45"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="co"># scatterplot of unscaled data</span></span>
+<span id="cb1-2"><a></a>raw <span class="op">=</span> alt.Chart(x_mx).mark_point(opacity <span class="op">=</span> <span class="fl">0.1</span>, color <span class="op">=</span> <span class="st">'black'</span>).encode(</span>
+<span id="cb1-3"><a></a>    x <span class="op">=</span> alt.X(<span class="st">'Social_Domain'</span>, scale <span class="op">=</span> alt.Scale(domain <span class="op">=</span> [<span class="fl">0.1</span>, <span class="fl">0.8</span>])),</span>
+<span id="cb1-4"><a></a>    y <span class="op">=</span> alt.Y(<span class="st">'Econ_Domain'</span>, scale <span class="op">=</span> alt.Scale(domain <span class="op">=</span> [<span class="fl">0.1</span>, <span class="fl">0.8</span>]))</span>
+<span id="cb1-5"><a></a>).properties(width <span class="op">=</span> <span class="dv">200</span>, height <span class="op">=</span> <span class="dv">200</span>, title <span class="op">=</span> <span class="st">'original data (X)'</span>)</span>
+<span id="cb1-6"><a></a></span>
+<span id="cb1-7"><a></a><span class="co"># mean vector</span></span>
+<span id="cb1-8"><a></a>mean <span class="op">=</span> alt.Chart(</span>
+<span id="cb1-9"><a></a>    pd.DataFrame(x_mx.mean()).transpose()</span>
+<span id="cb1-10"><a></a>).mark_circle(color <span class="op">=</span> <span class="st">'red'</span>, size <span class="op">=</span> <span class="dv">100</span>).encode(</span>
+<span id="cb1-11"><a></a>    x <span class="op">=</span> alt.X(<span class="st">'Social_Domain'</span>),</span>
+<span id="cb1-12"><a></a>    y <span class="op">=</span> alt.Y(<span class="st">'Econ_Domain'</span>)</span>
+<span id="cb1-13"><a></a>)</span>
+<span id="cb1-14"><a></a></span>
+<span id="cb1-15"><a></a><span class="co"># scatterplot of centered and scaled data</span></span>
+<span id="cb1-16"><a></a>centered <span class="op">=</span> alt.Chart(z_mx).mark_point(opacity <span class="op">=</span> <span class="fl">0.1</span>, color <span class="op">=</span> <span class="st">'black'</span>).encode(</span>
+<span id="cb1-17"><a></a>    x <span class="op">=</span> alt.X(<span class="st">'Social_Domain'</span>),</span>
+<span id="cb1-18"><a></a>    y <span class="op">=</span> alt.Y(<span class="st">'Econ_Domain'</span>)</span>
+<span id="cb1-19"><a></a>).properties(width <span class="op">=</span> <span class="dv">200</span>, height <span class="op">=</span> <span class="dv">200</span>, title <span class="op">=</span> <span class="st">'centered and scaled (Z)'</span>)</span>
+<span id="cb1-20"><a></a></span>
+<span id="cb1-21"><a></a><span class="co"># mean vector</span></span>
+<span id="cb1-22"><a></a>mean_ctr <span class="op">=</span> alt.Chart(</span>
+<span id="cb1-23"><a></a>    pd.DataFrame(z_mx.mean()).transpose()</span>
+<span id="cb1-24"><a></a>).mark_circle(color <span class="op">=</span> <span class="st">'red'</span>, size <span class="op">=</span> <span class="dv">100</span>).encode(</span>
+<span id="cb1-25"><a></a>    x <span class="op">=</span> alt.X(<span class="st">'Social_Domain'</span>),</span>
+<span id="cb1-26"><a></a>    y <span class="op">=</span> alt.Y(<span class="st">'Econ_Domain'</span>)</span>
+<span id="cb1-27"><a></a>)</span>
+<span id="cb1-28"><a></a></span>
+<span id="cb1-29"><a></a><span class="co"># lines at zero</span></span>
+<span id="cb1-30"><a></a>axbase <span class="op">=</span> alt.Chart(</span>
+<span id="cb1-31"><a></a>    pd.DataFrame({<span class="st">'Social_Domain'</span>: <span class="dv">0</span>, <span class="st">'Econ_Domain'</span>: <span class="dv">0</span>}, index <span class="op">=</span> [<span class="dv">0</span>])</span>
+<span id="cb1-32"><a></a>)</span>
+<span id="cb1-33"><a></a>ax1 <span class="op">=</span> axbase.mark_rule().encode(x <span class="op">=</span> <span class="st">'Social_Domain'</span>)</span>
+<span id="cb1-34"><a></a>ax2 <span class="op">=</span> axbase.mark_rule().encode(y <span class="op">=</span> <span class="st">'Econ_Domain'</span>)</span>
+<span id="cb1-35"><a></a></span>
+<span id="cb1-36"><a></a><span class="co">#layer</span></span>
+<span id="cb1-37"><a></a>fig1 <span class="op">=</span> (raw <span class="op">+</span> mean) <span class="op">|</span> (centered <span class="op">+</span> mean_ctr <span class="op">+</span> ax1 <span class="op">+</span> ax2)</span>
+<span id="cb1-38"><a></a></span>
+<span id="cb1-39"><a></a>fig1.configure_axis(</span>
+<span id="cb1-40"><a></a>    domain <span class="op">=</span> <span class="va">False</span>,</span>
+<span id="cb1-41"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
+<span id="cb1-42"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb1-43"><a></a>    ).configure_title(</span>
+<span id="cb1-44"><a></a>        fontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb1-45"><a></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="2">
 
 <style>
-  #altair-viz-35613995f56d42ea9723acf8e88e9ace.vega-embed {
+  #altair-viz-3dc4b66a502d4f248750306a0d3055fc.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-35613995f56d42ea9723acf8e88e9ace.vega-embed details,
-  #altair-viz-35613995f56d42ea9723acf8e88e9ace.vega-embed details summary {
+  #altair-viz-3dc4b66a502d4f248750306a0d3055fc.vega-embed details,
+  #altair-viz-3dc4b66a502d4f248750306a0d3055fc.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-35613995f56d42ea9723acf8e88e9ace"></div>
+<div id="altair-viz-3dc4b66a502d4f248750306a0d3055fc"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-35613995f56d42ea9723acf8e88e9ace") {
-      outputDiv = document.getElementById("altair-viz-35613995f56d42ea9723acf8e88e9ace");
+    if (outputDiv.id !== "altair-viz-3dc4b66a502d4f248750306a0d3055fc") {
+      outputDiv = document.getElementById("altair-viz-3dc4b66a502d4f248750306a0d3055fc");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -585,23 +586,24 @@ PSTAT100 Spring 2023
 <h2>PCA in the low-dimensional setting</h2>
 <p>Now we’ll compute the eigendecomposition.</p>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="3">
-<details>
+<div id="105d94be" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="3">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>x_mx <span class="op">=</span> x_mx.iloc[:, <span class="dv">0</span>:<span class="dv">2</span>]</span>
-<span id="cb2-2"><a href="#cb2-2"></a>z_mx <span class="op">=</span> z_mx.iloc[:, <span class="dv">0</span>:<span class="dv">2</span>]</span>
-<span id="cb2-3"><a href="#cb2-3"></a></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="co"># compute correlation mx</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a>r_mx <span class="op">=</span> z_mx.transpose().dot(z_mx)<span class="op">/</span>(<span class="bu">len</span>(z_mx) <span class="op">-</span> <span class="dv">1</span>)</span>
-<span id="cb2-6"><a href="#cb2-6"></a></span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="co"># eigendecomposition</span></span>
-<span id="cb2-8"><a href="#cb2-8"></a>r_eig <span class="op">=</span> linalg.eig(r_mx.values)</span>
-<span id="cb2-9"><a href="#cb2-9"></a></span>
-<span id="cb2-10"><a href="#cb2-10"></a><span class="co"># show PC directions</span></span>
-<span id="cb2-11"><a href="#cb2-11"></a>directions <span class="op">=</span> pd.DataFrame(r_eig[<span class="dv">1</span>], columns <span class="op">=</span> [<span class="st">'PC1_Direction'</span>, <span class="st">'PC2_Direction'</span>], index <span class="op">=</span> r_mx.columns)</span>
-<span id="cb2-12"><a href="#cb2-12"></a>directions</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a>x_mx <span class="op">=</span> x_mx.iloc[:, <span class="dv">0</span>:<span class="dv">2</span>]</span>
+<span id="cb2-2"><a></a>z_mx <span class="op">=</span> z_mx.iloc[:, <span class="dv">0</span>:<span class="dv">2</span>]</span>
+<span id="cb2-3"><a></a></span>
+<span id="cb2-4"><a></a><span class="co"># compute correlation mx</span></span>
+<span id="cb2-5"><a></a>r_mx <span class="op">=</span> z_mx.transpose().dot(z_mx)<span class="op">/</span>(<span class="bu">len</span>(z_mx) <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb2-6"><a></a></span>
+<span id="cb2-7"><a></a><span class="co"># eigendecomposition</span></span>
+<span id="cb2-8"><a></a>r_eig <span class="op">=</span> linalg.eig(r_mx.values)</span>
+<span id="cb2-9"><a></a></span>
+<span id="cb2-10"><a></a><span class="co"># show PC directions</span></span>
+<span id="cb2-11"><a></a>directions <span class="op">=</span> pd.DataFrame(r_eig[<span class="dv">1</span>], columns <span class="op">=</span> [<span class="st">'PC1_Direction'</span>, <span class="st">'PC2_Direction'</span>], index <span class="op">=</span> r_mx.columns)</span>
+<span id="cb2-12"><a></a>directions</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="3">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -643,6 +645,7 @@ PSTAT100 Spring 2023
 </div>
 </div>
 </div>
+</div>
 <div class="fragment">
 <p>The ‘principal component directions’ are simply the eigenvectors.</p>
 </div>
@@ -650,57 +653,57 @@ PSTAT100 Spring 2023
 <section id="pca-in-the-low-dimensional-setting-2" class="slide level2">
 <h2>PCA in the low-dimensional setting</h2>
 <p>Let’s plot the principal component directions on the centered and scaled data.</p>
-<div class="cell" data-execution_count="4">
-<details>
+<div id="87058956" class="cell" data-execution_count="4">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># store directions as dataframe for plotting</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a>direction_df <span class="op">=</span> pd.DataFrame(</span>
-<span id="cb3-3"><a href="#cb3-3"></a>    np.vstack([np.zeros(<span class="dv">2</span>), r_eig[<span class="dv">1</span>][:, <span class="dv">0</span>], np.zeros(<span class="dv">2</span>), r_eig[<span class="dv">1</span>][:, <span class="dv">1</span>]]),</span>
-<span id="cb3-4"><a href="#cb3-4"></a>    columns <span class="op">=</span> [<span class="st">'Econ_Domain'</span>, <span class="st">'Social_Domain'</span>]</span>
-<span id="cb3-5"><a href="#cb3-5"></a>).join(</span>
-<span id="cb3-6"><a href="#cb3-6"></a>    pd.Series(np.repeat([<span class="st">'PC1'</span>, <span class="st">'PC2'</span>], <span class="dv">2</span>), name <span class="op">=</span> <span class="st">'PC direction'</span>)</span>
-<span id="cb3-7"><a href="#cb3-7"></a>)</span>
-<span id="cb3-8"><a href="#cb3-8"></a></span>
-<span id="cb3-9"><a href="#cb3-9"></a><span class="co"># plot directions as vectors</span></span>
-<span id="cb3-10"><a href="#cb3-10"></a>eigenbasis <span class="op">=</span> alt.Chart(direction_df).mark_line(order <span class="op">=</span> <span class="va">False</span>).encode(</span>
-<span id="cb3-11"><a href="#cb3-11"></a>    x <span class="op">=</span> <span class="st">'Social_Domain'</span>, </span>
-<span id="cb3-12"><a href="#cb3-12"></a>    y <span class="op">=</span> <span class="st">'Econ_Domain'</span>, </span>
-<span id="cb3-13"><a href="#cb3-13"></a>    color <span class="op">=</span> alt.Color(<span class="st">'PC direction'</span>, scale <span class="op">=</span> alt.Scale(scheme <span class="op">=</span> <span class="st">'dark2'</span>))</span>
-<span id="cb3-14"><a href="#cb3-14"></a>)</span>
-<span id="cb3-15"><a href="#cb3-15"></a></span>
-<span id="cb3-16"><a href="#cb3-16"></a><span class="co"># combine with scatter</span></span>
-<span id="cb3-17"><a href="#cb3-17"></a>centered_plot <span class="op">=</span> (centered.properties(width <span class="op">=</span> <span class="dv">300</span>, height <span class="op">=</span> <span class="dv">300</span>) <span class="op">+</span> mean_ctr <span class="op">+</span> ax1 <span class="op">+</span> ax2)</span>
-<span id="cb3-18"><a href="#cb3-18"></a></span>
-<span id="cb3-19"><a href="#cb3-19"></a>(centered_plot <span class="op">+</span> eigenbasis).configure_axis(</span>
-<span id="cb3-20"><a href="#cb3-20"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
-<span id="cb3-21"><a href="#cb3-21"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb3-22"><a href="#cb3-22"></a>).configure_title(</span>
-<span id="cb3-23"><a href="#cb3-23"></a>    fontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb3-24"><a href="#cb3-24"></a>).configure_legend(</span>
-<span id="cb3-25"><a href="#cb3-25"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
-<span id="cb3-26"><a href="#cb3-26"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb3-27"><a href="#cb3-27"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a><span class="co"># store directions as dataframe for plotting</span></span>
+<span id="cb3-2"><a></a>direction_df <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb3-3"><a></a>    np.vstack([np.zeros(<span class="dv">2</span>), r_eig[<span class="dv">1</span>][:, <span class="dv">0</span>], np.zeros(<span class="dv">2</span>), r_eig[<span class="dv">1</span>][:, <span class="dv">1</span>]]),</span>
+<span id="cb3-4"><a></a>    columns <span class="op">=</span> [<span class="st">'Econ_Domain'</span>, <span class="st">'Social_Domain'</span>]</span>
+<span id="cb3-5"><a></a>).join(</span>
+<span id="cb3-6"><a></a>    pd.Series(np.repeat([<span class="st">'PC1'</span>, <span class="st">'PC2'</span>], <span class="dv">2</span>), name <span class="op">=</span> <span class="st">'PC direction'</span>)</span>
+<span id="cb3-7"><a></a>)</span>
+<span id="cb3-8"><a></a></span>
+<span id="cb3-9"><a></a><span class="co"># plot directions as vectors</span></span>
+<span id="cb3-10"><a></a>eigenbasis <span class="op">=</span> alt.Chart(direction_df).mark_line(order <span class="op">=</span> <span class="va">False</span>).encode(</span>
+<span id="cb3-11"><a></a>    x <span class="op">=</span> <span class="st">'Social_Domain'</span>, </span>
+<span id="cb3-12"><a></a>    y <span class="op">=</span> <span class="st">'Econ_Domain'</span>, </span>
+<span id="cb3-13"><a></a>    color <span class="op">=</span> alt.Color(<span class="st">'PC direction'</span>, scale <span class="op">=</span> alt.Scale(scheme <span class="op">=</span> <span class="st">'dark2'</span>))</span>
+<span id="cb3-14"><a></a>)</span>
+<span id="cb3-15"><a></a></span>
+<span id="cb3-16"><a></a><span class="co"># combine with scatter</span></span>
+<span id="cb3-17"><a></a>centered_plot <span class="op">=</span> (centered.properties(width <span class="op">=</span> <span class="dv">300</span>, height <span class="op">=</span> <span class="dv">300</span>) <span class="op">+</span> mean_ctr <span class="op">+</span> ax1 <span class="op">+</span> ax2)</span>
+<span id="cb3-18"><a></a></span>
+<span id="cb3-19"><a></a>(centered_plot <span class="op">+</span> eigenbasis).configure_axis(</span>
+<span id="cb3-20"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
+<span id="cb3-21"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb3-22"><a></a>).configure_title(</span>
+<span id="cb3-23"><a></a>    fontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb3-24"><a></a>).configure_legend(</span>
+<span id="cb3-25"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
+<span id="cb3-26"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb3-27"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="4">
 
 <style>
-  #altair-viz-696f904abd974432941ae5f32d9d64ad.vega-embed {
+  #altair-viz-54b1c1b3715f4cedbddafd9771071093.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-696f904abd974432941ae5f32d9d64ad.vega-embed details,
-  #altair-viz-696f904abd974432941ae5f32d9d64ad.vega-embed details summary {
+  #altair-viz-54b1c1b3715f4cedbddafd9771071093.vega-embed details,
+  #altair-viz-54b1c1b3715f4cedbddafd9771071093.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-696f904abd974432941ae5f32d9d64ad"></div>
+<div id="altair-viz-54b1c1b3715f4cedbddafd9771071093"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-696f904abd974432941ae5f32d9d64ad") {
-      outputDiv = document.getElementById("altair-viz-696f904abd974432941ae5f32d9d64ad");
+    if (outputDiv.id !== "altair-viz-54b1c1b3715f4cedbddafd9771071093") {
+      outputDiv = document.getElementById("altair-viz-54b1c1b3715f4cedbddafd9771071093");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -758,54 +761,54 @@ PSTAT100 Spring 2023
 <h2>Geometry of PCA</h2>
 <p>Now scale the directions by the corresponding eigenvalues (plotting <span class="math inline">\(\lambda_1\mathbf{v}_1\)</span> and <span class="math inline">\(\lambda_2\mathbf{v}_2\)</span> instead of <span class="math inline">\(\mathbf{v}_1\)</span> and <span class="math inline">\(\mathbf{v}_2\)</span>).</p>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="5">
-<details>
+<div id="915cd66e" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="5">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># scale directions by eigenvalues</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>direction_df <span class="op">=</span> pd.DataFrame(</span>
-<span id="cb4-3"><a href="#cb4-3"></a>    np.vstack([np.zeros(<span class="dv">2</span>), r_eig[<span class="dv">1</span>][:, <span class="dv">0</span>]<span class="op">*</span>r_eig[<span class="dv">0</span>][<span class="dv">0</span>].real, np.zeros(<span class="dv">2</span>), r_eig[<span class="dv">1</span>][:, <span class="dv">1</span>]<span class="op">*</span>r_eig[<span class="dv">0</span>][<span class="dv">1</span>].real]),</span>
-<span id="cb4-4"><a href="#cb4-4"></a>    columns <span class="op">=</span> [<span class="st">'Econ_Domain'</span>, <span class="st">'Social_Domain'</span>]</span>
-<span id="cb4-5"><a href="#cb4-5"></a>).join(</span>
-<span id="cb4-6"><a href="#cb4-6"></a>    pd.Series(np.repeat([<span class="st">'PC1'</span>, <span class="st">'PC2'</span>], <span class="dv">2</span>), name <span class="op">=</span> <span class="st">'PC direction'</span>)</span>
-<span id="cb4-7"><a href="#cb4-7"></a>)</span>
-<span id="cb4-8"><a href="#cb4-8"></a></span>
-<span id="cb4-9"><a href="#cb4-9"></a><span class="co"># repeat plot</span></span>
-<span id="cb4-10"><a href="#cb4-10"></a>eigenbasis <span class="op">=</span> alt.Chart(direction_df).mark_line(order <span class="op">=</span> <span class="va">False</span>).encode(</span>
-<span id="cb4-11"><a href="#cb4-11"></a>    x <span class="op">=</span> <span class="st">'Social_Domain'</span>, </span>
-<span id="cb4-12"><a href="#cb4-12"></a>    y <span class="op">=</span> <span class="st">'Econ_Domain'</span>, </span>
-<span id="cb4-13"><a href="#cb4-13"></a>    color <span class="op">=</span> alt.Color(<span class="st">'PC direction'</span>, scale <span class="op">=</span> alt.Scale(scheme <span class="op">=</span> <span class="st">'dark2'</span>))</span>
-<span id="cb4-14"><a href="#cb4-14"></a>)</span>
-<span id="cb4-15"><a href="#cb4-15"></a></span>
-<span id="cb4-16"><a href="#cb4-16"></a>(centered_plot <span class="op">+</span> eigenbasis).configure_axis(</span>
-<span id="cb4-17"><a href="#cb4-17"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
-<span id="cb4-18"><a href="#cb4-18"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb4-19"><a href="#cb4-19"></a>).configure_title(</span>
-<span id="cb4-20"><a href="#cb4-20"></a>    fontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb4-21"><a href="#cb4-21"></a>).configure_legend(</span>
-<span id="cb4-22"><a href="#cb4-22"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
-<span id="cb4-23"><a href="#cb4-23"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb4-24"><a href="#cb4-24"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a><span class="co"># scale directions by eigenvalues</span></span>
+<span id="cb4-2"><a></a>direction_df <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb4-3"><a></a>    np.vstack([np.zeros(<span class="dv">2</span>), r_eig[<span class="dv">1</span>][:, <span class="dv">0</span>]<span class="op">*</span>r_eig[<span class="dv">0</span>][<span class="dv">0</span>].real, np.zeros(<span class="dv">2</span>), r_eig[<span class="dv">1</span>][:, <span class="dv">1</span>]<span class="op">*</span>r_eig[<span class="dv">0</span>][<span class="dv">1</span>].real]),</span>
+<span id="cb4-4"><a></a>    columns <span class="op">=</span> [<span class="st">'Econ_Domain'</span>, <span class="st">'Social_Domain'</span>]</span>
+<span id="cb4-5"><a></a>).join(</span>
+<span id="cb4-6"><a></a>    pd.Series(np.repeat([<span class="st">'PC1'</span>, <span class="st">'PC2'</span>], <span class="dv">2</span>), name <span class="op">=</span> <span class="st">'PC direction'</span>)</span>
+<span id="cb4-7"><a></a>)</span>
+<span id="cb4-8"><a></a></span>
+<span id="cb4-9"><a></a><span class="co"># repeat plot</span></span>
+<span id="cb4-10"><a></a>eigenbasis <span class="op">=</span> alt.Chart(direction_df).mark_line(order <span class="op">=</span> <span class="va">False</span>).encode(</span>
+<span id="cb4-11"><a></a>    x <span class="op">=</span> <span class="st">'Social_Domain'</span>, </span>
+<span id="cb4-12"><a></a>    y <span class="op">=</span> <span class="st">'Econ_Domain'</span>, </span>
+<span id="cb4-13"><a></a>    color <span class="op">=</span> alt.Color(<span class="st">'PC direction'</span>, scale <span class="op">=</span> alt.Scale(scheme <span class="op">=</span> <span class="st">'dark2'</span>))</span>
+<span id="cb4-14"><a></a>)</span>
+<span id="cb4-15"><a></a></span>
+<span id="cb4-16"><a></a>(centered_plot <span class="op">+</span> eigenbasis).configure_axis(</span>
+<span id="cb4-17"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
+<span id="cb4-18"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb4-19"><a></a>).configure_title(</span>
+<span id="cb4-20"><a></a>    fontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb4-21"><a></a>).configure_legend(</span>
+<span id="cb4-22"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
+<span id="cb4-23"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb4-24"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="5">
 
 <style>
-  #altair-viz-de9a867724c3492180079ea105104515.vega-embed {
+  #altair-viz-62c0e94e6d4541e0abd3c3214a5c31e7.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-de9a867724c3492180079ea105104515.vega-embed details,
-  #altair-viz-de9a867724c3492180079ea105104515.vega-embed details summary {
+  #altair-viz-62c0e94e6d4541e0abd3c3214a5c31e7.vega-embed details,
+  #altair-viz-62c0e94e6d4541e0abd3c3214a5c31e7.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-de9a867724c3492180079ea105104515"></div>
+<div id="altair-viz-62c0e94e6d4541e0abd3c3214a5c31e7"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-de9a867724c3492180079ea105104515") {
-      outputDiv = document.getElementById("altair-viz-de9a867724c3492180079ea105104515");
+    if (outputDiv.id !== "altair-viz-62c0e94e6d4541e0abd3c3214a5c31e7") {
+      outputDiv = document.getElementById("altair-viz-62c0e94e6d4541e0abd3c3214a5c31e7");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -870,50 +873,50 @@ PSTAT100 Spring 2023
 <div class="fragment">
 <div class="columns">
 <div class="column" style="width:50%;">
-<div class="cell" data-execution_count="6">
-<details>
+<div id="cdca3a96" class="cell" data-execution_count="6">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># project data onto pc directions</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a>pcdata <span class="op">=</span> z_mx.dot(r_eig[<span class="dv">1</span>]).rename(columns <span class="op">=</span> {<span class="dv">0</span>: <span class="st">'PC1'</span>, <span class="dv">1</span>: <span class="st">'PC2'</span>})</span>
-<span id="cb5-3"><a href="#cb5-3"></a></span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="co"># scatterplot</span></span>
-<span id="cb5-5"><a href="#cb5-5"></a>projection <span class="op">=</span> alt.Chart(pcdata).mark_point(opacity <span class="op">=</span> <span class="fl">0.1</span>, color <span class="op">=</span> <span class="st">'black'</span>).encode(</span>
-<span id="cb5-6"><a href="#cb5-6"></a>    x <span class="op">=</span> alt.X(<span class="st">'PC1'</span>, title <span class="op">=</span> <span class="st">''</span>, axis <span class="op">=</span> <span class="va">None</span>),</span>
-<span id="cb5-7"><a href="#cb5-7"></a>    y <span class="op">=</span> <span class="st">'PC2'</span></span>
-<span id="cb5-8"><a href="#cb5-8"></a>).properties(</span>
-<span id="cb5-9"><a href="#cb5-9"></a>    width <span class="op">=</span> <span class="dv">300</span>, </span>
-<span id="cb5-10"><a href="#cb5-10"></a>    height <span class="op">=</span> <span class="dv">200</span>,</span>
-<span id="cb5-11"><a href="#cb5-11"></a>    title <span class="op">=</span> <span class="st">'Projected data'</span></span>
-<span id="cb5-12"><a href="#cb5-12"></a>)</span>
-<span id="cb5-13"><a href="#cb5-13"></a></span>
-<span id="cb5-14"><a href="#cb5-14"></a><span class="co"># layer with univariate tick plot of pc1 values</span></span>
-<span id="cb5-15"><a href="#cb5-15"></a>pc1 <span class="op">=</span> alt.Chart(pcdata).mark_tick(color <span class="op">=</span> <span class="st">'#1B9E77'</span>).encode(x <span class="op">=</span> <span class="st">'PC1'</span>).properties(width <span class="op">=</span> <span class="dv">300</span>)</span>
-<span id="cb5-16"><a href="#cb5-16"></a></span>
-<span id="cb5-17"><a href="#cb5-17"></a>(projection <span class="op">&amp;</span> pc1).configure_axis(</span>
-<span id="cb5-18"><a href="#cb5-18"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
-<span id="cb5-19"><a href="#cb5-19"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb5-20"><a href="#cb5-20"></a>).configure_title(fontSize <span class="op">=</span> <span class="dv">16</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a></a><span class="co"># project data onto pc directions</span></span>
+<span id="cb5-2"><a></a>pcdata <span class="op">=</span> z_mx.dot(r_eig[<span class="dv">1</span>]).rename(columns <span class="op">=</span> {<span class="dv">0</span>: <span class="st">'PC1'</span>, <span class="dv">1</span>: <span class="st">'PC2'</span>})</span>
+<span id="cb5-3"><a></a></span>
+<span id="cb5-4"><a></a><span class="co"># scatterplot</span></span>
+<span id="cb5-5"><a></a>projection <span class="op">=</span> alt.Chart(pcdata).mark_point(opacity <span class="op">=</span> <span class="fl">0.1</span>, color <span class="op">=</span> <span class="st">'black'</span>).encode(</span>
+<span id="cb5-6"><a></a>    x <span class="op">=</span> alt.X(<span class="st">'PC1'</span>, title <span class="op">=</span> <span class="st">''</span>, axis <span class="op">=</span> <span class="va">None</span>),</span>
+<span id="cb5-7"><a></a>    y <span class="op">=</span> <span class="st">'PC2'</span></span>
+<span id="cb5-8"><a></a>).properties(</span>
+<span id="cb5-9"><a></a>    width <span class="op">=</span> <span class="dv">300</span>, </span>
+<span id="cb5-10"><a></a>    height <span class="op">=</span> <span class="dv">200</span>,</span>
+<span id="cb5-11"><a></a>    title <span class="op">=</span> <span class="st">'Projected data'</span></span>
+<span id="cb5-12"><a></a>)</span>
+<span id="cb5-13"><a></a></span>
+<span id="cb5-14"><a></a><span class="co"># layer with univariate tick plot of pc1 values</span></span>
+<span id="cb5-15"><a></a>pc1 <span class="op">=</span> alt.Chart(pcdata).mark_tick(color <span class="op">=</span> <span class="st">'#1B9E77'</span>).encode(x <span class="op">=</span> <span class="st">'PC1'</span>).properties(width <span class="op">=</span> <span class="dv">300</span>)</span>
+<span id="cb5-16"><a></a></span>
+<span id="cb5-17"><a></a>(projection <span class="op">&amp;</span> pc1).configure_axis(</span>
+<span id="cb5-18"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
+<span id="cb5-19"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb5-20"><a></a>).configure_title(fontSize <span class="op">=</span> <span class="dv">16</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="6">
 
 <style>
-  #altair-viz-713201f7b392478ea02fcb6fcc0c10bd.vega-embed {
+  #altair-viz-6d42909e909349a8a89f08788c1eb5cb.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-713201f7b392478ea02fcb6fcc0c10bd.vega-embed details,
-  #altair-viz-713201f7b392478ea02fcb6fcc0c10bd.vega-embed details summary {
+  #altair-viz-6d42909e909349a8a89f08788c1eb5cb.vega-embed details,
+  #altair-viz-6d42909e909349a8a89f08788c1eb5cb.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-713201f7b392478ea02fcb6fcc0c10bd"></div>
+<div id="altair-viz-6d42909e909349a8a89f08788c1eb5cb"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-713201f7b392478ea02fcb6fcc0c10bd") {
-      outputDiv = document.getElementById("altair-viz-713201f7b392478ea02fcb6fcc0c10bd");
+    if (outputDiv.id !== "altair-viz-6d42909e909349a8a89f08788c1eb5cb") {
+      outputDiv = document.getElementById("altair-viz-6d42909e909349a8a89f08788c1eb5cb");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -1001,18 +1004,18 @@ PSTAT100 Spring 2023
 <section id="quantifying-variation-captureloss-2" class="slide level2">
 <h2>Quantifying variation capture/loss</h2>
 <p>So in our example, the variance ratios are:</p>
-<div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># compute correlation mx</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a>r_mx <span class="op">=</span> z_mx.transpose().dot(z_mx)<span class="op">/</span>(<span class="bu">len</span>(z_mx) <span class="op">-</span> <span class="dv">1</span>)</span>
-<span id="cb6-3"><a href="#cb6-3"></a></span>
-<span id="cb6-4"><a href="#cb6-4"></a><span class="co"># eigendecomposition</span></span>
-<span id="cb6-5"><a href="#cb6-5"></a>r_eig <span class="op">=</span> linalg.eig(r_mx.values)</span>
-<span id="cb6-6"><a href="#cb6-6"></a></span>
-<span id="cb6-7"><a href="#cb6-7"></a><span class="co"># store eigenvalues as real array</span></span>
-<span id="cb6-8"><a href="#cb6-8"></a>eigenvalues <span class="op">=</span> r_eig[<span class="dv">0</span>].real </span>
-<span id="cb6-9"><a href="#cb6-9"></a></span>
-<span id="cb6-10"><a href="#cb6-10"></a><span class="co"># variance ratios</span></span>
-<span id="cb6-11"><a href="#cb6-11"></a>eigenvalues<span class="op">/</span>eigenvalues.<span class="bu">sum</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="34bfa510" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a></a><span class="co"># compute correlation mx</span></span>
+<span id="cb6-2"><a></a>r_mx <span class="op">=</span> z_mx.transpose().dot(z_mx)<span class="op">/</span>(<span class="bu">len</span>(z_mx) <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb6-3"><a></a></span>
+<span id="cb6-4"><a></a><span class="co"># eigendecomposition</span></span>
+<span id="cb6-5"><a></a>r_eig <span class="op">=</span> linalg.eig(r_mx.values)</span>
+<span id="cb6-6"><a></a></span>
+<span id="cb6-7"><a></a><span class="co"># store eigenvalues as real array</span></span>
+<span id="cb6-8"><a></a>eigenvalues <span class="op">=</span> r_eig[<span class="dv">0</span>].real </span>
+<span id="cb6-9"><a></a></span>
+<span id="cb6-10"><a></a><span class="co"># variance ratios</span></span>
+<span id="cb6-11"><a></a>eigenvalues<span class="op">/</span>eigenvalues.<span class="bu">sum</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>array([0.76574532, 0.23425468])</code></pre>
 </div>
@@ -1049,8 +1052,8 @@ PSTAT100 Spring 2023
 <section id="interpreting-principal-components-1" class="slide level2">
 <h2>Interpreting principal components</h2>
 <p>The loadings for the second component are:</p>
-<div class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a>r_eig[<span class="dv">1</span>][:, <span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="a287b467" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a></a>r_eig[<span class="dv">1</span>][:, <span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>array([0.70710678, 0.70710678])</code></pre>
 </div>
@@ -1067,21 +1070,21 @@ PSTAT100 Spring 2023
 <section id="packages-for-pca" class="slide level2">
 <h2>Packages for PCA</h2>
 <p>In <code>scikit-learn</code>, one must preprocess the data by centering and scaling:</p>
-<div class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="im">from</span> sklearn.decomposition <span class="im">import</span> PCA</span>
-<span id="cb10-2"><a href="#cb10-2"></a></span>
-<span id="cb10-3"><a href="#cb10-3"></a><span class="co"># center and scale data</span></span>
-<span id="cb10-4"><a href="#cb10-4"></a>z_mx <span class="op">=</span> (x_mx <span class="op">-</span> x_mx.mean())<span class="op">/</span>x_mx.std()</span>
-<span id="cb10-5"><a href="#cb10-5"></a></span>
-<span id="cb10-6"><a href="#cb10-6"></a><span class="co"># compute principal components</span></span>
-<span id="cb10-7"><a href="#cb10-7"></a>pca <span class="op">=</span> PCA(n_components <span class="op">=</span> <span class="dv">2</span>)</span>
-<span id="cb10-8"><a href="#cb10-8"></a>pca.fit(z_mx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="709b446b" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a></a><span class="im">from</span> sklearn.decomposition <span class="im">import</span> PCA</span>
+<span id="cb10-2"><a></a></span>
+<span id="cb10-3"><a></a><span class="co"># center and scale data</span></span>
+<span id="cb10-4"><a></a>z_mx <span class="op">=</span> (x_mx <span class="op">-</span> x_mx.mean())<span class="op">/</span>x_mx.std()</span>
+<span id="cb10-5"><a></a></span>
+<span id="cb10-6"><a></a><span class="co"># compute principal components</span></span>
+<span id="cb10-7"><a></a>pca <span class="op">=</span> PCA(n_components <span class="op">=</span> <span class="dv">2</span>)</span>
+<span id="cb10-8"><a></a>pca.fit(z_mx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
 <p>Check that the results are the same:</p>
-<div class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># loadings</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a>pca.components_</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="6f0a7b0c" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a></a><span class="co"># loadings</span></span>
+<span id="cb11-2"><a></a>pca.components_</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>array([[-0.70710678, -0.70710678],
        [ 0.70710678, -0.70710678]])</code></pre>
@@ -1090,9 +1093,9 @@ PSTAT100 Spring 2023
 </div>
 <div class="fragment">
 <p>The variance ratios are stored as an attribute:</p>
-<div class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a><span class="co"># variance ratios</span></span>
-<span id="cb13-2"><a href="#cb13-2"></a>pca.explained_variance_ratio_</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="ba0c8792" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a></a><span class="co"># variance ratios</span></span>
+<span id="cb13-2"><a></a>pca.explained_variance_ratio_</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>array([0.76574532, 0.23425468])</code></pre>
 </div>
@@ -1102,9 +1105,9 @@ PSTAT100 Spring 2023
 <section id="packages-for-pca-1" class="slide level2">
 <h2>Packages for PCA</h2>
 <p>In <code>scikit-learn</code>, to retrieve the <em>scores</em> – the coordinates on the principal axes – one must ‘transform’ input data:</p>
-<div class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a><span class="co"># get scores</span></span>
-<span id="cb15-2"><a href="#cb15-2"></a>pca.transform(z_mx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="8bdec341" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a></a><span class="co"># get scores</span></span>
+<span id="cb15-2"><a></a>pca.transform(z_mx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
 <pre><code>array([[-1.29591927,  0.32681298],
        [ 0.98357823,  0.34852919],
@@ -1123,11 +1126,12 @@ PSTAT100 Spring 2023
 <section id="packages-for-pca-2" class="slide level2">
 <h2>Packages for PCA</h2>
 <p>In <code>statsmodels</code>, the implementation is a bit more streamlined:</p>
-<div class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a><span class="im">from</span> statsmodels.multivariate.pca <span class="im">import</span> PCA</span>
-<span id="cb17-2"><a href="#cb17-2"></a>pca <span class="op">=</span> PCA(x_mx, normalize <span class="op">=</span> <span class="va">False</span>, standardize <span class="op">=</span> <span class="va">True</span>)</span>
-<span id="cb17-3"><a href="#cb17-3"></a>pca.loadings</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="35fe7937" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a></a><span class="im">from</span> statsmodels.multivariate.pca <span class="im">import</span> PCA</span>
+<span id="cb17-2"><a></a>pca <span class="op">=</span> PCA(x_mx, normalize <span class="op">=</span> <span class="va">False</span>, standardize <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb17-3"><a></a>pca.loadings</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1168,6 +1172,7 @@ PSTAT100 Spring 2023
 </div>
 </div>
 </div>
+</div>
 <ul>
 <li class="fragment">input here is <code>x_mx</code> – no need to preprocess</li>
 <li class="fragment"><code>standardize = True</code> will center and scale the <strong>input data</strong> <code>x_mx</code></li>
@@ -1178,9 +1183,10 @@ PSTAT100 Spring 2023
 <section id="packages-for-pca-3" class="slide level2">
 <h2>Packages for PCA</h2>
 <p>For this implementation the scores of the input data are retained as an attribute <code>.scores</code>:</p>
-<div class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a>pca.scores.head(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="8e4b8173" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a></a>pca.scores.head(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="14">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1226,10 +1232,11 @@ PSTAT100 Spring 2023
 </div>
 </div>
 </div>
+</div>
 <div class="fragment">
 <p>The variance ratios, however, must be calculated manually:</p>
-<div class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a>pca.eigenvals<span class="op">/</span>pca.eigenvals.<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="603a4689" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a></a>pca.eigenvals<span class="op">/</span>pca.eigenvals.<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
 <pre><code>0    0.765745
 1    0.234255
@@ -1243,9 +1250,10 @@ Name: eigenvals, dtype: float64</code></pre>
 <p>Interestingly, <code>statsmodels</code> has a <code>.project()</code> method, which will compute a <em>reconstruction</em> of the original data from a specified number of PC’s.</p>
 <div class="fragment">
 <p>If we use both PC’s…</p>
-<div class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a>pca.project(ncomp <span class="op">=</span> <span class="dv">2</span>).head(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="58a97f7e" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a></a>pca.project(ncomp <span class="op">=</span> <span class="dv">2</span>).head(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1288,13 +1296,15 @@ Name: eigenvals, dtype: float64</code></pre>
 </tbody>
 </table>
 
+</div>
 </div>
 </div>
 </div>
 <p>We get the input data back again:</p>
-<div class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a>x_mx.head(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="832f6f93" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a></a>x_mx.head(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="17">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1337,6 +1347,7 @@ Name: eigenvals, dtype: float64</code></pre>
 </tbody>
 </table>
 
+</div>
 </div>
 </div>
 </div>
@@ -1345,9 +1356,10 @@ Name: eigenvals, dtype: float64</code></pre>
 <section id="reconstruction-and-approximation-1" class="slide level2">
 <h2>Reconstruction and approximation</h2>
 <p>If we use only one PC, we get a low-dimensional approximation:</p>
-<div class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a>pca.project(ncomp <span class="op">=</span> <span class="dv">1</span>).head(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="9b4ff020" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a></a>pca.project(ncomp <span class="op">=</span> <span class="dv">1</span>).head(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="18">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1393,11 +1405,13 @@ Name: eigenvals, dtype: float64</code></pre>
 </div>
 </div>
 </div>
+</div>
 <div class="fragment">
 <p>Compare with input data:</p>
-<div class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a>x_mx.head(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="fbe6f48d" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a></a>x_mx.head(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="19">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1444,21 +1458,23 @@ Name: eigenvals, dtype: float64</code></pre>
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="effect-of-standardization" class="slide level2">
 <h2>Effect of standardization</h2>
 <p>If the data are <em>not</em> standardized, then the covariance matrix is decomposed instead of the correlation matrix.</p>
-<div class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a><span class="co"># refit without standardization</span></span>
-<span id="cb25-2"><a href="#cb25-2"></a>pca_unscaled <span class="op">=</span> PCA(x_mx, standardize <span class="op">=</span> <span class="va">False</span>, normalize <span class="op">=</span> <span class="va">False</span>)</span>
-<span id="cb25-3"><a href="#cb25-3"></a></span>
-<span id="cb25-4"><a href="#cb25-4"></a><span class="co"># examine</span></span>
-<span id="cb25-5"><a href="#cb25-5"></a><span class="bu">print</span>(<span class="st">'variance ratios: '</span>, pca_unscaled.eigenvals.values<span class="op">/</span>pca_unscaled.eigenvals.<span class="bu">sum</span>())</span>
-<span id="cb25-6"><a href="#cb25-6"></a>pca_unscaled.loadings</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="32e72493" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a></a><span class="co"># refit without standardization</span></span>
+<span id="cb25-2"><a></a>pca_unscaled <span class="op">=</span> PCA(x_mx, standardize <span class="op">=</span> <span class="va">False</span>, normalize <span class="op">=</span> <span class="va">False</span>)</span>
+<span id="cb25-3"><a></a></span>
+<span id="cb25-4"><a></a><span class="co"># examine</span></span>
+<span id="cb25-5"><a></a><span class="bu">print</span>(<span class="st">'variance ratios: '</span>, pca_unscaled.eigenvals.values<span class="op">/</span>pca_unscaled.eigenvals.<span class="bu">sum</span>())</span>
+<span id="cb25-6"><a></a>pca_unscaled.loadings</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>variance ratios:  [0.86663761 0.13336239]</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="20">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1499,6 +1515,7 @@ Name: eigenvals, dtype: float64</code></pre>
 </div>
 </div>
 </div>
+</div>
 <ul>
 <li class="fragment">The economic index gets upweighted significantly</li>
 <li class="fragment">The first component captures more variance</li>
@@ -1508,9 +1525,10 @@ Name: eigenvals, dtype: float64</code></pre>
 <h2>Effect of standardization</h2>
 <p>When the data are <em>not</em> standardized, the method is susceptible to problems of scale.</p>
 <p>In our example, the economic index became more ‘important’, but this is only because it has a larger variance:</p>
-<div class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1"></a>x_mx.cov()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="c0a4faf4" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a></a>x_mx.cov()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="21">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1551,6 +1569,7 @@ Name: eigenvals, dtype: float64</code></pre>
 </div>
 </div>
 </div>
+</div>
 <div class="fragment">
 <p>So if the <em>covariance</em> (not correlation) matrix is decomposed, economic sustainability accounts for more of the total variation measure, because it dominates the variance-covariance matrix, but only because of scale.</p>
 </div>
@@ -1558,69 +1577,69 @@ Name: eigenvals, dtype: float64</code></pre>
 <section id="effect-of-standardization-2" class="slide level2">
 <h2>Effect of standardization</h2>
 <p>Visually, here is the difference.</p>
-<div class="cell" data-execution_count="22">
-<details>
+<div id="6fd61c71" class="cell" data-execution_count="22">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a>direction_df <span class="op">=</span> pd.DataFrame(</span>
-<span id="cb28-2"><a href="#cb28-2"></a>    np.vstack([np.zeros(<span class="dv">2</span>), r_eig[<span class="dv">1</span>][:, <span class="dv">0</span>]<span class="op">*</span>r_eig[<span class="dv">0</span>][<span class="dv">0</span>].real, np.zeros(<span class="dv">2</span>), r_eig[<span class="dv">1</span>][:, <span class="dv">1</span>]<span class="op">*</span>r_eig[<span class="dv">0</span>][<span class="dv">1</span>].real]),</span>
-<span id="cb28-3"><a href="#cb28-3"></a>    columns <span class="op">=</span> [<span class="st">'Econ_Domain'</span>, <span class="st">'Social_Domain'</span>]</span>
-<span id="cb28-4"><a href="#cb28-4"></a>).join(</span>
-<span id="cb28-5"><a href="#cb28-5"></a>    pd.Series(np.repeat([<span class="st">'PC1'</span>, <span class="st">'PC2'</span>], <span class="dv">2</span>), name <span class="op">=</span> <span class="st">'PC direction'</span>)</span>
-<span id="cb28-6"><a href="#cb28-6"></a>)</span>
-<span id="cb28-7"><a href="#cb28-7"></a></span>
-<span id="cb28-8"><a href="#cb28-8"></a><span class="co"># repeat plot</span></span>
-<span id="cb28-9"><a href="#cb28-9"></a>eigenbasis <span class="op">=</span> alt.Chart(direction_df).mark_line(order <span class="op">=</span> <span class="va">False</span>).encode(</span>
-<span id="cb28-10"><a href="#cb28-10"></a>    x <span class="op">=</span> <span class="st">'Social_Domain'</span>, </span>
-<span id="cb28-11"><a href="#cb28-11"></a>    y <span class="op">=</span> <span class="st">'Econ_Domain'</span>, </span>
-<span id="cb28-12"><a href="#cb28-12"></a>    color <span class="op">=</span> alt.Color(<span class="st">'PC direction'</span>, scale <span class="op">=</span> alt.Scale(scheme <span class="op">=</span> <span class="st">'dark2'</span>))</span>
-<span id="cb28-13"><a href="#cb28-13"></a>)</span>
-<span id="cb28-14"><a href="#cb28-14"></a></span>
-<span id="cb28-15"><a href="#cb28-15"></a>c_eig <span class="op">=</span> linalg.eig(x_mx.cov())</span>
-<span id="cb28-16"><a href="#cb28-16"></a>c_eigenval_std <span class="op">=</span> c_eig[<span class="dv">0</span>].real<span class="op">/</span>c_eig[<span class="dv">0</span>].real.<span class="bu">sum</span>()</span>
-<span id="cb28-17"><a href="#cb28-17"></a></span>
-<span id="cb28-18"><a href="#cb28-18"></a>direction_df_cov <span class="op">=</span> pd.DataFrame(</span>
-<span id="cb28-19"><a href="#cb28-19"></a>    <span class="dv">30</span><span class="op">*</span>np.vstack([np.zeros(<span class="dv">2</span>), c_eig[<span class="dv">1</span>][:, <span class="dv">0</span>]<span class="op">*</span>c_eig[<span class="dv">0</span>][<span class="dv">0</span>].real, np.zeros(<span class="dv">2</span>), c_eig[<span class="dv">1</span>][:, <span class="dv">1</span>]<span class="op">*</span>c_eig[<span class="dv">0</span>][<span class="dv">1</span>].real]) <span class="op">+</span> x_mx.mean().values,</span>
-<span id="cb28-20"><a href="#cb28-20"></a>    columns <span class="op">=</span> [<span class="st">'Econ_Domain'</span>, <span class="st">'Social_Domain'</span>]</span>
-<span id="cb28-21"><a href="#cb28-21"></a>).join(</span>
-<span id="cb28-22"><a href="#cb28-22"></a>    pd.Series(np.repeat([<span class="st">'PC1'</span>, <span class="st">'PC2'</span>], <span class="dv">2</span>), name <span class="op">=</span> <span class="st">'PC direction'</span>)</span>
-<span id="cb28-23"><a href="#cb28-23"></a>)</span>
-<span id="cb28-24"><a href="#cb28-24"></a></span>
-<span id="cb28-25"><a href="#cb28-25"></a>eigenbasis_cov <span class="op">=</span> alt.Chart(direction_df_cov).mark_line(order <span class="op">=</span> <span class="va">False</span>).encode(</span>
-<span id="cb28-26"><a href="#cb28-26"></a>    x <span class="op">=</span> <span class="st">'Social_Domain'</span>, </span>
-<span id="cb28-27"><a href="#cb28-27"></a>    y <span class="op">=</span> <span class="st">'Econ_Domain'</span>, </span>
-<span id="cb28-28"><a href="#cb28-28"></a>    color <span class="op">=</span> alt.Color(<span class="st">'PC direction'</span>, scale <span class="op">=</span> alt.Scale(scheme <span class="op">=</span> <span class="st">'dark2'</span>))</span>
-<span id="cb28-29"><a href="#cb28-29"></a>)</span>
-<span id="cb28-30"><a href="#cb28-30"></a></span>
-<span id="cb28-31"><a href="#cb28-31"></a>(raw <span class="op">+</span> eigenbasis_cov <span class="op">|</span> centered <span class="op">+</span> eigenbasis).configure_axis(</span>
-<span id="cb28-32"><a href="#cb28-32"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
-<span id="cb28-33"><a href="#cb28-33"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb28-34"><a href="#cb28-34"></a>).configure_title(</span>
-<span id="cb28-35"><a href="#cb28-35"></a>    fontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb28-36"><a href="#cb28-36"></a>).configure_legend(</span>
-<span id="cb28-37"><a href="#cb28-37"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
-<span id="cb28-38"><a href="#cb28-38"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb28-39"><a href="#cb28-39"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a></a>direction_df <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb28-2"><a></a>    np.vstack([np.zeros(<span class="dv">2</span>), r_eig[<span class="dv">1</span>][:, <span class="dv">0</span>]<span class="op">*</span>r_eig[<span class="dv">0</span>][<span class="dv">0</span>].real, np.zeros(<span class="dv">2</span>), r_eig[<span class="dv">1</span>][:, <span class="dv">1</span>]<span class="op">*</span>r_eig[<span class="dv">0</span>][<span class="dv">1</span>].real]),</span>
+<span id="cb28-3"><a></a>    columns <span class="op">=</span> [<span class="st">'Econ_Domain'</span>, <span class="st">'Social_Domain'</span>]</span>
+<span id="cb28-4"><a></a>).join(</span>
+<span id="cb28-5"><a></a>    pd.Series(np.repeat([<span class="st">'PC1'</span>, <span class="st">'PC2'</span>], <span class="dv">2</span>), name <span class="op">=</span> <span class="st">'PC direction'</span>)</span>
+<span id="cb28-6"><a></a>)</span>
+<span id="cb28-7"><a></a></span>
+<span id="cb28-8"><a></a><span class="co"># repeat plot</span></span>
+<span id="cb28-9"><a></a>eigenbasis <span class="op">=</span> alt.Chart(direction_df).mark_line(order <span class="op">=</span> <span class="va">False</span>).encode(</span>
+<span id="cb28-10"><a></a>    x <span class="op">=</span> <span class="st">'Social_Domain'</span>, </span>
+<span id="cb28-11"><a></a>    y <span class="op">=</span> <span class="st">'Econ_Domain'</span>, </span>
+<span id="cb28-12"><a></a>    color <span class="op">=</span> alt.Color(<span class="st">'PC direction'</span>, scale <span class="op">=</span> alt.Scale(scheme <span class="op">=</span> <span class="st">'dark2'</span>))</span>
+<span id="cb28-13"><a></a>)</span>
+<span id="cb28-14"><a></a></span>
+<span id="cb28-15"><a></a>c_eig <span class="op">=</span> linalg.eig(x_mx.cov())</span>
+<span id="cb28-16"><a></a>c_eigenval_std <span class="op">=</span> c_eig[<span class="dv">0</span>].real<span class="op">/</span>c_eig[<span class="dv">0</span>].real.<span class="bu">sum</span>()</span>
+<span id="cb28-17"><a></a></span>
+<span id="cb28-18"><a></a>direction_df_cov <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb28-19"><a></a>    <span class="dv">30</span><span class="op">*</span>np.vstack([np.zeros(<span class="dv">2</span>), c_eig[<span class="dv">1</span>][:, <span class="dv">0</span>]<span class="op">*</span>c_eig[<span class="dv">0</span>][<span class="dv">0</span>].real, np.zeros(<span class="dv">2</span>), c_eig[<span class="dv">1</span>][:, <span class="dv">1</span>]<span class="op">*</span>c_eig[<span class="dv">0</span>][<span class="dv">1</span>].real]) <span class="op">+</span> x_mx.mean().values,</span>
+<span id="cb28-20"><a></a>    columns <span class="op">=</span> [<span class="st">'Econ_Domain'</span>, <span class="st">'Social_Domain'</span>]</span>
+<span id="cb28-21"><a></a>).join(</span>
+<span id="cb28-22"><a></a>    pd.Series(np.repeat([<span class="st">'PC1'</span>, <span class="st">'PC2'</span>], <span class="dv">2</span>), name <span class="op">=</span> <span class="st">'PC direction'</span>)</span>
+<span id="cb28-23"><a></a>)</span>
+<span id="cb28-24"><a></a></span>
+<span id="cb28-25"><a></a>eigenbasis_cov <span class="op">=</span> alt.Chart(direction_df_cov).mark_line(order <span class="op">=</span> <span class="va">False</span>).encode(</span>
+<span id="cb28-26"><a></a>    x <span class="op">=</span> <span class="st">'Social_Domain'</span>, </span>
+<span id="cb28-27"><a></a>    y <span class="op">=</span> <span class="st">'Econ_Domain'</span>, </span>
+<span id="cb28-28"><a></a>    color <span class="op">=</span> alt.Color(<span class="st">'PC direction'</span>, scale <span class="op">=</span> alt.Scale(scheme <span class="op">=</span> <span class="st">'dark2'</span>))</span>
+<span id="cb28-29"><a></a>)</span>
+<span id="cb28-30"><a></a></span>
+<span id="cb28-31"><a></a>(raw <span class="op">+</span> eigenbasis_cov <span class="op">|</span> centered <span class="op">+</span> eigenbasis).configure_axis(</span>
+<span id="cb28-32"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
+<span id="cb28-33"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb28-34"><a></a>).configure_title(</span>
+<span id="cb28-35"><a></a>    fontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb28-36"><a></a>).configure_legend(</span>
+<span id="cb28-37"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
+<span id="cb28-38"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb28-39"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="22">
 
 <style>
-  #altair-viz-37590553baff43acad28a4df2c659661.vega-embed {
+  #altair-viz-2353d2b8aa524ddeb56299e84c0e4caa.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-37590553baff43acad28a4df2c659661.vega-embed details,
-  #altair-viz-37590553baff43acad28a4df2c659661.vega-embed details summary {
+  #altair-viz-2353d2b8aa524ddeb56299e84c0e4caa.vega-embed details,
+  #altair-viz-2353d2b8aa524ddeb56299e84c0e4caa.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-37590553baff43acad28a4df2c659661"></div>
+<div id="altair-viz-2353d2b8aa524ddeb56299e84c0e4caa"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-37590553baff43acad28a4df2c659661") {
-      outputDiv = document.getElementById("altair-viz-37590553baff43acad28a4df2c659661");
+    if (outputDiv.id !== "altair-viz-2353d2b8aa524ddeb56299e84c0e4caa") {
+      outputDiv = document.getElementById("altair-viz-2353d2b8aa524ddeb56299e84c0e4caa");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -1713,13 +1732,14 @@ Name: eigenvals, dtype: float64</code></pre>
 <section id="example-application" class="slide level2">
 <h2>Example application</h2>
 <p>So, let’s look at a different example: world development indicators.</p>
-<div class="cell" data-tags="[]" data-execution_count="23">
-<details>
+<div id="b42757c5" class="cell" data-tags="[]" data-execution_count="23">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1"></a>wdi <span class="op">=</span> pd.read_csv(<span class="st">'data/wdi-data.csv'</span>).iloc[:, <span class="dv">2</span>:].set_index(<span class="st">'country'</span>)</span>
-<span id="cb29-2"><a href="#cb29-2"></a>wdi.head(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a></a>wdi <span class="op">=</span> pd.read_csv(<span class="st">'data/wdi-data.csv'</span>).iloc[:, <span class="dv">2</span>:].set_index(<span class="st">'country'</span>)</span>
+<span id="cb29-2"><a></a>wdi.head(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="23">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1866,85 +1886,86 @@ Name: eigenvals, dtype: float64</code></pre>
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="computation-via-sklearn" class="slide level2">
 <h2>Computation via sklearn</h2>
 <p>Recall that this implementation requires centering and scaling the data first ‘by hand’.</p>
-<div class="cell" data-execution_count="24">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1"></a><span class="im">from</span> sklearn.decomposition <span class="im">import</span> PCA</span>
-<span id="cb30-2"><a href="#cb30-2"></a></span>
-<span id="cb30-3"><a href="#cb30-3"></a><span class="co"># center and scale</span></span>
-<span id="cb30-4"><a href="#cb30-4"></a>wdi_ctr <span class="op">=</span> (wdi <span class="op">-</span> wdi.mean())<span class="op">/</span>wdi.std()</span>
-<span id="cb30-5"><a href="#cb30-5"></a></span>
-<span id="cb30-6"><a href="#cb30-6"></a><span class="co"># compute principal components</span></span>
-<span id="cb30-7"><a href="#cb30-7"></a>pca <span class="op">=</span> PCA(<span class="dv">31</span>)</span>
-<span id="cb30-8"><a href="#cb30-8"></a>pca.fit(wdi_ctr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="be748dde" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a></a><span class="im">from</span> sklearn.decomposition <span class="im">import</span> PCA</span>
+<span id="cb30-2"><a></a></span>
+<span id="cb30-3"><a></a><span class="co"># center and scale</span></span>
+<span id="cb30-4"><a></a>wdi_ctr <span class="op">=</span> (wdi <span class="op">-</span> wdi.mean())<span class="op">/</span>wdi.std()</span>
+<span id="cb30-5"><a></a></span>
+<span id="cb30-6"><a></a><span class="co"># compute principal components</span></span>
+<span id="cb30-7"><a></a>pca <span class="op">=</span> PCA(<span class="dv">31</span>)</span>
+<span id="cb30-8"><a></a>pca.fit(wdi_ctr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="variance-ratios" class="slide level2">
 <h2>Variance ratios</h2>
 <p>Selecting the number of principal components to use is somewhat subjective, but always based on the variance ratios and their cumulative sum:</p>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="25">
-<details>
+<div id="583ccb68" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="25">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1"></a><span class="co"># store proportion of variance explained as a dataframe</span></span>
-<span id="cb31-2"><a href="#cb31-2"></a>pcvars <span class="op">=</span> pd.DataFrame({<span class="st">'Proportion of variance explained'</span>: pca.explained_variance_ratio_})</span>
-<span id="cb31-3"><a href="#cb31-3"></a></span>
-<span id="cb31-4"><a href="#cb31-4"></a><span class="co"># add component number as a new column</span></span>
-<span id="cb31-5"><a href="#cb31-5"></a>pcvars[<span class="st">'Component'</span>] <span class="op">=</span> np.arange(<span class="dv">1</span>, <span class="dv">32</span>)</span>
-<span id="cb31-6"><a href="#cb31-6"></a></span>
-<span id="cb31-7"><a href="#cb31-7"></a><span class="co"># add cumulative variance explained as a new column</span></span>
-<span id="cb31-8"><a href="#cb31-8"></a>pcvars[<span class="st">'Cumulative variance explained'</span>] <span class="op">=</span> pcvars.iloc[:, <span class="dv">0</span>].cumsum(axis <span class="op">=</span> <span class="dv">0</span>)</span>
-<span id="cb31-9"><a href="#cb31-9"></a></span>
-<span id="cb31-10"><a href="#cb31-10"></a><span class="co"># encode component axis only as base layer</span></span>
-<span id="cb31-11"><a href="#cb31-11"></a>base <span class="op">=</span> alt.Chart(pcvars).encode(</span>
-<span id="cb31-12"><a href="#cb31-12"></a>    x <span class="op">=</span> <span class="st">'Component'</span>)</span>
-<span id="cb31-13"><a href="#cb31-13"></a></span>
-<span id="cb31-14"><a href="#cb31-14"></a><span class="co"># make a base layer for the proportion of variance explained</span></span>
-<span id="cb31-15"><a href="#cb31-15"></a>prop_var_base <span class="op">=</span> base.encode(</span>
-<span id="cb31-16"><a href="#cb31-16"></a>    y <span class="op">=</span> alt.Y(<span class="st">'Proportion of variance explained'</span>,</span>
-<span id="cb31-17"><a href="#cb31-17"></a>              axis <span class="op">=</span> alt.Axis(titleColor <span class="op">=</span> <span class="st">'#57A44C'</span>))</span>
-<span id="cb31-18"><a href="#cb31-18"></a>)</span>
-<span id="cb31-19"><a href="#cb31-19"></a></span>
-<span id="cb31-20"><a href="#cb31-20"></a><span class="co"># make a base layer for the cumulative variance explained</span></span>
-<span id="cb31-21"><a href="#cb31-21"></a>cum_var_base <span class="op">=</span> base.encode(</span>
-<span id="cb31-22"><a href="#cb31-22"></a>    y <span class="op">=</span> alt.Y(<span class="st">'Cumulative variance explained'</span>, axis <span class="op">=</span> alt.Axis(titleColor <span class="op">=</span> <span class="st">'#5276A7'</span>))</span>
-<span id="cb31-23"><a href="#cb31-23"></a>)</span>
-<span id="cb31-24"><a href="#cb31-24"></a></span>
-<span id="cb31-25"><a href="#cb31-25"></a><span class="co"># add points and lines to each base layer</span></span>
-<span id="cb31-26"><a href="#cb31-26"></a>line <span class="op">=</span> alt.Chart(pd.DataFrame({<span class="st">'Component'</span>: [<span class="fl">2.5</span>]})).mark_rule(opacity <span class="op">=</span> <span class="fl">0.3</span>, color <span class="op">=</span> <span class="st">'red'</span>).encode(x <span class="op">=</span> <span class="st">'Component'</span>)</span>
-<span id="cb31-27"><a href="#cb31-27"></a>prop_var <span class="op">=</span> prop_var_base.mark_line(stroke <span class="op">=</span> <span class="st">'#57A44C'</span>) <span class="op">+</span> prop_var_base.mark_point(color <span class="op">=</span> <span class="st">'#57A44C'</span>) <span class="op">+</span> line</span>
-<span id="cb31-28"><a href="#cb31-28"></a>cum_var <span class="op">=</span> cum_var_base.mark_line() <span class="op">+</span> cum_var_base.mark_point() <span class="op">+</span> line</span>
-<span id="cb31-29"><a href="#cb31-29"></a></span>
-<span id="cb31-30"><a href="#cb31-30"></a><span class="co"># layer the layers</span></span>
-<span id="cb31-31"><a href="#cb31-31"></a>variance_plot <span class="op">=</span> alt.layer(prop_var, cum_var).resolve_scale(y <span class="op">=</span> <span class="st">'independent'</span>) </span>
-<span id="cb31-32"><a href="#cb31-32"></a></span>
-<span id="cb31-33"><a href="#cb31-33"></a>variance_plot.properties(height <span class="op">=</span> <span class="dv">200</span>, width <span class="op">=</span> <span class="dv">400</span>).configure_axis(</span>
-<span id="cb31-34"><a href="#cb31-34"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
-<span id="cb31-35"><a href="#cb31-35"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb31-36"><a href="#cb31-36"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a></a><span class="co"># store proportion of variance explained as a dataframe</span></span>
+<span id="cb31-2"><a></a>pcvars <span class="op">=</span> pd.DataFrame({<span class="st">'Proportion of variance explained'</span>: pca.explained_variance_ratio_})</span>
+<span id="cb31-3"><a></a></span>
+<span id="cb31-4"><a></a><span class="co"># add component number as a new column</span></span>
+<span id="cb31-5"><a></a>pcvars[<span class="st">'Component'</span>] <span class="op">=</span> np.arange(<span class="dv">1</span>, <span class="dv">32</span>)</span>
+<span id="cb31-6"><a></a></span>
+<span id="cb31-7"><a></a><span class="co"># add cumulative variance explained as a new column</span></span>
+<span id="cb31-8"><a></a>pcvars[<span class="st">'Cumulative variance explained'</span>] <span class="op">=</span> pcvars.iloc[:, <span class="dv">0</span>].cumsum(axis <span class="op">=</span> <span class="dv">0</span>)</span>
+<span id="cb31-9"><a></a></span>
+<span id="cb31-10"><a></a><span class="co"># encode component axis only as base layer</span></span>
+<span id="cb31-11"><a></a>base <span class="op">=</span> alt.Chart(pcvars).encode(</span>
+<span id="cb31-12"><a></a>    x <span class="op">=</span> <span class="st">'Component'</span>)</span>
+<span id="cb31-13"><a></a></span>
+<span id="cb31-14"><a></a><span class="co"># make a base layer for the proportion of variance explained</span></span>
+<span id="cb31-15"><a></a>prop_var_base <span class="op">=</span> base.encode(</span>
+<span id="cb31-16"><a></a>    y <span class="op">=</span> alt.Y(<span class="st">'Proportion of variance explained'</span>,</span>
+<span id="cb31-17"><a></a>              axis <span class="op">=</span> alt.Axis(titleColor <span class="op">=</span> <span class="st">'#57A44C'</span>))</span>
+<span id="cb31-18"><a></a>)</span>
+<span id="cb31-19"><a></a></span>
+<span id="cb31-20"><a></a><span class="co"># make a base layer for the cumulative variance explained</span></span>
+<span id="cb31-21"><a></a>cum_var_base <span class="op">=</span> base.encode(</span>
+<span id="cb31-22"><a></a>    y <span class="op">=</span> alt.Y(<span class="st">'Cumulative variance explained'</span>, axis <span class="op">=</span> alt.Axis(titleColor <span class="op">=</span> <span class="st">'#5276A7'</span>))</span>
+<span id="cb31-23"><a></a>)</span>
+<span id="cb31-24"><a></a></span>
+<span id="cb31-25"><a></a><span class="co"># add points and lines to each base layer</span></span>
+<span id="cb31-26"><a></a>line <span class="op">=</span> alt.Chart(pd.DataFrame({<span class="st">'Component'</span>: [<span class="fl">2.5</span>]})).mark_rule(opacity <span class="op">=</span> <span class="fl">0.3</span>, color <span class="op">=</span> <span class="st">'red'</span>).encode(x <span class="op">=</span> <span class="st">'Component'</span>)</span>
+<span id="cb31-27"><a></a>prop_var <span class="op">=</span> prop_var_base.mark_line(stroke <span class="op">=</span> <span class="st">'#57A44C'</span>) <span class="op">+</span> prop_var_base.mark_point(color <span class="op">=</span> <span class="st">'#57A44C'</span>) <span class="op">+</span> line</span>
+<span id="cb31-28"><a></a>cum_var <span class="op">=</span> cum_var_base.mark_line() <span class="op">+</span> cum_var_base.mark_point() <span class="op">+</span> line</span>
+<span id="cb31-29"><a></a></span>
+<span id="cb31-30"><a></a><span class="co"># layer the layers</span></span>
+<span id="cb31-31"><a></a>variance_plot <span class="op">=</span> alt.layer(prop_var, cum_var).resolve_scale(y <span class="op">=</span> <span class="st">'independent'</span>) </span>
+<span id="cb31-32"><a></a></span>
+<span id="cb31-33"><a></a>variance_plot.properties(height <span class="op">=</span> <span class="dv">200</span>, width <span class="op">=</span> <span class="dv">400</span>).configure_axis(</span>
+<span id="cb31-34"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
+<span id="cb31-35"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb31-36"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="25">
 
 <style>
-  #altair-viz-1f3669169c964662a2e3e8f7b0e04926.vega-embed {
+  #altair-viz-209b6f768af6459a8c0bf895c346cdf1.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-1f3669169c964662a2e3e8f7b0e04926.vega-embed details,
-  #altair-viz-1f3669169c964662a2e3e8f7b0e04926.vega-embed details summary {
+  #altair-viz-209b6f768af6459a8c0bf895c346cdf1.vega-embed details,
+  #altair-viz-209b6f768af6459a8c0bf895c346cdf1.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-1f3669169c964662a2e3e8f7b0e04926"></div>
+<div id="altair-viz-209b6f768af6459a8c0bf895c346cdf1"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-1f3669169c964662a2e3e8f7b0e04926") {
-      outputDiv = document.getElementById("altair-viz-1f3669169c964662a2e3e8f7b0e04926");
+    if (outputDiv.id !== "altair-viz-209b6f768af6459a8c0bf895c346cdf1") {
+      outputDiv = document.getElementById("altair-viz-209b6f768af6459a8c0bf895c346cdf1");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -2003,62 +2024,62 @@ Name: eigenvals, dtype: float64</code></pre>
 <h2>Loading plots</h2>
 <p>Examining the loadings graphically can help to interpret the components.</p>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="26">
-<details>
+<div id="6e84f7ff" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="26">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1"></a><span class="co"># store the loadings as a data frame with appropriate names</span></span>
-<span id="cb32-2"><a href="#cb32-2"></a>loading_df <span class="op">=</span> pd.DataFrame(pca.components_).transpose().rename(</span>
-<span id="cb32-3"><a href="#cb32-3"></a>    columns <span class="op">=</span> {<span class="dv">0</span>: <span class="st">'PC1'</span>, <span class="dv">1</span>: <span class="st">'PC2'</span>}</span>
-<span id="cb32-4"><a href="#cb32-4"></a>).loc[:, [<span class="st">'PC1'</span>, <span class="st">'PC2'</span>]]</span>
-<span id="cb32-5"><a href="#cb32-5"></a></span>
-<span id="cb32-6"><a href="#cb32-6"></a><span class="co"># add a column with the taxon names</span></span>
-<span id="cb32-7"><a href="#cb32-7"></a>loading_df[<span class="st">'indicator'</span>] <span class="op">=</span> wdi_ctr.columns.values</span>
-<span id="cb32-8"><a href="#cb32-8"></a></span>
-<span id="cb32-9"><a href="#cb32-9"></a><span class="co"># melt from wide to long</span></span>
-<span id="cb32-10"><a href="#cb32-10"></a>loading_plot_df <span class="op">=</span> loading_df.melt(</span>
-<span id="cb32-11"><a href="#cb32-11"></a>    id_vars <span class="op">=</span> <span class="st">'indicator'</span>,</span>
-<span id="cb32-12"><a href="#cb32-12"></a>    var_name <span class="op">=</span> <span class="st">'PC'</span>,</span>
-<span id="cb32-13"><a href="#cb32-13"></a>    value_name <span class="op">=</span> <span class="st">'Loading'</span></span>
-<span id="cb32-14"><a href="#cb32-14"></a>)</span>
-<span id="cb32-15"><a href="#cb32-15"></a></span>
-<span id="cb32-16"><a href="#cb32-16"></a><span class="co"># create base layer with encoding</span></span>
-<span id="cb32-17"><a href="#cb32-17"></a>base <span class="op">=</span> alt.Chart(loading_plot_df).encode(</span>
-<span id="cb32-18"><a href="#cb32-18"></a>    y <span class="op">=</span> alt.X(<span class="st">'indicator'</span>, title <span class="op">=</span> <span class="st">''</span>),</span>
-<span id="cb32-19"><a href="#cb32-19"></a>    x <span class="op">=</span> <span class="st">'Loading'</span>,</span>
-<span id="cb32-20"><a href="#cb32-20"></a>    color <span class="op">=</span> <span class="st">'PC'</span></span>
-<span id="cb32-21"><a href="#cb32-21"></a>)</span>
-<span id="cb32-22"><a href="#cb32-22"></a></span>
-<span id="cb32-23"><a href="#cb32-23"></a><span class="co"># store horizontal line at zero</span></span>
-<span id="cb32-24"><a href="#cb32-24"></a>rule <span class="op">=</span> alt.Chart(pd.DataFrame({<span class="st">'Loading'</span>: <span class="dv">0</span>}, index <span class="op">=</span> [<span class="dv">0</span>])).mark_rule().encode(x <span class="op">=</span> <span class="st">'Loading'</span>, size <span class="op">=</span> alt.value(<span class="dv">2</span>))</span>
-<span id="cb32-25"><a href="#cb32-25"></a></span>
-<span id="cb32-26"><a href="#cb32-26"></a><span class="co"># layer points + lines + rule to construct loading plot</span></span>
-<span id="cb32-27"><a href="#cb32-27"></a>loading_plot <span class="op">=</span> base.mark_point() <span class="op">+</span> base.mark_line() <span class="op">+</span> rule</span>
-<span id="cb32-28"><a href="#cb32-28"></a></span>
-<span id="cb32-29"><a href="#cb32-29"></a>loading_plot.properties(width <span class="op">=</span> <span class="dv">300</span>, height <span class="op">=</span> <span class="dv">400</span>).configure_axis(</span>
-<span id="cb32-30"><a href="#cb32-30"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
-<span id="cb32-31"><a href="#cb32-31"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb32-32"><a href="#cb32-32"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a></a><span class="co"># store the loadings as a data frame with appropriate names</span></span>
+<span id="cb32-2"><a></a>loading_df <span class="op">=</span> pd.DataFrame(pca.components_).transpose().rename(</span>
+<span id="cb32-3"><a></a>    columns <span class="op">=</span> {<span class="dv">0</span>: <span class="st">'PC1'</span>, <span class="dv">1</span>: <span class="st">'PC2'</span>}</span>
+<span id="cb32-4"><a></a>).loc[:, [<span class="st">'PC1'</span>, <span class="st">'PC2'</span>]]</span>
+<span id="cb32-5"><a></a></span>
+<span id="cb32-6"><a></a><span class="co"># add a column with the taxon names</span></span>
+<span id="cb32-7"><a></a>loading_df[<span class="st">'indicator'</span>] <span class="op">=</span> wdi_ctr.columns.values</span>
+<span id="cb32-8"><a></a></span>
+<span id="cb32-9"><a></a><span class="co"># melt from wide to long</span></span>
+<span id="cb32-10"><a></a>loading_plot_df <span class="op">=</span> loading_df.melt(</span>
+<span id="cb32-11"><a></a>    id_vars <span class="op">=</span> <span class="st">'indicator'</span>,</span>
+<span id="cb32-12"><a></a>    var_name <span class="op">=</span> <span class="st">'PC'</span>,</span>
+<span id="cb32-13"><a></a>    value_name <span class="op">=</span> <span class="st">'Loading'</span></span>
+<span id="cb32-14"><a></a>)</span>
+<span id="cb32-15"><a></a></span>
+<span id="cb32-16"><a></a><span class="co"># create base layer with encoding</span></span>
+<span id="cb32-17"><a></a>base <span class="op">=</span> alt.Chart(loading_plot_df).encode(</span>
+<span id="cb32-18"><a></a>    y <span class="op">=</span> alt.X(<span class="st">'indicator'</span>, title <span class="op">=</span> <span class="st">''</span>),</span>
+<span id="cb32-19"><a></a>    x <span class="op">=</span> <span class="st">'Loading'</span>,</span>
+<span id="cb32-20"><a></a>    color <span class="op">=</span> <span class="st">'PC'</span></span>
+<span id="cb32-21"><a></a>)</span>
+<span id="cb32-22"><a></a></span>
+<span id="cb32-23"><a></a><span class="co"># store horizontal line at zero</span></span>
+<span id="cb32-24"><a></a>rule <span class="op">=</span> alt.Chart(pd.DataFrame({<span class="st">'Loading'</span>: <span class="dv">0</span>}, index <span class="op">=</span> [<span class="dv">0</span>])).mark_rule().encode(x <span class="op">=</span> <span class="st">'Loading'</span>, size <span class="op">=</span> alt.value(<span class="dv">2</span>))</span>
+<span id="cb32-25"><a></a></span>
+<span id="cb32-26"><a></a><span class="co"># layer points + lines + rule to construct loading plot</span></span>
+<span id="cb32-27"><a></a>loading_plot <span class="op">=</span> base.mark_point() <span class="op">+</span> base.mark_line() <span class="op">+</span> rule</span>
+<span id="cb32-28"><a></a></span>
+<span id="cb32-29"><a></a>loading_plot.properties(width <span class="op">=</span> <span class="dv">300</span>, height <span class="op">=</span> <span class="dv">400</span>).configure_axis(</span>
+<span id="cb32-30"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
+<span id="cb32-31"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb32-32"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="26">
 
 <style>
-  #altair-viz-2e9477ad7c7a4ed183efbd501a997eb7.vega-embed {
+  #altair-viz-2b0b115e140a431c9a5b8a9cd086182e.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-2e9477ad7c7a4ed183efbd501a997eb7.vega-embed details,
-  #altair-viz-2e9477ad7c7a4ed183efbd501a997eb7.vega-embed details summary {
+  #altair-viz-2b0b115e140a431c9a5b8a9cd086182e.vega-embed details,
+  #altair-viz-2b0b115e140a431c9a5b8a9cd086182e.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-2e9477ad7c7a4ed183efbd501a997eb7"></div>
+<div id="altair-viz-2b0b115e140a431c9a5b8a9cd086182e"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-2e9477ad7c7a4ed183efbd501a997eb7") {
-      outputDiv = document.getElementById("altair-viz-2e9477ad7c7a4ed183efbd501a997eb7");
+    if (outputDiv.id !== "altair-viz-2b0b115e140a431c9a5b8a9cd086182e") {
+      outputDiv = document.getElementById("altair-viz-2b0b115e140a431c9a5b8a9cd086182e");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -2114,70 +2135,70 @@ Name: eigenvals, dtype: float64</code></pre>
 <h2>Visualization</h2>
 <p>Finally, we might want to use the first two principal components to visualize the data.</p>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="27">
-<details>
+<div id="3f009af6" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="27">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1"></a><span class="co"># project pcdata onto first two components; store as data frame</span></span>
-<span id="cb33-2"><a href="#cb33-2"></a>projected_data <span class="op">=</span> pd.DataFrame(pca.fit_transform(wdi_ctr)).iloc[:, <span class="dv">0</span>:<span class="dv">2</span>].rename(columns <span class="op">=</span> {<span class="dv">0</span>: <span class="st">'PC1'</span>, <span class="dv">1</span>: <span class="st">'PC2'</span>})</span>
-<span id="cb33-3"><a href="#cb33-3"></a></span>
-<span id="cb33-4"><a href="#cb33-4"></a><span class="co"># add index and reset</span></span>
-<span id="cb33-5"><a href="#cb33-5"></a>projected_data.index <span class="op">=</span> wdi_ctr.index</span>
-<span id="cb33-6"><a href="#cb33-6"></a>projected_data <span class="op">=</span> projected_data.reset_index()</span>
-<span id="cb33-7"><a href="#cb33-7"></a></span>
-<span id="cb33-8"><a href="#cb33-8"></a><span class="co"># append one of the original variables</span></span>
-<span id="cb33-9"><a href="#cb33-9"></a>projected_data[<span class="st">'gdppc'</span>] <span class="op">=</span> wdi.gdp_percapita.values</span>
-<span id="cb33-10"><a href="#cb33-10"></a>projected_data[<span class="st">'pop'</span>] <span class="op">=</span> wdi.total_pop.values</span>
-<span id="cb33-11"><a href="#cb33-11"></a></span>
-<span id="cb33-12"><a href="#cb33-12"></a><span class="co"># base chart</span></span>
-<span id="cb33-13"><a href="#cb33-13"></a>base <span class="op">=</span> alt.Chart(projected_data)</span>
-<span id="cb33-14"><a href="#cb33-14"></a></span>
-<span id="cb33-15"><a href="#cb33-15"></a><span class="co"># data scatter</span></span>
-<span id="cb33-16"><a href="#cb33-16"></a>scatter <span class="op">=</span> base.mark_point().encode(</span>
-<span id="cb33-17"><a href="#cb33-17"></a>    x <span class="op">=</span> alt.X(<span class="st">'PC1:Q'</span>, title <span class="op">=</span> <span class="st">'Mortality'</span>),</span>
-<span id="cb33-18"><a href="#cb33-18"></a>    y <span class="op">=</span> alt.Y(<span class="st">'PC2:Q'</span>, title <span class="op">=</span> <span class="st">'Labor'</span>),</span>
-<span id="cb33-19"><a href="#cb33-19"></a>    color <span class="op">=</span> alt.Color(<span class="st">'gdppc'</span>, </span>
-<span id="cb33-20"><a href="#cb33-20"></a>                      <span class="bu">bin</span> <span class="op">=</span> alt.Bin(maxbins <span class="op">=</span> <span class="dv">6</span>), </span>
-<span id="cb33-21"><a href="#cb33-21"></a>                      scale <span class="op">=</span> alt.Scale(scheme <span class="op">=</span> <span class="st">'blues'</span>), </span>
-<span id="cb33-22"><a href="#cb33-22"></a>                      title <span class="op">=</span> <span class="st">'GDP per capita'</span>),</span>
-<span id="cb33-23"><a href="#cb33-23"></a>    size <span class="op">=</span> alt.Size(<span class="st">'pop'</span>,</span>
-<span id="cb33-24"><a href="#cb33-24"></a>                   scale <span class="op">=</span> alt.Scale(<span class="bu">type</span> <span class="op">=</span> <span class="st">'sqrt'</span>),</span>
-<span id="cb33-25"><a href="#cb33-25"></a>                   title <span class="op">=</span> <span class="st">'Population'</span>)</span>
-<span id="cb33-26"><a href="#cb33-26"></a>).properties(width <span class="op">=</span> <span class="dv">400</span>, height <span class="op">=</span> <span class="dv">400</span>)</span>
-<span id="cb33-27"><a href="#cb33-27"></a></span>
-<span id="cb33-28"><a href="#cb33-28"></a><span class="co"># text labels</span></span>
-<span id="cb33-29"><a href="#cb33-29"></a>label <span class="op">=</span> projected_data.sort_values(by <span class="op">=</span> <span class="st">'gdppc'</span>, ascending <span class="op">=</span> <span class="va">False</span>).head(<span class="dv">4</span>)</span>
-<span id="cb33-30"><a href="#cb33-30"></a></span>
-<span id="cb33-31"><a href="#cb33-31"></a>text <span class="op">=</span> alt.Chart(label).mark_text(align <span class="op">=</span> <span class="st">'left'</span>, dx <span class="op">=</span> <span class="dv">3</span>).encode(</span>
-<span id="cb33-32"><a href="#cb33-32"></a>     x <span class="op">=</span> alt.X(<span class="st">'PC1:Q'</span>, title <span class="op">=</span> <span class="st">'Mortality'</span>),</span>
-<span id="cb33-33"><a href="#cb33-33"></a>    y <span class="op">=</span> alt.Y(<span class="st">'PC2:Q'</span>, title <span class="op">=</span> <span class="st">'Labor'</span>),</span>
-<span id="cb33-34"><a href="#cb33-34"></a>    text <span class="op">=</span> <span class="st">'country'</span></span>
-<span id="cb33-35"><a href="#cb33-35"></a>)</span>
-<span id="cb33-36"><a href="#cb33-36"></a></span>
-<span id="cb33-37"><a href="#cb33-37"></a>(scatter <span class="op">+</span> text).configure_axis(</span>
-<span id="cb33-38"><a href="#cb33-38"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
-<span id="cb33-39"><a href="#cb33-39"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb33-40"><a href="#cb33-40"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a></a><span class="co"># project pcdata onto first two components; store as data frame</span></span>
+<span id="cb33-2"><a></a>projected_data <span class="op">=</span> pd.DataFrame(pca.fit_transform(wdi_ctr)).iloc[:, <span class="dv">0</span>:<span class="dv">2</span>].rename(columns <span class="op">=</span> {<span class="dv">0</span>: <span class="st">'PC1'</span>, <span class="dv">1</span>: <span class="st">'PC2'</span>})</span>
+<span id="cb33-3"><a></a></span>
+<span id="cb33-4"><a></a><span class="co"># add index and reset</span></span>
+<span id="cb33-5"><a></a>projected_data.index <span class="op">=</span> wdi_ctr.index</span>
+<span id="cb33-6"><a></a>projected_data <span class="op">=</span> projected_data.reset_index()</span>
+<span id="cb33-7"><a></a></span>
+<span id="cb33-8"><a></a><span class="co"># append one of the original variables</span></span>
+<span id="cb33-9"><a></a>projected_data[<span class="st">'gdppc'</span>] <span class="op">=</span> wdi.gdp_percapita.values</span>
+<span id="cb33-10"><a></a>projected_data[<span class="st">'pop'</span>] <span class="op">=</span> wdi.total_pop.values</span>
+<span id="cb33-11"><a></a></span>
+<span id="cb33-12"><a></a><span class="co"># base chart</span></span>
+<span id="cb33-13"><a></a>base <span class="op">=</span> alt.Chart(projected_data)</span>
+<span id="cb33-14"><a></a></span>
+<span id="cb33-15"><a></a><span class="co"># data scatter</span></span>
+<span id="cb33-16"><a></a>scatter <span class="op">=</span> base.mark_point().encode(</span>
+<span id="cb33-17"><a></a>    x <span class="op">=</span> alt.X(<span class="st">'PC1:Q'</span>, title <span class="op">=</span> <span class="st">'Mortality'</span>),</span>
+<span id="cb33-18"><a></a>    y <span class="op">=</span> alt.Y(<span class="st">'PC2:Q'</span>, title <span class="op">=</span> <span class="st">'Labor'</span>),</span>
+<span id="cb33-19"><a></a>    color <span class="op">=</span> alt.Color(<span class="st">'gdppc'</span>, </span>
+<span id="cb33-20"><a></a>                      <span class="bu">bin</span> <span class="op">=</span> alt.Bin(maxbins <span class="op">=</span> <span class="dv">6</span>), </span>
+<span id="cb33-21"><a></a>                      scale <span class="op">=</span> alt.Scale(scheme <span class="op">=</span> <span class="st">'blues'</span>), </span>
+<span id="cb33-22"><a></a>                      title <span class="op">=</span> <span class="st">'GDP per capita'</span>),</span>
+<span id="cb33-23"><a></a>    size <span class="op">=</span> alt.Size(<span class="st">'pop'</span>,</span>
+<span id="cb33-24"><a></a>                   scale <span class="op">=</span> alt.Scale(<span class="bu">type</span> <span class="op">=</span> <span class="st">'sqrt'</span>),</span>
+<span id="cb33-25"><a></a>                   title <span class="op">=</span> <span class="st">'Population'</span>)</span>
+<span id="cb33-26"><a></a>).properties(width <span class="op">=</span> <span class="dv">400</span>, height <span class="op">=</span> <span class="dv">400</span>)</span>
+<span id="cb33-27"><a></a></span>
+<span id="cb33-28"><a></a><span class="co"># text labels</span></span>
+<span id="cb33-29"><a></a>label <span class="op">=</span> projected_data.sort_values(by <span class="op">=</span> <span class="st">'gdppc'</span>, ascending <span class="op">=</span> <span class="va">False</span>).head(<span class="dv">4</span>)</span>
+<span id="cb33-30"><a></a></span>
+<span id="cb33-31"><a></a>text <span class="op">=</span> alt.Chart(label).mark_text(align <span class="op">=</span> <span class="st">'left'</span>, dx <span class="op">=</span> <span class="dv">3</span>).encode(</span>
+<span id="cb33-32"><a></a>     x <span class="op">=</span> alt.X(<span class="st">'PC1:Q'</span>, title <span class="op">=</span> <span class="st">'Mortality'</span>),</span>
+<span id="cb33-33"><a></a>    y <span class="op">=</span> alt.Y(<span class="st">'PC2:Q'</span>, title <span class="op">=</span> <span class="st">'Labor'</span>),</span>
+<span id="cb33-34"><a></a>    text <span class="op">=</span> <span class="st">'country'</span></span>
+<span id="cb33-35"><a></a>)</span>
+<span id="cb33-36"><a></a></span>
+<span id="cb33-37"><a></a>(scatter <span class="op">+</span> text).configure_axis(</span>
+<span id="cb33-38"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
+<span id="cb33-39"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb33-40"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="27">
 
 <style>
-  #altair-viz-49b1db0ea2f84f568ea4ce5f1cb7442d.vega-embed {
+  #altair-viz-fbb4040b123e4631aaaf41f5010f028e.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-49b1db0ea2f84f568ea4ce5f1cb7442d.vega-embed details,
-  #altair-viz-49b1db0ea2f84f568ea4ce5f1cb7442d.vega-embed details summary {
+  #altair-viz-fbb4040b123e4631aaaf41f5010f028e.vega-embed details,
+  #altair-viz-fbb4040b123e4631aaaf41f5010f028e.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-49b1db0ea2f84f568ea4ce5f1cb7442d"></div>
+<div id="altair-viz-fbb4040b123e4631aaaf41f5010f028e"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-49b1db0ea2f84f568ea4ce5f1cb7442d") {
-      outputDiv = document.getElementById("altair-viz-49b1db0ea2f84f568ea4ce5f1cb7442d");
+    if (outputDiv.id !== "altair-viz-fbb4040b123e4631aaaf41f5010f028e") {
+      outputDiv = document.getElementById("altair-viz-fbb4040b123e4631aaaf41f5010f028e");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -2232,7 +2253,7 @@ Name: eigenvals, dtype: float64</code></pre>
 </ul>
 </div>
 </section>
-<section id="perspectives-on-pca" class="slide level2">
+<section id="perspectives-on-pca" class="slide level2 scrollable">
 <h2>Perspectives on PCA</h2>
 <p>Now that you know that a <em>subcollection</em> of principal components is usually selected, you have a sense that PCA involves projecting multivariate data onto a subspace.</p>
 <div class="fragment">
@@ -2279,8 +2300,10 @@ Name: eigenvals, dtype: float64</code></pre>
 <li class="fragment">Projecting pixel values onto 150 PC’s and then reconstructing the data from this subset yields a heavily compressed image</li>
 </ul>
 
+<div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 
+</div>
 </div>
 </div>
 </section>
@@ -2310,7 +2333,6 @@ Name: eigenvals, dtype: float64</code></pre>
       Reveal.initialize({
 'controlsAuto': true,
 'previewLinksAuto': false,
-'smaller': true,
 'pdfSeparateFragments': false,
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
@@ -2571,10 +2593,9 @@ Name: eigenvals, dtype: float64</code></pre>
         // clear code selection
         e.clearSelection();
       });
-      function tippyHover(el, contentFn) {
+      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
         const config = {
           allowHTML: true,
-          content: contentFn,
           maxWidth: 500,
           delay: 100,
           arrow: false,
@@ -2584,8 +2605,17 @@ Name: eigenvals, dtype: float64</code></pre>
           interactive: true,
           interactiveBorder: 10,
           theme: 'light-border',
-          placement: 'bottom-start'
+          placement: 'bottom-start',
         };
+        if (contentFn) {
+          config.content = contentFn;
+        }
+        if (onTriggerFn) {
+          config.onTrigger = onTriggerFn;
+        }
+        if (onUntriggerFn) {
+          config.onUntrigger = onUntriggerFn;
+        }
           config['offset'] = [0,0];
           config['maxWidth'] = 700;
         window.tippy(el, config); 

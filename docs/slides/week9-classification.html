@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-html/tabby.min.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -8,7 +8,7 @@
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.433">
+  <meta name="generator" content="quarto-1.4.550">
 
   <meta name="author" content="PSTAT100 Spring 2023">
   <title>PSTAT100 - Classification</title>
@@ -31,7 +31,7 @@
     }
     /* CSS for syntax highlighting */
     pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span { line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
     .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -230,7 +230,8 @@
   }
 
   .callout.callout-titled .callout-body > .callout-content > :last-child {
-    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0;
   }
 
   .callout.callout-titled .callout-icon::before {
@@ -395,7 +396,7 @@
     }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+  
   <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 </head>
 <body class="quarto-light">
@@ -462,8 +463,9 @@ PSTAT100 Spring 2023
 </section>
 <section id="interpreting-estimates" class="slide level2">
 <h2>Interpreting estimates</h2>
-<div class="cell" data-execution_count="2">
+<div id="eb5bc5b0" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display" data-execution_count="2">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -524,6 +526,7 @@ PSTAT100 Spring 2023
 </div>
 </div>
 </div>
+</div>
 <ul>
 <li class="fragment">each doubling of mean income is associated with an estimated 55% increase in median tree cover, after accounting for population density</li>
 <li class="fragment">census blocks with higher population densities are estimated as having a median tree canopy up to 50% lower than census blocks with very low population densities, after accounting for mean income</li>
@@ -557,11 +560,12 @@ e^{\hat{\beta}_1\log(2)} = 1.549
 </section>
 <section id="prediction" class="slide level2">
 <h2>Prediction</h2>
-<div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb1" data-code-line-numbers="1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a>x_new <span class="op">=</span> np.array([<span class="dv">1</span>, np.log(<span class="dv">115000</span>), <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>])</span>
-<span id="cb1-2"><a href="#cb1-2"></a>pred <span class="op">=</span> rslt.get_prediction(x_new)</span>
-<span id="cb1-3"><a href="#cb1-3"></a>np.exp(pred.summary_frame())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="e5aaccc6" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a>x_new <span class="op">=</span> np.array([<span class="dv">1</span>, np.log(<span class="dv">115000</span>), <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>])</span>
+<span id="cb1-2"><a></a>pred <span class="op">=</span> rslt.get_prediction(x_new)</span>
+<span id="cb1-3"><a></a>np.exp(pred.summary_frame())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -605,6 +609,7 @@ e^{\hat{\beta}_1\log(2)} = 1.549
 </div>
 </div>
 </div>
+</div>
 <p>Fill in the blanks:</p>
 <ul>
 <li class="fragment">the median tree cover for a _______ density census block with mean income _______ is estimated to be between _______ and _______ percent</li>
@@ -616,37 +621,37 @@ e^{\hat{\beta}_1\log(2)} = 1.549
 <p>The linearity and constant variance assumptions can be assessed by plotting residuals against fitted values:</p>
 <div class="columns">
 <div class="column" style="width:60%;">
-<div class="cell" data-execution_count="4">
-<details>
+<div id="79a5a609" class="cell" data-execution_count="4">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>alt.Chart(pd.DataFrame({</span>
-<span id="cb2-2"><a href="#cb2-2"></a>    <span class="st">'fitted'</span>: rslt.fittedvalues,</span>
-<span id="cb2-3"><a href="#cb2-3"></a>    <span class="st">'resid'</span>: rslt.resid</span>
-<span id="cb2-4"><a href="#cb2-4"></a>})).mark_circle().encode(</span>
-<span id="cb2-5"><a href="#cb2-5"></a>    x <span class="op">=</span> <span class="st">'fitted'</span>,</span>
-<span id="cb2-6"><a href="#cb2-6"></a>    y <span class="op">=</span> <span class="st">'resid'</span></span>
-<span id="cb2-7"><a href="#cb2-7"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a>alt.Chart(pd.DataFrame({</span>
+<span id="cb2-2"><a></a>    <span class="st">'fitted'</span>: rslt.fittedvalues,</span>
+<span id="cb2-3"><a></a>    <span class="st">'resid'</span>: rslt.resid</span>
+<span id="cb2-4"><a></a>})).mark_circle().encode(</span>
+<span id="cb2-5"><a></a>    x <span class="op">=</span> <span class="st">'fitted'</span>,</span>
+<span id="cb2-6"><a></a>    y <span class="op">=</span> <span class="st">'resid'</span></span>
+<span id="cb2-7"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="4">
 
 <style>
-  #altair-viz-1ae9eeeea549482d8e38e186554d698c.vega-embed {
+  #altair-viz-b1c996aa8adc441193d7d806fee44048.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-1ae9eeeea549482d8e38e186554d698c.vega-embed details,
-  #altair-viz-1ae9eeeea549482d8e38e186554d698c.vega-embed details summary {
+  #altair-viz-b1c996aa8adc441193d7d806fee44048.vega-embed details,
+  #altair-viz-b1c996aa8adc441193d7d806fee44048.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-1ae9eeeea549482d8e38e186554d698c"></div>
+<div id="altair-viz-b1c996aa8adc441193d7d806fee44048"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-1ae9eeeea549482d8e38e186554d698c") {
-      outputDiv = document.getElementById("altair-viz-1ae9eeeea549482d8e38e186554d698c");
+    if (outputDiv.id !== "altair-viz-b1c996aa8adc441193d7d806fee44048") {
+      outputDiv = document.getElementById("altair-viz-b1c996aa8adc441193d7d806fee44048");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -708,8 +713,9 @@ e^{\hat{\beta}_1\log(2)} = 1.549
 <section id="diabetes-data" class="slide level2">
 <h2>Diabetes data</h2>
 <p>4831 responses from the 2011-2012 National Health and Nutrition Examination Survey (NHANES):</p>
-<div class="cell" data-execution_count="5">
+<div id="4769413f" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display" data-execution_count="5">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -770,6 +776,7 @@ e^{\hat{\beta}_1\log(2)} = 1.549
 </div>
 </div>
 </div>
+</div>
 <div class="fragment">
 <p>Is BMI a risk factor for diabetes after adjusting for age and sex?</p>
 </div>
@@ -789,17 +796,17 @@ e^{\hat{\beta}_1\log(2)} = 1.549
 <section id="binary-response" class="slide level2">
 <h2>Binary response</h2>
 <p>Note that the response variable – whether the respondent has diabetes – is categorical.</p>
-<div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>diabetes.Diabetes.unique()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="c1eef0a5" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a>diabetes.Diabetes.unique()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>array(['No', 'Yes'], dtype=object)</code></pre>
 </div>
 </div>
 <div class="fragment">
 <p>We can encode this using an indicator variable, which results in a binary response:</p>
-<div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>y <span class="op">=</span> (diabetes.Diabetes <span class="op">==</span> <span class="st">'Yes'</span>).astype(<span class="st">'int'</span>)</span>
-<span id="cb5-2"><a href="#cb5-2"></a>y.unique()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="8f44f14f" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a></a>y <span class="op">=</span> (diabetes.Diabetes <span class="op">==</span> <span class="st">'Yes'</span>).astype(<span class="st">'int'</span>)</span>
+<span id="cb5-2"><a></a>y.unique()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>array([0, 1])</code></pre>
 </div>
@@ -826,18 +833,18 @@ e^{\hat{\beta}_1\log(2)} = 1.549
 <section id="what-not-to-do-1" class="slide level2">
 <h2>What not to do</h2>
 <p>Note that you <em>can</em> still fit this model.</p>
-<div class="cell" data-execution_count="8">
-<details>
+<div id="1d85b190" class="cell" data-execution_count="8">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># explanatory variable matrix</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a>gender_indicator <span class="op">=</span> pd.get_dummies(diabetes.Gender, drop_first <span class="op">=</span> <span class="va">True</span>)</span>
-<span id="cb7-3"><a href="#cb7-3"></a>x_vars <span class="op">=</span> pd.concat([gender_indicator, diabetes.loc[:, [<span class="st">'Age'</span>, <span class="st">'BMI'</span>]]], axis <span class="op">=</span> <span class="dv">1</span>)</span>
-<span id="cb7-4"><a href="#cb7-4"></a>x <span class="op">=</span> sm.add_constant(x_vars)</span>
-<span id="cb7-5"><a href="#cb7-5"></a>y <span class="op">=</span> (diabetes.Diabetes <span class="op">==</span> <span class="st">'Yes'</span>).astype(<span class="st">'int'</span>)</span>
-<span id="cb7-6"><a href="#cb7-6"></a></span>
-<span id="cb7-7"><a href="#cb7-7"></a><span class="co"># fit model</span></span>
-<span id="cb7-8"><a href="#cb7-8"></a>mlr <span class="op">=</span> sm.OLS(endog <span class="op">=</span> y, exog <span class="op">=</span> x)</span>
-<span id="cb7-9"><a href="#cb7-9"></a>mlr.fit().params</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a></a><span class="co"># explanatory variable matrix</span></span>
+<span id="cb7-2"><a></a>gender_indicator <span class="op">=</span> pd.get_dummies(diabetes.Gender, drop_first <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb7-3"><a></a>x_vars <span class="op">=</span> pd.concat([gender_indicator, diabetes.loc[:, [<span class="st">'Age'</span>, <span class="st">'BMI'</span>]]], axis <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb7-4"><a></a>x <span class="op">=</span> sm.add_constant(x_vars)</span>
+<span id="cb7-5"><a></a>y <span class="op">=</span> (diabetes.Diabetes <span class="op">==</span> <span class="st">'Yes'</span>).astype(<span class="st">'int'</span>)</span>
+<span id="cb7-6"><a></a></span>
+<span id="cb7-7"><a></a><span class="co"># fit model</span></span>
+<span id="cb7-8"><a></a>mlr <span class="op">=</span> sm.OLS(endog <span class="op">=</span> y, exog <span class="op">=</span> x)</span>
+<span id="cb7-9"><a></a>mlr.fit().params</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>const   -0.169002
@@ -857,54 +864,54 @@ dtype: float64</code></pre>
 <section id="what-not-to-do-2" class="slide level2">
 <h2>What not to do</h2>
 <p>Attempts at model visualization will look something like this:</p>
-<div class="cell" data-execution_count="9">
-<details>
+<div id="b254fc6b" class="cell" data-execution_count="9">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a>age_grid <span class="op">=</span> x.Age.median()</span>
-<span id="cb9-2"><a href="#cb9-2"></a>male_grid <span class="op">=</span> np.array([<span class="dv">1</span>])</span>
-<span id="cb9-3"><a href="#cb9-3"></a>bmi_grid <span class="op">=</span> np.linspace(x.BMI.<span class="bu">min</span>(), x.BMI.<span class="bu">max</span>(), <span class="dv">100</span>)</span>
-<span id="cb9-4"><a href="#cb9-4"></a>cx, ax, mx, bx <span class="op">=</span> np.meshgrid(np.array([<span class="dv">1</span>]), age_grid, male_grid, bmi_grid)</span>
-<span id="cb9-5"><a href="#cb9-5"></a>grid <span class="op">=</span> np.array([cx.ravel(), ax.ravel(), mx.ravel(), bx.ravel()]).T</span>
-<span id="cb9-6"><a href="#cb9-6"></a>grid_df <span class="op">=</span> pd.DataFrame(grid, columns <span class="op">=</span> [<span class="st">'const'</span>, <span class="st">'age'</span>, <span class="st">'male'</span>, <span class="st">'bmi'</span>])</span>
-<span id="cb9-7"><a href="#cb9-7"></a>pred_df <span class="op">=</span> mlr.fit().get_prediction(grid_df).summary_frame()</span>
-<span id="cb9-8"><a href="#cb9-8"></a>pred_df <span class="op">=</span> pd.concat([grid_df, pred_df], axis <span class="op">=</span> <span class="dv">1</span>)</span>
-<span id="cb9-9"><a href="#cb9-9"></a>diabetes[<span class="st">'diabetes_indicator'</span>] <span class="op">=</span> y</span>
-<span id="cb9-10"><a href="#cb9-10"></a></span>
-<span id="cb9-11"><a href="#cb9-11"></a>points <span class="op">=</span> alt.Chart(diabetes).mark_circle().encode(</span>
-<span id="cb9-12"><a href="#cb9-12"></a>    x <span class="op">=</span> alt.X(<span class="st">'BMI'</span>, title <span class="op">=</span> <span class="st">'body mass index'</span>),</span>
-<span id="cb9-13"><a href="#cb9-13"></a>    y <span class="op">=</span> alt.Y(<span class="st">'diabetes_indicator:Q'</span>, title <span class="op">=</span> <span class="st">'diabetes'</span>)</span>
-<span id="cb9-14"><a href="#cb9-14"></a>)</span>
-<span id="cb9-15"><a href="#cb9-15"></a></span>
-<span id="cb9-16"><a href="#cb9-16"></a>line <span class="op">=</span> alt.Chart(pred_df).mark_line().encode(</span>
-<span id="cb9-17"><a href="#cb9-17"></a>    x <span class="op">=</span> <span class="st">'bmi'</span>,</span>
-<span id="cb9-18"><a href="#cb9-18"></a>    y <span class="op">=</span> <span class="st">'mean'</span></span>
-<span id="cb9-19"><a href="#cb9-19"></a>)</span>
-<span id="cb9-20"><a href="#cb9-20"></a></span>
-<span id="cb9-21"><a href="#cb9-21"></a>(points <span class="op">+</span> line).configure_axis(</span>
-<span id="cb9-22"><a href="#cb9-22"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
-<span id="cb9-23"><a href="#cb9-23"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb9-24"><a href="#cb9-24"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a></a>age_grid <span class="op">=</span> x.Age.median()</span>
+<span id="cb9-2"><a></a>male_grid <span class="op">=</span> np.array([<span class="dv">1</span>])</span>
+<span id="cb9-3"><a></a>bmi_grid <span class="op">=</span> np.linspace(x.BMI.<span class="bu">min</span>(), x.BMI.<span class="bu">max</span>(), <span class="dv">100</span>)</span>
+<span id="cb9-4"><a></a>cx, ax, mx, bx <span class="op">=</span> np.meshgrid(np.array([<span class="dv">1</span>]), age_grid, male_grid, bmi_grid)</span>
+<span id="cb9-5"><a></a>grid <span class="op">=</span> np.array([cx.ravel(), ax.ravel(), mx.ravel(), bx.ravel()]).T</span>
+<span id="cb9-6"><a></a>grid_df <span class="op">=</span> pd.DataFrame(grid, columns <span class="op">=</span> [<span class="st">'const'</span>, <span class="st">'age'</span>, <span class="st">'male'</span>, <span class="st">'bmi'</span>])</span>
+<span id="cb9-7"><a></a>pred_df <span class="op">=</span> mlr.fit().get_prediction(grid_df).summary_frame()</span>
+<span id="cb9-8"><a></a>pred_df <span class="op">=</span> pd.concat([grid_df, pred_df], axis <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb9-9"><a></a>diabetes[<span class="st">'diabetes_indicator'</span>] <span class="op">=</span> y</span>
+<span id="cb9-10"><a></a></span>
+<span id="cb9-11"><a></a>points <span class="op">=</span> alt.Chart(diabetes).mark_circle().encode(</span>
+<span id="cb9-12"><a></a>    x <span class="op">=</span> alt.X(<span class="st">'BMI'</span>, title <span class="op">=</span> <span class="st">'body mass index'</span>),</span>
+<span id="cb9-13"><a></a>    y <span class="op">=</span> alt.Y(<span class="st">'diabetes_indicator:Q'</span>, title <span class="op">=</span> <span class="st">'diabetes'</span>)</span>
+<span id="cb9-14"><a></a>)</span>
+<span id="cb9-15"><a></a></span>
+<span id="cb9-16"><a></a>line <span class="op">=</span> alt.Chart(pred_df).mark_line().encode(</span>
+<span id="cb9-17"><a></a>    x <span class="op">=</span> <span class="st">'bmi'</span>,</span>
+<span id="cb9-18"><a></a>    y <span class="op">=</span> <span class="st">'mean'</span></span>
+<span id="cb9-19"><a></a>)</span>
+<span id="cb9-20"><a></a></span>
+<span id="cb9-21"><a></a>(points <span class="op">+</span> line).configure_axis(</span>
+<span id="cb9-22"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
+<span id="cb9-23"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb9-24"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="9">
 
 <style>
-  #altair-viz-d2eb4eaf42834323877ca49172e0e7bc.vega-embed {
+  #altair-viz-a26b93a0edc74970ad2a9b451a1dc99e.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-d2eb4eaf42834323877ca49172e0e7bc.vega-embed details,
-  #altair-viz-d2eb4eaf42834323877ca49172e0e7bc.vega-embed details summary {
+  #altair-viz-a26b93a0edc74970ad2a9b451a1dc99e.vega-embed details,
+  #altair-viz-a26b93a0edc74970ad2a9b451a1dc99e.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-d2eb4eaf42834323877ca49172e0e7bc"></div>
+<div id="altair-viz-a26b93a0edc74970ad2a9b451a1dc99e"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-d2eb4eaf42834323877ca49172e0e7bc") {
-      outputDiv = document.getElementById("altair-viz-d2eb4eaf42834323877ca49172e0e7bc");
+    if (outputDiv.id !== "altair-viz-a26b93a0edc74970ad2a9b451a1dc99e") {
+      outputDiv = document.getElementById("altair-viz-a26b93a0edc74970ad2a9b451a1dc99e");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -993,44 +1000,44 @@ P(Y = 1) = \;??
 <section id="logistic-regression-model-2" class="slide level2">
 <h2>Logistic regression model</h2>
 <p>The logistic function looks like this:</p>
-<div class="cell" data-execution_count="10">
-<details>
+<div id="f7303cef" class="cell" data-execution_count="10">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> norm</span>
-<span id="cb10-2"><a href="#cb10-2"></a>vals <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb10-3"><a href="#cb10-3"></a>    <span class="st">'x'</span>: np.linspace(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">200</span>)</span>
-<span id="cb10-4"><a href="#cb10-4"></a>})</span>
-<span id="cb10-5"><a href="#cb10-5"></a></span>
-<span id="cb10-6"><a href="#cb10-6"></a>vals[<span class="st">'pr'</span>] <span class="op">=</span> <span class="dv">1</span><span class="op">/</span>(<span class="dv">1</span> <span class="op">+</span> np.exp(<span class="op">-</span>vals.x))</span>
-<span id="cb10-7"><a href="#cb10-7"></a></span>
-<span id="cb10-8"><a href="#cb10-8"></a>alt.Chart(vals).mark_line().encode(</span>
-<span id="cb10-9"><a href="#cb10-9"></a>    x <span class="op">=</span> alt.X(<span class="st">'x'</span>, title <span class="op">=</span> <span class="st">'x*beta'</span>),</span>
-<span id="cb10-10"><a href="#cb10-10"></a>    y <span class="op">=</span> alt.Y(<span class="st">'pr'</span>, title <span class="op">=</span> <span class="st">'Pr(Y = 1)'</span>)</span>
-<span id="cb10-11"><a href="#cb10-11"></a>).configure_axis(</span>
-<span id="cb10-12"><a href="#cb10-12"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
-<span id="cb10-13"><a href="#cb10-13"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb10-14"><a href="#cb10-14"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a></a><span class="im">from</span> scipy.stats <span class="im">import</span> norm</span>
+<span id="cb10-2"><a></a>vals <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb10-3"><a></a>    <span class="st">'x'</span>: np.linspace(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">200</span>)</span>
+<span id="cb10-4"><a></a>})</span>
+<span id="cb10-5"><a></a></span>
+<span id="cb10-6"><a></a>vals[<span class="st">'pr'</span>] <span class="op">=</span> <span class="dv">1</span><span class="op">/</span>(<span class="dv">1</span> <span class="op">+</span> np.exp(<span class="op">-</span>vals.x))</span>
+<span id="cb10-7"><a></a></span>
+<span id="cb10-8"><a></a>alt.Chart(vals).mark_line().encode(</span>
+<span id="cb10-9"><a></a>    x <span class="op">=</span> alt.X(<span class="st">'x'</span>, title <span class="op">=</span> <span class="st">'x*beta'</span>),</span>
+<span id="cb10-10"><a></a>    y <span class="op">=</span> alt.Y(<span class="st">'pr'</span>, title <span class="op">=</span> <span class="st">'Pr(Y = 1)'</span>)</span>
+<span id="cb10-11"><a></a>).configure_axis(</span>
+<span id="cb10-12"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
+<span id="cb10-13"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb10-14"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="10">
 
 <style>
-  #altair-viz-c4648dc237d740d2aae43715a06450dc.vega-embed {
+  #altair-viz-89b87756d13e4a2093760c4bdce66774.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-c4648dc237d740d2aae43715a06450dc.vega-embed details,
-  #altair-viz-c4648dc237d740d2aae43715a06450dc.vega-embed details summary {
+  #altair-viz-89b87756d13e4a2093760c4bdce66774.vega-embed details,
+  #altair-viz-89b87756d13e4a2093760c4bdce66774.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-c4648dc237d740d2aae43715a06450dc"></div>
+<div id="altair-viz-89b87756d13e4a2093760c4bdce66774"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-c4648dc237d740d2aae43715a06450dc") {
-      outputDiv = document.getElementById("altair-viz-c4648dc237d740d2aae43715a06450dc");
+    if (outputDiv.id !== "altair-viz-89b87756d13e4a2093760c4bdce66774") {
+      outputDiv = document.getElementById("altair-viz-89b87756d13e4a2093760c4bdce66774");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -1081,7 +1088,7 @@ P(Y = 1) = \;??
 </div>
 </div>
 </section>
-<section id="assumptions" class="slide level2">
+<section id="assumptions" class="slide level2 scrollable">
 <h2>Assumptions</h2>
 <p>The model makes two key assumptions:</p>
 <ol type="1">
@@ -1092,24 +1099,25 @@ P(Y = 1) = \;??
 <section id="estimation" class="slide level2">
 <h2>Estimation</h2>
 <p>The model is fit by maximum likelihood: find the parameters for which the observed data are most likely. The likelihood (joint distribution) is constructed from the model and the Bernoulli distribution.</p>
-<div class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb11" data-code-line-numbers="2-3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># fit model</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a>model <span class="op">=</span> sm.Logit(endog <span class="op">=</span> y, exog <span class="op">=</span> x)</span>
-<span id="cb11-3"><a href="#cb11-3"></a>fit <span class="op">=</span> model.fit()</span>
-<span id="cb11-4"><a href="#cb11-4"></a></span>
-<span id="cb11-5"><a href="#cb11-5"></a><span class="co"># parameter estimates</span></span>
-<span id="cb11-6"><a href="#cb11-6"></a>coef_tbl <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb11-7"><a href="#cb11-7"></a>    <span class="st">'estimate'</span>: fit.params,</span>
-<span id="cb11-8"><a href="#cb11-8"></a>    <span class="st">'standard error'</span>: np.sqrt(fit.cov_params().values.diagonal())},</span>
-<span id="cb11-9"><a href="#cb11-9"></a>    index <span class="op">=</span> x.columns</span>
-<span id="cb11-10"><a href="#cb11-10"></a>)</span>
-<span id="cb11-11"><a href="#cb11-11"></a>coef_tbl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="d5162c13" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb11" data-code-line-numbers="2-3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a></a><span class="co"># fit model</span></span>
+<span id="cb11-2"><a></a>model <span class="op">=</span> sm.Logit(endog <span class="op">=</span> y, exog <span class="op">=</span> x)</span>
+<span id="cb11-3"><a></a>fit <span class="op">=</span> model.fit()</span>
+<span id="cb11-4"><a></a></span>
+<span id="cb11-5"><a></a><span class="co"># parameter estimates</span></span>
+<span id="cb11-6"><a></a>coef_tbl <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb11-7"><a></a>    <span class="st">'estimate'</span>: fit.params,</span>
+<span id="cb11-8"><a></a>    <span class="st">'standard error'</span>: np.sqrt(fit.cov_params().values.diagonal())},</span>
+<span id="cb11-9"><a></a>    index <span class="op">=</span> x.columns</span>
+<span id="cb11-10"><a></a>)</span>
+<span id="cb11-11"><a></a>coef_tbl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Optimization terminated successfully.
          Current function value: 0.213931
          Iterations 8</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="11">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1160,6 +1168,7 @@ P(Y = 1) = \;??
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="parameter-interpretations" class="slide level2">
 <h2>Parameter interpretations</h2>
@@ -1183,10 +1192,10 @@ P(Y = 1) = \;??
 <section id="confidence-intervals" class="slide level2">
 <h2>Confidence intervals</h2>
 <p>One can also give confidence intervals. These are based on large-sample approximations.</p>
-<div class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a><span class="co"># confidence intervals</span></span>
-<span id="cb13-2"><a href="#cb13-2"></a>ci <span class="op">=</span> fit.conf_int().rename(columns <span class="op">=</span> {<span class="dv">0</span>:<span class="st">'lower'</span>,<span class="dv">1</span>:<span class="st">'upper'</span>})</span>
-<span id="cb13-3"><a href="#cb13-3"></a>np.exp(ci.loc[<span class="st">'BMI'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="b7fbcbd4" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a></a><span class="co"># confidence intervals</span></span>
+<span id="cb13-2"><a></a>ci <span class="op">=</span> fit.conf_int().rename(columns <span class="op">=</span> {<span class="dv">0</span>:<span class="st">'lower'</span>,<span class="dv">1</span>:<span class="st">'upper'</span>})</span>
+<span id="cb13-3"><a></a>np.exp(ci.loc[<span class="st">'BMI'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
 <pre><code>lower    1.088933
 upper    1.123013
@@ -1207,9 +1216,9 @@ Name: BMI, dtype: float64</code></pre>
 \]</span></p>
 <div class="fragment">
 <p><code>statsmodels</code> returns estimated log odds instead of fitted probabilities.</p>
-<div class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a><span class="co"># log odds</span></span>
-<span id="cb15-2"><a href="#cb15-2"></a>fit.fittedvalues</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="f0c066b5" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a></a><span class="co"># log odds</span></span>
+<span id="cb15-2"><a></a>fit.fittedvalues</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
 <pre><code>0      -5.443558
 1      -2.561428
@@ -1230,10 +1239,10 @@ Length: 4831, dtype: float64</code></pre>
 <section id="fitted-values-1" class="slide level2">
 <h2>Fitted values</h2>
 <p>To obtain probabilities, one could manually back-transform:</p>
-<div class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a><span class="co"># compute fitted probabilities 'by hand'</span></span>
-<span id="cb17-2"><a href="#cb17-2"></a>fitted_probs <span class="op">=</span> <span class="dv">1</span><span class="op">/</span>(<span class="dv">1</span> <span class="op">+</span> np.exp(<span class="op">-</span>fit.fittedvalues))</span>
-<span id="cb17-3"><a href="#cb17-3"></a>fitted_probs.head(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="00858e86" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a></a><span class="co"># compute fitted probabilities 'by hand'</span></span>
+<span id="cb17-2"><a></a>fitted_probs <span class="op">=</span> <span class="dv">1</span><span class="op">/</span>(<span class="dv">1</span> <span class="op">+</span> np.exp(<span class="op">-</span>fit.fittedvalues))</span>
+<span id="cb17-3"><a></a>fitted_probs.head(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="14">
 <pre><code>0    0.004305
 1    0.071663
@@ -1245,9 +1254,9 @@ dtype: float64</code></pre>
 </div>
 <div class="fragment">
 <p>Or use the <code>.predict()</code> method:</p>
-<div class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a><span class="co"># fitted probabilities</span></span>
-<span id="cb19-2"><a href="#cb19-2"></a>fit.predict(x).head(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="1059b5bd" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a></a><span class="co"># fitted probabilities</span></span>
+<span id="cb19-2"><a></a>fit.predict(x).head(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
 <pre><code>0    0.004305
 1    0.071663
@@ -1301,9 +1310,9 @@ dtype: float64</code></pre>
 <section id="cross-tabulation" class="slide level2">
 <h2>Cross-tabulation</h2>
 <p>For any given classification threshold, we can cross-tabulate the classifications with the observed outcomes:</p>
-<div class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a><span class="co"># confusion matrix</span></span>
-<span id="cb21-2"><a href="#cb21-2"></a>fit.pred_table(<span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="89f07816" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a></a><span class="co"># confusion matrix</span></span>
+<span id="cb21-2"><a></a>fit.pred_table(<span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
 <pre><code>array([[4446.,   19.],
        [ 358.,    8.]])</code></pre>
@@ -1320,18 +1329,18 @@ dtype: float64</code></pre>
 <section id="overall-accuracy-is-misleading" class="slide level2">
 <h2>Overall accuracy is misleading</h2>
 <p>The proportion of correctly classified observations is:</p>
-<div class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a><span class="co"># proportion of correctly classified observations</span></span>
-<span id="cb23-2"><a href="#cb23-2"></a>fit.pred_table().diagonal().<span class="bu">sum</span>()<span class="op">/</span><span class="bu">len</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="089d4cfd" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a></a><span class="co"># proportion of correctly classified observations</span></span>
+<span id="cb23-2"><a></a>fit.pred_table().diagonal().<span class="bu">sum</span>()<span class="op">/</span><span class="bu">len</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="17">
 <pre><code>0.9219623266404471</code></pre>
 </div>
 </div>
 <div class="fragment">
 <p>This looks really good, but any method that classifies all or most observations as non-diabetic will achieve high accuracy because of the case imbalance in the data.</p>
-<div class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a><span class="co"># proportion of non-diabetic respondents</span></span>
-<span id="cb25-2"><a href="#cb25-2"></a>np.mean(y <span class="op">==</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="82996992" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a></a><span class="co"># proportion of non-diabetic respondents</span></span>
+<span id="cb25-2"><a></a>np.mean(y <span class="op">==</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="18">
 <pre><code>0.9242392879321052</code></pre>
 </div>
@@ -1341,10 +1350,10 @@ dtype: float64</code></pre>
 <section id="use-class-wise-error-rates" class="slide level2">
 <h2>Use class-wise error rates</h2>
 <p>Examining class-wise error rates reveals how asymmetric the classifications are:</p>
-<div class="cell" data-execution_count="19">
-<details>
+<div id="82b0f434" class="cell" data-execution_count="19">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1"></a>(fit.pred_table(<span class="fl">0.5</span>).T<span class="op">/</span>fit.pred_table(<span class="fl">0.5</span>).<span class="bu">sum</span>(axis <span class="op">=</span> <span class="dv">1</span>)).T</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a></a>(fit.pred_table(<span class="fl">0.5</span>).T<span class="op">/</span>fit.pred_table(<span class="fl">0.5</span>).<span class="bu">sum</span>(axis <span class="op">=</span> <span class="dv">1</span>)).T</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="19">
 <pre><code>array([[0.99574468, 0.00425532],
@@ -1359,10 +1368,10 @@ dtype: float64</code></pre>
 <section id="a-better-classifier" class="slide level2">
 <h2>A better classifier</h2>
 <p>In this case we can do better by choosing a low classification threshold <span class="math inline">\(\hat{p} &gt; 0.1\)</span>:</p>
-<div class="cell" data-execution_count="20">
-<details>
+<div id="24541a6e" class="cell" data-execution_count="20">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1"></a>fit.pred_table(<span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a></a>fit.pred_table(<span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="20">
 <pre><code>array([[3473.,  992.],
@@ -1375,10 +1384,10 @@ dtype: float64</code></pre>
 </ul>
 <div class="fragment">
 <p>Class-wise errors:</p>
-<div class="cell" data-execution_count="21">
-<details>
+<div id="9be54942" class="cell" data-execution_count="21">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1"></a>(fit.pred_table(<span class="fl">0.1</span>).T<span class="op">/</span>fit.pred_table(<span class="fl">0.1</span>).<span class="bu">sum</span>(axis <span class="op">=</span> <span class="dv">1</span>)).T</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a></a>(fit.pred_table(<span class="fl">0.1</span>).T<span class="op">/</span>fit.pred_table(<span class="fl">0.1</span>).<span class="bu">sum</span>(axis <span class="op">=</span> <span class="dv">1</span>)).T</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="21">
 <pre><code>array([[0.77782755, 0.22217245],
@@ -1386,8 +1395,10 @@ dtype: float64</code></pre>
 </div>
 </div>
 
+<div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 
+</div>
 </div>
 </div>
 </section>
@@ -1417,7 +1428,6 @@ dtype: float64</code></pre>
       Reveal.initialize({
 'controlsAuto': true,
 'previewLinksAuto': false,
-'smaller': true,
 'pdfSeparateFragments': false,
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
@@ -1678,10 +1688,9 @@ dtype: float64</code></pre>
         // clear code selection
         e.clearSelection();
       });
-      function tippyHover(el, contentFn) {
+      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
         const config = {
           allowHTML: true,
-          content: contentFn,
           maxWidth: 500,
           delay: 100,
           arrow: false,
@@ -1691,8 +1700,17 @@ dtype: float64</code></pre>
           interactive: true,
           interactiveBorder: 10,
           theme: 'light-border',
-          placement: 'bottom-start'
+          placement: 'bottom-start',
         };
+        if (contentFn) {
+          config.content = contentFn;
+        }
+        if (onTriggerFn) {
+          config.onTrigger = onTriggerFn;
+        }
+        if (onUntriggerFn) {
+          config.onUntrigger = onUntriggerFn;
+        }
           config['offset'] = [0,0];
           config['maxWidth'] = 700;
         window.tippy(el, config); 

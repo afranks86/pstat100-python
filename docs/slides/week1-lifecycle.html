@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-html/tabby.min.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -8,7 +8,7 @@
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.433">
+  <meta name="generator" content="quarto-1.4.550">
 
   <meta name="author" content="PSTAT100 Spring 2023">
   <title>PSTAT100 - Data science lifecycle</title>
@@ -31,7 +31,7 @@
     }
     /* CSS for syntax highlighting */
     pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span { line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
     .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -230,7 +230,8 @@
   }
 
   .callout.callout-titled .callout-body > .callout-content > :last-child {
-    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0;
   }
 
   .callout.callout-titled .callout-icon::before {
@@ -394,7 +395,7 @@
     }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+  
   <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 </head>
 <body class="quarto-light">
@@ -460,8 +461,9 @@ PSTAT100 Spring 2023
 <section id="data-acquisition" class="slide level2">
 <h2>Data acquisition</h2>
 <p>From Allison <em>et al.</em> 1976, average body and brain weights for 62 mammals.</p>
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;-&quot;}" data-execution_count="2">
+<div id="8816d408" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;-&quot;}" data-execution_count="2">
 <div class="cell-output cell-output-display" data-execution_count="2">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -511,6 +513,7 @@ PSTAT100 Spring 2023
 </div>
 </div>
 </div>
+</div>
 <p><strong>Units of measurement</strong></p>
 <ul>
 <li class="fragment">body weight in kilograms</li>
@@ -545,16 +548,16 @@ PSTAT100 Spring 2023
 <h2>Inpection</h2>
 <p>This dataset is already impeccably neat: each row is an observation for some species of mammal, and the columns are the two variables (average weight).</p>
 <p>So no tidying needed – we’ll just check the dimensions and see if any values are missing.</p>
-<div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># dimensions?</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a>bb_weights.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="21365cc8" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="co"># dimensions?</span></span>
+<span id="cb1-2"><a></a>bb_weights.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>(62, 3)</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># missing values?</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a>bb_weights.isna().<span class="bu">sum</span>(axis <span class="op">=</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="5b84c2d9" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a><span class="co"># missing values?</span></span>
+<span id="cb3-2"><a></a>bb_weights.isna().<span class="bu">sum</span>(axis <span class="op">=</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>species     0
 body_wt     0
@@ -566,27 +569,27 @@ dtype: int64</code></pre>
 <section id="exploration" class="slide level2">
 <h2>Exploration</h2>
 <p>Visualization is usually a good starting point for exploring data.</p>
-<div class="cell" data-execution_count="5">
+<div id="6ae36e8e" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display" data-execution_count="5">
 
 <style>
-  #altair-viz-a573680526b741d7b058c7b670f1b148.vega-embed {
+  #altair-viz-8bb6d309039f4d43b93888dd17dc309a.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-a573680526b741d7b058c7b670f1b148.vega-embed details,
-  #altair-viz-a573680526b741d7b058c7b670f1b148.vega-embed details summary {
+  #altair-viz-8bb6d309039f4d43b93888dd17dc309a.vega-embed details,
+  #altair-viz-8bb6d309039f4d43b93888dd17dc309a.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-a573680526b741d7b058c7b670f1b148"></div>
+<div id="altair-viz-8bb6d309039f4d43b93888dd17dc309a"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-a573680526b741d7b058c7b670f1b148") {
-      outputDiv = document.getElementById("altair-viz-a573680526b741d7b058c7b670f1b148");
+    if (outputDiv.id !== "altair-viz-8bb6d309039f4d43b93888dd17dc309a") {
+      outputDiv = document.getElementById("altair-viz-8bb6d309039f4d43b93888dd17dc309a");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -641,27 +644,27 @@ dtype: int64</code></pre>
 <section id="exploration-1" class="slide level2">
 <h2>Exploration</h2>
 <p>A simple transformation of the axes reveals a clearer pattern.</p>
-<div class="cell" data-execution_count="6">
+<div id="5a841b82" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display" data-execution_count="6">
 
 <style>
-  #altair-viz-6e96dcd2a7e542b8a210732ce1492e29.vega-embed {
+  #altair-viz-830d3e102d2840f199496d7ec43dc4df.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-6e96dcd2a7e542b8a210732ce1492e29.vega-embed details,
-  #altair-viz-6e96dcd2a7e542b8a210732ce1492e29.vega-embed details summary {
+  #altair-viz-830d3e102d2840f199496d7ec43dc4df.vega-embed details,
+  #altair-viz-830d3e102d2840f199496d7ec43dc4df.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-6e96dcd2a7e542b8a210732ce1492e29"></div>
+<div id="altair-viz-830d3e102d2840f199496d7ec43dc4df"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-6e96dcd2a7e542b8a210732ce1492e29") {
-      outputDiv = document.getElementById("altair-viz-6e96dcd2a7e542b8a210732ce1492e29");
+    if (outputDiv.id !== "altair-viz-830d3e102d2840f199496d7ec43dc4df") {
+      outputDiv = document.getElementById("altair-viz-830d3e102d2840f199496d7ec43dc4df");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -752,11 +755,11 @@ dtype: int64</code></pre>
 <h2>(More) data acquisition</h2>
 <p>A number of authors have compiled and published ‘meta-analysis’ datasets by combining the results of multiple studies.</p>
 <p>Below we’ll import a few of these for three different animal classes.</p>
-<div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># import metaanalysis datasets</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a>reptiles <span class="op">=</span> pd.read_csv(<span class="st">'data/reptile_meta.csv'</span>)</span>
-<span id="cb5-3"><a href="#cb5-3"></a>birds <span class="op">=</span> pd.read_csv(<span class="st">'data/bird_meta.csv'</span>, encoding <span class="op">=</span> <span class="st">'latin1'</span>)</span>
-<span id="cb5-4"><a href="#cb5-4"></a>mammals <span class="op">=</span> pd.read_csv(<span class="st">'data/mammal_meta.csv'</span>, encoding <span class="op">=</span> <span class="st">'latin1'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="7b6fd620" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a></a><span class="co"># import metaanalysis datasets</span></span>
+<span id="cb5-2"><a></a>reptiles <span class="op">=</span> pd.read_csv(<span class="st">'data/reptile_meta.csv'</span>)</span>
+<span id="cb5-3"><a></a>birds <span class="op">=</span> pd.read_csv(<span class="st">'data/bird_meta.csv'</span>, encoding <span class="op">=</span> <span class="st">'latin1'</span>)</span>
+<span id="cb5-4"><a></a>mammals <span class="op">=</span> pd.read_csv(<span class="st">'data/mammal_meta.csv'</span>, encoding <span class="op">=</span> <span class="st">'latin1'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="data-assessment-2" class="slide level2">
@@ -793,9 +796,9 @@ dtype: int64</code></pre>
 <section id="inspection" class="slide level2">
 <h2>Inspection</h2>
 <p>This dataset has quite a lot of missing brain weight measurements: many of the studies combined to form these datasets did not include that particular measurement.</p>
-<div class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># missing values?</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a>data.isna().mean(axis <span class="op">=</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="b0d232a2" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a></a><span class="co"># missing values?</span></span>
+<span id="cb6-2"><a></a>data.isna().mean(axis <span class="op">=</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>Order      0.00000
 Family     0.00000
@@ -812,27 +815,27 @@ dtype: float64</code></pre>
 <section id="exploration-2" class="slide level2">
 <h2>Exploration</h2>
 <p>Focusing on the nonmissing values, we see the same power law relationship but with <em>different</em> proportionality constants and exponents for the three classes of animals.</p>
-<div class="cell" data-execution_count="12">
+<div id="9e90014f" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display" data-execution_count="12">
 
 <style>
-  #altair-viz-aaca46c302844d148de2488513e62bc6.vega-embed {
+  #altair-viz-fb82c7f4148e43d7bf925a984a55cabc.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-aaca46c302844d148de2488513e62bc6.vega-embed details,
-  #altair-viz-aaca46c302844d148de2488513e62bc6.vega-embed details summary {
+  #altair-viz-fb82c7f4148e43d7bf925a984a55cabc.vega-embed details,
+  #altair-viz-fb82c7f4148e43d7bf925a984a55cabc.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-aaca46c302844d148de2488513e62bc6"></div>
+<div id="altair-viz-fb82c7f4148e43d7bf925a984a55cabc"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-aaca46c302844d148de2488513e62bc6") {
-      outputDiv = document.getElementById("altair-viz-aaca46c302844d148de2488513e62bc6");
+    if (outputDiv.id !== "altair-viz-fb82c7f4148e43d7bf925a984a55cabc") {
+      outputDiv = document.getElementById("altair-viz-fb82c7f4148e43d7bf925a984a55cabc");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -927,15 +930,20 @@ dtype: float64</code></pre>
 <ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Figure</a></li><li><a href="#tabset-1-2">Estimates</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1">
-<div class="cell" data-execution_count="14">
+<div id="9c4405af" class="cell" data-execution_count="14">
 <div class="cell-output cell-output-display">
+<div>
+<figure>
 <p><img data-src="week1-lifecycle_files/figure-revealjs/cell-11-output-1.png" width="587" height="347"></p>
+</figure>
+</div>
 </div>
 </div>
 </div>
 <div id="tabset-1-2">
-<div class="cell" data-execution_count="15">
+<div id="5f30fb94" class="cell" data-execution_count="15">
 <div class="cell-output cell-output-display" data-execution_count="15">
+<div>
 <table class="simpletable" data-quarto-postprocess="true">
 <tbody>
 <tr class="odd">
@@ -1008,6 +1016,7 @@ dtype: float64</code></pre>
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="model-limitations" class="slide level2">
 <h2>Model limitations</h2>
@@ -1048,8 +1057,10 @@ dtype: float64</code></pre>
 <li class="fragment">Aggregation and grouping</li>
 </ul>
 
+<div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 
+</div>
 </div>
 </section>
     </div>
@@ -1078,7 +1089,6 @@ dtype: float64</code></pre>
       Reveal.initialize({
 'controlsAuto': true,
 'previewLinksAuto': false,
-'smaller': false,
 'pdfSeparateFragments': false,
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
@@ -1339,10 +1349,9 @@ dtype: float64</code></pre>
         // clear code selection
         e.clearSelection();
       });
-      function tippyHover(el, contentFn) {
+      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
         const config = {
           allowHTML: true,
-          content: contentFn,
           maxWidth: 500,
           delay: 100,
           arrow: false,
@@ -1352,8 +1361,17 @@ dtype: float64</code></pre>
           interactive: true,
           interactiveBorder: 10,
           theme: 'light-border',
-          placement: 'bottom-start'
+          placement: 'bottom-start',
         };
+        if (contentFn) {
+          config.content = contentFn;
+        }
+        if (onTriggerFn) {
+          config.onTrigger = onTriggerFn;
+        }
+        if (onUntriggerFn) {
+          config.onUntrigger = onUntriggerFn;
+        }
           config['offset'] = [0,0];
           config['maxWidth'] = 700;
         window.tippy(el, config); 

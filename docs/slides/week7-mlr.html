@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.433">
+<meta name="generator" content="quarto-1.4.550">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -57,7 +57,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -79,7 +79,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -88,6 +94,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -103,11 +110,38 @@ gtag('js', new Date());
 gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -116,9 +150,9 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">PSTAT100</span>
     </a>
@@ -130,17 +164,17 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../about.html" rel="" target="">
- <span class="menu-text">Course syllabus</span></a>
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">Course syllabus</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../content.html" rel="" target="">
- <span class="menu-text">Materials</span></a>
+    <a class="nav-link" href="../content.html"> 
+<span class="menu-text">Materials</span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools ms-auto">
-</div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -153,7 +187,9 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#week-7-linear-models" id="toc-week-7-linear-models" class="nav-link active" data-scroll-target="#week-7-linear-models">Week 7: Linear models</a></li>
+  <li><a href="#data-science-concepts-and-analysis" id="toc-data-science-concepts-and-analysis" class="nav-link active" data-scroll-target="#data-science-concepts-and-analysis">Data Science Concepts and Analysis</a>
+  <ul class="collapse">
+  <li><a href="#week-7-linear-models" id="toc-week-7-linear-models" class="nav-link" data-scroll-target="#week-7-linear-models">Week 7: Linear models</a></li>
   <li><a href="#this-week-multiple-linear-regression" id="toc-this-week-multiple-linear-regression" class="nav-link" data-scroll-target="#this-week-multiple-linear-regression">This week: multiple linear regression</a></li>
   <li><a href="#review-of-the-simple-linear-model" id="toc-review-of-the-simple-linear-model" class="nav-link" data-scroll-target="#review-of-the-simple-linear-model">Review of the simple linear model</a></li>
   <li><a href="#the-simple-linear-model" id="toc-the-simple-linear-model" class="nav-link" data-scroll-target="#the-simple-linear-model">The simple linear model</a></li>
@@ -190,6 +226,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
   <li><a href="#model-visualization" id="toc-model-visualization" class="nav-link" data-scroll-target="#model-visualization">Model visualization</a></li>
   <li><a href="#comments-on-scope-of-inference" id="toc-comments-on-scope-of-inference" class="nav-link" data-scroll-target="#comments-on-scope-of-inference">Comments on scope of inference</a></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -211,9 +248,11 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
   </div>
   
 
+
 </header>
 
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;skip&quot;}" data-tags="[]" data-execution_count="1">
+
+<div id="cell-0" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;skip&quot;}" data-tags="[]" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> altair <span class="im">as</span> alt</span>
@@ -225,6 +264,8 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <pre><code>DataTransformerRegistry.enable('default')</code></pre>
 </div>
 </div>
+<section id="data-science-concepts-and-analysis" class="level1">
+<h1>Data Science Concepts and Analysis</h1>
 <section id="week-7-linear-models" class="level3">
 <h3 class="anchored" data-anchor-id="week-7-linear-models">Week 7: Linear models</h3>
 <ul>
@@ -336,7 +377,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <li>(Slope) Every [one-unit increase in <span class="math inline">\(x_i\)</span>] is associated with an estimated change in mean [response variable] of [<span class="math inline">\(\hat{\beta}_1\)</span> units].</li>
 </ul>
 <p><span class="math display">\[\text{increment $x$} \quad\Longrightarrow\quad \beta_0 + \beta_1 (x_i + 1) = \beta_0 + \beta_1 x_i + \beta_1 = \mathbb{E}y_i + \beta_1\]</span></p>
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;skip&quot;}" data-tags="[]" data-execution_count="2">
+<div id="cell-20" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;skip&quot;}" data-tags="[]" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import grade-aggregated seda data from hw2</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>seda <span class="op">=</span> pd.read_csv(<span class="st">'data/seda.csv'</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -397,7 +438,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <section id="example-from-last-time" class="level2">
 <h2 class="anchored" data-anchor-id="example-from-last-time">Example from last time</h2>
 <p>Last time we fit a simple linear model to the SEDA math gap data. ‘Fitting’ the model means computing the estimates.</p>
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="3">
+<div id="cell-22" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>(scatter <span class="op">+</span> line <span class="op">+</span> band).properties(width <span class="op">=</span> <span class="dv">300</span>, height <span class="op">=</span> <span class="dv">200</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 
@@ -452,9 +493,10 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 </script>
 </div>
 </div>
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="4">
+<div id="cell-23" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>coef_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
+<div>
 <div>
 
 
@@ -480,6 +522,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 </tbody>
 </table>
 
+</div>
 </div>
 </div>
 </div>
@@ -595,7 +638,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <section id="urban-tree-cover-data" class="level2">
 <h2 class="anchored" data-anchor-id="urban-tree-cover-data">Urban tree cover data</h2>
 <p>The following are data on urban tree cover in the San Diego area:</p>
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;skip&quot;}" data-tags="[]" data-execution_count="5">
+<div id="cell-41" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;skip&quot;}" data-tags="[]" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">51421</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>trees <span class="op">=</span> pd.read_csv(<span class="st">'data/utc-sd.csv'</span>).sample(n <span class="op">=</span> <span class="dv">2000</span>).rename(</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    columns <span class="op">=</span> {<span class="st">'fc_in_BG_g'</span>: <span class="st">'tree_cover'</span>, <span class="st">'IncPr'</span>: <span class="st">'mean_income'</span>, <span class="st">'SurfaceTem'</span>: <span class="st">'mean_summer_temp'</span>}</span>
@@ -608,9 +651,10 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>trees <span class="op">=</span> trees[trees.mean_summer_temp <span class="op">&gt;</span> <span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="6">
+<div id="cell-42" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>trees.head(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
+<div>
 <div>
 
 
@@ -674,6 +718,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 </div>
 </div>
 </div>
+</div>
 <p>Source: McDonald RI, Biswas T, Sachar C, Housman I, Boucher TM, Balk D, et al.&nbsp;(2021) The tree cover and temperature disparity in US urbanized areas: Quantifying the association with income across 5,723 communities. PLoS ONE 16(4): e0249715. <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0249715">doi:10.1371/journal.pone.0249715</a>.</p>
 </section>
 <section id="observational-units" class="level2">
@@ -687,7 +732,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <h2 class="anchored" data-anchor-id="tree-cover-and-summer-temperatures">Tree cover and summer temperatures</h2>
 <p>Tree canopy mitigates temperature in urban areas.</p>
 <p><img src="figures/fig1-tempcover.png" style="width:500px"></p>
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;skip&quot;}" data-tags="[]" data-execution_count="7">
+<div id="cell-48" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;skip&quot;}" data-tags="[]" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># source code</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>fig1 <span class="op">=</span> alt.Chart(trees).mark_circle(opacity <span class="op">=</span> <span class="fl">0.6</span>).encode(</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> alt.X(<span class="st">'tree_cover'</span>, scale <span class="op">=</span> alt.Scale(<span class="bu">type</span> <span class="op">=</span> <span class="st">'pow'</span>, exponent <span class="op">=</span> <span class="dv">1</span><span class="op">/</span><span class="dv">2</span>, zero <span class="op">=</span> <span class="va">False</span>)),</span>
@@ -706,11 +751,12 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <p><span class="math display">\[\underbrace{\text{temp}_i}_{y_i}
     = \beta_0 + \beta_1 \underbrace{\text{cover}_i}_{x_{i1}} + \beta_2 \underbrace{\text{income}_i}_{x_{i2}} + \epsilon_i
     \qquad i = 1, \dots, 1998\]</span></p>
-<div class="cell" data-execution_count="8">
+<div id="cell-52" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> trees.mean_summer_temp.values</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>x_df <span class="op">=</span> trees[[<span class="st">'tree_cover'</span>, <span class="st">'mean_income'</span>]]</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>x_df.head(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
+<div>
 <div>
 
 
@@ -744,6 +790,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="explanatory-variable-matrix" class="level2">
 <h2 class="anchored" data-anchor-id="explanatory-variable-matrix">Explanatory variable matrix</h2>
@@ -755,7 +802,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
     1 &amp;\text{cover}_{1998} &amp;\text{income}_{1998}
     \end{array}\right]\]</span></p>
 <p>So we just need to add a column of ones to <code>x_df</code>:</p>
-<div class="cell" data-execution_count="9">
+<div id="cell-55" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add column of ones (for intercept)</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>x_mx <span class="op">=</span> add_dummy_feature(x_df, value <span class="op">=</span> <span class="dv">1</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -771,7 +818,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <section id="model-fitting" class="level2">
 <h2 class="anchored" data-anchor-id="model-fitting">Model fitting</h2>
 <p>Since we’ve added an intercept column, the fitting module should be configured <strong>not</strong> to fit an intercept separately.</p>
-<div class="cell" data-execution_count="10">
+<div id="cell-57" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fit first model</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>mlr <span class="op">=</span> lm.LinearRegression(fit_intercept <span class="op">=</span> <span class="va">False</span>)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>mlr.fit(x_mx, y)</span>
@@ -787,7 +834,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <p><span class="math display">\[\hat{\mathbf{y}} = \mathbf{X}\hat{\beta}\]</span></p>
 <p>And residuals:</p>
 <p><span class="math display">\[\mathbf{e} = \left(\mathbf{y} - \mathbf{X}\hat{\beta}\right) = \mathbf{y} - \hat{\mathbf{y}}\]</span></p>
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="11">
+<div id="cell-60" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fitted values and residuals</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>fitted <span class="op">=</span> mlr.predict(x_mx)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>resid <span class="op">=</span> y <span class="op">-</span> fitted</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -797,7 +844,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 = \frac{1}{n - p}\left(\mathbf{y} - \mathbf{X}\hat{\beta}\right)'\left(\mathbf{y} - \mathbf{X}\hat{\beta}\right)
 = \frac{1}{n - p}\mathbf{e'e}
 = \frac{n - 1}{n - p}S^2_e\]</span></p>
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="12">
+<div id="cell-62" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># error variance estimate</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>n, p <span class="op">=</span> x_mx.shape</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>sigmasqhat <span class="op">=</span> resid.var()<span class="op">*</span>(n <span class="op">-</span> <span class="dv">1</span>)<span class="op">/</span>(n <span class="op">-</span> p)</span>
@@ -811,7 +858,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <h2 class="anchored" data-anchor-id="uncertainty-quantification-2">Uncertainty quantification</h2>
 <p>Lastly, we’ll compute the coefficient estimate standard errors:</p>
 <p><span class="math display">\[\sqrt{\hat{v}_{jj}} \quad\text{from}\quad \hat{\mathbf{V}} = \hat{\sigma}^2\left(\mathbf{X'X}\right)^{-1}\]</span></p>
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="13">
+<div id="cell-64" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>xtx <span class="op">=</span> x_mx.transpose().dot(x_mx) <span class="co"># X'X</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>xtxinv <span class="op">=</span> np.linalg.inv(xtx) <span class="co"># (X'X)^{-1}</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>vhat <span class="op">=</span> sigmasqhat<span class="op">*</span>xtxinv <span class="co"># V</span></span>
@@ -822,7 +869,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
        [-1.25915361e-07, -2.70769667e-07,  3.80729809e-12]])</code></pre>
 </div>
 </div>
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="14">
+<div id="cell-65" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>coef_se <span class="op">=</span> np.sqrt(vhat.diagonal()) <span class="co"># (v_jj)^{1/2}</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>coef_se</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="14">
@@ -838,7 +885,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
     = \frac{\mathbf{\tilde{y}'\tilde{y}} - \mathbf{e'e}}{\mathbf{\tilde{y}'\tilde{y}}}
     \qquad \text{where} \qquad
     \mathbf{\tilde{y}} = \mathbf{y} - \bar{\mathbf{y}}\]</span></p>
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="15">
+<div id="cell-67" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 'by hand'</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>y_ctr <span class="op">=</span> y <span class="op">-</span> y.mean()</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>(y_ctr.transpose().dot(y_ctr) <span class="op">-</span> resid.transpose().dot(resid))<span class="op">/</span>(y_ctr.transpose().dot(y_ctr))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -846,7 +893,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <pre><code>0.30684982283103096</code></pre>
 </div>
 </div>
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="16">
+<div id="cell-68" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># using sklearn.metrics.r2_score</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>r2_score(y, fitted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
@@ -859,7 +906,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <h2 class="anchored" data-anchor-id="reporting-model-fit">Reporting model fit</h2>
 <p>Now we’ve computed relevant quantities – estimates and standard errors – but we have yet to report these in an organized fashion.</p>
 <p>Typically, these are displayed in a table.</p>
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="17">
+<div id="cell-71" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>mlr_summary <span class="op">=</span> pd.DataFrame(</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'estimate'</span>: np.append(mlr.coef_, sigmasqhat), </span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>     <span class="st">'standard error'</span>: np.append(coef_se, <span class="bu">float</span>(<span class="st">'nan'</span>))},</span>
@@ -868,6 +915,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>mlr_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="17">
+<div>
 <div>
 
 
@@ -906,8 +954,9 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 </div>
 </div>
 </div>
+</div>
 <p>Along with <span class="math inline">\(R^2\)</span>:</p>
-<div class="cell" data-execution_count="18">
+<div id="cell-73" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>r2_score(y, fitted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="18">
 <pre><code>0.3068498228310309</code></pre>
@@ -919,7 +968,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <p>Here are trend lines and error bands for three values of income (10th, 50th, and 90th percentiles).</p>
 <p><img src="figures/fig2-modelviz.png" style="width:700px"></p>
 <p>The error bands represent the variation of the lines – how much they might change if we sampled different census blocks. (<strong>Not</strong> the variation of temperatures.)</p>
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;skip&quot;}" data-tags="[]" data-execution_count="19">
+<div id="cell-75" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;skip&quot;}" data-tags="[]" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make univariate grids</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>tree_grid <span class="op">=</span> np.linspace(trees.tree_cover.<span class="bu">min</span>(), trees.tree_cover.<span class="bu">max</span>(), <span class="dv">100</span>)</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>income_grid <span class="op">=</span> trees.mean_income.quantile([<span class="fl">0.1</span>, <span class="fl">0.5</span>, <span class="fl">0.9</span>]).values</span>
@@ -962,9 +1011,10 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <section id="interpretation" class="level2">
 <h2 class="anchored" data-anchor-id="interpretation">Interpretation</h2>
 <p>So what have we learned from this exercise?</p>
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="20">
+<div id="cell-77" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>mlr_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="20">
+<div>
 <div>
 
 
@@ -1003,6 +1053,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 </div>
 </div>
 </div>
+</div>
 <ul>
 <li><p>Among census blocks in San Diego, a 1% increase in tree canopy cover is associated with a decrease in average summer temperatures of 3.15 degrees Celsius, after accounting for mean income of the census block.</p></li>
 <li><p>Among census blocks in San Diego, a $10K increase in mean income is associated with a decrease in average summer temperatures of 0.5 degrees Celsius, after accounting for tree canopy cover.</p></li>
@@ -1030,9 +1081,10 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <section id="mlr-with-categorical-variables" class="level2">
 <h2 class="anchored" data-anchor-id="mlr-with-categorical-variables">MLR with categorical variables</h2>
 <p>What if we also incorporated the population density factor (a categorical variable)?</p>
-<div class="cell" data-execution_count="21">
+<div id="cell-91" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>trees.head(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="21">
+<div>
 <div>
 
 
@@ -1096,6 +1148,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 </div>
 </div>
 </div>
+</div>
 <p>Well, it might be natural to think we could just append this column as another variable <span class="math inline">\(x_{i3}\)</span>:</p>
 <p><span class="math display">\[\underbrace{\text{temp}_i}_{y_i}
     = \beta_0 +
@@ -1113,10 +1166,11 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <p>If we want to indicate whether a census block is of low population density, we can use the indicator:</p>
 <p><span class="math display">\[I(\text{density $=$ low}) = \begin{cases} 1 \text{ if population density is low} \\ 0 \text{ otherwise}\end{cases}\]</span></p>
 <p>We can encode the levels of <code>pop_density</code> using a collection of indicators:</p>
-<div class="cell" data-execution_count="22">
+<div id="cell-98" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>density_encoded <span class="op">=</span> pd.get_dummies(trees.pop_density, drop_first <span class="op">=</span> <span class="va">True</span>)</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>pd.concat([trees[[<span class="st">'pop_density'</span>]], density_encoded], axis <span class="op">=</span> <span class="dv">1</span>).head(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="22">
+<div>
 <div>
 
 
@@ -1162,6 +1216,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 </tbody>
 </table>
 
+</div>
 </div>
 </div>
 </div>
@@ -1207,10 +1262,11 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
     1 &amp;\text{cover}_{1998} &amp;\text{income}_{1998} &amp;\text{low}_{1998} &amp;\text{med}_{1998} &amp;\text{high}_{1998}
     \end{array}\right]\]</span></p>
 <p>Here’s everything to the right of the dashed partition:</p>
-<div class="cell" data-execution_count="23">
+<div id="cell-104" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>x_full_df <span class="op">=</span> pd.concat([x_df, density_encoded], axis <span class="op">=</span> <span class="dv">1</span>)</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>x_full_df.head(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="23">
+<div>
 <div>
 
 
@@ -1264,12 +1320,13 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="fit-summary" class="level2">
 <h2 class="anchored" data-anchor-id="fit-summary">Fit summary</h2>
 <p>The remaining calculations are all the same as before. (You can see the source code for these slides if you’re interested in reviewing the details.)</p>
 <p>Here is the model fit summary:</p>
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;skip&quot;}" data-tags="[]" data-execution_count="24">
+<div id="cell-106" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;skip&quot;}" data-tags="[]" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fit model</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>x_full_mx <span class="op">=</span> add_dummy_feature(x_full_df)</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>mlr_full <span class="op">=</span> lm.LinearRegression(fit_intercept <span class="op">=</span> <span class="va">False</span>)</span>
@@ -1292,10 +1349,11 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span> [<span class="st">'intercept'</span>, <span class="st">'cover'</span>, <span class="st">'income'</span>, <span class="st">'low density'</span>, <span class="st">'medium density'</span>, <span class="st">'high density'</span>, <span class="st">'error variance'</span>]</span>
 <span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-tags="[]" data-execution_count="25">
+<div id="cell-107" class="cell" data-tags="[]" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># print</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>mlr_full_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="25">
+<div>
 <div>
 
 
@@ -1349,6 +1407,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 </div>
 </div>
 </div>
+</div>
 <ul>
 <li><p>Estimates for the cover and income coefficients are about the same.</p></li>
 <li><p>The population density variable changes the intercept by about <span class="math inline">\(\pm 0.15\)</span> degrees Celsius, depending on the density level.</p></li>
@@ -1359,7 +1418,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <h2 class="anchored" data-anchor-id="model-visualization">Model visualization</h2>
 <p>The estimated trends and error bands for the same three income levels and each level of population density are shown below, without the data scatter:</p>
 <p><img src="figures/fig3-fullmodel.png" style="width:800px"></p>
-<div class="cell" data-jupyter="{&quot;source_hidden&quot;:true}" data-slideshow="{&quot;slide_type&quot;:&quot;skip&quot;}" data-tags="[]" data-execution_count="26">
+<div id="cell-112" class="cell" data-jupyter="{&quot;source_hidden&quot;:true}" data-slideshow="{&quot;slide_type&quot;:&quot;skip&quot;}" data-tags="[]" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make univariate grids</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>tree_grid <span class="op">=</span> np.linspace(trees.tree_cover.<span class="bu">min</span>(), trees.tree_cover.<span class="bu">max</span>(), <span class="dv">100</span>)</span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>income_grid <span class="op">=</span> trees.mean_income.quantile([<span class="fl">0.1</span>, <span class="fl">0.5</span>, <span class="fl">0.9</span>]).values</span>
@@ -1444,6 +1503,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 
 
 </section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -1525,10 +1585,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1538,8 +1597,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1552,6 +1620,125 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1595,6 +1782,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1620,6 +1808,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1680,6 +1894,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 

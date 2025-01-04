@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.433">
+<meta name="generator" content="quarto-1.4.550">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -79,7 +79,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -88,6 +94,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -111,9 +118,9 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">PSTAT100</span>
     </a>
@@ -125,17 +132,17 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html" rel="" target="">
- <span class="menu-text">Course syllabus</span></a>
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">Course syllabus</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../content.html" rel="" target="">
- <span class="menu-text">Materials</span></a>
+    <a class="nav-link" href="../../content.html"> 
+<span class="menu-text">Materials</span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools ms-auto">
-</div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -148,7 +155,8 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#transforms-in-altair" id="toc-transforms-in-altair" class="nav-link active" data-scroll-target="#transforms-in-altair">Transforms in Altair</a>
+  <li><a href="#lab-4-smoothing" id="toc-lab-4-smoothing" class="nav-link active" data-scroll-target="#lab-4-smoothing">Lab 4: Smoothing</a></li>
+  <li><a href="#transforms-in-altair" id="toc-transforms-in-altair" class="nav-link" data-scroll-target="#transforms-in-altair">Transforms in Altair</a>
   <ul class="collapse">
   <li><a href="#filter-transform" id="toc-filter-transform" class="nav-link" data-scroll-target="#filter-transform">Filter transform</a>
   <ul class="collapse">
@@ -208,14 +216,16 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
   </div>
   
 
+
 </header>
 
-<div class="cell">
+
+<div id="cell-0" class="cell" data-editable="false">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize Otter</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> otter</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>grader <span class="op">=</span> otter.Notebook(<span class="st">"lab4-smoothing.ipynb"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="cell-1" class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> altair <span class="im">as</span> alt</span>
@@ -225,6 +235,8 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># uncomment to ensure graphics display with pdf export</span></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># alt.renderers.enable('mimetype')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<section id="lab-4-smoothing" class="level1">
+<h1>Lab 4: Smoothing</h1>
 <p>So far, you’ve encountered a number of visualization techniques for displaying tidy data. In those visualizations, all graphic elements represent the values of a dataset – they are visual displays of actual data.</p>
 <p>In general, smoothing means evening out. Visualizations of actual data are often irregular – points are distributed widely in scatterplots, line plots are jagged, bars are discontinuous. When we look at such visuals, we tend to attempt to look past these irregularities in order to discern patterns – for example, the overall shape of a histogram or the general trend in a scatterplot. Showing what a graphic might look like with irregularities evened out often aids the eye in detecting pattern. This is what <strong>smoothing</strong> is: <em><strong>evening out irregularities in graphical displays of actual data</strong></em>.</p>
 <p>For our purposes, usually smoothing will consist in drawing a line or a curve on top of an existing statistical graphic. From a technical point of view, this amounts to adding derived geometric objects to a graphic that have fewer irregularities than the displays of actual data.</p>
@@ -246,11 +258,12 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <li>Implement linear smoothing via <code>transform_regression(...)</code></li>
 </ul>
 <p>You’ll use the same data as last week to stick to a familiar example:</p>
-<div class="cell">
+<div id="cell-3" class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import tidied lab 3 data</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">'data/lab3-data.csv'</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
 <section id="transforms-in-altair" class="level1">
 <h1>Transforms in Altair</h1>
 <p>In Altair, operations that modify a dataset are referred to as <em>transforms</em>. Mostly, these are operations that could be performed manually with ease – the utility of transforms is that they <em>wrap common operations within plotting commands</em>, although they also make plotting codes more verbose.</p>
@@ -259,7 +272,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <section id="filter-transform" class="level2">
 <h2 class="anchored" data-anchor-id="filter-transform">Filter transform</h2>
 <p>Last week you saw a way to make histograms. As a quick refresher, to make a histogram of life expectancies across the globe in 2010, one can filter the data and then plot using the following commands:</p>
-<div class="cell">
+<div id="cell-5" class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># filter</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>data2010 <span class="op">=</span> data[data.Year <span class="op">==</span> <span class="dv">2010</span>]</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -275,7 +288,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <p>This uses a helper command to specify the filtering condition – in the above example, the filtering condition is that <code>Year</code> is equal to <code>2010</code>. A filtering condition is referred to in Altair as a ‘field predicate’. In the above example: * filtering field: <code>Year</code> * field predicate: equals <code>2010</code></p>
 <p>There are different helpers for different types of field predicates – you can find a complete list <a href="https://altair-viz.github.io/user_guide/transform/filter.html">in the documentation</a>.</p>
 <p>Here is how to use <code>.transform_filter()</code> to make the same histogram shown above, but skipping the step of storing a subset of the data under a separate name:</p>
-<div class="cell">
+<div id="cell-7" class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># filter and plot</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>alt.Chart(data).transform_filter(</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    alt.FieldEqualPredicate(field <span class="op">=</span> <span class="st">'Year'</span>, </span>
@@ -291,7 +304,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <section id="question-1-filter-transform" class="level3">
 <h3 class="anchored" data-anchor-id="question-1-filter-transform">Question 1: Filter transform</h3>
 <p>Construct a histogram of life expectancies across the globe in 2019 using a filter transform as shown above to filter the appropriate rows of the dataset. Use a bin size of three (not two) years.</p>
-<div class="cell" data-tags="[]">
+<div id="cell-9" class="cell" data-tags="[]">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># filter and plot</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>alt.Chart(data).transform_filter(</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    ...</span>
@@ -308,20 +321,20 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <p>The codes above provide a sleek way to construct the histogram that handles binning via arguments to <code>alt.X(...)</code>. However, binning actually involves an operation: creating a new variable that is a discretization of an existing variable into contiguous intervals of a specified width.</p>
 <p>To illustrate, have a look at how the histogram could be constructed ‘manually’ by the following operations. 1. Bin life expectancies 2. Count values in each bin 3. Make a bar plot of counts against bin centers.</p>
 <p>Here’s step 1:</p>
-<div class="cell">
+<div id="cell-11" class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># bin life expectancies into 20 contiguous intervals</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>data2010[<span class="st">'Bin'</span>] <span class="op">=</span> pd.cut(data2010[<span class="st">"Life Expectancy"</span>], bins <span class="op">=</span> <span class="dv">20</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>data2010.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Here’s step 2:</p>
-<div class="cell">
+<div id="cell-13" class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># count values in each bin and store midpoints</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>histdata <span class="op">=</span> data2010.loc[:, [<span class="st">'Life Expectancy'</span>, <span class="st">'Bin'</span>]].groupby(<span class="st">'Bin'</span>).count()</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>histdata[<span class="st">'Bin midpoint'</span>] <span class="op">=</span> histdata.index.values.categories.mid.values</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>histdata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>And finally, step 3:</p>
-<div class="cell">
+<div id="cell-15" class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot histogram</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>alt.Chart(histdata).mark_bar(width <span class="op">=</span> <span class="dv">10</span>).encode(</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> <span class="st">'Bin midpoint'</span>,</span>
@@ -329,7 +342,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>These operations can be articulated as a transform in Altair using <code>.bin_transform()</code>:</p>
-<div class="cell">
+<div id="cell-17" class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># filter, bin, and plot</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>alt.Chart(</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    data</span>
@@ -350,7 +363,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <section id="question-2-bin-transform" class="level3">
 <h3 class="anchored" data-anchor-id="question-2-bin-transform">Question 2: Bin transform</h3>
 <p>Follow the example above and make a histogram of life expectancies across the globe in 2019 using an explicit bin transform to create bins spanning three years.</p>
-<div class="cell" data-tags="[]">
+<div id="cell-20" class="cell" data-tags="[]">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># filter, bin, and plot</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>alt.Chart(</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    data</span>
@@ -375,7 +388,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <p>Grouped counting is a form of <em>aggregation</em> in the sense discussed in lecture: it produces output that has fewer values than the input by combining multiple values (in this case rows) into one value (in this case a count of the number of rows).</p>
 <p>This operation can also be made explicit using <code>.transform_aggregate()</code>. This makes use of Altair’s <em>aggregation shorthands</em> for common aggregation functions; see the documentation on Altair encodings for a <a href="https://altair-viz.github.io/user_guide/encodings/index.html#binning-and-aggregation">full list of shorthands</a>.</p>
 <p>Here is how <code>.transform_aggregate()</code> would be used to perform the counting:</p>
-<div class="cell">
+<div id="cell-22" class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># filter, bin, count, and plot</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>alt.Chart(</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    data</span>
@@ -402,7 +415,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <p>By contrast, on the <strong>density scale</strong>, the y-axis would show <em><strong>proportions of total bar area</strong></em> (so that the area of plotted bars sums to 1).</p>
 <p>It might seem like a silly distinction – after all, the two scales differ simply by a proportionality constant (the sample size times the bin width) – but as you will see shortly, the density scale is more useful for statistical thinking about the distribution of values and for direct comparisons of distributions approximated from samples of different sizes.</p>
 <p>The scale conversion can be done using <code>.transform_calculate()</code>, which computes derived variables using arithmetic operations. In this case, one only needs to divide the count by the total number of observations.</p>
-<div class="cell">
+<div id="cell-24" class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># filter, bin, count, convert scale, and plot</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>alt.Chart(</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    data</span>
@@ -434,7 +447,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <li>Convert your histogram from Question 2 (with the year 2019, the step size of 3, and the usage of <code>.transform_bin(...)</code>) to the density scale. First calculate the count explicitly using <code>.transform_aggregate(...)</code> and then convert to a proportion using <code>.transform_calculate(...)</code>. Multiply <code>sample_size</code> with <code>bin_width</code> to obtain the scaling constant and hardcode it into your implementation.</li>
 </ol></li>
 </ul>
-<div class="cell" data-tags="[]">
+<div id="cell-26" class="cell" data-tags="[]">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># find scaling factor</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>sample_size <span class="op">=</span> ...</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>bin_width <span class="op">=</span> ...</span>
@@ -459,7 +472,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> ...</span>
 <span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="cell-27" class="cell" data-editable="false">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>grader.check(<span class="st">"q3"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -472,7 +485,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <p>Often the point of visualizing the distribution of a variable is to discern the shape, spread, center, and tails of the distribution to answer certain questions: * what’s a typical value? * are there multiple typical values (multi-modal)? * are there outliers? * is the distribution skewed?</p>
 <p>Density estimates are often easier to work with in exploratory analysis because it is visually easier to distinguish the shape of a smooth curve than the shape of a bunch of bars (unless you’re really far away).</p>
 <p>Kernel density estimates are easy to plot using <code>.transform_density()</code>. The cell below generates a density estimate of life expectancies across the globe in 2010. Notice the commented lines explaining the syntax.</p>
-<div class="cell">
+<div id="cell-29" class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot kernel density estimate of life expectancies in 2010</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>alt.Chart(</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    data</span>
@@ -491,7 +504,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This estimate can be layered onto the empirical density to get a better sense of the relationship between the two. The cell below accomplishes this. Notice that the plot elements are constructed as separate <em>layers</em>.</p>
-<div class="cell">
+<div id="cell-31" class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># base plot</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>base <span class="op">=</span> alt.Chart(data).transform_filter(</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    alt.FieldEqualPredicate(field <span class="op">=</span> <span class="st">'Year'</span>, </span>
@@ -535,7 +548,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <section id="question-4-selecting-a-bandwidth" class="level3">
 <h3 class="anchored" data-anchor-id="question-4-selecting-a-bandwidth">Question 4: Selecting a bandwidth</h3>
 <p>Modify the ploting codes by <em>decreasing</em> the bandwidth parameter. Try several values, and then choose one that you feel captures the shape of the distribution well without getting too wiggly.</p>
-<div class="cell" data-tags="[]">
+<div id="cell-34" class="cell" data-tags="[]">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>hist <span class="op">+</span> base.transform_density(</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    density <span class="op">=</span> <span class="st">'Life Expectancy'</span>, </span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    as_ <span class="op">=</span> [<span class="st">'Life Expectancy at Birth'</span>, <span class="st">'Estimated density'</span>],</span>
@@ -554,7 +567,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <p>The visual advantage of a kernel density estimate for discerning shape is even more apparent when comparing distributions.</p>
 <p>A major task in exploratory analysis is understanding how the distribution of a variable of interest changes depending on other variables – for example, you have already seen in the last lab that life expectancy seems to change over time. We can explore this phenomenon from a different angle by comparing distributions in different years.</p>
 <p>Multiple density estimates can be displayed on the same plot by passing a grouping variable (or set of variables) to <code>.transform_density(...)</code>. For example, the cell below computes density estimates of life expectancies for each of two years.</p>
-<div class="cell">
+<div id="cell-36" class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>alt.Chart(data).transform_filter(</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    alt.FieldOneOfPredicate(field <span class="op">=</span> <span class="st">'Year'</span>,</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                            oneOf <span class="op">=</span> [<span class="dv">2010</span>, <span class="dv">2019</span>])</span>
@@ -572,7 +585,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Often the area beneath each density estimate is filled in. This can be done by simply appending a <code>.mark_area()</code> call at the end of the plot.</p>
-<div class="cell">
+<div id="cell-38" class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> alt.Chart(data).transform_filter(</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    alt.FieldOneOfPredicate(field <span class="op">=</span> <span class="st">'Year'</span>,</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                            oneOf <span class="op">=</span> [<span class="dv">2010</span>, <span class="dv">2019</span>])</span>
@@ -593,7 +606,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 </div>
 <p>Notice that this makes it much easier to compare the distributions between years – you can see a pronounced rightward shift of the smooth for 2019 compared with 2010.</p>
 <p>We could make the same comparison based on the histograms, but the shift is a lot harder to make out. Overlaid histograms should be avoided.</p>
-<div class="cell">
+<div id="cell-40" class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>alt.Chart(data).transform_filter(</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    alt.FieldOneOfPredicate(field <span class="op">=</span> <span class="st">'Year'</span>,</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                            oneOf <span class="op">=</span> [<span class="dv">2010</span>, <span class="dv">2019</span>])</span>
@@ -607,7 +620,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <section id="question-5-multiple-density-estimates" class="level3">
 <h3 class="anchored" data-anchor-id="question-5-multiple-density-estimates">Question 5: Multiple density estimates</h3>
 <p>Follow the example above to construct a plot showing separate density estimates of life expectancy for each region in the 2010. You can choose whether you prefer to fill in the area beneath the smooth curves, or not. Be sure to play with the bandwidth parameter and choose a value that seems sensible to you.</p>
-<div class="cell" data-tags="[]">
+<div id="cell-42" class="cell" data-tags="[]">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># construct density estimates</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> alt.Chart(data).transform_filter(</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    ...</span>
@@ -652,7 +665,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 </ol></li>
 </ul>
 <p><em>Type your answer here, replacing this text.</em></p>
-<div class="cell" data-tags="[]">
+<div id="cell-47" class="cell" data-tags="[]">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># examine outlier</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>lowest_Americas <span class="op">=</span> data[</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    ...</span>
@@ -661,12 +674,12 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    ).head(<span class="dv">1</span>)</span>
 <span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>lowest_Americas</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-tags="[]">
+<div id="cell-48" class="cell" data-tags="[]">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># show all obsrvations for country of interest</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>outlier_country <span class="op">=</span> ...</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>outlier_country</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="cell-49" class="cell" data-editable="false">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>grader.check(<span class="st">"q7"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -676,14 +689,14 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <h1>Scatterplot smoothing</h1>
 <p>In this brief section you’ll see two techniques for smoothing scatterplots: LOESS, which produces a curve; and regression, which produces a linear smooth.</p>
 <p>The next parts will modify the dataframe <code>data</code> by adding a column. Create a copy <code>data_mod1</code> of the original dataframe <code>data</code> to modify so as to not lose track of previous work:</p>
-<div class="cell">
+<div id="cell-51" class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>data_mod1 <span class="op">=</span> data.copy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="loess" class="level2">
 <h2 class="anchored" data-anchor-id="loess">LOESS</h2>
 <p><strong>Lo</strong>cally w<strong>e</strong>ighted <strong>s</strong>catterplot <strong>s</strong>moothing (LOESS) is a flexible smoothing technique for visualizing trends in scatterplots. The technical details are a little involved but quite similar conceptually to kernel density estimation; we’ll just look at the implementation for now.</p>
 <p>To illustrate, consider the scatterplots you made in lab 3 showing the relationship between life expectancy and GDP per capita. The plot for 2010 looked like this:</p>
-<div class="cell">
+<div id="cell-53" class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># log transform gdp explicitly</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>data_mod1[<span class="st">'log(GDP per capita)'</span>] <span class="op">=</span> np.log(data_mod1[<span class="st">'GDP per capita'</span>])</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -700,7 +713,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>scatter</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>To add a LOESS curve, simply append <code>.transform_loess()</code> to the base plot:</p>
-<div class="cell">
+<div id="cell-55" class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compute smooth</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>smooth <span class="op">=</span> scatter.transform_loess(</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    on <span class="op">=</span> <span class="st">'log(GDP per capita)'</span>, <span class="co"># x variable</span></span>
@@ -716,7 +729,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <section id="question-8-loess-bandwidth-selection" class="level3">
 <h3 class="anchored" data-anchor-id="question-8-loess-bandwidth-selection">Question 8: LOESS bandwidth selection</h3>
 <p>Tinker with the bandwidth parameter to see its effect in the cell below. Then choose a value that produces a smoothing you find appropriate for indicating the general trend shown in the scatter.</p>
-<div class="cell" data-tags="[]">
+<div id="cell-58" class="cell" data-tags="[]">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># compute smooth</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>smooth <span class="op">=</span> scatter.transform_loess(</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    on <span class="op">=</span> <span class="st">'log(GDP per capita)'</span>, </span>
@@ -729,7 +742,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 </div>
 <!-- END QUESTION -->
 <p>LOESS curves can also be computed groupwise. For instance, to display separate curves for each region, one need only pass a <code>groupby = ...</code> argument to <code>.transform_loess()</code>:</p>
-<div class="cell">
+<div id="cell-60" class="cell">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># scatterplot</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>scatter <span class="op">=</span> alt.Chart(data_mod1).transform_filter(</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    alt.FieldEqualPredicate(field <span class="op">=</span> <span class="st">'Year'</span>, equal <span class="op">=</span> <span class="dv">2000</span>)</span>
@@ -752,7 +765,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>scatter <span class="op">+</span> smooth</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The curves are a little jagged because there aren’t very many countries in each region.</p>
-<div class="cell">
+<div id="cell-62" class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>data_mod1[data_mod1.Year <span class="op">==</span> <span class="dv">2000</span>].groupby(<span class="st">'region'</span>).count().iloc[:, [<span class="dv">0</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -761,7 +774,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <h2 class="anchored" data-anchor-id="regression">Regression</h2>
 <p>You will be learning more about linear regression later in the course, but we can introduce regression lines now as a visualization technique. As with LOESS, you don’t need to concern yourself with the mathematical details (yet). From this perspective, regression is a form of <em>linear</em> smoothing – a regression smooth is a straight line. By contrast, LOESS smooths have <em>curvature</em> – they are not straight lines.</p>
 <p>In the example above, the LOESS curves don’t have much curvature. So it may be a cleaner choice visually to show linear smooths. This can be done using <code>.transform_regression(...)</code> with a similar argument structure.</p>
-<div class="cell">
+<div id="cell-64" class="cell">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># scatterplot</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>scatter <span class="op">=</span> alt.Chart(data_mod1).transform_filter(</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    alt.FieldEqualPredicate(field <span class="op">=</span> <span class="st">'Year'</span>, equal <span class="op">=</span> <span class="dv">2000</span>)</span>
@@ -787,7 +800,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <h3 class="anchored" data-anchor-id="question-9-simple-regression-line">Question 9: Simple regression line</h3>
 <p>Based on the example immediately above, construct a scatterplot of life expectancy against log GDP per capita in 2010 with points sized according to population (and no distinction between regions). Layer a single linear smooth on the scatterplot using <code>.transform_regression(...)</code>.</p>
 <p>(<em>Hint</em>: remove the color aesthetic and grouping from the previous plot.)</p>
-<div class="cell" data-tags="[]">
+<div id="cell-66" class="cell" data-tags="[]">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># construct scatterplot</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>scatter <span class="op">=</span> alt.Chart(data_mod1).transform_filter(</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    ...</span>
@@ -815,7 +828,7 @@ gtag('config', 'G-H3YKZX4J88', { 'anonymize_ip': true});
 <p>Let’s combine the scatterplot with a smooth from part 2 with the density estimates in part 1. This is an example of combining multiple plots into one visual.</p>
 <p>Why combine? Well, sometimes it’s useful to visualize the distribution of the variable of interest <em>together with</em> its relationship to another variable. Imagine, for example, that you’re interested in seeing both: * the relationship between life expectancy and GDP per capita by region; and * the distributions of life expeectancies by region.</p>
 <p>We can flip the density estimates on their side and append them as a facet to the right-hand side of the scatterplot as follows:</p>
-<div class="cell">
+<div id="cell-68" class="cell">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># scatterplot with linear smooth</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>scatter <span class="op">=</span> alt.Chart(data_mod1).transform_filter(</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    alt.FieldEqualPredicate(field <span class="op">=</span> <span class="st">'Year'</span>, equal <span class="op">=</span> <span class="dv">2000</span>)</span>
@@ -951,10 +964,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -964,8 +976,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -978,6 +999,125 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1021,6 +1161,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1046,6 +1187,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1106,6 +1273,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 

@@ -1,6 +1,6 @@
 ---
 title: "Data Science Concepts and Analysis"
-date: today
+date: 8/24/23
 published-title: "Archived"
 ---
 

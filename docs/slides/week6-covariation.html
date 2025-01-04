@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-html/tabby.min.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -8,7 +8,7 @@
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.433">
+  <meta name="generator" content="quarto-1.4.550">
 
   <meta name="author" content="PSTAT100 Spring 2023">
   <title>PSTAT100 - Covariance and correlation</title>
@@ -31,7 +31,7 @@
     }
     /* CSS for syntax highlighting */
     pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span { line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
     .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -230,7 +230,8 @@
   }
 
   .callout.callout-titled .callout-body > .callout-content > :last-child {
-    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0;
   }
 
   .callout.callout-titled .callout-icon::before {
@@ -395,7 +396,7 @@
     }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+  
   <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 </head>
 <body class="quarto-light">
@@ -441,8 +442,9 @@ PSTAT100 Spring 2023
 <section id="city-sustainability-data" class="slide level2">
 <h2>City sustainability data</h2>
 <p>We’ll use the dataset on the sustainability of U.S. cities introduced last time:</p>
-<div class="cell" data-execution_count="2">
+<div id="24c4e880" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display" data-execution_count="2">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -495,6 +497,7 @@ PSTAT100 Spring 2023
 </div>
 </div>
 </div>
+</div>
 <p>For each <strong>M</strong>etropolitan <strong>S</strong>tatistical <strong>A</strong>rea (MSA), a sustainability index is calculated based on economic, social, and environmental indicators (also indices):</p>
 <p><span class="math display">\[\text{sustainability index} = \text{economic} + \text{social} + \text{environmental}\]</span></p>
 </section>
@@ -507,44 +510,43 @@ PSTAT100 Spring 2023
 <h2>What is covariation?</h2>
 <p><strong>Covariation</strong> refers to <em><strong>the tendency of two variables to change together across observations</strong></em>. Covariation is about relationships.</p>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="3">
-<details>
+<div id="e839afe0" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="3">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># scatterplot of social vs economic indices</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a>econ_social <span class="op">=</span> alt.Chart(city_sust).mark_point().encode(</span>
-<span id="cb1-3"><a href="#cb1-3"></a>    x <span class="op">=</span> alt.X(<span class="st">'Econ_Domain'</span>, scale <span class="op">=</span> alt.Scale(zero <span class="op">=</span> <span class="va">False</span>)),</span>
-<span id="cb1-4"><a href="#cb1-4"></a>    y <span class="op">=</span> alt.Y(<span class="st">'Social_Domain'</span>, scale <span class="op">=</span> alt.Scale(zero <span class="op">=</span> <span class="va">False</span>))</span>
-<span id="cb1-5"><a href="#cb1-5"></a>).properties(</span>
-<span id="cb1-6"><a href="#cb1-6"></a>    width <span class="op">=</span> <span class="dv">350</span>,</span>
-<span id="cb1-7"><a href="#cb1-7"></a>    height <span class="op">=</span> <span class="dv">200</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a>)</span>
-<span id="cb1-9"><a href="#cb1-9"></a></span>
-<span id="cb1-10"><a href="#cb1-10"></a>econ_social.configure_axis(</span>
-<span id="cb1-11"><a href="#cb1-11"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
-<span id="cb1-12"><a href="#cb1-12"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb1-13"><a href="#cb1-13"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="co"># scatterplot of social vs economic indices</span></span>
+<span id="cb1-2"><a></a>econ_social <span class="op">=</span> alt.Chart(city_sust).mark_point().encode(</span>
+<span id="cb1-3"><a></a>    x <span class="op">=</span> alt.X(<span class="st">'Econ_Domain'</span>, scale <span class="op">=</span> alt.Scale(zero <span class="op">=</span> <span class="va">False</span>)),</span>
+<span id="cb1-4"><a></a>    y <span class="op">=</span> alt.Y(<span class="st">'Social_Domain'</span>, scale <span class="op">=</span> alt.Scale(zero <span class="op">=</span> <span class="va">False</span>))</span>
+<span id="cb1-5"><a></a>).properties(</span>
+<span id="cb1-6"><a></a>    width <span class="op">=</span> <span class="dv">350</span>,</span>
+<span id="cb1-7"><a></a>    height <span class="op">=</span> <span class="dv">200</span></span>
+<span id="cb1-8"><a></a>)</span>
+<span id="cb1-9"><a></a></span>
+<span id="cb1-10"><a></a>econ_social.configure_axis(</span>
+<span id="cb1-11"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
+<span id="cb1-12"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb1-13"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="3">
 
-
 <style>
-  #altair-viz-80cae1182f8244eca9ddf61bdcd1ddbf.vega-embed {
+  #altair-viz-42b2f91d6a964cb4bff9d50fe536b3fc.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-80cae1182f8244eca9ddf61bdcd1ddbf.vega-embed details,
-  #altair-viz-80cae1182f8244eca9ddf61bdcd1ddbf.vega-embed details summary {
+  #altair-viz-42b2f91d6a964cb4bff9d50fe536b3fc.vega-embed details,
+  #altair-viz-42b2f91d6a964cb4bff9d50fe536b3fc.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-80cae1182f8244eca9ddf61bdcd1ddbf"></div>
+<div id="altair-viz-42b2f91d6a964cb4bff9d50fe536b3fc"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-80cae1182f8244eca9ddf61bdcd1ddbf") {
-      outputDiv = document.getElementById("altair-viz-80cae1182f8244eca9ddf61bdcd1ddbf");
+    if (outputDiv.id !== "altair-viz-42b2f91d6a964cb4bff9d50fe536b3fc") {
+      outputDiv = document.getElementById("altair-viz-42b2f91d6a964cb4bff9d50fe536b3fc");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -639,16 +641,16 @@ PSTAT100 Spring 2023
 \]</span></p>
 </div>
 <div class="fragment">
-<div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># x = econ, y = social</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>xy <span class="op">=</span> city_sust.iloc[:, <span class="dv">2</span>:<span class="dv">4</span>].values</span>
-<span id="cb2-3"><a href="#cb2-3"></a></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="co"># center the observations</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a>xy_centered <span class="op">=</span> xy <span class="op">-</span> xy.mean(axis <span class="op">=</span> <span class="dv">0</span>)</span>
-<span id="cb2-6"><a href="#cb2-6"></a></span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="co"># compute covariancne</span></span>
-<span id="cb2-8"><a href="#cb2-8"></a>xy_cov <span class="op">=</span> np.inner(xy_centered[:, <span class="dv">0</span>], xy_centered[:, <span class="dv">1</span>])<span class="op">/</span>(<span class="bu">len</span>(xy) <span class="op">-</span> <span class="dv">1</span>)</span>
-<span id="cb2-9"><a href="#cb2-9"></a>xy_cov</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="8cf81331" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a><span class="co"># x = econ, y = social</span></span>
+<span id="cb2-2"><a></a>xy <span class="op">=</span> city_sust.iloc[:, <span class="dv">2</span>:<span class="dv">4</span>].values</span>
+<span id="cb2-3"><a></a></span>
+<span id="cb2-4"><a></a><span class="co"># center the observations</span></span>
+<span id="cb2-5"><a></a>xy_centered <span class="op">=</span> xy <span class="op">-</span> xy.mean(axis <span class="op">=</span> <span class="dv">0</span>)</span>
+<span id="cb2-6"><a></a></span>
+<span id="cb2-7"><a></a><span class="co"># compute covariancne</span></span>
+<span id="cb2-8"><a></a>xy_cov <span class="op">=</span> np.inner(xy_centered[:, <span class="dv">0</span>], xy_centered[:, <span class="dv">1</span>])<span class="op">/</span>(<span class="bu">len</span>(xy) <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb2-9"><a></a>xy_cov</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>0.001985023163431384</code></pre>
 </div>
@@ -677,9 +679,9 @@ PSTAT100 Spring 2023
 <section id="correlation-of-social-and-economic-indices" class="slide level2">
 <h2>Correlation of social and economic indices</h2>
 <p>Standardizing the covariance makes it more interpretable:</p>
-<div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># cov(x, y)/(sx*sy)</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>xy_cov<span class="op">/</span>(xy.std(axis <span class="op">=</span> <span class="dv">0</span>).prod()) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="3714501a" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a><span class="co"># cov(x, y)/(sx*sy)</span></span>
+<span id="cb4-2"><a></a>xy_cov<span class="op">/</span>(xy.std(axis <span class="op">=</span> <span class="dv">0</span>).prod()) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>0.5320609060898915</code></pre>
 </div>
@@ -706,39 +708,39 @@ PSTAT100 Spring 2023
 <p>No correlation does <strong>not</strong> imply no relationship – symmetry can produce strongly related but uncorrelated data.</p>
 <div class="columns">
 <div class="column" style="width:50%;">
-<div class="cell" data-execution_count="6">
-<details>
+<div id="bfe2b17a" class="cell" data-execution_count="6">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>np.random.seed(<span class="dv">50323</span>)</span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="co"># simulate observations of x</span></span>
-<span id="cb6-3"><a href="#cb6-3"></a>n <span class="op">=</span> <span class="dv">100</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a>x <span class="op">=</span> np.random.uniform(low <span class="op">=</span> <span class="dv">0</span>, high <span class="op">=</span> <span class="dv">1</span>, size <span class="op">=</span> n)</span>
-<span id="cb6-5"><a href="#cb6-5"></a>sim_df <span class="op">=</span> pd.DataFrame({<span class="st">'x'</span>: x})</span>
-<span id="cb6-6"><a href="#cb6-6"></a></span>
-<span id="cb6-7"><a href="#cb6-7"></a><span class="co"># center x, center y, scale</span></span>
-<span id="cb6-8"><a href="#cb6-8"></a>a, b, c <span class="op">=</span> <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="dv">3</span></span>
-<span id="cb6-9"><a href="#cb6-9"></a></span>
-<span id="cb6-10"><a href="#cb6-10"></a><span class="co"># noise</span></span>
-<span id="cb6-11"><a href="#cb6-11"></a>noise_sd <span class="op">=</span> <span class="fl">0.1</span></span>
-<span id="cb6-12"><a href="#cb6-12"></a>noise <span class="op">=</span> np.random.normal(loc <span class="op">=</span> <span class="dv">0</span>, scale <span class="op">=</span> noise_sd, size <span class="op">=</span> n)</span>
-<span id="cb6-13"><a href="#cb6-13"></a></span>
-<span id="cb6-14"><a href="#cb6-14"></a><span class="co"># simulate observations of y</span></span>
-<span id="cb6-15"><a href="#cb6-15"></a>sim_df[<span class="st">'y'</span>] <span class="op">=</span> c<span class="op">*</span>(x <span class="op">-</span> a)<span class="op">*</span>(x <span class="op">-</span> b) <span class="op">+</span> noise</span>
-<span id="cb6-16"><a href="#cb6-16"></a></span>
-<span id="cb6-17"><a href="#cb6-17"></a><span class="co"># plot</span></span>
-<span id="cb6-18"><a href="#cb6-18"></a>scatter <span class="op">=</span> alt.Chart(</span>
-<span id="cb6-19"><a href="#cb6-19"></a>    sim_df</span>
-<span id="cb6-20"><a href="#cb6-20"></a>).mark_point().encode(</span>
-<span id="cb6-21"><a href="#cb6-21"></a>    x <span class="op">=</span> <span class="st">'x'</span>,</span>
-<span id="cb6-22"><a href="#cb6-22"></a>    y <span class="op">=</span> <span class="st">'y'</span></span>
-<span id="cb6-23"><a href="#cb6-23"></a>)</span>
-<span id="cb6-24"><a href="#cb6-24"></a></span>
-<span id="cb6-25"><a href="#cb6-25"></a><span class="co"># compute correlation</span></span>
-<span id="cb6-26"><a href="#cb6-26"></a><span class="bu">print</span>(<span class="st">'correlation: '</span>, sim_df.corr().loc[<span class="st">'x'</span>, <span class="st">'y'</span>])</span>
-<span id="cb6-27"><a href="#cb6-27"></a>scatter.configure_axis(</span>
-<span id="cb6-28"><a href="#cb6-28"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
-<span id="cb6-29"><a href="#cb6-29"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb6-30"><a href="#cb6-30"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a></a>np.random.seed(<span class="dv">50323</span>)</span>
+<span id="cb6-2"><a></a><span class="co"># simulate observations of x</span></span>
+<span id="cb6-3"><a></a>n <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb6-4"><a></a>x <span class="op">=</span> np.random.uniform(low <span class="op">=</span> <span class="dv">0</span>, high <span class="op">=</span> <span class="dv">1</span>, size <span class="op">=</span> n)</span>
+<span id="cb6-5"><a></a>sim_df <span class="op">=</span> pd.DataFrame({<span class="st">'x'</span>: x})</span>
+<span id="cb6-6"><a></a></span>
+<span id="cb6-7"><a></a><span class="co"># center x, center y, scale</span></span>
+<span id="cb6-8"><a></a>a, b, c <span class="op">=</span> <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="dv">3</span></span>
+<span id="cb6-9"><a></a></span>
+<span id="cb6-10"><a></a><span class="co"># noise</span></span>
+<span id="cb6-11"><a></a>noise_sd <span class="op">=</span> <span class="fl">0.1</span></span>
+<span id="cb6-12"><a></a>noise <span class="op">=</span> np.random.normal(loc <span class="op">=</span> <span class="dv">0</span>, scale <span class="op">=</span> noise_sd, size <span class="op">=</span> n)</span>
+<span id="cb6-13"><a></a></span>
+<span id="cb6-14"><a></a><span class="co"># simulate observations of y</span></span>
+<span id="cb6-15"><a></a>sim_df[<span class="st">'y'</span>] <span class="op">=</span> c<span class="op">*</span>(x <span class="op">-</span> a)<span class="op">*</span>(x <span class="op">-</span> b) <span class="op">+</span> noise</span>
+<span id="cb6-16"><a></a></span>
+<span id="cb6-17"><a></a><span class="co"># plot</span></span>
+<span id="cb6-18"><a></a>scatter <span class="op">=</span> alt.Chart(</span>
+<span id="cb6-19"><a></a>    sim_df</span>
+<span id="cb6-20"><a></a>).mark_point().encode(</span>
+<span id="cb6-21"><a></a>    x <span class="op">=</span> <span class="st">'x'</span>,</span>
+<span id="cb6-22"><a></a>    y <span class="op">=</span> <span class="st">'y'</span></span>
+<span id="cb6-23"><a></a>)</span>
+<span id="cb6-24"><a></a></span>
+<span id="cb6-25"><a></a><span class="co"># compute correlation</span></span>
+<span id="cb6-26"><a></a><span class="bu">print</span>(<span class="st">'correlation: '</span>, sim_df.corr().loc[<span class="st">'x'</span>, <span class="st">'y'</span>])</span>
+<span id="cb6-27"><a></a>scatter.configure_axis(</span>
+<span id="cb6-28"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
+<span id="cb6-29"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb6-30"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>correlation:  0.07227477481863404</code></pre>
@@ -746,23 +748,23 @@ PSTAT100 Spring 2023
 <div class="cell-output cell-output-display" data-execution_count="6">
 
 <style>
-  #altair-viz-7d5187b6b69d418495fa246ea816c203.vega-embed {
+  #altair-viz-ff0af4c3e1134595ac8368a0b892333c.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-7d5187b6b69d418495fa246ea816c203.vega-embed details,
-  #altair-viz-7d5187b6b69d418495fa246ea816c203.vega-embed details summary {
+  #altair-viz-ff0af4c3e1134595ac8368a0b892333c.vega-embed details,
+  #altair-viz-ff0af4c3e1134595ac8368a0b892333c.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-7d5187b6b69d418495fa246ea816c203"></div>
+<div id="altair-viz-ff0af4c3e1134595ac8368a0b892333c"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-7d5187b6b69d418495fa246ea816c203") {
-      outputDiv = document.getElementById("altair-viz-7d5187b6b69d418495fa246ea816c203");
+    if (outputDiv.id !== "altair-viz-ff0af4c3e1134595ac8368a0b892333c") {
+      outputDiv = document.getElementById("altair-viz-ff0af4c3e1134595ac8368a0b892333c");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -813,39 +815,39 @@ PSTAT100 Spring 2023
 </div>
 </div>
 </div><div class="column" style="width:50%;">
-<div class="cell" data-execution_count="7">
-<details>
+<div id="839cc34b" class="cell" data-execution_count="7">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a>np.random.seed(<span class="dv">50323</span>)</span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="co"># simulate observations of x</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a>n <span class="op">=</span> <span class="dv">100</span></span>
-<span id="cb8-4"><a href="#cb8-4"></a>x <span class="op">=</span> np.random.uniform(low <span class="op">=</span> <span class="dv">0</span>, high <span class="op">=</span> <span class="dv">1</span>, size <span class="op">=</span> n)</span>
-<span id="cb8-5"><a href="#cb8-5"></a>sim_df <span class="op">=</span> pd.DataFrame({<span class="st">'x'</span>: x})</span>
-<span id="cb8-6"><a href="#cb8-6"></a></span>
-<span id="cb8-7"><a href="#cb8-7"></a><span class="co"># center x, center y, scale</span></span>
-<span id="cb8-8"><a href="#cb8-8"></a>a, b, c <span class="op">=</span> <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="dv">3</span></span>
-<span id="cb8-9"><a href="#cb8-9"></a></span>
-<span id="cb8-10"><a href="#cb8-10"></a><span class="co"># noise</span></span>
-<span id="cb8-11"><a href="#cb8-11"></a>noise_sd <span class="op">=</span> <span class="fl">0.2</span></span>
-<span id="cb8-12"><a href="#cb8-12"></a>noise <span class="op">=</span> np.random.normal(loc <span class="op">=</span> <span class="dv">0</span>, scale <span class="op">=</span> noise_sd, size <span class="op">=</span> n)</span>
-<span id="cb8-13"><a href="#cb8-13"></a></span>
-<span id="cb8-14"><a href="#cb8-14"></a><span class="co"># simulate observations of y</span></span>
-<span id="cb8-15"><a href="#cb8-15"></a>sim_df[<span class="st">'y'</span>] <span class="op">=</span> np.cos(<span class="dv">4</span><span class="op">*</span>np.pi<span class="op">*</span>x) <span class="op">+</span> noise</span>
-<span id="cb8-16"><a href="#cb8-16"></a></span>
-<span id="cb8-17"><a href="#cb8-17"></a><span class="co"># plot</span></span>
-<span id="cb8-18"><a href="#cb8-18"></a>scatter <span class="op">=</span> alt.Chart(</span>
-<span id="cb8-19"><a href="#cb8-19"></a>    sim_df</span>
-<span id="cb8-20"><a href="#cb8-20"></a>).mark_point().encode(</span>
-<span id="cb8-21"><a href="#cb8-21"></a>    x <span class="op">=</span> <span class="st">'x'</span>,</span>
-<span id="cb8-22"><a href="#cb8-22"></a>    y <span class="op">=</span> <span class="st">'y'</span></span>
-<span id="cb8-23"><a href="#cb8-23"></a>)</span>
-<span id="cb8-24"><a href="#cb8-24"></a></span>
-<span id="cb8-25"><a href="#cb8-25"></a><span class="co"># compute correlation</span></span>
-<span id="cb8-26"><a href="#cb8-26"></a><span class="bu">print</span>(<span class="st">'correlation: '</span>, sim_df.corr().loc[<span class="st">'x'</span>, <span class="st">'y'</span>])</span>
-<span id="cb8-27"><a href="#cb8-27"></a>scatter.configure_axis(</span>
-<span id="cb8-28"><a href="#cb8-28"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
-<span id="cb8-29"><a href="#cb8-29"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb8-30"><a href="#cb8-30"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a></a>np.random.seed(<span class="dv">50323</span>)</span>
+<span id="cb8-2"><a></a><span class="co"># simulate observations of x</span></span>
+<span id="cb8-3"><a></a>n <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb8-4"><a></a>x <span class="op">=</span> np.random.uniform(low <span class="op">=</span> <span class="dv">0</span>, high <span class="op">=</span> <span class="dv">1</span>, size <span class="op">=</span> n)</span>
+<span id="cb8-5"><a></a>sim_df <span class="op">=</span> pd.DataFrame({<span class="st">'x'</span>: x})</span>
+<span id="cb8-6"><a></a></span>
+<span id="cb8-7"><a></a><span class="co"># center x, center y, scale</span></span>
+<span id="cb8-8"><a></a>a, b, c <span class="op">=</span> <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="dv">3</span></span>
+<span id="cb8-9"><a></a></span>
+<span id="cb8-10"><a></a><span class="co"># noise</span></span>
+<span id="cb8-11"><a></a>noise_sd <span class="op">=</span> <span class="fl">0.2</span></span>
+<span id="cb8-12"><a></a>noise <span class="op">=</span> np.random.normal(loc <span class="op">=</span> <span class="dv">0</span>, scale <span class="op">=</span> noise_sd, size <span class="op">=</span> n)</span>
+<span id="cb8-13"><a></a></span>
+<span id="cb8-14"><a></a><span class="co"># simulate observations of y</span></span>
+<span id="cb8-15"><a></a>sim_df[<span class="st">'y'</span>] <span class="op">=</span> np.cos(<span class="dv">4</span><span class="op">*</span>np.pi<span class="op">*</span>x) <span class="op">+</span> noise</span>
+<span id="cb8-16"><a></a></span>
+<span id="cb8-17"><a></a><span class="co"># plot</span></span>
+<span id="cb8-18"><a></a>scatter <span class="op">=</span> alt.Chart(</span>
+<span id="cb8-19"><a></a>    sim_df</span>
+<span id="cb8-20"><a></a>).mark_point().encode(</span>
+<span id="cb8-21"><a></a>    x <span class="op">=</span> <span class="st">'x'</span>,</span>
+<span id="cb8-22"><a></a>    y <span class="op">=</span> <span class="st">'y'</span></span>
+<span id="cb8-23"><a></a>)</span>
+<span id="cb8-24"><a></a></span>
+<span id="cb8-25"><a></a><span class="co"># compute correlation</span></span>
+<span id="cb8-26"><a></a><span class="bu">print</span>(<span class="st">'correlation: '</span>, sim_df.corr().loc[<span class="st">'x'</span>, <span class="st">'y'</span>])</span>
+<span id="cb8-27"><a></a>scatter.configure_axis(</span>
+<span id="cb8-28"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
+<span id="cb8-29"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb8-30"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>correlation:  0.04482962033696271</code></pre>
@@ -853,23 +855,23 @@ PSTAT100 Spring 2023
 <div class="cell-output cell-output-display" data-execution_count="7">
 
 <style>
-  #altair-viz-023167a5761340ddb167bd1358508092.vega-embed {
+  #altair-viz-edfc5c35aa9c450f94d77967e27c8191.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-023167a5761340ddb167bd1358508092.vega-embed details,
-  #altair-viz-023167a5761340ddb167bd1358508092.vega-embed details summary {
+  #altair-viz-edfc5c35aa9c450f94d77967e27c8191.vega-embed details,
+  #altair-viz-edfc5c35aa9c450f94d77967e27c8191.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-023167a5761340ddb167bd1358508092"></div>
+<div id="altair-viz-edfc5c35aa9c450f94d77967e27c8191"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-023167a5761340ddb167bd1358508092") {
-      outputDiv = document.getElementById("altair-viz-023167a5761340ddb167bd1358508092");
+    if (outputDiv.id !== "altair-viz-edfc5c35aa9c450f94d77967e27c8191") {
+      outputDiv = document.getElementById("altair-viz-edfc5c35aa9c450f94d77967e27c8191");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -935,36 +937,36 @@ PSTAT100 Spring 2023
 <section id="more-common-misconceptions" class="slide level2">
 <h2>More common misconceptions</h2>
 <p>Correlations are affected by outliers – low correlation does <strong>not</strong> imply no relationship.</p>
-<div class="cell" data-execution_count="8">
-<details>
+<div id="a632813d" class="cell" data-execution_count="8">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a>np.random.seed(<span class="dv">50423</span>)</span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="co"># intercept, slope</span></span>
-<span id="cb10-3"><a href="#cb10-3"></a>a, b <span class="op">=</span> <span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span></span>
-<span id="cb10-4"><a href="#cb10-4"></a></span>
-<span id="cb10-5"><a href="#cb10-5"></a><span class="co"># noise</span></span>
-<span id="cb10-6"><a href="#cb10-6"></a>noise_sd <span class="op">=</span> <span class="fl">0.1</span></span>
-<span id="cb10-7"><a href="#cb10-7"></a>noise <span class="op">=</span> np.random.normal(loc <span class="op">=</span> <span class="dv">0</span>, scale <span class="op">=</span> noise_sd, size <span class="op">=</span> n)</span>
-<span id="cb10-8"><a href="#cb10-8"></a></span>
-<span id="cb10-9"><a href="#cb10-9"></a><span class="co"># simulate y</span></span>
-<span id="cb10-10"><a href="#cb10-10"></a>sim_df[<span class="st">'y'</span>] <span class="op">=</span> a <span class="op">+</span> b<span class="op">*</span>x <span class="op">+</span> noise</span>
-<span id="cb10-11"><a href="#cb10-11"></a>sim_df.loc[<span class="dv">100</span>] <span class="op">=</span> [<span class="dv">3</span>, <span class="dv">3</span>]</span>
-<span id="cb10-12"><a href="#cb10-12"></a></span>
-<span id="cb10-13"><a href="#cb10-13"></a><span class="co"># plot</span></span>
-<span id="cb10-14"><a href="#cb10-14"></a>scatter <span class="op">=</span> alt.Chart(</span>
-<span id="cb10-15"><a href="#cb10-15"></a>    sim_df</span>
-<span id="cb10-16"><a href="#cb10-16"></a>).mark_point().encode(</span>
-<span id="cb10-17"><a href="#cb10-17"></a>    x <span class="op">=</span> <span class="st">'x'</span>,</span>
-<span id="cb10-18"><a href="#cb10-18"></a>    y <span class="op">=</span> <span class="st">'y'</span></span>
-<span id="cb10-19"><a href="#cb10-19"></a>)</span>
-<span id="cb10-20"><a href="#cb10-20"></a></span>
-<span id="cb10-21"><a href="#cb10-21"></a><span class="co"># compute correlation</span></span>
-<span id="cb10-22"><a href="#cb10-22"></a><span class="bu">print</span>(<span class="st">'correlation: '</span>, sim_df.corr().loc[<span class="st">'x'</span>, <span class="st">'y'</span>])</span>
-<span id="cb10-23"><a href="#cb10-23"></a>sim_df <span class="op">=</span> sim_df.loc[<span class="dv">0</span>:<span class="dv">99</span>].copy()</span>
-<span id="cb10-24"><a href="#cb10-24"></a>scatter.configure_axis(</span>
-<span id="cb10-25"><a href="#cb10-25"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
-<span id="cb10-26"><a href="#cb10-26"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb10-27"><a href="#cb10-27"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a></a>np.random.seed(<span class="dv">50423</span>)</span>
+<span id="cb10-2"><a></a><span class="co"># intercept, slope</span></span>
+<span id="cb10-3"><a></a>a, b <span class="op">=</span> <span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb10-4"><a></a></span>
+<span id="cb10-5"><a></a><span class="co"># noise</span></span>
+<span id="cb10-6"><a></a>noise_sd <span class="op">=</span> <span class="fl">0.1</span></span>
+<span id="cb10-7"><a></a>noise <span class="op">=</span> np.random.normal(loc <span class="op">=</span> <span class="dv">0</span>, scale <span class="op">=</span> noise_sd, size <span class="op">=</span> n)</span>
+<span id="cb10-8"><a></a></span>
+<span id="cb10-9"><a></a><span class="co"># simulate y</span></span>
+<span id="cb10-10"><a></a>sim_df[<span class="st">'y'</span>] <span class="op">=</span> a <span class="op">+</span> b<span class="op">*</span>x <span class="op">+</span> noise</span>
+<span id="cb10-11"><a></a>sim_df.loc[<span class="dv">100</span>] <span class="op">=</span> [<span class="dv">3</span>, <span class="dv">3</span>]</span>
+<span id="cb10-12"><a></a></span>
+<span id="cb10-13"><a></a><span class="co"># plot</span></span>
+<span id="cb10-14"><a></a>scatter <span class="op">=</span> alt.Chart(</span>
+<span id="cb10-15"><a></a>    sim_df</span>
+<span id="cb10-16"><a></a>).mark_point().encode(</span>
+<span id="cb10-17"><a></a>    x <span class="op">=</span> <span class="st">'x'</span>,</span>
+<span id="cb10-18"><a></a>    y <span class="op">=</span> <span class="st">'y'</span></span>
+<span id="cb10-19"><a></a>)</span>
+<span id="cb10-20"><a></a></span>
+<span id="cb10-21"><a></a><span class="co"># compute correlation</span></span>
+<span id="cb10-22"><a></a><span class="bu">print</span>(<span class="st">'correlation: '</span>, sim_df.corr().loc[<span class="st">'x'</span>, <span class="st">'y'</span>])</span>
+<span id="cb10-23"><a></a>sim_df <span class="op">=</span> sim_df.loc[<span class="dv">0</span>:<span class="dv">99</span>].copy()</span>
+<span id="cb10-24"><a></a>scatter.configure_axis(</span>
+<span id="cb10-25"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
+<span id="cb10-26"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb10-27"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>correlation:  -0.057700019900550986</code></pre>
@@ -972,23 +974,23 @@ PSTAT100 Spring 2023
 <div class="cell-output cell-output-display" data-execution_count="8">
 
 <style>
-  #altair-viz-127e7c756fda42f395b7917d921126a1.vega-embed {
+  #altair-viz-6be54ef6a53c41dc9742a4f6652f9e0e.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-127e7c756fda42f395b7917d921126a1.vega-embed details,
-  #altair-viz-127e7c756fda42f395b7917d921126a1.vega-embed details summary {
+  #altair-viz-6be54ef6a53c41dc9742a4f6652f9e0e.vega-embed details,
+  #altair-viz-6be54ef6a53c41dc9742a4f6652f9e0e.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-127e7c756fda42f395b7917d921126a1"></div>
+<div id="altair-viz-6be54ef6a53c41dc9742a4f6652f9e0e"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-127e7c756fda42f395b7917d921126a1") {
-      outputDiv = document.getElementById("altair-viz-127e7c756fda42f395b7917d921126a1");
+    if (outputDiv.id !== "altair-viz-6be54ef6a53c41dc9742a4f6652f9e0e") {
+      outputDiv = document.getElementById("altair-viz-6be54ef6a53c41dc9742a4f6652f9e0e");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -1042,34 +1044,34 @@ PSTAT100 Spring 2023
 <section id="more-common-misconceptions-1" class="slide level2">
 <h2>More common misconceptions</h2>
 <p>A strong correlation does <strong>not</strong> imply a <em>meaningful</em> relationship – it could be practically insignificant.</p>
-<div class="cell" data-execution_count="9">
-<details>
+<div id="114eed2a" class="cell" data-execution_count="9">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>np.random.seed(<span class="dv">50423</span>)</span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="co"># intercept, slope</span></span>
-<span id="cb12-3"><a href="#cb12-3"></a>a, b <span class="op">=</span> <span class="op">-</span><span class="fl">0.002</span>, <span class="fl">0.005</span></span>
-<span id="cb12-4"><a href="#cb12-4"></a></span>
-<span id="cb12-5"><a href="#cb12-5"></a><span class="co"># noise</span></span>
-<span id="cb12-6"><a href="#cb12-6"></a>noise_sd <span class="op">=</span> <span class="fl">0.001</span></span>
-<span id="cb12-7"><a href="#cb12-7"></a>noise <span class="op">=</span> np.random.normal(loc <span class="op">=</span> <span class="dv">0</span>, scale <span class="op">=</span> noise_sd, size <span class="op">=</span> <span class="dv">100</span>)</span>
-<span id="cb12-8"><a href="#cb12-8"></a></span>
-<span id="cb12-9"><a href="#cb12-9"></a><span class="co"># simulate y</span></span>
-<span id="cb12-10"><a href="#cb12-10"></a>sim_df[<span class="st">'y'</span>] <span class="op">=</span> a <span class="op">+</span> b<span class="op">*</span>x <span class="op">+</span> noise</span>
-<span id="cb12-11"><a href="#cb12-11"></a></span>
-<span id="cb12-12"><a href="#cb12-12"></a><span class="co"># plot</span></span>
-<span id="cb12-13"><a href="#cb12-13"></a>scatter <span class="op">=</span> alt.Chart(</span>
-<span id="cb12-14"><a href="#cb12-14"></a>    sim_df</span>
-<span id="cb12-15"><a href="#cb12-15"></a>).mark_point().encode(</span>
-<span id="cb12-16"><a href="#cb12-16"></a>    x <span class="op">=</span> alt.X(<span class="st">'x'</span>, title <span class="op">=</span> <span class="st">'rate'</span>),</span>
-<span id="cb12-17"><a href="#cb12-17"></a>    y <span class="op">=</span> alt.Y(<span class="st">'y'</span>, title <span class="op">=</span> <span class="st">'earnings (USD)'</span>)</span>
-<span id="cb12-18"><a href="#cb12-18"></a>)</span>
-<span id="cb12-19"><a href="#cb12-19"></a></span>
-<span id="cb12-20"><a href="#cb12-20"></a><span class="co"># compute correlation</span></span>
-<span id="cb12-21"><a href="#cb12-21"></a><span class="bu">print</span>(<span class="st">'correlation: '</span>, sim_df.corr().loc[<span class="st">'x'</span>, <span class="st">'y'</span>])</span>
-<span id="cb12-22"><a href="#cb12-22"></a>scatter.configure_axis(</span>
-<span id="cb12-23"><a href="#cb12-23"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
-<span id="cb12-24"><a href="#cb12-24"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb12-25"><a href="#cb12-25"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a></a>np.random.seed(<span class="dv">50423</span>)</span>
+<span id="cb12-2"><a></a><span class="co"># intercept, slope</span></span>
+<span id="cb12-3"><a></a>a, b <span class="op">=</span> <span class="op">-</span><span class="fl">0.002</span>, <span class="fl">0.005</span></span>
+<span id="cb12-4"><a></a></span>
+<span id="cb12-5"><a></a><span class="co"># noise</span></span>
+<span id="cb12-6"><a></a>noise_sd <span class="op">=</span> <span class="fl">0.001</span></span>
+<span id="cb12-7"><a></a>noise <span class="op">=</span> np.random.normal(loc <span class="op">=</span> <span class="dv">0</span>, scale <span class="op">=</span> noise_sd, size <span class="op">=</span> <span class="dv">100</span>)</span>
+<span id="cb12-8"><a></a></span>
+<span id="cb12-9"><a></a><span class="co"># simulate y</span></span>
+<span id="cb12-10"><a></a>sim_df[<span class="st">'y'</span>] <span class="op">=</span> a <span class="op">+</span> b<span class="op">*</span>x <span class="op">+</span> noise</span>
+<span id="cb12-11"><a></a></span>
+<span id="cb12-12"><a></a><span class="co"># plot</span></span>
+<span id="cb12-13"><a></a>scatter <span class="op">=</span> alt.Chart(</span>
+<span id="cb12-14"><a></a>    sim_df</span>
+<span id="cb12-15"><a></a>).mark_point().encode(</span>
+<span id="cb12-16"><a></a>    x <span class="op">=</span> alt.X(<span class="st">'x'</span>, title <span class="op">=</span> <span class="st">'rate'</span>),</span>
+<span id="cb12-17"><a></a>    y <span class="op">=</span> alt.Y(<span class="st">'y'</span>, title <span class="op">=</span> <span class="st">'earnings (USD)'</span>)</span>
+<span id="cb12-18"><a></a>)</span>
+<span id="cb12-19"><a></a></span>
+<span id="cb12-20"><a></a><span class="co"># compute correlation</span></span>
+<span id="cb12-21"><a></a><span class="bu">print</span>(<span class="st">'correlation: '</span>, sim_df.corr().loc[<span class="st">'x'</span>, <span class="st">'y'</span>])</span>
+<span id="cb12-22"><a></a>scatter.configure_axis(</span>
+<span id="cb12-23"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
+<span id="cb12-24"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb12-25"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>correlation:  0.794145106831753</code></pre>
@@ -1077,23 +1079,23 @@ PSTAT100 Spring 2023
 <div class="cell-output cell-output-display" data-execution_count="9">
 
 <style>
-  #altair-viz-ac43f2d7fe5c435191fd592f36209114.vega-embed {
+  #altair-viz-a2e7331fdad34eb7ab1e19eba73394a2.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-ac43f2d7fe5c435191fd592f36209114.vega-embed details,
-  #altair-viz-ac43f2d7fe5c435191fd592f36209114.vega-embed details summary {
+  #altair-viz-a2e7331fdad34eb7ab1e19eba73394a2.vega-embed details,
+  #altair-viz-a2e7331fdad34eb7ab1e19eba73394a2.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-ac43f2d7fe5c435191fd592f36209114"></div>
+<div id="altair-viz-a2e7331fdad34eb7ab1e19eba73394a2"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-ac43f2d7fe5c435191fd592f36209114") {
-      outputDiv = document.getElementById("altair-viz-ac43f2d7fe5c435191fd592f36209114");
+    if (outputDiv.id !== "altair-viz-a2e7331fdad34eb7ab1e19eba73394a2") {
+      outputDiv = document.getElementById("altair-viz-a2e7331fdad34eb7ab1e19eba73394a2");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -1147,36 +1149,36 @@ PSTAT100 Spring 2023
 <section id="more-common-misconceptions-2" class="slide level2">
 <h2>More common misconceptions</h2>
 <p>A weak correlation does <strong>not</strong> imply no linear relationship – it could just be really noisy.</p>
-<div class="cell" data-execution_count="10">
-<details>
+<div id="cb163be3" class="cell" data-execution_count="10">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>np.random.seed(<span class="dv">50423</span>)</span>
-<span id="cb14-2"><a href="#cb14-2"></a><span class="co"># intercept, slope</span></span>
-<span id="cb14-3"><a href="#cb14-3"></a>a, b <span class="op">=</span> <span class="dv">1</span>, <span class="op">-</span><span class="dv">3</span></span>
-<span id="cb14-4"><a href="#cb14-4"></a></span>
-<span id="cb14-5"><a href="#cb14-5"></a><span class="co"># noise</span></span>
-<span id="cb14-6"><a href="#cb14-6"></a>noise_sd <span class="op">=</span> <span class="dv">4</span></span>
-<span id="cb14-7"><a href="#cb14-7"></a>noise <span class="op">=</span> np.random.normal(loc <span class="op">=</span> <span class="dv">0</span>, scale <span class="op">=</span> noise_sd, size <span class="op">=</span> <span class="dv">100</span>)</span>
-<span id="cb14-8"><a href="#cb14-8"></a></span>
-<span id="cb14-9"><a href="#cb14-9"></a><span class="co"># simulate y</span></span>
-<span id="cb14-10"><a href="#cb14-10"></a>sim_df[<span class="st">'y'</span>] <span class="op">=</span> a <span class="op">+</span> b<span class="op">*</span>x <span class="op">+</span> noise</span>
-<span id="cb14-11"><a href="#cb14-11"></a></span>
-<span id="cb14-12"><a href="#cb14-12"></a><span class="co"># plot</span></span>
-<span id="cb14-13"><a href="#cb14-13"></a>scatter <span class="op">=</span> alt.Chart(</span>
-<span id="cb14-14"><a href="#cb14-14"></a>    sim_df</span>
-<span id="cb14-15"><a href="#cb14-15"></a>).mark_point().encode(</span>
-<span id="cb14-16"><a href="#cb14-16"></a>    x <span class="op">=</span> <span class="st">'x'</span>,</span>
-<span id="cb14-17"><a href="#cb14-17"></a>    y <span class="op">=</span> <span class="st">'y'</span></span>
-<span id="cb14-18"><a href="#cb14-18"></a>)</span>
-<span id="cb14-19"><a href="#cb14-19"></a></span>
-<span id="cb14-20"><a href="#cb14-20"></a>trend <span class="op">=</span> scatter.transform_regression(<span class="st">'x'</span>, <span class="st">'y'</span>).mark_line()</span>
-<span id="cb14-21"><a href="#cb14-21"></a></span>
-<span id="cb14-22"><a href="#cb14-22"></a><span class="co"># compute correlation</span></span>
-<span id="cb14-23"><a href="#cb14-23"></a><span class="bu">print</span>(<span class="st">'correlation: '</span>, sim_df.corr().loc[<span class="st">'x'</span>, <span class="st">'y'</span>])</span>
-<span id="cb14-24"><a href="#cb14-24"></a>(scatter <span class="op">+</span> trend).configure_axis(</span>
-<span id="cb14-25"><a href="#cb14-25"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
-<span id="cb14-26"><a href="#cb14-26"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb14-27"><a href="#cb14-27"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a></a>np.random.seed(<span class="dv">50423</span>)</span>
+<span id="cb14-2"><a></a><span class="co"># intercept, slope</span></span>
+<span id="cb14-3"><a></a>a, b <span class="op">=</span> <span class="dv">1</span>, <span class="op">-</span><span class="dv">3</span></span>
+<span id="cb14-4"><a></a></span>
+<span id="cb14-5"><a></a><span class="co"># noise</span></span>
+<span id="cb14-6"><a></a>noise_sd <span class="op">=</span> <span class="dv">4</span></span>
+<span id="cb14-7"><a></a>noise <span class="op">=</span> np.random.normal(loc <span class="op">=</span> <span class="dv">0</span>, scale <span class="op">=</span> noise_sd, size <span class="op">=</span> <span class="dv">100</span>)</span>
+<span id="cb14-8"><a></a></span>
+<span id="cb14-9"><a></a><span class="co"># simulate y</span></span>
+<span id="cb14-10"><a></a>sim_df[<span class="st">'y'</span>] <span class="op">=</span> a <span class="op">+</span> b<span class="op">*</span>x <span class="op">+</span> noise</span>
+<span id="cb14-11"><a></a></span>
+<span id="cb14-12"><a></a><span class="co"># plot</span></span>
+<span id="cb14-13"><a></a>scatter <span class="op">=</span> alt.Chart(</span>
+<span id="cb14-14"><a></a>    sim_df</span>
+<span id="cb14-15"><a></a>).mark_point().encode(</span>
+<span id="cb14-16"><a></a>    x <span class="op">=</span> <span class="st">'x'</span>,</span>
+<span id="cb14-17"><a></a>    y <span class="op">=</span> <span class="st">'y'</span></span>
+<span id="cb14-18"><a></a>)</span>
+<span id="cb14-19"><a></a></span>
+<span id="cb14-20"><a></a>trend <span class="op">=</span> scatter.transform_regression(<span class="st">'x'</span>, <span class="st">'y'</span>).mark_line()</span>
+<span id="cb14-21"><a></a></span>
+<span id="cb14-22"><a></a><span class="co"># compute correlation</span></span>
+<span id="cb14-23"><a></a><span class="bu">print</span>(<span class="st">'correlation: '</span>, sim_df.corr().loc[<span class="st">'x'</span>, <span class="st">'y'</span>])</span>
+<span id="cb14-24"><a></a>(scatter <span class="op">+</span> trend).configure_axis(</span>
+<span id="cb14-25"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
+<span id="cb14-26"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb14-27"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>correlation:  -0.2552753897590402</code></pre>
@@ -1184,23 +1186,23 @@ PSTAT100 Spring 2023
 <div class="cell-output cell-output-display" data-execution_count="10">
 
 <style>
-  #altair-viz-b164b91d29a84c7da90df96e942c0b93.vega-embed {
+  #altair-viz-c333ef1ac5ad49988272f241ca91f2e4.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-b164b91d29a84c7da90df96e942c0b93.vega-embed details,
-  #altair-viz-b164b91d29a84c7da90df96e942c0b93.vega-embed details summary {
+  #altair-viz-c333ef1ac5ad49988272f241ca91f2e4.vega-embed details,
+  #altair-viz-c333ef1ac5ad49988272f241ca91f2e4.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-b164b91d29a84c7da90df96e942c0b93"></div>
+<div id="altair-viz-c333ef1ac5ad49988272f241ca91f2e4"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-b164b91d29a84c7da90df96e942c0b93") {
-      outputDiv = document.getElementById("altair-viz-b164b91d29a84c7da90df96e942c0b93");
+    if (outputDiv.id !== "altair-viz-c333ef1ac5ad49988272f241ca91f2e4") {
+      outputDiv = document.getElementById("altair-viz-c333ef1ac5ad49988272f241ca91f2e4");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -1256,58 +1258,58 @@ PSTAT100 Spring 2023
 <p>It helps to have a number to quantify the strength of a relationship.</p>
 <div class="fragment">
 <p>For instance, which pair is most related? Are some pairs more related than others?</p>
-<div class="cell" data-execution_count="11">
-<details>
+<div id="92091c7a" class="cell" data-execution_count="11">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a><span class="co"># extract social and economic indices</span></span>
-<span id="cb16-2"><a href="#cb16-2"></a>x_mx <span class="op">=</span> city_sust.iloc[:, <span class="dv">2</span>:<span class="dv">5</span>]</span>
-<span id="cb16-3"><a href="#cb16-3"></a></span>
-<span id="cb16-4"><a href="#cb16-4"></a><span class="co"># long form dataframe for plotting panel</span></span>
-<span id="cb16-5"><a href="#cb16-5"></a>scatter_df <span class="op">=</span> x_mx.melt(</span>
-<span id="cb16-6"><a href="#cb16-6"></a>    var_name <span class="op">=</span> <span class="st">'row'</span>,</span>
-<span id="cb16-7"><a href="#cb16-7"></a>    value_name <span class="op">=</span> <span class="st">'row_index'</span></span>
-<span id="cb16-8"><a href="#cb16-8"></a>).join(</span>
-<span id="cb16-9"><a href="#cb16-9"></a>    pd.concat([x_mx, x_mx, x_mx], axis <span class="op">=</span> <span class="dv">0</span>).reset_index(),</span>
-<span id="cb16-10"><a href="#cb16-10"></a>).drop(</span>
-<span id="cb16-11"><a href="#cb16-11"></a>    columns <span class="op">=</span> <span class="st">'index'</span></span>
-<span id="cb16-12"><a href="#cb16-12"></a>).melt(</span>
-<span id="cb16-13"><a href="#cb16-13"></a>    id_vars <span class="op">=</span> [<span class="st">'row'</span>, <span class="st">'row_index'</span>],</span>
-<span id="cb16-14"><a href="#cb16-14"></a>    var_name <span class="op">=</span> <span class="st">'col'</span>,</span>
-<span id="cb16-15"><a href="#cb16-15"></a>    value_name <span class="op">=</span> <span class="st">'col_index'</span></span>
-<span id="cb16-16"><a href="#cb16-16"></a>)</span>
-<span id="cb16-17"><a href="#cb16-17"></a></span>
-<span id="cb16-18"><a href="#cb16-18"></a><span class="co"># panel</span></span>
-<span id="cb16-19"><a href="#cb16-19"></a>alt.Chart(scatter_df).mark_point(opacity <span class="op">=</span> <span class="fl">0.4</span>).encode(</span>
-<span id="cb16-20"><a href="#cb16-20"></a>    x <span class="op">=</span> alt.X(<span class="st">'row_index'</span>, scale <span class="op">=</span> alt.Scale(zero <span class="op">=</span> <span class="va">False</span>), title <span class="op">=</span> <span class="st">''</span>),</span>
-<span id="cb16-21"><a href="#cb16-21"></a>    y <span class="op">=</span> alt.Y(<span class="st">'col_index'</span>, scale <span class="op">=</span> alt.Scale(zero <span class="op">=</span> <span class="va">False</span>), title <span class="op">=</span> <span class="st">''</span>)</span>
-<span id="cb16-22"><a href="#cb16-22"></a>).properties(</span>
-<span id="cb16-23"><a href="#cb16-23"></a>    width <span class="op">=</span> <span class="dv">150</span>, </span>
-<span id="cb16-24"><a href="#cb16-24"></a>    height <span class="op">=</span> <span class="dv">75</span></span>
-<span id="cb16-25"><a href="#cb16-25"></a>).facet(</span>
-<span id="cb16-26"><a href="#cb16-26"></a>    column <span class="op">=</span> alt.Column(<span class="st">'col'</span>, title <span class="op">=</span> <span class="st">''</span>),</span>
-<span id="cb16-27"><a href="#cb16-27"></a>    row <span class="op">=</span> alt.Row(<span class="st">'row'</span>, title <span class="op">=</span> <span class="st">''</span>)</span>
-<span id="cb16-28"><a href="#cb16-28"></a>).resolve_scale(x <span class="op">=</span> <span class="st">'independent'</span>, y <span class="op">=</span> <span class="st">'independent'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a></a><span class="co"># extract social and economic indices</span></span>
+<span id="cb16-2"><a></a>x_mx <span class="op">=</span> city_sust.iloc[:, <span class="dv">2</span>:<span class="dv">5</span>]</span>
+<span id="cb16-3"><a></a></span>
+<span id="cb16-4"><a></a><span class="co"># long form dataframe for plotting panel</span></span>
+<span id="cb16-5"><a></a>scatter_df <span class="op">=</span> x_mx.melt(</span>
+<span id="cb16-6"><a></a>    var_name <span class="op">=</span> <span class="st">'row'</span>,</span>
+<span id="cb16-7"><a></a>    value_name <span class="op">=</span> <span class="st">'row_index'</span></span>
+<span id="cb16-8"><a></a>).join(</span>
+<span id="cb16-9"><a></a>    pd.concat([x_mx, x_mx, x_mx], axis <span class="op">=</span> <span class="dv">0</span>).reset_index(),</span>
+<span id="cb16-10"><a></a>).drop(</span>
+<span id="cb16-11"><a></a>    columns <span class="op">=</span> <span class="st">'index'</span></span>
+<span id="cb16-12"><a></a>).melt(</span>
+<span id="cb16-13"><a></a>    id_vars <span class="op">=</span> [<span class="st">'row'</span>, <span class="st">'row_index'</span>],</span>
+<span id="cb16-14"><a></a>    var_name <span class="op">=</span> <span class="st">'col'</span>,</span>
+<span id="cb16-15"><a></a>    value_name <span class="op">=</span> <span class="st">'col_index'</span></span>
+<span id="cb16-16"><a></a>)</span>
+<span id="cb16-17"><a></a></span>
+<span id="cb16-18"><a></a><span class="co"># panel</span></span>
+<span id="cb16-19"><a></a>alt.Chart(scatter_df).mark_point(opacity <span class="op">=</span> <span class="fl">0.4</span>).encode(</span>
+<span id="cb16-20"><a></a>    x <span class="op">=</span> alt.X(<span class="st">'row_index'</span>, scale <span class="op">=</span> alt.Scale(zero <span class="op">=</span> <span class="va">False</span>), title <span class="op">=</span> <span class="st">''</span>),</span>
+<span id="cb16-21"><a></a>    y <span class="op">=</span> alt.Y(<span class="st">'col_index'</span>, scale <span class="op">=</span> alt.Scale(zero <span class="op">=</span> <span class="va">False</span>), title <span class="op">=</span> <span class="st">''</span>)</span>
+<span id="cb16-22"><a></a>).properties(</span>
+<span id="cb16-23"><a></a>    width <span class="op">=</span> <span class="dv">150</span>, </span>
+<span id="cb16-24"><a></a>    height <span class="op">=</span> <span class="dv">75</span></span>
+<span id="cb16-25"><a></a>).facet(</span>
+<span id="cb16-26"><a></a>    column <span class="op">=</span> alt.Column(<span class="st">'col'</span>, title <span class="op">=</span> <span class="st">''</span>),</span>
+<span id="cb16-27"><a></a>    row <span class="op">=</span> alt.Row(<span class="st">'row'</span>, title <span class="op">=</span> <span class="st">''</span>)</span>
+<span id="cb16-28"><a></a>).resolve_scale(x <span class="op">=</span> <span class="st">'independent'</span>, y <span class="op">=</span> <span class="st">'independent'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="11">
 
 <style>
-  #altair-viz-bf0bd30db2dd4338b090e9727bcd7278.vega-embed {
+  #altair-viz-30d85059fc50425ab65ea497778fcadf.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-bf0bd30db2dd4338b090e9727bcd7278.vega-embed details,
-  #altair-viz-bf0bd30db2dd4338b090e9727bcd7278.vega-embed details summary {
+  #altair-viz-30d85059fc50425ab65ea497778fcadf.vega-embed details,
+  #altair-viz-30d85059fc50425ab65ea497778fcadf.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-bf0bd30db2dd4338b090e9727bcd7278"></div>
+<div id="altair-viz-30d85059fc50425ab65ea497778fcadf"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-bf0bd30db2dd4338b090e9727bcd7278") {
-      outputDiv = document.getElementById("altair-viz-bf0bd30db2dd4338b090e9727bcd7278");
+    if (outputDiv.id !== "altair-viz-30d85059fc50425ab65ea497778fcadf") {
+      outputDiv = document.getElementById("altair-viz-30d85059fc50425ab65ea497778fcadf");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -1365,13 +1367,14 @@ PSTAT100 Spring 2023
 <section id="correlation-matrix" class="slide level2">
 <h2>Correlation matrix</h2>
 <p>The pairwise correlations among all three variables can be represented in a simple square matrix:</p>
-<div class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a><span class="co"># extract social and economic indices</span></span>
-<span id="cb17-2"><a href="#cb17-2"></a>x_mx <span class="op">=</span> city_sust.iloc[:, <span class="dv">2</span>:<span class="dv">5</span>]</span>
-<span id="cb17-3"><a href="#cb17-3"></a></span>
-<span id="cb17-4"><a href="#cb17-4"></a><span class="co"># compute matrix of correlations</span></span>
-<span id="cb17-5"><a href="#cb17-5"></a>x_mx.corr()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="d0677b3b" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a></a><span class="co"># extract social and economic indices</span></span>
+<span id="cb17-2"><a></a>x_mx <span class="op">=</span> city_sust.iloc[:, <span class="dv">2</span>:<span class="dv">5</span>]</span>
+<span id="cb17-3"><a></a></span>
+<span id="cb17-4"><a></a><span class="co"># compute matrix of correlations</span></span>
+<span id="cb17-5"><a></a>x_mx.corr()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1418,6 +1421,7 @@ PSTAT100 Spring 2023
 </tbody>
 </table>
 
+</div>
 </div>
 </div>
 </div>
@@ -1507,12 +1511,13 @@ PSTAT100 Spring 2023
 <section id="calculations" class="slide level2">
 <h2>Calculations</h2>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a><span class="co"># correlation matrix 'by hand'</span></span>
-<span id="cb18-2"><a href="#cb18-2"></a>n <span class="op">=</span> <span class="bu">len</span>(x_mx) <span class="co"># sample size</span></span>
-<span id="cb18-3"><a href="#cb18-3"></a>z_mx <span class="op">=</span> (x_mx <span class="op">-</span> x_mx.mean())<span class="op">/</span>x_mx.std() <span class="co"># (xi - xbar)/sx</span></span>
-<span id="cb18-4"><a href="#cb18-4"></a>z_mx.transpose().dot(z_mx)<span class="op">/</span>(n <span class="op">-</span> <span class="dv">1</span>) <span class="co"># Z'Z/(n - 1)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="a3585190" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a></a><span class="co"># correlation matrix 'by hand'</span></span>
+<span id="cb18-2"><a></a>n <span class="op">=</span> <span class="bu">len</span>(x_mx) <span class="co"># sample size</span></span>
+<span id="cb18-3"><a></a>z_mx <span class="op">=</span> (x_mx <span class="op">-</span> x_mx.mean())<span class="op">/</span>x_mx.std() <span class="co"># (xi - xbar)/sx</span></span>
+<span id="cb18-4"><a></a>z_mx.transpose().dot(z_mx)<span class="op">/</span>(n <span class="op">-</span> <span class="dv">1</span>) <span class="co"># Z'Z/(n - 1)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1559,15 +1564,17 @@ PSTAT100 Spring 2023
 </tbody>
 </table>
 
+</div>
 </div>
 </div>
 </div>
 </div>
 <div class="fragment">
 <p>Luckily, <code>df.cov()</code> and <code>df.cor()</code> will do all the work for you:</p>
-<div class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a>x_mx.corr()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="36ce5f30" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a></a>x_mx.corr()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="14">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1614,6 +1621,7 @@ PSTAT100 Spring 2023
 </tbody>
 </table>
 
+</div>
 </div>
 </div>
 </div>
@@ -1624,52 +1632,52 @@ PSTAT100 Spring 2023
 </section>
 <section id="heatmap-visualization" class="slide level2">
 <h2>Heatmap visualization</h2>
-<div class="cell" data-execution_count="15">
-<details>
+<div id="64b39aa3" class="cell" data-execution_count="15">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a><span class="co"># store correlation matrix</span></span>
-<span id="cb20-2"><a href="#cb20-2"></a>corr_mx <span class="op">=</span> x_mx.corr()</span>
-<span id="cb20-3"><a href="#cb20-3"></a></span>
-<span id="cb20-4"><a href="#cb20-4"></a><span class="co"># melt to long form</span></span>
-<span id="cb20-5"><a href="#cb20-5"></a>corr_mx_long <span class="op">=</span> corr_mx.reset_index().rename(</span>
-<span id="cb20-6"><a href="#cb20-6"></a>    columns <span class="op">=</span> {<span class="st">'index'</span>: <span class="st">'row'</span>}</span>
-<span id="cb20-7"><a href="#cb20-7"></a>).melt(</span>
-<span id="cb20-8"><a href="#cb20-8"></a>    id_vars <span class="op">=</span> <span class="st">'row'</span>,</span>
-<span id="cb20-9"><a href="#cb20-9"></a>    var_name <span class="op">=</span> <span class="st">'col'</span>,</span>
-<span id="cb20-10"><a href="#cb20-10"></a>    value_name <span class="op">=</span> <span class="st">'Correlation'</span></span>
-<span id="cb20-11"><a href="#cb20-11"></a>)</span>
-<span id="cb20-12"><a href="#cb20-12"></a></span>
-<span id="cb20-13"><a href="#cb20-13"></a><span class="co"># visualize</span></span>
-<span id="cb20-14"><a href="#cb20-14"></a>alt.Chart(corr_mx_long).mark_rect().encode(</span>
-<span id="cb20-15"><a href="#cb20-15"></a>    x <span class="op">=</span> alt.X(<span class="st">'col'</span>, title <span class="op">=</span> <span class="st">''</span>, sort <span class="op">=</span> {<span class="st">'field'</span>: <span class="st">'Correlation'</span>, <span class="st">'order'</span>: <span class="st">'ascending'</span>}),</span>
-<span id="cb20-16"><a href="#cb20-16"></a>    y <span class="op">=</span> alt.Y(<span class="st">'row'</span>, title <span class="op">=</span> <span class="st">''</span>, sort <span class="op">=</span> {<span class="st">'field'</span>: <span class="st">'Correlation'</span>, <span class="st">'order'</span>: <span class="st">'ascending'</span>}),</span>
-<span id="cb20-17"><a href="#cb20-17"></a>    color <span class="op">=</span> alt.Color(<span class="st">'Correlation'</span>, </span>
-<span id="cb20-18"><a href="#cb20-18"></a>                      scale <span class="op">=</span> alt.Scale(scheme <span class="op">=</span> <span class="st">'blueorange'</span>,</span>
-<span id="cb20-19"><a href="#cb20-19"></a>                                        domain <span class="op">=</span> (<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>), </span>
-<span id="cb20-20"><a href="#cb20-20"></a>                                        <span class="bu">type</span> <span class="op">=</span> <span class="st">'sqrt'</span>),</span>
-<span id="cb20-21"><a href="#cb20-21"></a>                     legend <span class="op">=</span> alt.Legend(tickCount <span class="op">=</span> <span class="dv">5</span>))</span>
-<span id="cb20-22"><a href="#cb20-22"></a>).properties(width <span class="op">=</span> <span class="dv">200</span>, height <span class="op">=</span> <span class="dv">200</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a></a><span class="co"># store correlation matrix</span></span>
+<span id="cb20-2"><a></a>corr_mx <span class="op">=</span> x_mx.corr()</span>
+<span id="cb20-3"><a></a></span>
+<span id="cb20-4"><a></a><span class="co"># melt to long form</span></span>
+<span id="cb20-5"><a></a>corr_mx_long <span class="op">=</span> corr_mx.reset_index().rename(</span>
+<span id="cb20-6"><a></a>    columns <span class="op">=</span> {<span class="st">'index'</span>: <span class="st">'row'</span>}</span>
+<span id="cb20-7"><a></a>).melt(</span>
+<span id="cb20-8"><a></a>    id_vars <span class="op">=</span> <span class="st">'row'</span>,</span>
+<span id="cb20-9"><a></a>    var_name <span class="op">=</span> <span class="st">'col'</span>,</span>
+<span id="cb20-10"><a></a>    value_name <span class="op">=</span> <span class="st">'Correlation'</span></span>
+<span id="cb20-11"><a></a>)</span>
+<span id="cb20-12"><a></a></span>
+<span id="cb20-13"><a></a><span class="co"># visualize</span></span>
+<span id="cb20-14"><a></a>alt.Chart(corr_mx_long).mark_rect().encode(</span>
+<span id="cb20-15"><a></a>    x <span class="op">=</span> alt.X(<span class="st">'col'</span>, title <span class="op">=</span> <span class="st">''</span>, sort <span class="op">=</span> {<span class="st">'field'</span>: <span class="st">'Correlation'</span>, <span class="st">'order'</span>: <span class="st">'ascending'</span>}),</span>
+<span id="cb20-16"><a></a>    y <span class="op">=</span> alt.Y(<span class="st">'row'</span>, title <span class="op">=</span> <span class="st">''</span>, sort <span class="op">=</span> {<span class="st">'field'</span>: <span class="st">'Correlation'</span>, <span class="st">'order'</span>: <span class="st">'ascending'</span>}),</span>
+<span id="cb20-17"><a></a>    color <span class="op">=</span> alt.Color(<span class="st">'Correlation'</span>, </span>
+<span id="cb20-18"><a></a>                      scale <span class="op">=</span> alt.Scale(scheme <span class="op">=</span> <span class="st">'blueorange'</span>,</span>
+<span id="cb20-19"><a></a>                                        domain <span class="op">=</span> (<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>), </span>
+<span id="cb20-20"><a></a>                                        <span class="bu">type</span> <span class="op">=</span> <span class="st">'sqrt'</span>),</span>
+<span id="cb20-21"><a></a>                     legend <span class="op">=</span> alt.Legend(tickCount <span class="op">=</span> <span class="dv">5</span>))</span>
+<span id="cb20-22"><a></a>).properties(width <span class="op">=</span> <span class="dv">200</span>, height <span class="op">=</span> <span class="dv">200</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="15">
 
 <style>
-  #altair-viz-5735ea250e31446eb3f07c89ba9f8f87.vega-embed {
+  #altair-viz-5fe563e410b344628c680ca497d41fd7.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-5735ea250e31446eb3f07c89ba9f8f87.vega-embed details,
-  #altair-viz-5735ea250e31446eb3f07c89ba9f8f87.vega-embed details summary {
+  #altair-viz-5fe563e410b344628c680ca497d41fd7.vega-embed details,
+  #altair-viz-5fe563e410b344628c680ca497d41fd7.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-5735ea250e31446eb3f07c89ba9f8f87"></div>
+<div id="altair-viz-5fe563e410b344628c680ca497d41fd7"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-5735ea250e31446eb3f07c89ba9f8f87") {
-      outputDiv = document.getElementById("altair-viz-5735ea250e31446eb3f07c89ba9f8f87");
+    if (outputDiv.id !== "altair-viz-5fe563e410b344628c680ca497d41fd7") {
+      outputDiv = document.getElementById("altair-viz-5fe563e410b344628c680ca497d41fd7");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -1729,59 +1737,59 @@ PSTAT100 Spring 2023
 <section id="higher-dimensions" class="slide level2">
 <h2>Higher dimensions</h2>
 <p>Consider a larger collection of development-related variables measured on countries:</p>
-<div class="cell" data-execution_count="16">
-<details>
+<div id="2cf076a4" class="cell" data-execution_count="16">
+<details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a>wdi <span class="op">=</span> pd.read_csv(<span class="st">'data/wdi-data.csv'</span>).iloc[:, <span class="dv">2</span>:].set_index(<span class="st">'country'</span>)</span>
-<span id="cb21-2"><a href="#cb21-2"></a></span>
-<span id="cb21-3"><a href="#cb21-3"></a><span class="co"># store correlation matrix</span></span>
-<span id="cb21-4"><a href="#cb21-4"></a>corr_mx <span class="op">=</span> wdi.corr()</span>
-<span id="cb21-5"><a href="#cb21-5"></a></span>
-<span id="cb21-6"><a href="#cb21-6"></a><span class="co"># melt to long form</span></span>
-<span id="cb21-7"><a href="#cb21-7"></a>corr_mx_long <span class="op">=</span> corr_mx.reset_index().rename(</span>
-<span id="cb21-8"><a href="#cb21-8"></a>    columns <span class="op">=</span> {<span class="st">'index'</span>: <span class="st">'row'</span>}</span>
-<span id="cb21-9"><a href="#cb21-9"></a>).melt(</span>
-<span id="cb21-10"><a href="#cb21-10"></a>    id_vars <span class="op">=</span> <span class="st">'row'</span>,</span>
-<span id="cb21-11"><a href="#cb21-11"></a>    var_name <span class="op">=</span> <span class="st">'col'</span>,</span>
-<span id="cb21-12"><a href="#cb21-12"></a>    value_name <span class="op">=</span> <span class="st">'Correlation'</span></span>
-<span id="cb21-13"><a href="#cb21-13"></a>)</span>
-<span id="cb21-14"><a href="#cb21-14"></a></span>
-<span id="cb21-15"><a href="#cb21-15"></a><span class="co"># visualize</span></span>
-<span id="cb21-16"><a href="#cb21-16"></a>alt.Chart(corr_mx_long).mark_rect().encode(</span>
-<span id="cb21-17"><a href="#cb21-17"></a>    x <span class="op">=</span> alt.X(<span class="st">'col'</span>, title <span class="op">=</span> <span class="st">''</span>, sort <span class="op">=</span> {<span class="st">'field'</span>: <span class="st">'Correlation'</span>, <span class="st">'order'</span>: <span class="st">'ascending'</span>}),</span>
-<span id="cb21-18"><a href="#cb21-18"></a>    y <span class="op">=</span> alt.Y(<span class="st">'row'</span>, title <span class="op">=</span> <span class="st">''</span>, sort <span class="op">=</span> {<span class="st">'field'</span>: <span class="st">'Correlation'</span>, <span class="st">'order'</span>: <span class="st">'ascending'</span>}),</span>
-<span id="cb21-19"><a href="#cb21-19"></a>    color <span class="op">=</span> alt.Color(<span class="st">'Correlation'</span>, </span>
-<span id="cb21-20"><a href="#cb21-20"></a>                      scale <span class="op">=</span> alt.Scale(scheme <span class="op">=</span> <span class="st">'blueorange'</span>,</span>
-<span id="cb21-21"><a href="#cb21-21"></a>                                        domain <span class="op">=</span> (<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>), </span>
-<span id="cb21-22"><a href="#cb21-22"></a>                                        <span class="bu">type</span> <span class="op">=</span> <span class="st">'sqrt'</span>),</span>
-<span id="cb21-23"><a href="#cb21-23"></a>                     legend <span class="op">=</span> alt.Legend(tickCount <span class="op">=</span> <span class="dv">5</span>))</span>
-<span id="cb21-24"><a href="#cb21-24"></a>).configure_axis(</span>
-<span id="cb21-25"><a href="#cb21-25"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span></span>
-<span id="cb21-26"><a href="#cb21-26"></a>).configure_legend(</span>
-<span id="cb21-27"><a href="#cb21-27"></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
-<span id="cb21-28"><a href="#cb21-28"></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
-<span id="cb21-29"><a href="#cb21-29"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a></a>wdi <span class="op">=</span> pd.read_csv(<span class="st">'data/wdi-data.csv'</span>).iloc[:, <span class="dv">2</span>:].set_index(<span class="st">'country'</span>)</span>
+<span id="cb21-2"><a></a></span>
+<span id="cb21-3"><a></a><span class="co"># store correlation matrix</span></span>
+<span id="cb21-4"><a></a>corr_mx <span class="op">=</span> wdi.corr()</span>
+<span id="cb21-5"><a></a></span>
+<span id="cb21-6"><a></a><span class="co"># melt to long form</span></span>
+<span id="cb21-7"><a></a>corr_mx_long <span class="op">=</span> corr_mx.reset_index().rename(</span>
+<span id="cb21-8"><a></a>    columns <span class="op">=</span> {<span class="st">'index'</span>: <span class="st">'row'</span>}</span>
+<span id="cb21-9"><a></a>).melt(</span>
+<span id="cb21-10"><a></a>    id_vars <span class="op">=</span> <span class="st">'row'</span>,</span>
+<span id="cb21-11"><a></a>    var_name <span class="op">=</span> <span class="st">'col'</span>,</span>
+<span id="cb21-12"><a></a>    value_name <span class="op">=</span> <span class="st">'Correlation'</span></span>
+<span id="cb21-13"><a></a>)</span>
+<span id="cb21-14"><a></a></span>
+<span id="cb21-15"><a></a><span class="co"># visualize</span></span>
+<span id="cb21-16"><a></a>alt.Chart(corr_mx_long).mark_rect().encode(</span>
+<span id="cb21-17"><a></a>    x <span class="op">=</span> alt.X(<span class="st">'col'</span>, title <span class="op">=</span> <span class="st">''</span>, sort <span class="op">=</span> {<span class="st">'field'</span>: <span class="st">'Correlation'</span>, <span class="st">'order'</span>: <span class="st">'ascending'</span>}),</span>
+<span id="cb21-18"><a></a>    y <span class="op">=</span> alt.Y(<span class="st">'row'</span>, title <span class="op">=</span> <span class="st">''</span>, sort <span class="op">=</span> {<span class="st">'field'</span>: <span class="st">'Correlation'</span>, <span class="st">'order'</span>: <span class="st">'ascending'</span>}),</span>
+<span id="cb21-19"><a></a>    color <span class="op">=</span> alt.Color(<span class="st">'Correlation'</span>, </span>
+<span id="cb21-20"><a></a>                      scale <span class="op">=</span> alt.Scale(scheme <span class="op">=</span> <span class="st">'blueorange'</span>,</span>
+<span id="cb21-21"><a></a>                                        domain <span class="op">=</span> (<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>), </span>
+<span id="cb21-22"><a></a>                                        <span class="bu">type</span> <span class="op">=</span> <span class="st">'sqrt'</span>),</span>
+<span id="cb21-23"><a></a>                     legend <span class="op">=</span> alt.Legend(tickCount <span class="op">=</span> <span class="dv">5</span>))</span>
+<span id="cb21-24"><a></a>).configure_axis(</span>
+<span id="cb21-25"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span></span>
+<span id="cb21-26"><a></a>).configure_legend(</span>
+<span id="cb21-27"><a></a>    labelFontSize <span class="op">=</span> <span class="dv">14</span>,</span>
+<span id="cb21-28"><a></a>    titleFontSize <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb21-29"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="16">
 
 <style>
-  #altair-viz-8dd2a40340db46289fcfbb67ed52b63e.vega-embed {
+  #altair-viz-9caaa966f6c44fce886e30528944b108.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-8dd2a40340db46289fcfbb67ed52b63e.vega-embed details,
-  #altair-viz-8dd2a40340db46289fcfbb67ed52b63e.vega-embed details summary {
+  #altair-viz-9caaa966f6c44fce886e30528944b108.vega-embed details,
+  #altair-viz-9caaa966f6c44fce886e30528944b108.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-8dd2a40340db46289fcfbb67ed52b63e"></div>
+<div id="altair-viz-9caaa966f6c44fce886e30528944b108"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-8dd2a40340db46289fcfbb67ed52b63e") {
-      outputDiv = document.getElementById("altair-viz-8dd2a40340db46289fcfbb67ed52b63e");
+    if (outputDiv.id !== "altair-viz-9caaa966f6c44fce886e30528944b108") {
+      outputDiv = document.getElementById("altair-viz-9caaa966f6c44fce886e30528944b108");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -1832,7 +1840,7 @@ PSTAT100 Spring 2023
 </div>
 </div>
 </section>
-<section id="higher-dimensions-1" class="slide level2">
+<section id="higher-dimensions-1" class="slide level2 scrollable">
 <h2>Higher dimensions</h2>
 <p>For larger collections of variables, we might wish to:</p>
 <ol type="i">
@@ -1932,11 +1940,11 @@ PSTAT100 Spring 2023
 <h2>Computations</h2>
 <p>The eigendecomposition is computed numerically using iterative methods. Luckily, these are very easy to implement:</p>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a><span class="co"># compute decomposition</span></span>
-<span id="cb22-2"><a href="#cb22-2"></a>corr_mx <span class="op">=</span> x_mx.corr()</span>
-<span id="cb22-3"><a href="#cb22-3"></a>decomp <span class="op">=</span> linalg.eig(corr_mx)</span>
-<span id="cb22-4"><a href="#cb22-4"></a>decomp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="76032b86" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a></a><span class="co"># compute decomposition</span></span>
+<span id="cb22-2"><a></a>corr_mx <span class="op">=</span> x_mx.corr()</span>
+<span id="cb22-3"><a></a>decomp <span class="op">=</span> linalg.eig(corr_mx)</span>
+<span id="cb22-4"><a></a>decomp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="17">
 <pre><code>(array([0.44788559+0.j, 1.54664121+0.j, 1.0054732 +0.j]),
  array([[ 0.68276586, -0.68571102,  0.2522522 ],
@@ -1946,18 +1954,18 @@ PSTAT100 Spring 2023
 </div>
 </div>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a><span class="co"># eigenvalues</span></span>
-<span id="cb24-2"><a href="#cb24-2"></a>decomp[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="1e0a56b7" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a></a><span class="co"># eigenvalues</span></span>
+<span id="cb24-2"><a></a>decomp[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="18">
 <pre><code>array([0.44788559+0.j, 1.54664121+0.j, 1.0054732 +0.j])</code></pre>
 </div>
 </div>
 </div>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a><span class="co"># eigenvectors (columns)</span></span>
-<span id="cb26-2"><a href="#cb26-2"></a>decomp[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="ae55f6a7" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a></a><span class="co"># eigenvectors (columns)</span></span>
+<span id="cb26-2"><a></a>decomp[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="19">
 <pre><code>array([[ 0.68276586, -0.68571102,  0.2522522 ],
        [-0.70523279, -0.7087523 , -0.01780118],
@@ -1970,9 +1978,10 @@ PSTAT100 Spring 2023
 <h2>Does the decomposition really work?</h2>
 <p>Let’s check that in fact <span class="math inline">\(\mathbf{A} = \mathbf{V\Lambda V'}\)</span>:</p>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a>eigenvecs.dot(eigenvals).dot(eigenvecs.transpose()) <span class="co"># V Lambda V'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="559d44fa" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a></a>eigenvecs.dot(eigenvals).dot(eigenvecs.transpose()) <span class="co"># V Lambda V'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="21">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -2019,14 +2028,16 @@ PSTAT100 Spring 2023
 </tbody>
 </table>
 
+</div>
 </div>
 </div>
 </div>
 </div>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1"></a>corr_mx <span class="co"># correlation matrix (our 'A')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="4c60289d" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a></a>corr_mx <span class="co"># correlation matrix (our 'A')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="22">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -2073,6 +2084,7 @@ PSTAT100 Spring 2023
 </tbody>
 </table>
 
+</div>
 </div>
 </div>
 </div>
@@ -2082,9 +2094,10 @@ PSTAT100 Spring 2023
 <h2>Orthogonality</h2>
 <p>Let’s check also that in fact <span class="math inline">\(\mathbf{V'V} = \mathbf{I}\)</span>:</p>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1"></a>eigenvecs.transpose().dot(eigenvecs) <span class="co"># V'V</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="7990e673" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a></a>eigenvecs.transpose().dot(eigenvecs) <span class="co"># V'V</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="23">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -2131,6 +2144,7 @@ PSTAT100 Spring 2023
 </tbody>
 </table>
 
+</div>
 </div>
 </div>
 </div>
@@ -2194,14 +2208,15 @@ PSTAT100 Spring 2023
 <section id="decorrelating-data" class="slide level2">
 <h2>Decorrelating data</h2>
 <p>We can easily verify this property by computing <span class="math inline">\(\text{cor}(\mathbf{ZV})\)</span>:</p>
-<div class="cell" data-execution_count="24">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1"></a>z_rotated <span class="op">=</span> z_mx.dot(eigenvecs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="04fca807" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a></a>z_rotated <span class="op">=</span> z_mx.dot(eigenvecs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
 <p>The columns are now orthogonal:</p>
-<div class="cell" data-execution_count="25">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1"></a>z_rotated.T.dot(z_rotated)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="5203ee68" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a></a>z_rotated.T.dot(z_rotated)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="25">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -2252,11 +2267,13 @@ PSTAT100 Spring 2023
 </div>
 </div>
 </div>
+</div>
 <div class="fragment">
 <p>And (since each column of <span class="math inline">\(\mathbf{Z}\)</span> has mean zero) also uncorrelated:</p>
-<div class="cell" data-execution_count="26">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1"></a>z_rotated.corr()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="1b9f7333" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a></a>z_rotated.corr()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="26">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -2307,6 +2324,7 @@ PSTAT100 Spring 2023
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="capturing-variation" class="slide level2">
 <h2>Capturing variation</h2>
@@ -2332,8 +2350,10 @@ PSTAT100 Spring 2023
 <div class="fragment">
 <p>In fact, most implementations of principal components use the SVD instead of eigendecomposition.</p>
 
+<div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 
+</div>
 </div>
 </div>
 </section>
@@ -2363,7 +2383,6 @@ PSTAT100 Spring 2023
       Reveal.initialize({
 'controlsAuto': true,
 'previewLinksAuto': false,
-'smaller': true,
 'pdfSeparateFragments': false,
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
@@ -2624,10 +2643,9 @@ PSTAT100 Spring 2023
         // clear code selection
         e.clearSelection();
       });
-      function tippyHover(el, contentFn) {
+      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
         const config = {
           allowHTML: true,
-          content: contentFn,
           maxWidth: 500,
           delay: 100,
           arrow: false,
@@ -2637,8 +2655,17 @@ PSTAT100 Spring 2023
           interactive: true,
           interactiveBorder: 10,
           theme: 'light-border',
-          placement: 'bottom-start'
+          placement: 'bottom-start',
         };
+        if (contentFn) {
+          config.content = contentFn;
+        }
+        if (onTriggerFn) {
+          config.onTrigger = onTriggerFn;
+        }
+        if (onUntriggerFn) {
+          config.onUntrigger = onUntriggerFn;
+        }
           config['offset'] = [0,0];
           config['maxWidth'] = 700;
         window.tippy(el, config); 

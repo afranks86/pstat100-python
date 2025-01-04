@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-html/tabby.min.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -8,7 +8,7 @@
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.433">
+  <meta name="generator" content="quarto-1.4.550">
 
   <meta name="author" content="PSTAT100 Spring 2023">
   <title>PSTAT100 - Exploratory analysis and density estimation</title>
@@ -165,7 +165,8 @@
   }
 
   .callout.callout-titled .callout-body > .callout-content > :last-child {
-    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0;
   }
 
   .callout.callout-titled .callout-icon::before {
@@ -329,7 +330,7 @@
     }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+  
   <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 </head>
 <body class="quarto-light">
@@ -450,8 +451,9 @@ PSTAT100 Spring 2023
 <p><strong>Variation</strong> in data is the <em><strong>tendency of values to change from measurement to measurement</strong></em>.</p>
 <div class="fragment">
 <p>For example, the following observations from your mini project data are around 8 <span class="math inline">\(\mu g/m^3\)</span>, but each one is different.</p>
-<div class="cell" data-tags="[]" data-execution_count="2">
+<div id="fc45c3c6" class="cell" data-tags="[]" data-execution_count="2">
 <div class="cell-output cell-output-display" data-execution_count="2">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -513,6 +515,7 @@ PSTAT100 Spring 2023
 </div>
 </div>
 </div>
+</div>
 <div class="fragment">
 <p><em>What does it mean to ask what ‘type’ of variation there is in this data?</em></p>
 </div>
@@ -534,27 +537,27 @@ PSTAT100 Spring 2023
 <h2>Air quality</h2>
 <p>The following histogram shows the distribution of PM 2.5 concentrations across all 200 cities and 20 years.</p>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="3">
+<div id="08230d47" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="3">
 <div class="cell-output cell-output-display" data-execution_count="3">
 
 <style>
-  #altair-viz-c052f36674a547fb91931e5eab72d9e4.vega-embed {
+  #altair-viz-6c5817aa13fd4eb9896d80f925052010.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-c052f36674a547fb91931e5eab72d9e4.vega-embed details,
-  #altair-viz-c052f36674a547fb91931e5eab72d9e4.vega-embed details summary {
+  #altair-viz-6c5817aa13fd4eb9896d80f925052010.vega-embed details,
+  #altair-viz-6c5817aa13fd4eb9896d80f925052010.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-c052f36674a547fb91931e5eab72d9e4"></div>
+<div id="altair-viz-6c5817aa13fd4eb9896d80f925052010"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-c052f36674a547fb91931e5eab72d9e4") {
-      outputDiv = document.getElementById("altair-viz-c052f36674a547fb91931e5eab72d9e4");
+    if (outputDiv.id !== "altair-viz-6c5817aa13fd4eb9896d80f925052010") {
+      outputDiv = document.getElementById("altair-viz-6c5817aa13fd4eb9896d80f925052010");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -617,27 +620,27 @@ PSTAT100 Spring 2023
 <h2>Question refinement</h2>
 <p><em>New question:</em> The national standard is 12 micrograms per cubic meter. Over 1,000 measurements exceeded this. Was it just a few cities, or more widespread?</p>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-execution_count="4">
+<div id="df6fbbcc" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-execution_count="4">
 <div class="cell-output cell-output-display" data-execution_count="4">
 
 <style>
-  #altair-viz-6de0ee5b54614deeab6796ce9712e8d7.vega-embed {
+  #altair-viz-2915dd65b16c40778075891c7ce24a2b.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-6de0ee5b54614deeab6796ce9712e8d7.vega-embed details,
-  #altair-viz-6de0ee5b54614deeab6796ce9712e8d7.vega-embed details summary {
+  #altair-viz-2915dd65b16c40778075891c7ce24a2b.vega-embed details,
+  #altair-viz-2915dd65b16c40778075891c7ce24a2b.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-6de0ee5b54614deeab6796ce9712e8d7"></div>
+<div id="altair-viz-2915dd65b16c40778075891c7ce24a2b"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-6de0ee5b54614deeab6796ce9712e8d7") {
-      outputDiv = document.getElementById("altair-viz-6de0ee5b54614deeab6796ce9712e8d7");
+    if (outputDiv.id !== "altair-viz-2915dd65b16c40778075891c7ce24a2b") {
+      outputDiv = document.getElementById("altair-viz-2915dd65b16c40778075891c7ce24a2b");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -692,7 +695,7 @@ PSTAT100 Spring 2023
 <p>Many cities exceeded the standard at some point in time: over 70% of the cities in the dataset. So it was more widespread, but these were the worst:</p>
 </div>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-execution_count="5">
+<div id="ebfcb42d" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-execution_count="5">
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>City                 State
 Hanford-Corcoran      CA      20
@@ -709,27 +712,27 @@ Name: Years exceeding standard, dtype: int64</code></pre>
 <p>How many cities exceed the benchmark each year? Does this change from year to year?</p>
 <div class="columns">
 <div class="column" style="width:60%;">
-<div class="cell" data-tags="[]" data-execution_count="6">
+<div id="44564db7" class="cell" data-tags="[]" data-execution_count="6">
 <div class="cell-output cell-output-display" data-execution_count="6">
 
 <style>
-  #altair-viz-f68b3bf5958d4546a21f48f7edbe8b08.vega-embed {
+  #altair-viz-54f21a5ab6be4afb84559d7bcd221ec4.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-f68b3bf5958d4546a21f48f7edbe8b08.vega-embed details,
-  #altair-viz-f68b3bf5958d4546a21f48f7edbe8b08.vega-embed details summary {
+  #altair-viz-54f21a5ab6be4afb84559d7bcd221ec4.vega-embed details,
+  #altair-viz-54f21a5ab6be4afb84559d7bcd221ec4.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-f68b3bf5958d4546a21f48f7edbe8b08"></div>
+<div id="altair-viz-54f21a5ab6be4afb84559d7bcd221ec4"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-f68b3bf5958d4546a21f48f7edbe8b08") {
-      outputDiv = document.getElementById("altair-viz-f68b3bf5958d4546a21f48f7edbe8b08");
+    if (outputDiv.id !== "altair-viz-54f21a5ab6be4afb84559d7bcd221ec4") {
+      outputDiv = document.getElementById("altair-viz-54f21a5ab6be4afb84559d7bcd221ec4");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -793,27 +796,27 @@ Name: Years exceeding standard, dtype: int64</code></pre>
 <p>Visually, it’s a lot easier to distinguish overlapping lines than overlapping bars. Smoothing out the histogram produces this:</p>
 <div class="columns">
 <div class="column" style="width:60%;">
-<div class="cell" data-tags="[]" data-execution_count="7">
+<div id="234e8b64" class="cell" data-tags="[]" data-execution_count="7">
 <div class="cell-output cell-output-display" data-execution_count="7">
 
 <style>
-  #altair-viz-59b9f103849d494783526ca8153919ba.vega-embed {
+  #altair-viz-e7ff5861c53d40f4b5e635b1c30169a5.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-59b9f103849d494783526ca8153919ba.vega-embed details,
-  #altair-viz-59b9f103849d494783526ca8153919ba.vega-embed details summary {
+  #altair-viz-e7ff5861c53d40f4b5e635b1c30169a5.vega-embed details,
+  #altair-viz-e7ff5861c53d40f4b5e635b1c30169a5.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-59b9f103849d494783526ca8153919ba"></div>
+<div id="altair-viz-e7ff5861c53d40f4b5e635b1c30169a5"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-59b9f103849d494783526ca8153919ba") {
-      outputDiv = document.getElementById("altair-viz-59b9f103849d494783526ca8153919ba");
+    if (outputDiv.id !== "altair-viz-e7ff5861c53d40f4b5e635b1c30169a5") {
+      outputDiv = document.getElementById("altair-viz-e7ff5861c53d40f4b5e635b1c30169a5");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -878,27 +881,27 @@ Name: Years exceeding standard, dtype: int64</code></pre>
 <div class="columns">
 <div class="column" style="width:50%;">
 <p>This gets the message across better.</p>
-<div class="cell" data-execution_count="8">
+<div id="76262573" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display" data-execution_count="8">
 
 <style>
-  #altair-viz-7a76428e1d8d43b699e3ec781294391f.vega-embed {
+  #altair-viz-9e4923532ff5491ca845326855490ab0.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-7a76428e1d8d43b699e3ec781294391f.vega-embed details,
-  #altair-viz-7a76428e1d8d43b699e3ec781294391f.vega-embed details summary {
+  #altair-viz-9e4923532ff5491ca845326855490ab0.vega-embed details,
+  #altair-viz-9e4923532ff5491ca845326855490ab0.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-7a76428e1d8d43b699e3ec781294391f"></div>
+<div id="altair-viz-9e4923532ff5491ca845326855490ab0"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-7a76428e1d8d43b699e3ec781294391f") {
-      outputDiv = document.getElementById("altair-viz-7a76428e1d8d43b699e3ec781294391f");
+    if (outputDiv.id !== "altair-viz-9e4923532ff5491ca845326855490ab0") {
+      outputDiv = document.getElementById("altair-viz-9e4923532ff5491ca845326855490ab0");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -950,8 +953,9 @@ Name: Years exceeding standard, dtype: int64</code></pre>
 </div>
 </div><div class="column" style="width:50%;">
 <p>And here are those outlying values:</p>
-<div class="cell" data-execution_count="9">
+<div id="c2a30d14" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display" data-execution_count="9">
+<div>
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1000,33 +1004,34 @@ Name: Years exceeding standard, dtype: int64</code></pre>
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="density-estimates" class="slide level2">
 <h2>Density estimates</h2>
 <p>All of the above has amounted to exploration of the distribution of PM 2.5 values across years and cities.</p>
 <div class="fragment">
 <p><em>Density estimates</em> provide smooth approximations of distributions:</p>
-<div class="cell" data-execution_count="10">
+<div id="15abb18f" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display" data-execution_count="10">
 
 <style>
-  #altair-viz-31f207e968904557b56bc204584993a6.vega-embed {
+  #altair-viz-8a352eed5e284947b56f370966cd6828.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-31f207e968904557b56bc204584993a6.vega-embed details,
-  #altair-viz-31f207e968904557b56bc204584993a6.vega-embed details summary {
+  #altair-viz-8a352eed5e284947b56f370966cd6828.vega-embed details,
+  #altair-viz-8a352eed5e284947b56f370966cd6828.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-31f207e968904557b56bc204584993a6"></div>
+<div id="altair-viz-8a352eed5e284947b56f370966cd6828"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-31f207e968904557b56bc204584993a6") {
-      outputDiv = document.getElementById("altair-viz-31f207e968904557b56bc204584993a6");
+    if (outputDiv.id !== "altair-viz-8a352eed5e284947b56f370966cd6828") {
+      outputDiv = document.getElementById("altair-viz-8a352eed5e284947b56f370966cd6828");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -1125,27 +1130,27 @@ Name: Years exceeding standard, dtype: int64</code></pre>
 <div class="column" style="width:40%;">
 <p>Bad for comparisons: the bar heights incomparable in scale whenever the bin widths and/or sample sizes differ.</p>
 </div><div class="column" style="width:60%;">
-<div class="cell" data-tags="[]" data-execution_count="11">
+<div id="a2cb858c" class="cell" data-tags="[]" data-execution_count="11">
 <div class="cell-output cell-output-display" data-execution_count="11">
 
 <style>
-  #altair-viz-52894f2e95774b879117d7f53fd1842d.vega-embed {
+  #altair-viz-b3084cf337d046af9ca0d454b354d607.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-52894f2e95774b879117d7f53fd1842d.vega-embed details,
-  #altair-viz-52894f2e95774b879117d7f53fd1842d.vega-embed details summary {
+  #altair-viz-b3084cf337d046af9ca0d454b354d607.vega-embed details,
+  #altair-viz-b3084cf337d046af9ca0d454b354d607.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-52894f2e95774b879117d7f53fd1842d"></div>
+<div id="altair-viz-b3084cf337d046af9ca0d454b354d607"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-52894f2e95774b879117d7f53fd1842d") {
-      outputDiv = document.getElementById("altair-viz-52894f2e95774b879117d7f53fd1842d");
+    if (outputDiv.id !== "altair-viz-b3084cf337d046af9ca0d454b354d607") {
+      outputDiv = document.getElementById("altair-viz-b3084cf337d046af9ca0d454b354d607");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -1214,27 +1219,27 @@ Name: Years exceeding standard, dtype: int64</code></pre>
 <p><strong>Kernel density estimates</strong> are <em><strong>local smoothings of the density scale histogram</strong></em>.</p>
 <p>This can be seen by comparing the type of smooth curve we saw earlier with the density scale histogram.</p>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="12">
+<div id="e5d661eb" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="12">
 <div class="cell-output cell-output-display" data-execution_count="12">
 
 <style>
-  #altair-viz-29d1c217f5e741b6b3c5412d22db0f4c.vega-embed {
+  #altair-viz-6d0c5501660f490ea387a6d88b666a11.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-29d1c217f5e741b6b3c5412d22db0f4c.vega-embed details,
-  #altair-viz-29d1c217f5e741b6b3c5412d22db0f4c.vega-embed details summary {
+  #altair-viz-6d0c5501660f490ea387a6d88b666a11.vega-embed details,
+  #altair-viz-6d0c5501660f490ea387a6d88b666a11.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-29d1c217f5e741b6b3c5412d22db0f4c"></div>
+<div id="altair-viz-6d0c5501660f490ea387a6d88b666a11"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-29d1c217f5e741b6b3c5412d22db0f4c") {
-      outputDiv = document.getElementById("altair-viz-29d1c217f5e741b6b3c5412d22db0f4c");
+    if (outputDiv.id !== "altair-viz-6d0c5501660f490ea387a6d88b666a11") {
+      outputDiv = document.getElementById("altair-viz-6d0c5501660f490ea387a6d88b666a11");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -1326,27 +1331,27 @@ Name: Years exceeding standard, dtype: int64</code></pre>
 <p><span class="math display">\[
 \text{hist}_\text{local}(\color{red}{x}) = \frac{1}{nb} \sum_{i = 1}^n \mathbf{1}\left\{|x_i - \color{red}{x}| &lt; \frac{b}{2}\right\}
 \]</span></p>
-<div class="cell" data-tags="[]" data-execution_count="13">
+<div id="9cc50978" class="cell" data-tags="[]" data-execution_count="13">
 <div class="cell-output cell-output-display" data-execution_count="13">
 
 <style>
-  #altair-viz-740999e255504548b6e205cfd5316ff7.vega-embed {
+  #altair-viz-61462409c64643c99903d17bfc2184b8.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-740999e255504548b6e205cfd5316ff7.vega-embed details,
-  #altair-viz-740999e255504548b6e205cfd5316ff7.vega-embed details summary {
+  #altair-viz-61462409c64643c99903d17bfc2184b8.vega-embed details,
+  #altair-viz-61462409c64643c99903d17bfc2184b8.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-740999e255504548b6e205cfd5316ff7"></div>
+<div id="altair-viz-61462409c64643c99903d17bfc2184b8"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-740999e255504548b6e205cfd5316ff7") {
-      outputDiv = document.getElementById("altair-viz-740999e255504548b6e205cfd5316ff7");
+    if (outputDiv.id !== "altair-viz-61462409c64643c99903d17bfc2184b8") {
+      outputDiv = document.getElementById("altair-viz-61462409c64643c99903d17bfc2184b8");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -1400,27 +1405,27 @@ Name: Years exceeding standard, dtype: int64</code></pre>
 <section id="pm-2.5-data" class="slide level2">
 <h2>PM 2.5 data</h2>
 <p>Here’s what that would look like with <span class="math inline">\(b = 1\)</span> for the air quality data:</p>
-<div class="cell" data-tags="[]" data-execution_count="14">
+<div id="72bc5ce4" class="cell" data-tags="[]" data-execution_count="14">
 <div class="cell-output cell-output-display" data-execution_count="14">
 
 <style>
-  #altair-viz-d6be879d401f454d9b54f1458fc37bfe.vega-embed {
+  #altair-viz-203195cf9eae42ceb0d5189066e7d80c.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-d6be879d401f454d9b54f1458fc37bfe.vega-embed details,
-  #altair-viz-d6be879d401f454d9b54f1458fc37bfe.vega-embed details summary {
+  #altair-viz-203195cf9eae42ceb0d5189066e7d80c.vega-embed details,
+  #altair-viz-203195cf9eae42ceb0d5189066e7d80c.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-d6be879d401f454d9b54f1458fc37bfe"></div>
+<div id="altair-viz-203195cf9eae42ceb0d5189066e7d80c"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-d6be879d401f454d9b54f1458fc37bfe") {
-      outputDiv = document.getElementById("altair-viz-d6be879d401f454d9b54f1458fc37bfe");
+    if (outputDiv.id !== "altair-viz-203195cf9eae42ceb0d5189066e7d80c") {
+      outputDiv = document.getElementById("altair-viz-203195cf9eae42ceb0d5189066e7d80c");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -1474,27 +1479,27 @@ Name: Years exceeding standard, dtype: int64</code></pre>
 <section id="pm-2.5-data-1" class="slide level2">
 <h2>PM 2.5 data</h2>
 <p>Zooming in reveals that this is still a step function:</p>
-<div class="cell" data-tags="[]" data-execution_count="15">
+<div id="3e66d4cb" class="cell" data-tags="[]" data-execution_count="15">
 <div class="cell-output cell-output-display" data-execution_count="15">
 
 <style>
-  #altair-viz-c645208229364b3982a0cd5ef434fc34.vega-embed {
+  #altair-viz-2e98bbb8ec1345d48354143426cc1fe0.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-c645208229364b3982a0cd5ef434fc34.vega-embed details,
-  #altair-viz-c645208229364b3982a0cd5ef434fc34.vega-embed details summary {
+  #altair-viz-2e98bbb8ec1345d48354143426cc1fe0.vega-embed details,
+  #altair-viz-2e98bbb8ec1345d48354143426cc1fe0.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-c645208229364b3982a0cd5ef434fc34"></div>
+<div id="altair-viz-2e98bbb8ec1345d48354143426cc1fe0"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-c645208229364b3982a0cd5ef434fc34") {
-      outputDiv = document.getElementById("altair-viz-c645208229364b3982a0cd5ef434fc34");
+    if (outputDiv.id !== "altair-viz-2e98bbb8ec1345d48354143426cc1fe0") {
+      outputDiv = document.getElementById("altair-viz-2e98bbb8ec1345d48354143426cc1fe0");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -1571,27 +1576,27 @@ Name: Years exceeding standard, dtype: int64</code></pre>
 <section id="smoothing-bandwidth" class="slide level2">
 <h2>Smoothing bandwidth</h2>
 <p>The bandwidth parameter <span class="math inline">\(b\)</span> controls how wiggly the KDE curve is.</p>
-<div class="cell" data-tags="[]" data-execution_count="16">
+<div id="c4825b23" class="cell" data-tags="[]" data-execution_count="16">
 <div class="cell-output cell-output-display" data-execution_count="16">
 
 <style>
-  #altair-viz-8f9b43fdc5b049eea9139141ae72009b.vega-embed {
+  #altair-viz-3ce452fcceca4a89b57107f3b2eb20fa.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-8f9b43fdc5b049eea9139141ae72009b.vega-embed details,
-  #altair-viz-8f9b43fdc5b049eea9139141ae72009b.vega-embed details summary {
+  #altair-viz-3ce452fcceca4a89b57107f3b2eb20fa.vega-embed details,
+  #altair-viz-3ce452fcceca4a89b57107f3b2eb20fa.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-8f9b43fdc5b049eea9139141ae72009b"></div>
+<div id="altair-viz-3ce452fcceca4a89b57107f3b2eb20fa"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-8f9b43fdc5b049eea9139141ae72009b") {
-      outputDiv = document.getElementById("altair-viz-8f9b43fdc5b049eea9139141ae72009b");
+    if (outputDiv.id !== "altair-viz-3ce452fcceca4a89b57107f3b2eb20fa") {
+      outputDiv = document.getElementById("altair-viz-3ce452fcceca4a89b57107f3b2eb20fa");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm/vega@5?noext",
@@ -1681,9 +1686,9 @@ Name: Years exceeding standard, dtype: int64</code></pre>
 </section>
 <section id="bivariate-example" class="slide level2">
 <h2>Bivariate example</h2>
-<div class="quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="figures/bivariate-hist.svg"></p>
@@ -1691,7 +1696,7 @@ Name: Years exceeding standard, dtype: int64</code></pre>
 </figure>
 </div>
 </div>
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="figures/bivariate-kde.svg"></p>
@@ -1703,8 +1708,10 @@ Name: Years exceeding standard, dtype: int64</code></pre>
 </div>
 <p>Does race time seem correlated with runner’s age?</p>
 
+<div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 
+</div>
 </div>
 </section>
     </div>
@@ -1733,7 +1740,6 @@ Name: Years exceeding standard, dtype: int64</code></pre>
       Reveal.initialize({
 'controlsAuto': true,
 'previewLinksAuto': false,
-'smaller': true,
 'pdfSeparateFragments': false,
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
@@ -1994,10 +2000,9 @@ Name: Years exceeding standard, dtype: int64</code></pre>
         // clear code selection
         e.clearSelection();
       });
-      function tippyHover(el, contentFn) {
+      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
         const config = {
           allowHTML: true,
-          content: contentFn,
           maxWidth: 500,
           delay: 100,
           arrow: false,
@@ -2007,8 +2012,17 @@ Name: Years exceeding standard, dtype: int64</code></pre>
           interactive: true,
           interactiveBorder: 10,
           theme: 'light-border',
-          placement: 'bottom-start'
+          placement: 'bottom-start',
         };
+        if (contentFn) {
+          config.content = contentFn;
+        }
+        if (onTriggerFn) {
+          config.onTrigger = onTriggerFn;
+        }
+        if (onUntriggerFn) {
+          config.onUntrigger = onUntriggerFn;
+        }
           config['offset'] = [0,0];
           config['maxWidth'] = 700;
         window.tippy(el, config); 

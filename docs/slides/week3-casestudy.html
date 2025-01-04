@@ -8,7 +8,7 @@
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.433">
+  <meta name="generator" content="quarto-1.4.550">
 
   <meta name="author" content="PSTAT100 Spring 2023">
   <title>PSTAT100 - Case study on sampling and missingness</title>
@@ -31,7 +31,7 @@
     }
     /* CSS for syntax highlighting */
     pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span { line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
     .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -230,7 +230,8 @@
   }
 
   .callout.callout-titled .callout-body > .callout-content > :last-child {
-    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0;
   }
 
   .callout.callout-titled .callout-icon::before {
@@ -564,21 +565,21 @@ PSTAT100 Spring 2023
 <h2>Simulated population</h2>
 <p>First let’s generate a population of 150K voters.</p>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a>np.random.seed(<span class="dv">41021</span>)</span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="co"># proportion of fraudlent requests</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a>true_prop <span class="op">=</span> <span class="fl">0.009</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="co"># generate population of voters who had unreturned mail ballots</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a>N <span class="op">=</span> <span class="dv">150000</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a>population <span class="op">=</span> pd.DataFrame(data <span class="op">=</span> {<span class="st">'requested'</span>: np.ones(N)})</span>
-<span id="cb1-9"><a href="#cb1-9"></a></span>
-<span id="cb1-10"><a href="#cb1-10"></a><span class="co"># how many didn't request mail ballots?</span></span>
-<span id="cb1-11"><a href="#cb1-11"></a>num_nrequest <span class="op">=</span> <span class="bu">round</span>(N<span class="op">*</span>true_prop) <span class="op">-</span> <span class="dv">1</span></span>
-<span id="cb1-12"><a href="#cb1-12"></a></span>
-<span id="cb1-13"><a href="#cb1-13"></a><span class="co"># set the 'requested' indicator to zero for the top chunk of data</span></span>
-<span id="cb1-14"><a href="#cb1-14"></a>population.iloc[<span class="dv">0</span>:num_nrequest, <span class="dv">0</span>] <span class="op">=</span> <span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="4b74f62a" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a>np.random.seed(<span class="dv">41021</span>)</span>
+<span id="cb1-2"><a></a></span>
+<span id="cb1-3"><a></a><span class="co"># proportion of fraudlent requests</span></span>
+<span id="cb1-4"><a></a>true_prop <span class="op">=</span> <span class="fl">0.009</span></span>
+<span id="cb1-5"><a></a></span>
+<span id="cb1-6"><a></a><span class="co"># generate population of voters who had unreturned mail ballots</span></span>
+<span id="cb1-7"><a></a>N <span class="op">=</span> <span class="dv">150000</span></span>
+<span id="cb1-8"><a></a>population <span class="op">=</span> pd.DataFrame(data <span class="op">=</span> {<span class="st">'requested'</span>: np.ones(N)})</span>
+<span id="cb1-9"><a></a></span>
+<span id="cb1-10"><a></a><span class="co"># how many didn't request mail ballots?</span></span>
+<span id="cb1-11"><a></a>num_nrequest <span class="op">=</span> <span class="bu">round</span>(N<span class="op">*</span>true_prop) <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb1-12"><a></a></span>
+<span id="cb1-13"><a></a><span class="co"># set the 'requested' indicator to zero for the top chunk of data</span></span>
+<span id="cb1-14"><a></a>population.iloc[<span class="dv">0</span>:num_nrequest, <span class="dv">0</span>] <span class="op">=</span> <span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </section>
@@ -586,28 +587,28 @@ PSTAT100 Spring 2023
 <h2>Simulated sample</h2>
 <p>Then let’s introduce sampling weights based on the conditional probability that an individual will talk with the interviewer given whether they requested a ballot or not.</p>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># assume respondents tell the truth</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>p_request <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> true_prop</span>
-<span id="cb2-3"><a href="#cb2-3"></a>p_nrequest <span class="op">=</span> true_prop</span>
-<span id="cb2-4"><a href="#cb2-4"></a></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="co"># non-requesters are more likely to talk by this factor</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a>talk_factor <span class="op">=</span> <span class="dv">15</span></span>
-<span id="cb2-7"><a href="#cb2-7"></a></span>
-<span id="cb2-8"><a href="#cb2-8"></a><span class="co"># observed response rate</span></span>
-<span id="cb2-9"><a href="#cb2-9"></a>p_talk <span class="op">=</span> <span class="fl">0.09</span></span>
-<span id="cb2-10"><a href="#cb2-10"></a></span>
-<span id="cb2-11"><a href="#cb2-11"></a><span class="co"># conditional response rates</span></span>
-<span id="cb2-12"><a href="#cb2-12"></a>p_talk_request <span class="op">=</span> p_talk<span class="op">/</span>(p_request <span class="op">+</span> talk_factor<span class="op">*</span>p_nrequest) </span>
-<span id="cb2-13"><a href="#cb2-13"></a>p_talk_nrequest <span class="op">=</span> talk_factor<span class="op">*</span>p_talk_request</span>
-<span id="cb2-14"><a href="#cb2-14"></a></span>
-<span id="cb2-15"><a href="#cb2-15"></a><span class="co"># append conditional response rates as weights</span></span>
-<span id="cb2-16"><a href="#cb2-16"></a>population.loc[population.requested <span class="op">==</span> <span class="dv">1</span>, <span class="st">'sample_weight'</span>] <span class="op">=</span> p_talk_request</span>
-<span id="cb2-17"><a href="#cb2-17"></a>population.loc[population.requested <span class="op">==</span> <span class="dv">0</span>, <span class="st">'sample_weight'</span>] <span class="op">=</span> p_talk_nrequest</span>
-<span id="cb2-18"><a href="#cb2-18"></a></span>
-<span id="cb2-19"><a href="#cb2-19"></a><span class="co"># draw weighted sample</span></span>
-<span id="cb2-20"><a href="#cb2-20"></a>np.random.seed(<span class="dv">41923</span>)</span>
-<span id="cb2-21"><a href="#cb2-21"></a>samp_complete <span class="op">=</span> population.sample(n <span class="op">=</span> <span class="dv">2500</span>, replace <span class="op">=</span> <span class="va">False</span>, weights <span class="op">=</span> <span class="st">'sample_weight'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="de704702" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a><span class="co"># assume respondents tell the truth</span></span>
+<span id="cb2-2"><a></a>p_request <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> true_prop</span>
+<span id="cb2-3"><a></a>p_nrequest <span class="op">=</span> true_prop</span>
+<span id="cb2-4"><a></a></span>
+<span id="cb2-5"><a></a><span class="co"># non-requesters are more likely to talk by this factor</span></span>
+<span id="cb2-6"><a></a>talk_factor <span class="op">=</span> <span class="dv">15</span></span>
+<span id="cb2-7"><a></a></span>
+<span id="cb2-8"><a></a><span class="co"># observed response rate</span></span>
+<span id="cb2-9"><a></a>p_talk <span class="op">=</span> <span class="fl">0.09</span></span>
+<span id="cb2-10"><a></a></span>
+<span id="cb2-11"><a></a><span class="co"># conditional response rates</span></span>
+<span id="cb2-12"><a></a>p_talk_request <span class="op">=</span> p_talk<span class="op">/</span>(p_request <span class="op">+</span> talk_factor<span class="op">*</span>p_nrequest) </span>
+<span id="cb2-13"><a></a>p_talk_nrequest <span class="op">=</span> talk_factor<span class="op">*</span>p_talk_request</span>
+<span id="cb2-14"><a></a></span>
+<span id="cb2-15"><a></a><span class="co"># append conditional response rates as weights</span></span>
+<span id="cb2-16"><a></a>population.loc[population.requested <span class="op">==</span> <span class="dv">1</span>, <span class="st">'sample_weight'</span>] <span class="op">=</span> p_talk_request</span>
+<span id="cb2-17"><a></a>population.loc[population.requested <span class="op">==</span> <span class="dv">0</span>, <span class="st">'sample_weight'</span>] <span class="op">=</span> p_talk_nrequest</span>
+<span id="cb2-18"><a></a></span>
+<span id="cb2-19"><a></a><span class="co"># draw weighted sample</span></span>
+<span id="cb2-20"><a></a>np.random.seed(<span class="dv">41923</span>)</span>
+<span id="cb2-21"><a></a>samp_complete <span class="op">=</span> population.sample(n <span class="op">=</span> <span class="dv">2500</span>, replace <span class="op">=</span> <span class="va">False</span>, weights <span class="op">=</span> <span class="st">'sample_weight'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div class="fragment">
@@ -618,28 +619,28 @@ PSTAT100 Spring 2023
 <h2>Simulated missing mechanism</h2>
 <p>Then let’s introduce missing values at different rates for respondents who requested a ballot and respondents who didn’t.</p>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># requesters are more likely to hang up by this factor</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a>missing_factor <span class="op">=</span> <span class="dv">10</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a></span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="co"># overall nonresponse rate</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a>p_missing <span class="op">=</span> <span class="fl">0.6</span></span>
-<span id="cb3-6"><a href="#cb3-6"></a></span>
-<span id="cb3-7"><a href="#cb3-7"></a><span class="co"># conditional probabilities of missing given request status</span></span>
-<span id="cb3-8"><a href="#cb3-8"></a>p_missing_nrequest <span class="op">=</span> p_missing<span class="op">/</span>(p_nrequest <span class="op">+</span> missing_factor<span class="op">*</span>p_request) </span>
-<span id="cb3-9"><a href="#cb3-9"></a>p_missing_request <span class="op">=</span> missing_factor<span class="op">*</span>p_missing_nrequest</span>
-<span id="cb3-10"><a href="#cb3-10"></a></span>
-<span id="cb3-11"><a href="#cb3-11"></a><span class="co"># append missingness weights to sample</span></span>
-<span id="cb3-12"><a href="#cb3-12"></a>samp_complete.loc[samp_complete.requested <span class="op">==</span> <span class="dv">1</span>, <span class="st">'missing_weight'</span>] <span class="op">=</span> p_missing_request</span>
-<span id="cb3-13"><a href="#cb3-13"></a>samp_complete.loc[samp_complete.requested <span class="op">==</span> <span class="dv">0</span>, <span class="st">'missing_weight'</span>] <span class="op">=</span> p_missing_nrequest</span>
-<span id="cb3-14"><a href="#cb3-14"></a></span>
-<span id="cb3-15"><a href="#cb3-15"></a><span class="co"># make a copy of the sample</span></span>
-<span id="cb3-16"><a href="#cb3-16"></a>samp_incomplete <span class="op">=</span> samp_complete.copy()</span>
-<span id="cb3-17"><a href="#cb3-17"></a></span>
-<span id="cb3-18"><a href="#cb3-18"></a><span class="co"># input missing values at random</span></span>
-<span id="cb3-19"><a href="#cb3-19"></a>np.random.seed(<span class="dv">41923</span>)</span>
-<span id="cb3-20"><a href="#cb3-20"></a>samp_incomplete[<span class="st">'missing'</span>] <span class="op">=</span> np.random.binomial(n <span class="op">=</span> <span class="dv">1</span>, p <span class="op">=</span> samp_incomplete.missing_weight.values)</span>
-<span id="cb3-21"><a href="#cb3-21"></a>samp_incomplete.loc[samp_incomplete.missing <span class="op">==</span> <span class="dv">1</span>, <span class="st">'requested'</span>] <span class="op">=</span> <span class="bu">float</span>(<span class="st">'nan'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="bc4b9385" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a><span class="co"># requesters are more likely to hang up by this factor</span></span>
+<span id="cb3-2"><a></a>missing_factor <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb3-3"><a></a></span>
+<span id="cb3-4"><a></a><span class="co"># overall nonresponse rate</span></span>
+<span id="cb3-5"><a></a>p_missing <span class="op">=</span> <span class="fl">0.6</span></span>
+<span id="cb3-6"><a></a></span>
+<span id="cb3-7"><a></a><span class="co"># conditional probabilities of missing given request status</span></span>
+<span id="cb3-8"><a></a>p_missing_nrequest <span class="op">=</span> p_missing<span class="op">/</span>(p_nrequest <span class="op">+</span> missing_factor<span class="op">*</span>p_request) </span>
+<span id="cb3-9"><a></a>p_missing_request <span class="op">=</span> missing_factor<span class="op">*</span>p_missing_nrequest</span>
+<span id="cb3-10"><a></a></span>
+<span id="cb3-11"><a></a><span class="co"># append missingness weights to sample</span></span>
+<span id="cb3-12"><a></a>samp_complete.loc[samp_complete.requested <span class="op">==</span> <span class="dv">1</span>, <span class="st">'missing_weight'</span>] <span class="op">=</span> p_missing_request</span>
+<span id="cb3-13"><a></a>samp_complete.loc[samp_complete.requested <span class="op">==</span> <span class="dv">0</span>, <span class="st">'missing_weight'</span>] <span class="op">=</span> p_missing_nrequest</span>
+<span id="cb3-14"><a></a></span>
+<span id="cb3-15"><a></a><span class="co"># make a copy of the sample</span></span>
+<span id="cb3-16"><a></a>samp_incomplete <span class="op">=</span> samp_complete.copy()</span>
+<span id="cb3-17"><a></a></span>
+<span id="cb3-18"><a></a><span class="co"># input missing values at random</span></span>
+<span id="cb3-19"><a></a>np.random.seed(<span class="dv">41923</span>)</span>
+<span id="cb3-20"><a></a>samp_incomplete[<span class="st">'missing'</span>] <span class="op">=</span> np.random.binomial(n <span class="op">=</span> <span class="dv">1</span>, p <span class="op">=</span> samp_incomplete.missing_weight.values)</span>
+<span id="cb3-21"><a></a>samp_incomplete.loc[samp_incomplete.missing <span class="op">==</span> <span class="dv">1</span>, <span class="st">'requested'</span>] <span class="op">=</span> <span class="bu">float</span>(<span class="st">'nan'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </section>
@@ -647,9 +648,9 @@ PSTAT100 Spring 2023
 <h2>Simulated result</h2>
 <p>If we then drop all the missing values and calculate the proportion of respondents who didn’t request a ballot, we get:</p>
 <div class="fragment">
-<div class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># compute mean after dropping missing values</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="dv">1</span> <span class="op">-</span> samp_incomplete.requested.mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="2873118c" class="cell" data-slideshow="{&quot;slide_type&quot;:&quot;fragment&quot;}" data-tags="[]" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a><span class="co"># compute mean after dropping missing values</span></span>
+<span id="cb4-2"><a></a><span class="dv">1</span> <span class="op">-</span> samp_incomplete.requested.mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>0.2395470383275261</code></pre>
 </div>
@@ -682,8 +683,10 @@ PSTAT100 Spring 2023
 <li class="fragment"><p>When reporting analyses of volunteer data or other data that may not be representative of a defined population, includes appropriate disclaimers and, if used, appropriate weighting.</p></li>
 </ul>
 
+<div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 
+</div>
 </div>
 </section>
     </div>
@@ -712,7 +715,6 @@ PSTAT100 Spring 2023
       Reveal.initialize({
 'controlsAuto': true,
 'previewLinksAuto': false,
-'smaller': true,
 'pdfSeparateFragments': false,
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
@@ -973,10 +975,9 @@ PSTAT100 Spring 2023
         // clear code selection
         e.clearSelection();
       });
-      function tippyHover(el, contentFn) {
+      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
         const config = {
           allowHTML: true,
-          content: contentFn,
           maxWidth: 500,
           delay: 100,
           arrow: false,
@@ -986,8 +987,17 @@ PSTAT100 Spring 2023
           interactive: true,
           interactiveBorder: 10,
           theme: 'light-border',
-          placement: 'bottom-start'
+          placement: 'bottom-start',
         };
+        if (contentFn) {
+          config.content = contentFn;
+        }
+        if (onTriggerFn) {
+          config.onTrigger = onTriggerFn;
+        }
+        if (onUntriggerFn) {
+          config.onUntrigger = onUntriggerFn;
+        }
           config['offset'] = [0,0];
           config['maxWidth'] = 700;
         window.tippy(el, config); 
